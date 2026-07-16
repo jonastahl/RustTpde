@@ -1,33 +1,56 @@
 #![feature(rustc_private)]
+#![allow(unused_variables, dead_code)]
 
-extern crate rustc_driver;
-
+extern crate rustc_codegen_llvm;
 extern crate rustc_codegen_ssa;
+extern crate rustc_driver;
+extern crate rustc_metadata;
 extern crate rustc_middle;
 extern crate rustc_session;
-
-use std::any::Any;
-use rustc_codegen_ssa::{CompiledModules, CrateInfo};
+extern crate rustc_span;
 use rustc_codegen_ssa::traits::CodegenBackend;
-use rustc_middle::dep_graph::WorkProductMap;
-use rustc_middle::ty::TyCtxt;
+use crate::codegen::TpdeCodegenBackend;
 
-struct TpdeCodegenBackend {}
+mod codegen;
 
-impl CodegenBackend for TpdeCodegenBackend {
-    fn name(&self) -> &'static str {
-        todo!()
+#[unsafe(no_mangle)]
+pub fn __rustc_codegen_backend() -> Box<dyn CodegenBackend> {
+    TpdeCodegenBackend::new()
+}
+
+#[cxx::bridge]
+pub mod ffi {
+    enum Instr {
+        Add,
+        Sub,
+        Mul,
+        Div,
     }
 
-    fn target_cpu(&self, sess: &rustc_session::Session) -> String {
-        todo!()
+    struct Ir {
+        instr: Vec<Instr>,
+        data: Vec<u32>,
     }
 
-    fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
-        todo!()
-    }
+    unsafe extern  "C++" {
+        include!("tpde_cpp/hello_world.h");
 
-    fn join_codegen(&self, ongoing_codegen: Box<dyn Any>, sess: &rustc_session::Session, outputs: &rustc_session::config::OutputFilenames, crate_info: &CrateInfo) -> (CompiledModules, WorkProductMap) {
-        todo!()
+        pub fn hello_world() -> String;
+
+        pub fn compile_ir(ir: &Ir) -> u32;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    // Import the ffi module from the parent scope (lib.rs)
+    use super::ffi;
+
+    #[test]
+    fn verify_cpp_hello_world() {
+        // Call the C++ function
+        let result = ffi::hello_world();
+
+        assert_eq!(result, "Hello, World!");
     }
 }
