@@ -12,6 +12,8 @@ fn main() {
         .include(".")
         .include("deps/tpde/tpde/include")
         .flag_if_supported("-std=c++23")
+        // silence warning in generated cxx code
+        .flag_if_supported("-Wno-maybe-uninitialized")
         .compile("rustc_codegen_tpde");
 
     println!("cargo:rerun-if-changed=src/lib.rs");
