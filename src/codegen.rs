@@ -2,7 +2,6 @@ use rustc_codegen_llvm::LlvmCodegenBackend;
 use rustc_codegen_ssa::traits::CodegenBackend;
 use rustc_codegen_ssa::{CompiledModules, CrateInfo, TargetConfig};
 use rustc_middle::dep_graph::WorkProductMap;
-use rustc_middle::mono::MonoItem;
 use rustc_middle::ty;
 use rustc_middle::ty::{Instance, TyCtxt};
 use rustc_middle::util::Providers;
@@ -60,47 +59,20 @@ impl CodegenBackend for TpdeCodegenBackend {
     }
 
     fn init(&self, _sess: &Session) {
-        println!("init");
         self.llvm_codegen_backend.init(_sess)
     }
 
     fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
-        println!("codegen_crate");
-
-        let cgus = tcx.collect_and_partition_mono_items(());
-
-        for cgu in cgus.codegen_units {
-            for (mono_item, _mono_item_data) in cgu.items() {
-                match mono_item {
-                    MonoItem::Fn(func) => {
-                        println!("*************************************\nFunction {:?}", func.def_id());
-                        let mir_body = tcx.instance_mir(func.def);
-
-                        lower_function_to_tpde(tcx, *func, mir_body);
-                    }
-                    MonoItem::Static(def_id) => {
-                        println!("Static {def_id:?}");
-                        // unimplemented!()
-                    }
-                    MonoItem::GlobalAsm(item_id) => {
-                        println!("GlobalAsm {item_id:?}")
-                        // unimplemented!()
-                    }
-                }
-            }
-        }
 
         self.llvm_codegen_backend.codegen_crate(tcx)
     }
 
     fn join_codegen(&self, ongoing_codegen: Box<dyn Any>, sess: &Session, outputs: &OutputFilenames, crate_info: &CrateInfo) -> (CompiledModules, WorkProductMap) {
-        println!("join_codegen");
         self.llvm_codegen_backend.join_codegen(ongoing_codegen, sess, outputs, crate_info)
     }
 
     // not used by LLVM
     fn link(&self, sess: &Session, compiled_modules: CompiledModules, crate_info: CrateInfo, metadata: rustc_metadata::EncodedMetadata, outputs: &OutputFilenames) {
-        println!("link");
         self.llvm_codegen_backend.link(sess, compiled_modules, crate_info, metadata, outputs)
     }
 
