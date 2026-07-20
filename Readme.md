@@ -1,7 +1,12 @@
 
 # TPDE Backend for Rust
 
-Build the library:
+First, install the nightly version of rustc
+```bash
+rustup toolchain install nightly
+```
+
+Then, build the library
 ```bash
 cargo build --release
 ```
