@@ -1,5 +1,10 @@
 
 fn main() {
+    unsafe {
+        std::env::set_var("CC", "clang");
+        std::env::set_var("CXX", "clang++");
+    }
+
     let dst = cmake::Config::new(".").build();
 
     println!("cargo:rustc-link-search=native={}", dst.join("lib").display());
