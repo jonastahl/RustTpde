@@ -8,31 +8,46 @@ extern crate rustc_metadata;
 extern crate rustc_middle;
 extern crate rustc_session;
 extern crate rustc_span;
+extern crate rustc_ast;
+extern crate rustc_errors;
+extern crate rustc_data_structures;
 use rustc_codegen_ssa::traits::CodegenBackend;
 use crate::codegen::TpdeCodegenBackend;
 
 mod codegen;
-
-#[unsafe(no_mangle)]
-pub fn __rustc_codegen_backend() -> Box<dyn CodegenBackend> {
-    TpdeCodegenBackend::new()
-}
+mod ir;
 
 #[cxx::bridge]
-pub mod ffi {
-    enum Instr {
+pub mod cpp {
+    pub struct ModuleTpde {
+        functions: Vec<Function>,
+        basic_blocks: Vec<BasicBlock>,
+        instructions: Vec<Instr>
+    }
+
+    pub struct Function {
+        from: u32,
+        to: u32
+    }
+
+    pub struct BasicBlock {
+        from: u32,
+        to: u32
+    }
+
+    pub enum Instr {
         Add,
         Sub,
         Mul,
         Div,
     }
 
-    struct Ir {
+    pub struct Ir {
         instr: Vec<Instr>,
         data: Vec<u32>,
     }
 
-    unsafe extern  "C++" {
+    unsafe extern "C++" {
         include!("tpde_cpp/hello_world.h");
 
         pub fn hello_world() -> String;
@@ -41,16 +56,30 @@ pub mod ffi {
     }
 }
 
+#[unsafe(no_mangle)]
+pub fn __rustc_codegen_backend() -> Box<dyn CodegenBackend> {
+    Box::new(TpdeCodegenBackend::new())
+}
+
 #[cfg(test)]
 mod tests {
-    // Import the ffi module from the parent scope (lib.rs)
-    use super::ffi;
+    use crate::cpp::{Instr, Ir};
+    use crate::cpp;
 
     #[test]
     fn verify_cpp_hello_world() {
-        // Call the C++ function
-        let result = ffi::hello_world();
+        let result = cpp::hello_world();
 
         assert_eq!(result, "Hello, World!");
+    }
+
+    #[test]
+    fn compile() {
+        let result = cpp::compile_ir(&Ir {
+            instr: vec![Instr::Add, Instr::Sub, Instr::Mul, Instr::Div],
+            data: vec![1, 2],
+        });
+
+        assert_eq!(result, 3);
     }
 }

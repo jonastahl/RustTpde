@@ -1,30 +1,39 @@
-use rustc_codegen_llvm::LlvmCodegenBackend;
-use rustc_codegen_ssa::traits::CodegenBackend;
-use rustc_codegen_ssa::{CompiledModules, CrateInfo, TargetConfig};
-use rustc_middle::dep_graph::WorkProductMap;
+use crate::cpp::*;
+use rustc_codegen_ssa::back::lto::ThinModule;
+use rustc_codegen_ssa::back::write::{CodegenContext, FatLtoInput, ModuleConfig, SharedEmitter, TargetMachineFactoryFn, ThinLtoInput};
+use rustc_codegen_ssa::traits::{
+    CodegenBackend, ExtraBackendMethods, ModuleBufferMethods, WriteBackendMethods,
+};
+use rustc_codegen_ssa::{CompiledModule, CompiledModules, CrateInfo, ModuleCodegen, TargetConfig};
+use rustc_data_structures::profiling::SelfProfilerRef;
+use rustc_middle::dep_graph::{WorkProduct, WorkProductMap};
 use rustc_middle::ty;
 use rustc_middle::ty::{Instance, TyCtxt};
 use rustc_middle::util::Providers;
-use rustc_session::config::{CrateType, OutputFilenames, PrintRequest};
+use rustc_session::config::{CrateType, OptLevel, OutputFilenames, PrintRequest};
 use rustc_session::Session;
+use rustc_span::Symbol;
 use std::any::Any;
+use std::path::PathBuf;
+use std::sync::Arc;
 
-pub struct TpdeCodegenBackend {
-    llvm_codegen_backend: Box<dyn CodegenBackend>
-}
+#[derive(Clone)]
+pub struct TpdeCodegenBackend();
+
+pub struct ModuleBuffer();
+pub struct OwnedTargetMachine();
+pub struct ThinData();
 
 impl TpdeCodegenBackend {
-    pub fn new() -> Box<dyn CodegenBackend> {
-        Box::new(TpdeCodegenBackend{
-            llvm_codegen_backend: LlvmCodegenBackend::new()
-        })
+    pub fn new() -> TpdeCodegenBackend {
+        TpdeCodegenBackend()
     }
 }
 
 fn lower_function_to_tpde<'tcx>(
     tcx: TyCtxt<'tcx>,
     instance: Instance<'tcx>,
-    mir_body: &'tcx rustc_middle::mir::Body<'tcx>
+    mir_body: &'tcx rustc_middle::mir::Body<'tcx>,
 ) {
     let t = instance.ty(tcx, ty::TypingEnv::fully_monomorphized());
     if t.is_fn() {
@@ -53,90 +62,237 @@ fn lower_function_to_tpde<'tcx>(
     }
 }
 
+unsafe impl Send for ModuleTpde {}
+unsafe impl Sync for ModuleTpde {}
+
+impl ExtraBackendMethods for TpdeCodegenBackend {
+    type Module = ModuleTpde;
+
+    fn codegen_allocator<'tcx>(
+        &self,
+        tcx: TyCtxt<'tcx>,
+        module_name: &str,
+        methods: &[rustc_ast::expand::allocator::AllocatorMethod],
+    ) -> Self::Module {
+        let module_tpde = ModuleTpde::new();
+        // TODO could do some allocation methods
+        module_tpde
+    }
+
+    fn compile_codegen_unit(
+        &self,
+        tcx: TyCtxt<'_>,
+        cgu_name: Symbol,
+    ) -> (ModuleCodegen<Self::Module>, u64) {
+        todo!()
+        // TODO do the actual compilation
+    }
+}
+
+impl WriteBackendMethods for TpdeCodegenBackend {
+    // implementation similar to gcc for less convoluted solution
+
+    type Module = ModuleTpde;
+    type TargetMachine = ();
+    type ModuleBuffer = ModuleBuffer;
+    type ThinData = ();
+
+    fn target_machine_factory(
+        &self,
+        _sess: &Session,
+        _opt_level: OptLevel,
+        _target_features: &[String],
+    ) -> TargetMachineFactoryFn<Self> {
+        Arc::new(|_, _| ())
+    }
+
+    fn optimize_and_codegen_fat_lto(
+        sess: &Session,
+        cgcx: &CodegenContext,
+        shared_emitter: &SharedEmitter,
+        tm_factory: TargetMachineFactoryFn<Self>,
+        exported_symbols_for_lto: &[String],
+        each_linked_rlib_for_lto: &[PathBuf],
+        modules: Vec<FatLtoInput<Self>>,
+    ) -> CompiledModule {
+        todo!()
+
+        // LLVM implementation
+        // let mut module = back::lto::run_fat(
+        //     cgcx,
+        //     &sess.prof,
+        //     shared_emitter,
+        //     tm_factory,
+        //     exported_symbols_for_lto,
+        //     each_linked_rlib_for_lto,
+        //     modules,
+        // );
+        //
+        // let dcx = DiagCtxt::new(Box::new(shared_emitter.clone()));
+        // let dcx = dcx.handle();
+        // back::lto::run_pass_manager(cgcx, &sess.prof, dcx, &mut module, false);
+        //
+        // back::write::codegen(cgcx, &sess.prof, shared_emitter, module, &cgcx.module_config)
+    }
+
+    fn run_thin_lto(
+        cgcx: &CodegenContext,
+        prof: &SelfProfilerRef,
+        dcx: rustc_errors::DiagCtxtHandle<'_>,
+        exported_symbols_for_lto: &[String],
+        each_linked_rlib_for_lto: &[PathBuf],
+        modules: Vec<ThinLtoInput<Self>>,
+    ) -> (Vec<ThinModule<Self>>, Vec<WorkProduct>) {
+        unreachable!()
+    }
+
+    fn optimize(
+        cgcx: &CodegenContext,
+        prof: &SelfProfilerRef,
+        shared_emitter: &SharedEmitter,
+        module: &mut ModuleCodegen<Self::Module>,
+        config: &ModuleConfig,
+    ) {
+        // for setting the optimization level, probably not needed
+    }
+
+    fn optimize_and_codegen_thin(
+        cgcx: &CodegenContext,
+        prof: &SelfProfilerRef,
+        shared_emitter: &SharedEmitter,
+        tm_factory: TargetMachineFactoryFn<Self>,
+        thin: ThinModule<Self>,
+    ) -> CompiledModule {
+        unreachable!()
+    }
+
+    fn codegen(
+        cgcx: &CodegenContext,
+        prof: &SelfProfilerRef,
+        shared_emitter: &SharedEmitter,
+        module: ModuleCodegen<Self::Module>,
+        config: &ModuleConfig,
+    ) -> CompiledModule {
+        todo!()
+
+        // LLVM implementation
+        // back::write::codegen(cgcx, prof, shared_emitter, module, config)
+    }
+
+    fn serialize_module(module: Self::Module, is_thin: bool) -> Self::ModuleBuffer {
+        unimplemented!()
+    }
+}
+
+impl ModuleBufferMethods for ModuleBuffer {
+    // from gcc
+    fn data(&self) -> &[u8] {
+        &[]
+    }
+}
+
 impl CodegenBackend for TpdeCodegenBackend {
     fn name(&self) -> &'static str {
         "TPDE"
     }
 
     fn init(&self, _sess: &Session) {
-        self.llvm_codegen_backend.init(_sess)
+        // TODO
+        todo!()
     }
 
     fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
-
-        self.llvm_codegen_backend.codegen_crate(tcx)
+        Box::new(rustc_codegen_ssa::base::codegen_crate(
+            TpdeCodegenBackend::new(),
+            tcx
+        ))
     }
 
-    fn join_codegen(&self, ongoing_codegen: Box<dyn Any>, sess: &Session, outputs: &OutputFilenames, crate_info: &CrateInfo) -> (CompiledModules, WorkProductMap) {
-        self.llvm_codegen_backend.join_codegen(ongoing_codegen, sess, outputs, crate_info)
+    fn join_codegen(
+        &self,
+        ongoing_codegen: Box<dyn Any>,
+        sess: &Session,
+        outputs: &OutputFilenames,
+        crate_info: &CrateInfo,
+    ) -> (CompiledModules, WorkProductMap) {
+        println!("join_codegen");
+        todo!()
     }
 
     // not used by LLVM
-    fn link(&self, sess: &Session, compiled_modules: CompiledModules, crate_info: CrateInfo, metadata: rustc_metadata::EncodedMetadata, outputs: &OutputFilenames) {
-        self.llvm_codegen_backend.link(sess, compiled_modules, crate_info, metadata, outputs)
+    fn link(
+        &self,
+        sess: &Session,
+        compiled_modules: CompiledModules,
+        crate_info: CrateInfo,
+        metadata: rustc_metadata::EncodedMetadata,
+        outputs: &OutputFilenames,
+    ) {
+        println!("link");
+        todo!()
     }
 
     fn print(&self, _req: &PrintRequest, _out: &mut String, _sess: &Session) {
-        self.llvm_codegen_backend.print(_req, _out, _sess)
+        todo!()
     }
 
     fn target_config(&self, _sess: &Session) -> TargetConfig {
-        self.llvm_codegen_backend.target_config(_sess)
+        todo!()
     }
 
     fn supported_crate_types(&self, _sess: &Session) -> Vec<CrateType> {
-        self.llvm_codegen_backend.supported_crate_types(_sess)
+        todo!()
     }
 
     fn print_passes(&self) {
-        self.llvm_codegen_backend.print_passes()
+        todo!()
     }
 
     fn print_version(&self) {
-        self.llvm_codegen_backend.print_version()
+        todo!()
     }
 
     fn replaced_intrinsics(&self) -> Vec<rustc_span::symbol::Symbol> {
-        self.llvm_codegen_backend.replaced_intrinsics()
+        todo!()
     }
 
     fn fallback_intrinsics(&self) -> Vec<rustc_span::symbol::Symbol> {
-        self.llvm_codegen_backend.fallback_intrinsics()
+        todo!()
     }
 
     fn thin_lto_supported(&self) -> bool {
-        self.llvm_codegen_backend.thin_lto_supported()
+        todo!()
     }
 
     fn has_zstd(&self) -> bool {
-        self.llvm_codegen_backend.has_zstd()
+        todo!()
     }
 
     fn has_mnemonic(&self, _sess: &Session, _mnemonic: &str) -> bool {
-        self.llvm_codegen_backend.has_mnemonic(_sess, _mnemonic)
+        todo!()
     }
 
     fn metadata_loader(&self) -> Box<rustc_metadata::creader::MetadataLoaderDyn> {
-        self.llvm_codegen_backend.metadata_loader()
+        todo!()
     }
 
     fn provide(&self, _providers: &mut Providers) {
-        self.llvm_codegen_backend.provide(_providers)
+        todo!()
     }
 
     fn target_cpu(&self, sess: &Session) -> String {
-        self.llvm_codegen_backend.target_cpu(sess)
+        todo!()
     }
 
     fn print_pass_timings(&self) {
-        self.llvm_codegen_backend.print_pass_timings()
+        todo!()
     }
 
     fn print_statistics(&self) {
-        self.llvm_codegen_backend.print_statistics()
+        todo!()
     }
 
     fn print_statistics_json(&self) -> String {
-        self.llvm_codegen_backend.print_statistics_json()
+        todo!()
     }
 }
