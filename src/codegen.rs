@@ -16,6 +16,7 @@ use rustc_span::Symbol;
 use std::any::Any;
 use std::path::PathBuf;
 use std::sync::Arc;
+use crate::base;
 
 #[derive(Clone)]
 pub struct TpdeCodegenBackend();
@@ -84,8 +85,7 @@ impl ExtraBackendMethods for TpdeCodegenBackend {
         tcx: TyCtxt<'_>,
         cgu_name: Symbol,
     ) -> (ModuleCodegen<Self::Module>, u64) {
-        todo!()
-        // TODO do the actual compilation
+        base::compile_codegen_unit(tcx, cgu_name)
     }
 }
 
@@ -197,8 +197,7 @@ impl CodegenBackend for TpdeCodegenBackend {
     }
 
     fn init(&self, _sess: &Session) {
-        // TODO
-        todo!()
+        // TODO init tpde
     }
 
     fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
@@ -215,8 +214,10 @@ impl CodegenBackend for TpdeCodegenBackend {
         outputs: &OutputFilenames,
         crate_info: &CrateInfo,
     ) -> (CompiledModules, WorkProductMap) {
-        println!("join_codegen");
-        todo!()
+        ongoing_codegen
+            .downcast::<rustc_codegen_ssa::back::write::OngoingCodegen<TpdeCodegenBackend>>()
+            .expect("Expected TpdeCodegenBackend's OngoingCodegen, found Box<Any>")
+            .join(sess, crate_info)
     }
 
     // not used by LLVM
