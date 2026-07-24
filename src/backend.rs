@@ -1,3 +1,4 @@
+use crate::base;
 use crate::shared::ir::*;
 use rustc_codegen_ssa::back::lto::ThinModule;
 use rustc_codegen_ssa::back::write::{CodegenContext, FatLtoInput, ModuleConfig, SharedEmitter, TargetMachineFactoryFn, ThinLtoInput};
@@ -10,13 +11,14 @@ use rustc_middle::dep_graph::{WorkProduct, WorkProductMap};
 use rustc_middle::ty;
 use rustc_middle::ty::{Instance, TyCtxt};
 use rustc_middle::util::Providers;
-use rustc_session::config::{CrateType, OptLevel, OutputFilenames, PrintRequest};
+use rustc_session::config::{OptLevel, OutputFilenames, PrintRequest};
 use rustc_session::Session;
 use rustc_span::Symbol;
 use std::any::Any;
 use std::path::PathBuf;
 use std::sync::Arc;
-use crate::base;
+use rustc_codegen_ssa::target_features::cfg_target_feature;
+use rustc_data_structures::smallvec::SmallVec;
 
 #[derive(Clone)]
 pub struct TpdeCodegenBackend();
@@ -177,6 +179,7 @@ impl CodegenBackend for TpdeCodegenBackend {
     }
 
     fn init(&self, _sess: &Session) {
+        println!("Initializing TPDE backend");
         // TODO init tpde
     }
 
@@ -215,12 +218,20 @@ impl CodegenBackend for TpdeCodegenBackend {
         todo!()
     }
 
-    fn target_config(&self, _sess: &Session) -> TargetConfig {
-        todo!()
-    }
-
-    fn supported_crate_types(&self, _sess: &Session) -> Vec<CrateType> {
-        todo!()
+    fn target_config(&self, sess: &Session) -> TargetConfig {
+        let (target_features, unstable_target_features) = cfg_target_feature(
+            sess,
+            |_| SmallVec::<[_; 0]>::new(),
+            |feature| ["x87", "sse2"].contains(&feature),
+        );
+        TargetConfig {
+            target_features,
+            unstable_target_features,
+            has_reliable_f16: false,
+            has_reliable_f16_math: false,
+            has_reliable_f128: false,
+            has_reliable_f128_math: false,
+        }
     }
 
     fn print_passes(&self) {
@@ -231,16 +242,18 @@ impl CodegenBackend for TpdeCodegenBackend {
         todo!()
     }
 
-    fn replaced_intrinsics(&self) -> Vec<rustc_span::symbol::Symbol> {
-        todo!()
+    fn replaced_intrinsics(&self) -> Vec<Symbol> {
+        // let's first use the fallback for everything
+        vec![]
     }
 
-    fn fallback_intrinsics(&self) -> Vec<rustc_span::symbol::Symbol> {
-        todo!()
+    fn fallback_intrinsics(&self) -> Vec<Symbol> {
+        // place all not used intrinsics here that we do not replace
+        vec![]
     }
 
     fn thin_lto_supported(&self) -> bool {
-        todo!()
+        false
     }
 
     fn has_zstd(&self) -> bool {
@@ -251,12 +264,9 @@ impl CodegenBackend for TpdeCodegenBackend {
         todo!()
     }
 
-    fn metadata_loader(&self) -> Box<rustc_metadata::creader::MetadataLoaderDyn> {
-        todo!()
-    }
-
-    fn provide(&self, _providers: &mut Providers) {
-        todo!()
+    fn provide(&self, providers: &mut Providers) {
+        // Can parse features provided by the user
+        // Maybe use this later
     }
 
     fn target_cpu(&self, sess: &Session) -> String {

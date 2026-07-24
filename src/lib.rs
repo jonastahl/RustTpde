@@ -15,9 +15,9 @@ extern crate rustc_target;
 extern crate rustc_abi;
 extern crate rustc_hir;
 use rustc_codegen_ssa::traits::CodegenBackend;
-use crate::codegen::TpdeCodegenBackend;
+use crate::backend::TpdeCodegenBackend;
 
-mod codegen;
+mod backend;
 mod shared;
 mod base;
 mod context;
