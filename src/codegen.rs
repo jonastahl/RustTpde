@@ -1,4 +1,4 @@
-use crate::cpp::*;
+use crate::shared::ir::*;
 use rustc_codegen_ssa::back::lto::ThinModule;
 use rustc_codegen_ssa::back::write::{CodegenContext, FatLtoInput, ModuleConfig, SharedEmitter, TargetMachineFactoryFn, ThinLtoInput};
 use rustc_codegen_ssa::traits::{
@@ -116,23 +116,6 @@ impl WriteBackendMethods for TpdeCodegenBackend {
         modules: Vec<FatLtoInput<Self>>,
     ) -> CompiledModule {
         todo!()
-
-        // LLVM implementation
-        // let mut module = back::lto::run_fat(
-        //     cgcx,
-        //     &sess.prof,
-        //     shared_emitter,
-        //     tm_factory,
-        //     exported_symbols_for_lto,
-        //     each_linked_rlib_for_lto,
-        //     modules,
-        // );
-        //
-        // let dcx = DiagCtxt::new(Box::new(shared_emitter.clone()));
-        // let dcx = dcx.handle();
-        // back::lto::run_pass_manager(cgcx, &sess.prof, dcx, &mut module, false);
-        //
-        // back::write::codegen(cgcx, &sess.prof, shared_emitter, module, &cgcx.module_config)
     }
 
     fn run_thin_lto(
@@ -174,9 +157,6 @@ impl WriteBackendMethods for TpdeCodegenBackend {
         config: &ModuleConfig,
     ) -> CompiledModule {
         todo!()
-
-        // LLVM implementation
-        // back::write::codegen(cgcx, prof, shared_emitter, module, config)
     }
 
     fn serialize_module(module: Self::Module, is_thin: bool) -> Self::ModuleBuffer {
@@ -220,7 +200,6 @@ impl CodegenBackend for TpdeCodegenBackend {
             .join(sess, crate_info)
     }
 
-    // not used by LLVM
     fn link(
         &self,
         sess: &Session,
@@ -229,7 +208,6 @@ impl CodegenBackend for TpdeCodegenBackend {
         metadata: rustc_metadata::EncodedMetadata,
         outputs: &OutputFilenames,
     ) {
-        println!("link");
         todo!()
     }
 

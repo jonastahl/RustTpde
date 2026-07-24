@@ -5,7 +5,7 @@ use rustc_middle::mono::CodegenUnit;
 use rustc_middle::ty::{ExistentialTraitRef, Instance, Ty, TyCtxt};
 use rustc_session::{PointerAuthSchema, Session};
 use rustc_span::Symbol;
-use crate::cpp::ModuleTpde;
+use crate::shared::ir::ModuleTpde;
 
 pub struct CodegenCx<'tcx> {
     pub tcx: TyCtxt<'tcx>,

@@ -6,7 +6,7 @@ use rustc_middle::ty::TyCtxt;
 use rustc_span::Symbol;
 use crate::builder::Builder;
 use crate::context::CodegenCx;
-use crate::cpp::ModuleTpde;
+use crate::shared::ir::ModuleTpde;
 
 pub fn compile_codegen_unit(
     tcx: TyCtxt<'_>,

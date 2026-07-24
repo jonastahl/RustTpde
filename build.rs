@@ -12,7 +12,7 @@ fn main() {
     println!("cargo:rustc-link-lib=static=tpde_cpp");
     println!("cargo:rustc-link-lib=static=tpde");
 
-    cxx_build::bridge("src/lib.rs")
+    cxx_build::bridge("src/shared.rs")
         .include(".")
         .include("deps/tpde/tpde/include")
         .flag_if_supported("-std=c++23")

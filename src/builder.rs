@@ -6,7 +6,7 @@ use rustc_ast::expand::typetree::FncTree;
 use rustc_codegen_ssa::common::{AtomicRmwBinOp, IntPredicate, RealPredicate, SynchronizationScope};
 use rustc_codegen_ssa::mir::operand::OperandRef;
 use rustc_codegen_ssa::mir::place::PlaceRef;
-use rustc_codegen_ssa::traits::{AbiBuilderMethods, BackendTypes, BuilderMethods, OverflowOp};
+use rustc_codegen_ssa::traits::{BackendTypes, BuilderMethods, OverflowOp};
 use rustc_codegen_ssa::MemFlags;
 use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrs;
 use rustc_middle::ty::layout::TyAndLayout;

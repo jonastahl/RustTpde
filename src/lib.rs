@@ -18,7 +18,7 @@ use rustc_codegen_ssa::traits::CodegenBackend;
 use crate::codegen::TpdeCodegenBackend;
 
 mod codegen;
-mod ir;
+mod shared;
 mod base;
 mod context;
 mod builder;
@@ -30,45 +30,6 @@ mod common;
 mod type_;
 mod mono_item;
 
-#[cxx::bridge]
-pub mod cpp {
-    pub struct ModuleTpde {
-        functions: Vec<Function>,
-        basic_blocks: Vec<BasicBlock>,
-        instructions: Vec<Instr>
-    }
-
-    pub struct Function {
-        from: u32,
-        to: u32
-    }
-
-    pub struct BasicBlock {
-        from: u32,
-        to: u32
-    }
-
-    pub enum Instr {
-        Add,
-        Sub,
-        Mul,
-        Div,
-    }
-
-    pub struct Ir {
-        instr: Vec<Instr>,
-        data: Vec<u32>,
-    }
-
-    unsafe extern "C++" {
-        include!("tpde_cpp/hello_world.h");
-
-        pub fn hello_world() -> String;
-
-        pub fn compile_ir(ir: &Ir) -> u32;
-    }
-}
-
 #[unsafe(no_mangle)]
 pub fn __rustc_codegen_backend() -> Box<dyn CodegenBackend> {
     Box::new(TpdeCodegenBackend::new())
@@ -76,23 +37,4 @@ pub fn __rustc_codegen_backend() -> Box<dyn CodegenBackend> {
 
 #[cfg(test)]
 mod tests {
-    use crate::cpp::{Instr, Ir};
-    use crate::cpp;
-
-    #[test]
-    fn verify_cpp_hello_world() {
-        let result = cpp::hello_world();
-
-        assert_eq!(result, "Hello, World!");
-    }
-
-    #[test]
-    fn compile() {
-        let result = cpp::compile_ir(&Ir {
-            instr: vec![Instr::Add, Instr::Sub, Instr::Mul, Instr::Div],
-            data: vec![1, 2],
-        });
-
-        assert_eq!(result, 3);
-    }
 }

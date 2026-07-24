@@ -1,4 +1,4 @@
-use rustc_codegen_ssa::traits::{ConstCodegenMethods, PreDefineCodegenMethods};
+use rustc_codegen_ssa::traits::{PreDefineCodegenMethods};
 use rustc_hir::attrs::Linkage;
 use rustc_middle::mono::Visibility;
 use rustc_middle::ty::Instance;

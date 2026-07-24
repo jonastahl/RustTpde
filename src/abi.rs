@@ -2,7 +2,7 @@ use crate::builder::Builder;
 use crate::context::CodegenCx;
 use rustc_abi::{HasDataLayout, Reg, TargetDataLayout};
 use rustc_codegen_ssa::mir::place::PlaceRef;
-use rustc_codegen_ssa::traits::{AbiBuilderMethods, ArgAbiBuilderMethods, BackendTypes, LayoutTypeCodegenMethods};
+use rustc_codegen_ssa::traits::{AbiBuilderMethods, ArgAbiBuilderMethods, LayoutTypeCodegenMethods};
 use rustc_middle::ty::layout::{FnAbiError, FnAbiOfHelpers, FnAbiRequest, HasTyCtxt, HasTypingEnv, LayoutError, LayoutOfHelpers, MaybeResult, TyAndLayout};
 use rustc_middle::ty::{Ty, TyCtxt, TypingEnv};
 use rustc_span::Span;

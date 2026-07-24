@@ -10,12 +10,11 @@ find_program(CXXBRIDGE cxxbridge REQUIRED HINTS $ENV{HOME}/.cargo/bin)
 set(CXX_GEN_DIR ${CMAKE_CURRENT_BINARY_DIR}/cxxbridge)
 file(MAKE_DIRECTORY ${CXX_GEN_DIR}/rust ${CXX_GEN_DIR}/rustc_codegen_tpde/src)
 
-set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS src/lib.rs)
 execute_process(COMMAND ${CXXBRIDGE} --header -o ${CXX_GEN_DIR}/rust/cxx.h)
-execute_process(COMMAND ${CXXBRIDGE} ${CMAKE_CURRENT_SOURCE_DIR}/src/lib.rs --header
-        -o ${CXX_GEN_DIR}/rustc_codegen_tpde/src/lib.rs.h)
+execute_process(COMMAND ${CXXBRIDGE} ${CMAKE_CURRENT_SOURCE_DIR}/src/shared.rs --header
+        -o ${CXX_GEN_DIR}/rustc_codegen_tpde/src/shared.rs.h)
 
-add_library(tpde_cpp STATIC tpde_cpp/hello_world.cpp)
+add_library(tpde_cpp STATIC tpde_cpp/tpde.cpp)
 
 target_include_directories(tpde_cpp PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
