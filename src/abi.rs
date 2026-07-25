@@ -3,18 +3,18 @@ use crate::context::CodegenCx;
 use rustc_abi::{HasDataLayout, Reg, TargetDataLayout};
 use rustc_codegen_ssa::mir::place::PlaceRef;
 use rustc_codegen_ssa::traits::{AbiBuilderMethods, ArgAbiBuilderMethods, LayoutTypeCodegenMethods};
-use rustc_middle::ty::layout::{FnAbiError, FnAbiOfHelpers, FnAbiRequest, HasTyCtxt, HasTypingEnv, LayoutError, LayoutOfHelpers, MaybeResult, TyAndLayout};
-use rustc_middle::ty::{Ty, TyCtxt, TypingEnv};
+use rustc_middle::ty::layout::{FnAbiError, FnAbiOfHelpers, FnAbiRequest, HasTypingEnv, LayoutError, LayoutOfHelpers, MaybeResult, TyAndLayout};
+use rustc_middle::ty::{Ty, TypingEnv};
 use rustc_span::Span;
 use rustc_target::callconv::{ArgAbi, CastTarget, FnAbi};
 
-impl<'tcx> AbiBuilderMethods for Builder<'_, 'tcx> {
+impl<'tpde, 'tcx> AbiBuilderMethods for Builder<'_, 'tpde, 'tcx> {
     fn get_param(&mut self, index: usize) -> Self::Value {
-        todo!()
+        self.tpde_module.borrow().get_slot(index)
     }
 }
 
-impl<'tcx> ArgAbiBuilderMethods<'tcx> for Builder<'_, 'tcx> {
+impl<'tpde, 'tcx> ArgAbiBuilderMethods<'tcx> for Builder<'_, 'tpde, 'tcx> {
     fn store_fn_arg(&mut self, arg_abi: &ArgAbi<'tcx, Ty<'tcx>>, idx: &mut usize, dst: PlaceRef<'tcx, Self::Value>) {
         todo!()
     }
@@ -24,67 +24,55 @@ impl<'tcx> ArgAbiBuilderMethods<'tcx> for Builder<'_, 'tcx> {
     }
 }
 
-impl<'tcx> HasDataLayout for Builder<'_, 'tcx> {
+impl<'tcx> HasDataLayout for Builder<'_, '_, 'tcx> {
     fn data_layout(&self) -> &TargetDataLayout {
         todo!()
     }
 }
 
-impl<'tcx> HasDataLayout for CodegenCx<'tcx> {
+impl<'tcx> HasDataLayout for CodegenCx<'_, 'tcx> {
     fn data_layout(&self) -> &TargetDataLayout {
         todo!()
     }
 }
 
-impl<'tcx> HasTyCtxt<'tcx> for Builder<'_, 'tcx> {
-    fn tcx(&self) -> TyCtxt<'tcx> {
-        todo!()
-    }
-}
-
-impl<'tcx> HasTyCtxt<'tcx> for CodegenCx<'tcx> {
-    fn tcx(&self) -> TyCtxt<'tcx> {
-        todo!()
-    }
-}
-
-impl<'tcx> HasTypingEnv<'tcx> for Builder<'_, 'tcx> {
+impl<'tcx> HasTypingEnv<'tcx> for Builder<'_, '_, 'tcx> {
     fn typing_env(&self) -> TypingEnv<'tcx> {
-        todo!()
+        self.cx.typing_env()
     }
 }
 
-impl<'tcx> HasTypingEnv<'tcx> for CodegenCx<'tcx> {
+impl<'tcx> HasTypingEnv<'tcx> for CodegenCx<'_, 'tcx> {
     fn typing_env(&self) -> TypingEnv<'tcx> {
-        todo!()
+        TypingEnv::fully_monomorphized()
     }
 }
 
-impl<'tcx> LayoutOfHelpers<'tcx> for Builder<'_, 'tcx> {
+impl<'tcx> LayoutOfHelpers<'tcx> for Builder<'_, '_, 'tcx> {
     fn handle_layout_err(&self, err: LayoutError<'tcx>, span: Span, ty: Ty<'tcx>) -> <Self::LayoutOfResult as MaybeResult<TyAndLayout<'tcx>>>::Error {
         todo!()
     }
 }
 
-impl<'tcx> LayoutOfHelpers<'tcx> for CodegenCx<'tcx> {
+impl<'tcx> LayoutOfHelpers<'tcx> for CodegenCx<'_, 'tcx> {
     fn handle_layout_err(&self, err: LayoutError<'tcx>, span: Span, ty: Ty<'tcx>) -> <Self::LayoutOfResult as MaybeResult<TyAndLayout<'tcx>>>::Error {
         todo!()
     }
 }
 
-impl<'tcx> FnAbiOfHelpers<'tcx> for Builder<'_, 'tcx> {
+impl<'tcx> FnAbiOfHelpers<'tcx> for Builder<'_, '_, 'tcx> {
     fn handle_fn_abi_err(&self, err: FnAbiError<'tcx>, span: Span, fn_abi_request: FnAbiRequest<'tcx>) -> <Self::FnAbiOfResult as MaybeResult<&'tcx FnAbi<'tcx, Ty<'tcx>>>>::Error {
         todo!()
     }
 }
 
-impl<'tcx> FnAbiOfHelpers<'tcx> for CodegenCx<'tcx> {
+impl<'tcx> FnAbiOfHelpers<'tcx> for CodegenCx<'_, 'tcx> {
     fn handle_fn_abi_err(&self, err: FnAbiError<'tcx>, span: Span, fn_abi_request: FnAbiRequest<'tcx>) -> <Self::FnAbiOfResult as MaybeResult<&'tcx FnAbi<'tcx, Ty<'tcx>>>>::Error {
         todo!()
     }
 }
 
-impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'tcx> {
+impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     fn backend_type(&self, layout: TyAndLayout<'tcx>) -> Self::Type {
         todo!()
     }

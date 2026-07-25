@@ -1,32 +1,38 @@
-
 #[allow(unused_imports)]
 pub use ffi::compile_ir;
 
-pub mod ir {
-    pub use super::ffi::{BasicBlock, Function, Instr, ModuleTpde};
-}
+pub mod ir;
 
 #[cxx::bridge]
 mod ffi {
+    #[derive(Debug)]
     pub struct ModuleTpde {
         functions: Vec<Function>,
     }
 
+    enum Linkage {
+        External
+    }
+
+    #[derive(Debug)]
     pub struct Function {
         name: String,
+        n_args: usize,
+        has_ret: bool,
+        slots: Vec<Type>,
+
+        extern_link: bool,
+        only_local: bool,
+        weak_link: bool,
+
         basic_blocks: Vec<BasicBlock>,
     }
 
+    #[derive(Debug)]
     pub struct BasicBlock {
-        instructions: Vec<Instr>
+        name: String,
+        instructions: Vec<Instruction>,
         // TODO add phis and similar
-    }
-
-    pub enum Instr {
-        Add,
-        Sub,
-        Mul,
-        Div,
     }
 
     unsafe extern "C++" {
@@ -34,37 +40,33 @@ mod ffi {
 
         pub fn compile_ir(module: &ModuleTpde) -> u32;
     }
-}
 
-mod impls {
-    use crate::shared::ir::*;
-
-    impl ModuleTpde {
-        pub fn new() -> Self {
-            Self {
-                functions: vec![],
-            }
-        }
-
-        pub fn add_function(self: &mut Self, name: String) -> &mut Function {
-            self.functions.push_mut(Function {
-                name,
-                basic_blocks: vec![],
-            })
-        }
+    #[derive(Debug)]
+    pub enum Type {
+        Void,
+        Bool,
+        i8,
+        i16,
+        i32,
+        i64,
     }
 
-    impl Function {
-        pub fn add_basic_block(self: &mut Self) -> &mut BasicBlock {
-            self.basic_blocks.push_mut(BasicBlock {
-                instructions: vec![],
-            })
-        }
+    #[derive(Debug)]
+    pub enum InstructionKind {
+        Add,
+        Sub,
+        Mul,
+        Div,
+
+        Ret,
+        RetVoid,
     }
 
-    impl BasicBlock {
-        pub fn add_instruction(self: &mut Self, instr: Instr) -> &mut Instr {
-            self.instructions.push_mut(instr)
-        }
+    #[derive(Debug)]
+    pub struct Instruction {
+        kind: InstructionKind,
+        slot: usize,
+        lhs: usize,
+        rhs: usize,
     }
 }

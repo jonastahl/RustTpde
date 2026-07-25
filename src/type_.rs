@@ -1,23 +1,48 @@
-use rustc_abi::AddressSpace;
-use rustc_codegen_ssa::common::TypeKind;
-use rustc_codegen_ssa::traits::{BaseTypeCodegenMethods, TypeMembershipCodegenMethods};
 use crate::context::CodegenCx;
+use crate::shared::ir::Type;
+use rustc_abi::{AddressSpace, BackendRepr, Primitive, Scalar};
+use rustc_codegen_ssa::common::TypeKind;
+use rustc_codegen_ssa::traits::{BaseTypeCodegenMethods, DerivedTypeCodegenMethods, TypeMembershipCodegenMethods};
+use rustc_middle::ty::layout::TyAndLayout;
 
-impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'tcx> {
+impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
+    pub fn tpde_type(&self, ty: TyAndLayout<'tcx>) -> Type {
+        match ty.backend_repr {
+            BackendRepr::Scalar(scalar) => {
+                if scalar.is_bool() {
+                    Type::Bool
+                } else {
+                    self.tpde_scalar_type(scalar)
+                }
+            },
+            _ => todo!()
+        }
+    }
+
+    fn tpde_scalar_type(&self, scalar: Scalar) -> Type {
+        match scalar.primitive() {
+            Primitive::Int(i, _) => self.type_from_integer(i),
+            Primitive::Float(f) => self.type_from_float(f),
+            Primitive::Pointer(address_space) => self.type_ptr_ext(address_space),
+        }
+    }
+}
+
+impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     fn type_i8(&self) -> Self::Type {
-        todo!()
+        Type::i8
     }
 
     fn type_i16(&self) -> Self::Type {
-        todo!()
+        Type::i16
     }
 
     fn type_i32(&self) -> Self::Type {
-        todo!()
+        Type::i32
     }
 
     fn type_i64(&self) -> Self::Type {
-        todo!()
+        Type::i64
     }
 
     fn type_i128(&self) -> Self::Type {
@@ -85,6 +110,6 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'tcx> {
     }
 }
 
-impl<'tcx> TypeMembershipCodegenMethods<'tcx> for CodegenCx<'tcx> {
+impl<'tcx> TypeMembershipCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
 
 }

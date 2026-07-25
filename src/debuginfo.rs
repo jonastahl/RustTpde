@@ -8,7 +8,7 @@ use rustc_target::callconv::FnAbi;
 use crate::builder::Builder;
 use crate::context::CodegenCx;
 
-impl<'tcx> DebugInfoBuilderMethods<'tcx> for Builder<'_, 'tcx> {
+impl<'tcx> DebugInfoBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
     fn dbg_scope_fn(&mut self, instance: Instance<'tcx>, fn_abi: &FnAbi<'tcx, Ty<'tcx>>, maybe_definition_llfn: Option<Self::Function>) -> Self::DIScope {
         todo!()
     }
@@ -58,7 +58,7 @@ impl<'tcx> DebugInfoBuilderMethods<'tcx> for Builder<'_, 'tcx> {
     }
 }
 
-impl<'tcx> DebugInfoCodegenMethods<'tcx> for CodegenCx<'tcx> {
+impl<'tcx> DebugInfoCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     fn create_vtable_debuginfo(&self, ty: Ty<'tcx>, trait_ref: Option<ExistentialTraitRef<'tcx>>, vtable: Self::Value) {
         todo!()
     }

@@ -1,4 +1,4 @@
-use crate::base;
+use crate::{base, shared};
 use crate::shared::ir::*;
 use rustc_codegen_ssa::back::lto::ThinModule;
 use rustc_codegen_ssa::back::write::{CodegenContext, FatLtoInput, ModuleConfig, SharedEmitter, TargetMachineFactoryFn, ThinLtoInput};
@@ -158,6 +158,9 @@ impl WriteBackendMethods for TpdeCodegenBackend {
         module: ModuleCodegen<Self::Module>,
         config: &ModuleConfig,
     ) -> CompiledModule {
+        println!("{:#?}", module.module_llvm);
+        shared::compile_ir(&module.module_llvm);
+
         todo!()
     }
 
@@ -270,7 +273,7 @@ impl CodegenBackend for TpdeCodegenBackend {
     }
 
     fn target_cpu(&self, sess: &Session) -> String {
-        todo!()
+        sess.opts.cg.target_cpu.as_deref().unwrap_or_else(|| &sess.target.cpu).to_string()
     }
 
     fn print_pass_timings(&self) {

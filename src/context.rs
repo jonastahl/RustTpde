@@ -1,38 +1,47 @@
-use std::cell::RefCell;
+use crate::builder::Builder;
+use crate::shared::ir::{Function, ModuleTpde};
 use rustc_codegen_ssa::traits::MiscCodegenMethods;
 use rustc_data_structures::fx::FxHashMap;
 use rustc_middle::mono::CodegenUnit;
+use rustc_middle::ty::layout::HasTyCtxt;
 use rustc_middle::ty::{ExistentialTraitRef, Instance, Ty, TyCtxt};
 use rustc_session::{PointerAuthSchema, Session};
 use rustc_span::Symbol;
-use crate::shared::ir::ModuleTpde;
+use std::cell::RefCell;
 
-pub struct CodegenCx<'tcx> {
+pub struct CodegenCx<'tpde, 'tcx> {
     pub tcx: TyCtxt<'tcx>,
     pub codegen_unit: &'tcx CodegenUnit<'tcx>,
-    pub tpde_module: ModuleTpde,
+
+    pub tpde_module: &'tpde RefCell<ModuleTpde>,
+    pub functions: FxHashMap<Instance<'tcx>, Function>,
 }
 
-impl<'tcx> CodegenCx<'tcx> {
+impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
     pub(crate) fn new(
         tcx: TyCtxt<'tcx>,
         cgu: &'tcx CodegenUnit<'tcx>,
-        tpde_module: ModuleTpde,
+        tpde_module: &'tpde RefCell<ModuleTpde>,
     ) -> Self {
         Self {
             tcx,
             codegen_unit: cgu,
             tpde_module,
+            functions: FxHashMap::default(),
         }
     }
 }
 
-impl<'tcx> MiscCodegenMethods<'tcx> for CodegenCx<'tcx> {
+impl<'tcx> MiscCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     fn vtables(&self) -> &RefCell<FxHashMap<(Ty<'tcx>, Option<ExistentialTraitRef<'tcx>>), Self::Value>> {
         todo!()
     }
 
     fn get_fn(&self, instance: Instance<'tcx>) -> Self::Function {
+        if let Some(&i) = self.functions.get(&instance) {
+            return i;
+        };
+
         todo!()
     }
 
@@ -45,7 +54,7 @@ impl<'tcx> MiscCodegenMethods<'tcx> for CodegenCx<'tcx> {
     }
 
     fn sess(&self) -> &Session {
-        todo!()
+        self.tcx.sess
     }
 
     fn set_frame_pointer_type(&self, llfn: Self::Function) {
@@ -62,5 +71,17 @@ impl<'tcx> MiscCodegenMethods<'tcx> for CodegenCx<'tcx> {
 
     fn intrinsic_call_expects_place_always(&self, name: Symbol) -> bool {
         todo!()
+    }
+}
+
+impl<'tcx> HasTyCtxt<'tcx> for Builder<'_, '_, 'tcx> {
+    fn tcx(&self) -> TyCtxt<'tcx> {
+        self.tcx
+    }
+}
+
+impl<'tcx> HasTyCtxt<'tcx> for CodegenCx<'_, 'tcx> {
+    fn tcx(&self) -> TyCtxt<'tcx> {
+        self.tcx
     }
 }

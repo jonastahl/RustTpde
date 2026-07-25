@@ -4,7 +4,7 @@ use rustc_middle::mir::interpret::Scalar;
 use rustc_session::PointerAuthSchema;
 use crate::context::CodegenCx;
 
-impl<'tcx> ConstCodegenMethods for CodegenCx<'tcx> {
+impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     fn const_null(&self, t: Self::Type) -> Self::Value {
         todo!()
     }

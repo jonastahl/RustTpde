@@ -2,6 +2,7 @@ mod coverageinfo;
 mod intrinsic;
 
 use crate::context::CodegenCx;
+use crate::shared::ir::{BasicBlock, Function, InstructionKind, Slot, Type};
 use rustc_ast::expand::typetree::FncTree;
 use rustc_codegen_ssa::common::{AtomicRmwBinOp, IntPredicate, RealPredicate, SynchronizationScope};
 use rustc_codegen_ssa::mir::operand::OperandRef;
@@ -14,38 +15,45 @@ use rustc_middle::ty::{AtomicOrdering, Instance, Ty};
 use rustc_span::Span;
 use std::ops::Deref;
 
-pub struct Builder<'a, 'tcx> {
-    pub cx: &'a CodegenCx<'tcx>
+pub struct Builder<'a, 'tpde, 'tcx> {
+    pub cx: &'a CodegenCx<'tpde, 'tcx>,
+    pub basic_block: BasicBlock
 }
 
-impl<'a, 'tcx> BackendTypes for Builder<'a, 'tcx> {
-    type Function = <CodegenCx<'tcx> as BackendTypes>::Function;
-    type BasicBlock = <CodegenCx<'tcx> as BackendTypes>::BasicBlock;
-    type Funclet = <CodegenCx<'tcx> as BackendTypes>::Funclet;
+impl<'a, 'tpde, 'tcx> BackendTypes for Builder<'a, 'tpde, 'tcx> {
+    type Function = <CodegenCx<'tpde, 'tcx> as BackendTypes>::Function;
+    type BasicBlock = <CodegenCx<'tpde, 'tcx> as BackendTypes>::BasicBlock;
+    type Funclet = <CodegenCx<'tpde, 'tcx> as BackendTypes>::Funclet;
 
-    type Value = <CodegenCx<'tcx> as BackendTypes>::Value;
-    type Type = <CodegenCx<'tcx> as BackendTypes>::Type;
-    type FunctionSignature = <CodegenCx<'tcx> as BackendTypes>::FunctionSignature;
+    type Value = <CodegenCx<'tpde, 'tcx> as BackendTypes>::Value;
+    type Type = <CodegenCx<'tpde, 'tcx> as BackendTypes>::Type;
+    type FunctionSignature = <CodegenCx<'tpde, 'tcx> as BackendTypes>::FunctionSignature;
 
-    type DIScope = <CodegenCx<'tcx> as BackendTypes>::DIScope;
-    type DILocation = <CodegenCx<'tcx> as BackendTypes>::DILocation;
-    type DIVariable = <CodegenCx<'tcx> as BackendTypes>::DIVariable;
+    type DIScope = <CodegenCx<'tpde, 'tcx> as BackendTypes>::DIScope;
+    type DILocation = <CodegenCx<'tpde, 'tcx> as BackendTypes>::DILocation;
+    type DIVariable = <CodegenCx<'tpde, 'tcx> as BackendTypes>::DIVariable;
 }
 
-impl<'tcx> BackendTypes for CodegenCx<'tcx> {
-    type Function = ();
-    type BasicBlock = ();
+impl<'tpde, 'tcx> BackendTypes for CodegenCx<'tpde, 'tcx> {
+    type Function = Function;
+    type BasicBlock = BasicBlock;
     type Funclet = ();
-    type Value = ();
-    type Type = ();
+    type Value = Slot;
+    type Type = Type;
     type FunctionSignature = ();
     type DIScope = ();
     type DILocation = ();
     type DIVariable = ();
 }
 
-impl<'tcx> Deref for Builder<'_, 'tcx> {
-    type Target = CodegenCx<'tcx>;
+impl<'a, 'tpde, 'tcx> Builder<'a, 'tpde, 'tcx> {
+    fn with_cx(cx: &'a CodegenCx<'tpde, 'tcx>, basic_block: BasicBlock) -> Self {
+        Builder { cx, basic_block }
+    }
+}
+
+impl<'tpde, 'tcx> Deref for Builder<'_, 'tpde, 'tcx> {
+    type Target = CodegenCx<'tpde, 'tcx>;
 
     #[inline]
     fn deref(&self) -> &Self::Target {
@@ -53,27 +61,25 @@ impl<'tcx> Deref for Builder<'_, 'tcx> {
     }
 }
 
-impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tcx> {
-    type CodegenCx = CodegenCx<'tcx>;
+impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
+    type CodegenCx = CodegenCx<'tpde, 'tcx>;
 
-    fn build(cx: &'a Self::CodegenCx, llbb: Self::BasicBlock) -> Self {
-        todo!()
+    fn build(cx: &'a Self::CodegenCx, bb: Self::BasicBlock) -> Self {
+        Builder::with_cx(cx, bb)
     }
 
     fn cx(&self) -> &Self::CodegenCx {
-        todo!()
+        self.cx
     }
 
     fn llbb(&self) -> Self::BasicBlock {
-        todo!()
+        self.basic_block
     }
 
-    fn set_span(&mut self, span: Span) {
-        todo!()
-    }
+    fn set_span(&mut self, span: Span) {}
 
-    fn append_block(cx: &'a Self::CodegenCx, llfn: Self::Function, name: &str) -> Self::BasicBlock {
-        todo!()
+    fn append_block(cx: &'a Self::CodegenCx, tpde_fn: Self::Function, name: &str) -> Self::BasicBlock {
+        cx.tpde_module.borrow_mut().add_basic_block(&tpde_fn, name)
     }
 
     fn append_sibling_block(&mut self, name: &str) -> Self::BasicBlock {
@@ -89,7 +95,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tcx> {
     }
 
     fn ret(&mut self, v: Self::Value) {
-        todo!()
+        self.tpde_module.borrow_mut().add_instruction_statement(self.basic_block, InstructionKind::Ret, v)
     }
 
     fn br(&mut self, dest: Self::BasicBlock) {
@@ -113,7 +119,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tcx> {
     }
 
     fn add(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.tpde_module.borrow_mut().add_instruction_op_binary(self.basic_block, InstructionKind::Add, lhs, rhs)
     }
 
     fn fadd(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
@@ -129,7 +135,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tcx> {
     }
 
     fn sub(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.tpde_module.borrow_mut().add_instruction_op_binary(self.basic_block, InstructionKind::Add, lhs, rhs)
     }
 
     fn fsub(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {

@@ -8,7 +8,7 @@ use rustc_middle::ty::layout::TyAndLayout;
 use rustc_span::Span;
 use crate::builder::Builder;
 
-impl<'tcx> IntrinsicCallBuilderMethods<'tcx> for Builder<'_, 'tcx> {
+impl<'tcx> IntrinsicCallBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
     fn codegen_intrinsic_call(&mut self, instance: Instance<'tcx>, args: &[OperandRef<'tcx, Self::Value>], result_layout: TyAndLayout<'tcx>, result_place: Option<PlaceValue<Self::Value>>, span: Span) -> IntrinsicResult<'tcx, Self::Value> {
         todo!()
     }

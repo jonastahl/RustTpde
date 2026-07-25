@@ -14,6 +14,8 @@ extern crate rustc_data_structures;
 extern crate rustc_target;
 extern crate rustc_abi;
 extern crate rustc_hir;
+extern crate alloc;
+
 use rustc_codegen_ssa::traits::CodegenBackend;
 use crate::backend::TpdeCodegenBackend;
 
