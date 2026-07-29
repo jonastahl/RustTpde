@@ -4,6 +4,7 @@
 
 #include <deps/tpde/tpde-llvm/src/base.hpp>
 #include <tpde/IRAdaptor.hpp>
+#include <tpde/RegisterFile.hpp>
 
 namespace tpde_rust {
   constexpr auto view_pointify = std::views::transform([](auto &e) { return &e; });
@@ -23,6 +24,10 @@ namespace tpde_rust {
 
     ModuleTpde *mod = nullptr;
     Function *cur_func = nullptr;
+
+    struct ValInfo {
+      Type type;
+    };
 
     [[nodiscard]] u32 func_count() const { return mod->functions.size(); }
 
@@ -224,6 +229,32 @@ namespace tpde_rust {
       cur_func = INVALID_FUNC_REF;
     }
 
+    // things for compiler
+
+    struct ValueParts {
+      Type ty;
+
+      static u32 count() {
+        return 1;
+      }
+
+      [[nodiscard]] Type type(u32 n) const {
+        return ty;
+      }
+
+      [[nodiscard]] u32 size_bytes(u32 n) const {
+        return size_of_type(ty);
+      }
+
+      static tpde::RegBank reg_bank(u32 n) {
+        // TODO everything in basic register bank so far
+        return tpde::RegBank{0};
+      }
+    };
+
+    static ValueParts val_parts(const IRValueRef value) {
+      return ValueParts{value->ty};
+    }
   };
 
   static_assert(tpde::IRAdaptor<RustAdaptor>);

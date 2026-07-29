@@ -17,8 +17,11 @@ execute_process(COMMAND ${CXXBRIDGE} ${CMAKE_CURRENT_SOURCE_DIR}/src/shared.rs -
 add_library(tpde_cpp STATIC
         tpde_cpp/tpde.cpp
         tpde_cpp/RustAdaptor.cpp
+        tpde_cpp/RustCompilerBase.cpp
         tpde_cpp/RustCompiler.cpp
         tpde_cpp/x64/RustCompilerX64.cpp
+        tpde_cpp/RustCompiler.cpp
+        tpde_cpp/RustCompiler.h
 )
 
 target_include_directories(tpde_cpp PRIVATE
