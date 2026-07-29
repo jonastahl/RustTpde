@@ -19,7 +19,7 @@ mod ffi {
         name: String,
         n_args: usize,
         has_ret: bool,
-        slots: Vec<Type>,
+        slots: Vec<Slot>,
 
         extern_link: bool,
         only_local: bool,
@@ -33,6 +33,9 @@ mod ffi {
         name: String,
         instructions: Vec<Instruction>,
         // TODO add phis and similar
+
+        info1: u32,
+        info2: u32,
     }
 
     unsafe extern "C++" {
@@ -41,7 +44,12 @@ mod ffi {
         pub fn compile_ir(module: &ModuleTpde) -> u32;
     }
 
-    #[derive(Debug)]
+    #[derive(Debug, Copy, Clone)]
+    pub struct Slot {
+        ty: Type
+    }
+
+    #[derive(Debug, Copy, Clone)]
     pub enum Type {
         Void,
         Bool,
@@ -58,6 +66,7 @@ mod ffi {
         Mul,
         Div,
 
+        // TODO move to branching instructions
         Ret,
         RetVoid,
     }
@@ -65,8 +74,7 @@ mod ffi {
     #[derive(Debug)]
     pub struct Instruction {
         kind: InstructionKind,
-        slot: usize,
-        lhs: usize,
-        rhs: usize,
+        ops: Vec<usize>,
+        result: usize,
     }
 }

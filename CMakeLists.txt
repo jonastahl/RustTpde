@@ -14,7 +14,12 @@ execute_process(COMMAND ${CXXBRIDGE} --header -o ${CXX_GEN_DIR}/rust/cxx.h)
 execute_process(COMMAND ${CXXBRIDGE} ${CMAKE_CURRENT_SOURCE_DIR}/src/shared.rs --header
         -o ${CXX_GEN_DIR}/rustc_codegen_tpde/src/shared.rs.h)
 
-add_library(tpde_cpp STATIC tpde_cpp/tpde.cpp)
+add_library(tpde_cpp STATIC
+        tpde_cpp/tpde.cpp
+        tpde_cpp/RustAdaptor.cpp
+        tpde_cpp/RustCompiler.cpp
+        tpde_cpp/x64/RustCompilerX64.cpp
+)
 
 target_include_directories(tpde_cpp PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}

@@ -95,7 +95,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn ret(&mut self, v: Self::Value) {
-        self.tpde_module.borrow_mut().add_instruction_statement(self.basic_block, InstructionKind::Ret, v)
+        self.tpde_module.borrow_mut().add_instruction(self.basic_block, InstructionKind::Ret, vec![v])
     }
 
     fn br(&mut self, dest: Self::BasicBlock) {
@@ -119,7 +119,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn add(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_op_binary(self.basic_block, InstructionKind::Add, lhs, rhs)
+        self.tpde_module.borrow_mut().add_instruction_ret(self.basic_block, InstructionKind::Add, vec![lhs, rhs])
     }
 
     fn fadd(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
@@ -135,7 +135,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn sub(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_op_binary(self.basic_block, InstructionKind::Add, lhs, rhs)
+        self.tpde_module.borrow_mut().add_instruction_ret(self.basic_block, InstructionKind::Sub, vec![lhs, rhs])
     }
 
     fn fsub(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {

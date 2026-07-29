@@ -30,8 +30,8 @@ impl ModuleTpde {
         // we can ignore variadic arguments
         let args =
             if fn_abi.c_variadic { &fn_abi.args[..fn_abi.fixed_count as usize] } else { &fn_abi.args };
-        let mut slots: Vec<Type> = args.iter().map(|arg| {
-            match &fn_abi.ret.mode {
+        let slots: Vec<ffi::Slot> = args.iter().map(|arg| {
+            let ty = match &fn_abi.ret.mode {
                 PassMode::Ignore => Type::Void,
                 PassMode::Direct(_) => cx.tpde_type(arg.layout),
                 PassMode::Pair(..) => todo!(),
@@ -39,7 +39,8 @@ impl ModuleTpde {
                 PassMode::Indirect { .. } => {
                     todo!()
                 }
-            }
+            };
+            ffi::Slot { ty }
         }).collect();
 
         {
@@ -88,7 +89,9 @@ impl ModuleTpde {
         function
             .basic_blocks.push(ffi::BasicBlock {
             name: name.to_string(),
-            instructions: vec![]
+            instructions: vec![],
+            info1: 0,
+            info2: 0,
         });
         BasicBlock(*func, function.basic_blocks.len() - 1)
     }
@@ -111,33 +114,37 @@ impl ModuleTpde {
             .unwrap_or_else(|| panic!("Basic block not found"))
     }
 
-    pub fn add_instruction_op_binary(&mut self, bb: BasicBlock, instr: InstructionKind, lhs: Slot, rhs: Slot) -> Slot {
+    pub fn add_instruction_ret(&mut self, bb: BasicBlock, instr: InstructionKind, ops: Vec<Slot>) -> Slot {
+        assert!(ops.len() >= 1);
+
         let func = self.get_function_mut(&bb.0);
 
-        // create new slot with type of lhs
-        func.slots.push(*func.slots.get(lhs.0).unwrap());
-        let slot = func.slots.len() - 1;
+        // create new slot with type of first arg
+        {
+            let op = ops.get(0).unwrap();
+            let slot: ffi::Slot = *func.slots.get(op.0).unwrap();
+            func.slots.push(slot);
+        }
+        let result = func.slots.len() - 1;
 
         let basic_block = ModuleTpde::get_basic_block_mut_helper(func, bb);
 
         basic_block.instructions.push(ffi::Instruction {
             kind: instr,
-            slot,
-            lhs: lhs.0,
-            rhs: rhs.0
+            ops: ops.into_iter().map(|op| op.0).collect(),
+            result
         });
 
-        Slot(slot)
+        Slot(result)
     }
 
-    pub fn add_instruction_statement(&mut self, bb: BasicBlock, instr: InstructionKind, slot: Slot) {
+    pub fn add_instruction(&mut self, bb: BasicBlock, instr: InstructionKind, ops: Vec<Slot>) {
         let basic_block = self.get_basic_block_mut(bb);
 
         basic_block.instructions.push(ffi::Instruction {
             kind: instr,
-            slot: 67,
-            lhs: slot.0,
-            rhs: 67
+            ops: ops.into_iter().map(|op| op.0).collect(),
+            result: 67,
         });
     }
 }
