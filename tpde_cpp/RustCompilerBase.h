@@ -60,8 +60,8 @@ namespace tpde_rust {
     void prologue_assign_arg(tpde::CCAssigner *cc_assigner,
                              u32 arg_idx,
                              IRValueRef arg) {
-      u32 align = arg->getType()->isIntegerTy(128) ? 16 : 1;
-      bool allow_split = this->derived()->arg_allow_split_reg_stack_passing(arg);
+      u32 align = size_of_type(arg->ty);
+      bool allow_split = true; // TODO
       Base::prologue_assign_arg(cc_assigner, arg_idx, arg, align, allow_split);
     }
 
@@ -150,7 +150,7 @@ namespace tpde_rust {
 
     bool compile_inst(const Instruction *, InstRange);
 
-    static bool compile_unknown(const Instruction *, const ValInfo &, u64) {
+    bool compile_unknown(const Instruction *, const ValInfo &, u64) {
       return false;
     }
 
@@ -159,12 +159,90 @@ namespace tpde_rust {
     bool compile_ret(const Instruction *, const ValInfo &, u64);
 
     bool compile_ret_void(const Instruction *, const ValInfo &, u64);
-
-    void reset() {
-      Base::reset();
-
-      // TODO
-      // EncodeCompiler::reset();
-    }
   };
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_to_elf(
+    ModuleTpde &mod, std::vector<uint8_t> &buf) {
+    if (this->adaptor->mod) {
+      Base::derived()->reset();
+    }
+    if (!compile(mod)) {
+      return false;
+    }
+
+    buf = this->assembler.build_object_file();
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  RustCompilerBase<Adaptor, Derived, Config>::SymRef
+  RustCompilerBase<Adaptor, Derived, Config>::cur_personality_func() const {
+    // TODO
+    return {};
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile(ModuleTpde &mod) {
+    if (!this->adaptor->switch_module(mod)) {
+      return false;
+    }
+
+    if (!Base::compile()) {
+      return false;
+    }
+
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_inst(const Instruction *i, InstRange) {
+    TPDE_LOG_TRACE("Compiling inst {}", this->adaptor->inst_fmt_ref(i));
+    static constexpr auto fns = []() constexpr {
+      using CompileFn =
+          bool (Derived::*)(const Instruction *, const ValInfo &, u64);
+      std::array<std::pair<CompileFn, u64>, 20> res{};
+      res.fill({&Derived::compile_unknown, 0});
+
+      auto set_fn = [&](InstructionKind kind, CompileFn fn, u64 val = 0) {
+        res[static_cast<std::size_t>(kind)] = {fn, val};
+      };
+
+      set_fn(InstructionKind::Add, &Derived::compile_int_binary_op, IntBinaryOp::add);
+      set_fn(InstructionKind::Sub, &Derived::compile_int_binary_op, IntBinaryOp::sub);
+      set_fn(InstructionKind::Mul, &Derived::compile_int_binary_op, IntBinaryOp::mul);
+      set_fn(InstructionKind::Div, &Derived::compile_int_binary_op, IntBinaryOp::sdiv);
+
+      set_fn(InstructionKind::Ret, &Derived::compile_ret);
+      set_fn(InstructionKind::RetVoid, &Derived::compile_ret_void);
+
+      return res;
+    }();
+
+    const ValInfo val_info = this->adaptor->val_info(i);
+    assert(static_cast<size_t>(i->kind) < fns.size());
+    const auto [compile_fn, arg] = fns[static_cast<std::size_t>(i->kind)];
+    return (Base::derived()->*compile_fn)(i, val_info, arg);
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_ret(
+    const Instruction *inst, const ValInfo &info, u64 op_val) {
+    // TODO
+    return false;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_ret_void(
+    const Instruction *inst, const ValInfo &info, u64 op_val) {
+    // TODO
+    return false;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_binary_op(
+    const Instruction *inst, const ValInfo &info, u64 op_val) {
+    // TODO
+    return false;
+  }
 }

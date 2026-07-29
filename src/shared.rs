@@ -41,7 +41,7 @@ mod ffi {
     unsafe extern "C++" {
         include!("tpde_cpp/tpde.h");
 
-        pub fn compile_ir(module: &ModuleTpde) -> u32;
+        pub fn compile_ir(module: &mut ModuleTpde) -> u32;
     }
 
     #[derive(Debug, Copy, Clone)]

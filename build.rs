@@ -12,6 +12,8 @@ fn main() {
     println!("cargo:rustc-link-lib=static=tpde_cpp");
     println!("cargo:rustc-link-lib=static=tpde");
 
+    println!("cargo:rustc-link-arg=-Wl,-z,defs");
+
     cxx_build::bridge("src/shared.rs")
         .include(".")
         .include("deps/tpde/tpde/include")

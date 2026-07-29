@@ -155,11 +155,14 @@ impl WriteBackendMethods for TpdeCodegenBackend {
         cgcx: &CodegenContext,
         prof: &SelfProfilerRef,
         shared_emitter: &SharedEmitter,
-        module: ModuleCodegen<Self::Module>,
+        mut module: ModuleCodegen<Self::Module>,
         config: &ModuleConfig,
     ) -> CompiledModule {
-        println!("{:#?}", module.module_llvm);
-        shared::compile_ir(&module.module_llvm);
+        if config.emit_ir {
+            println!("{:#?}", module.module_llvm);
+        }
+
+        shared::compile_ir(&mut module.module_llvm);
 
         todo!()
     }

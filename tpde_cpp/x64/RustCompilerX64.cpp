@@ -1,31 +1,39 @@
 #include "RustCompilerX64.h"
 
+#include "encode_template_x64.hpp"
+
 namespace tpde_rust::x64 {
 
   struct CompilerConfig : tpde::x64::PlatformConfig {
   };
 
-  struct RustCompilerX64 : tpde::x64::CompilerX64<
+  struct RustCompilerX64 :
+    tpde::x64::CompilerX64<
       RustAdaptor,
       RustCompilerX64,
       RustCompilerBase,
       CompilerConfig
-    >
-  {
-    using Base = CompilerX64<
+    >,
+    tpde_encodegen::EncodeCompiler<
+      RustAdaptor,
+      RustCompilerX64,
+      RustCompilerBase,
+      CompilerConfig
+    >  {
+    using Base = tpde::x64::CompilerX64<
       RustAdaptor,
       RustCompilerX64,
       RustCompilerBase,
       CompilerConfig
     >;
 
-    using ScratchReg = ScratchReg;
-    using ValuePartRef = ValuePartRef;
-    using ValuePart = ValuePart;
-    using ValueRef = ValueRef;
-    using GenericValuePart = GenericValuePart;
+    using ScratchReg = Base::ScratchReg;
+    using ValuePartRef = Base::ValuePartRef;
+    using ValuePart = Base::ValuePart;
+    using ValueRef = Base::ValueRef;
+    using GenericValuePart = Base::GenericValuePart;
 
-    using AsmReg = AsmReg;
+    using AsmReg = Base::AsmReg;
 
     std::unique_ptr<RustAdaptor> adaptor;
 
@@ -37,6 +45,12 @@ namespace tpde_rust::x64 {
     explicit RustCompilerX64(std::unique_ptr<RustAdaptor> &&adaptor)
       : Base{adaptor.get()},
         adaptor(std::move(adaptor)) {
+      static_assert(tpde::Compiler<RustCompilerX64, CompilerConfig>);
+    }
+
+    void reset() {
+      Base::reset();
+      EncodeCompiler::reset();
     }
   };
 

@@ -7,7 +7,14 @@
 #include <tpde/RegisterFile.hpp>
 
 namespace tpde_rust {
-  constexpr auto view_pointify = std::views::transform([](auto &e) { return &e; });
+  // doing this with a lambda throws magical errors
+  struct PointifyFunctor {
+    template <typename T>
+    auto operator()(T& item) const {
+      return &item;
+    }
+  };
+  constexpr auto view_pointify = std::views::transform(PointifyFunctor{});
 
   struct RustAdaptor {
     using IRValueRef = const Slot *;
@@ -208,6 +215,10 @@ namespace tpde_rust {
       return false;
     }
 
+    ValInfo val_info(const Instruction *inst) const {
+      return ValInfo{cur_func->slots[inst->result].ty};
+    }
+
     [[nodiscard]] std::string inst_fmt_ref(const IRInstRef inst) const {
       return "Instance";
     }
@@ -221,8 +232,9 @@ namespace tpde_rust {
       return true;
     }
 
-    void switch_module(ModuleTpde* mod) {
-      this->mod = mod;
+    bool switch_module(ModuleTpde &mod) {
+      this->mod = &mod;
+      return true;
     }
 
     void reset() {
