@@ -1,5 +1,5 @@
 #[allow(unused_imports)]
-pub use ffi::compile_ir;
+pub use ffi::compile_to_file;
 
 pub mod ir;
 
@@ -41,7 +41,7 @@ mod ffi {
     unsafe extern "C++" {
         include!("tpde_cpp/tpde.h");
 
-        pub fn compile_ir(module: &mut ModuleTpde, path: &str) -> u32;
+        pub fn compile_to_file(module: &mut ModuleTpde, path: &str) -> u32;
     }
 
     #[derive(Debug, Copy, Clone)]

@@ -1,7 +1,7 @@
 use crate::shared::ir::*;
-use crate::{base, shared};
+use crate::{back, base};
 use rustc_codegen_ssa::back::lto::ThinModule;
-use rustc_codegen_ssa::back::write::{BitcodeSection, CodegenContext, EmitObj, FatLtoInput, ModuleConfig, SharedEmitter, TargetMachineFactoryFn, ThinLtoInput};
+use rustc_codegen_ssa::back::write::{CodegenContext, FatLtoInput, ModuleConfig, SharedEmitter, TargetMachineFactoryFn, ThinLtoInput};
 use rustc_codegen_ssa::target_features::cfg_target_feature;
 use rustc_codegen_ssa::traits::{
     CodegenBackend, ExtraBackendMethods, ModuleBufferMethods, WriteBackendMethods,
@@ -9,9 +9,9 @@ use rustc_codegen_ssa::traits::{
 use rustc_codegen_ssa::{CompiledModule, CompiledModules, CrateInfo, ModuleCodegen, TargetConfig};
 use rustc_data_structures::profiling::SelfProfilerRef;
 use rustc_data_structures::smallvec::SmallVec;
+use rustc_errors::DiagCtxt;
 use rustc_middle::dep_graph::{WorkProduct, WorkProductMap};
-use rustc_middle::ty;
-use rustc_middle::ty::{Instance, TyCtxt};
+use rustc_middle::ty::TyCtxt;
 use rustc_middle::util::Providers;
 use rustc_session::config::{OptLevel, OutputFilenames, PrintRequest};
 use rustc_session::Session;
@@ -30,38 +30,6 @@ pub struct ThinData();
 impl TpdeCodegenBackend {
     pub fn new() -> TpdeCodegenBackend {
         TpdeCodegenBackend()
-    }
-}
-
-fn lower_function_to_tpde<'tcx>(
-    tcx: TyCtxt<'tcx>,
-    instance: Instance<'tcx>,
-    mir_body: &'tcx rustc_middle::mir::Body<'tcx>,
-) {
-    let t = instance.ty(tcx, ty::TypingEnv::fully_monomorphized());
-    if t.is_fn() {
-        println!("ty: {:?}", t.fn_sig(tcx));
-    }
-
-    for (local, local_decl) in mir_body.local_decls.iter_enumerated() {
-        println!("local: {:?}, local_decl: {:?}", local, local_decl);
-    }
-
-    for (bb_index, bb_data) in mir_body.basic_blocks.iter_enumerated() {
-        println!("* bb index: {:?}", bb_index);
-        for statement in &bb_data.statements {
-            rustc_middle::ty::print::with_no_trimmed_paths!({
-                println!("statement: {:?}", statement);
-            });
-        }
-
-        if let Some(terminator) = &bb_data.terminator {
-            rustc_middle::ty::print::with_no_trimmed_paths!({
-                println!("terminator: {:?}", terminator);
-            });
-        } else {
-            print!("terminator: None,");
-        }
     }
 }
 
@@ -155,28 +123,12 @@ impl WriteBackendMethods for TpdeCodegenBackend {
         cgcx: &CodegenContext,
         prof: &SelfProfilerRef,
         shared_emitter: &SharedEmitter,
-        mut module: ModuleCodegen<Self::Module>,
+        module: ModuleCodegen<Self::Module>,
         config: &ModuleConfig,
     ) -> CompiledModule {
-        if config.emit_ir {
-            println!("{:#?}", module.module_llvm);
-        }
-
-        if config.emit_bc || config.emit_obj == EmitObj::ObjectCode(BitcodeSection::Full) {
-            let dwo_out = cgcx.output_filenames.temp_path_dwo_for_cgu(&module.name);
-            println!("{}", dwo_out.to_str().unwrap());
-
-            shared::compile_ir(&mut module.module_llvm, dwo_out.to_str().unwrap());
-        }
-
-        module.into_compiled_module(
-            config.emit_obj != EmitObj::None,
-            false,
-            config.emit_bc,
-            false,
-            false,
-            &cgcx.output_filenames
-        )
+        let dcx = DiagCtxt::new(Box::new(shared_emitter.clone()));
+        let dcx = dcx.handle();
+        back::write::codegen(cgcx, prof, dcx, module, config)
     }
 
     fn serialize_module(module: Self::Module, is_thin: bool) -> Self::ModuleBuffer {
@@ -219,17 +171,6 @@ impl CodegenBackend for TpdeCodegenBackend {
             .downcast::<rustc_codegen_ssa::back::write::OngoingCodegen<TpdeCodegenBackend>>()
             .expect("Expected TpdeCodegenBackend's OngoingCodegen, found Box<Any>")
             .join(sess, crate_info)
-    }
-
-    fn link(
-        &self,
-        sess: &Session,
-        compiled_modules: CompiledModules,
-        crate_info: CrateInfo,
-        metadata: rustc_metadata::EncodedMetadata,
-        outputs: &OutputFilenames,
-    ) {
-        todo!()
     }
 
     fn print(&self, _req: &PrintRequest, _out: &mut String, _sess: &Session) {

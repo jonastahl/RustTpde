@@ -5,7 +5,7 @@
 #include "RustCompiler.h"
 
 
-uint32_t compile_ir(ModuleTpde& module, const rust::Str path) {
+uint32_t compile_to_file(ModuleTpde& module, const rust::Str path) {
     // TODO move this out, don't want to initialize it every time separately
     const auto compiler = tpde_rust::RustCompiler::create();
 

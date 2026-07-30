@@ -15,6 +15,7 @@ extern crate rustc_target;
 extern crate rustc_abi;
 extern crate rustc_hir;
 extern crate alloc;
+extern crate rustc_fs_util;
 
 use rustc_codegen_ssa::traits::CodegenBackend;
 use crate::backend::TpdeCodegenBackend;
@@ -31,6 +32,7 @@ mod statics;
 mod common;
 mod type_;
 mod mono_item;
+pub mod back;
 
 #[unsafe(no_mangle)]
 pub fn __rustc_codegen_backend() -> Box<dyn CodegenBackend> {
