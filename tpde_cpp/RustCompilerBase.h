@@ -28,8 +28,6 @@ namespace tpde_rust {
 
     tpde::util::BumpAllocator<> const_allocator;
 
-    virtual ~RustCompilerBase();
-
     explicit RustCompilerBase(RustAdaptor *adaptor) : Base{adaptor} {
       static_assert(tpde::Compiler<Derived, Config>);
       static_assert(std::is_same_v<Adaptor, RustAdaptor>);
