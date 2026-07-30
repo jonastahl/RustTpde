@@ -1,12 +1,14 @@
-use crate::{base, shared};
 use crate::shared::ir::*;
+use crate::{base, shared};
 use rustc_codegen_ssa::back::lto::ThinModule;
-use rustc_codegen_ssa::back::write::{CodegenContext, FatLtoInput, ModuleConfig, SharedEmitter, TargetMachineFactoryFn, ThinLtoInput};
+use rustc_codegen_ssa::back::write::{BitcodeSection, CodegenContext, EmitObj, FatLtoInput, ModuleConfig, SharedEmitter, TargetMachineFactoryFn, ThinLtoInput};
+use rustc_codegen_ssa::target_features::cfg_target_feature;
 use rustc_codegen_ssa::traits::{
     CodegenBackend, ExtraBackendMethods, ModuleBufferMethods, WriteBackendMethods,
 };
 use rustc_codegen_ssa::{CompiledModule, CompiledModules, CrateInfo, ModuleCodegen, TargetConfig};
 use rustc_data_structures::profiling::SelfProfilerRef;
+use rustc_data_structures::smallvec::SmallVec;
 use rustc_middle::dep_graph::{WorkProduct, WorkProductMap};
 use rustc_middle::ty;
 use rustc_middle::ty::{Instance, TyCtxt};
@@ -17,8 +19,6 @@ use rustc_span::Symbol;
 use std::any::Any;
 use std::path::PathBuf;
 use std::sync::Arc;
-use rustc_codegen_ssa::target_features::cfg_target_feature;
-use rustc_data_structures::smallvec::SmallVec;
 
 #[derive(Clone)]
 pub struct TpdeCodegenBackend();
@@ -162,9 +162,21 @@ impl WriteBackendMethods for TpdeCodegenBackend {
             println!("{:#?}", module.module_llvm);
         }
 
-        shared::compile_ir(&mut module.module_llvm);
+        if config.emit_bc || config.emit_obj == EmitObj::ObjectCode(BitcodeSection::Full) {
+            let dwo_out = cgcx.output_filenames.temp_path_dwo_for_cgu(&module.name);
+            println!("{}", dwo_out.to_str().unwrap());
 
-        todo!()
+            shared::compile_ir(&mut module.module_llvm, dwo_out.to_str().unwrap());
+        }
+
+        module.into_compiled_module(
+            config.emit_obj != EmitObj::None,
+            false,
+            config.emit_bc,
+            false,
+            false,
+            &cgcx.output_filenames
+        )
     }
 
     fn serialize_module(module: Self::Module, is_thin: bool) -> Self::ModuleBuffer {

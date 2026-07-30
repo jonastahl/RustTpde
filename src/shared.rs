@@ -41,7 +41,7 @@ mod ffi {
     unsafe extern "C++" {
         include!("tpde_cpp/tpde.h");
 
-        pub fn compile_ir(module: &mut ModuleTpde) -> u32;
+        pub fn compile_ir(module: &mut ModuleTpde, path: &str) -> u32;
     }
 
     #[derive(Debug, Copy, Clone)]
@@ -75,6 +75,7 @@ mod ffi {
     pub struct Instruction {
         kind: InstructionKind,
         ops: Vec<usize>,
+        has_result: bool,
         result: usize,
     }
 }

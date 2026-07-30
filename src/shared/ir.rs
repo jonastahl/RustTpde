@@ -132,6 +132,7 @@ impl ModuleTpde {
         basic_block.instructions.push(ffi::Instruction {
             kind: instr,
             ops: ops.into_iter().map(|op| op.0).collect(),
+            has_result: true,
             result
         });
 
@@ -144,6 +145,7 @@ impl ModuleTpde {
         basic_block.instructions.push(ffi::Instruction {
             kind: instr,
             ops: ops.into_iter().map(|op| op.0).collect(),
+            has_result: false,
             result: 67,
         });
     }

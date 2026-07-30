@@ -153,12 +153,13 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] tpde::ValLocalIdx val_local_idx(const IRValueRef ir_value) const {
-      return static_cast<tpde::ValLocalIdx>(std::ranges::distance(ir_value, cur_func->slots.data()));
+      auto a = static_cast<tpde::ValLocalIdx>(std::ranges::distance(cur_func->slots.data(), ir_value));
+      return a;
     }
 
     [[nodiscard]] bool val_ignore_in_liveness_analysis(const IRValueRef value) const {
       // TODO
-      return false;
+      return value->ty == Type::Void;
     }
 
     [[nodiscard]] bool val_is_phi(const IRValueRef value) const {
@@ -174,15 +175,15 @@ namespace tpde_rust {
         }
 
         [[nodiscard]] IRValueRef incoming_val_for_slot(const u32 slot) const {
-          return 0;
+          throw std::runtime_error("not implemented");
         }
 
         [[nodiscard]] IRBlockRef incoming_block_for_slot(const u32 slot) const {
-          return 0;
+          throw std::runtime_error("not implemented");
         }
 
         [[nodiscard]] IRValueRef incoming_val_for_block(const IRBlockRef block) const {
-          return 0;
+          throw std::runtime_error("not implemented");
         }
       };
 
@@ -208,7 +209,8 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] auto inst_results(const IRInstRef inst) const {
-      return std::views::single(&cur_func->slots[inst->result]);
+      return std::views::single(static_cast<IRValueRef>(inst->has_result ? &cur_func->slots[inst->result] : nullptr))
+        | std::views::take(inst->has_result ? 1 : 0);
     }
 
     [[nodiscard]] bool inst_fused(const IRInstRef inst) const {
@@ -216,7 +218,7 @@ namespace tpde_rust {
     }
 
     ValInfo val_info(const Instruction *inst) const {
-      return ValInfo{cur_func->slots[inst->result].ty};
+      return ValInfo{inst->has_result ? cur_func->slots[inst->result].ty : Type::Void};
     }
 
     [[nodiscard]] std::string inst_fmt_ref(const IRInstRef inst) const {

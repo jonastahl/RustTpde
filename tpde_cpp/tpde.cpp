@@ -1,24 +1,30 @@
 #include "tpde.h"
 
+#include <fstream>
+
 #include "RustCompiler.h"
 
 
-uint32_t compile_ir(ModuleTpde& module) {
+uint32_t compile_ir(ModuleTpde& module, const rust::Str path) {
     // TODO move this out, don't want to initialize it every time separately
     const auto compiler = tpde_rust::RustCompiler::create();
 
     std::vector<uint8_t> buf;
     compiler->compile_to_elf(module, buf);
 
-    // if (obj_out_path.Get() == "-") {
-    //     std::cout.write(reinterpret_cast<const char *>(buf.data()), buf.size());
-    //     std::cout << std::flush;
-    // } else {
-    //     std::ofstream out{obj_out_path.Get().c_str(), std::ios::binary};
-    //     out.write(reinterpret_cast<const char *>(buf.data()), buf.size());
-    // }
+    {
+        std::string file_path(path.data(), path.size());
+        std::ofstream out_file(file_path, std::ios::binary);
 
-    return 0;
+        if (!out_file) {
+            return 0;
+        }
+
+        out_file.write(reinterpret_cast<const char*>(buf.data()), buf.size());
+        out_file.close();
+    }
+
+    return buf.size();
 }
 
 [[nodiscard]] tpde::u32 size_of_type(Type type) {
