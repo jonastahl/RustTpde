@@ -1,0 +1,103 @@
+use libtest_mimic::{Arguments, Trial, Failed};
+use pretty_assertions::assert_eq;
+use std::fs;
+use std::fs::File;
+use std::path::Path;
+use std::process::{Command, Stdio};
+
+fn main() {
+    let args = Arguments::from_args();
+    let mut tests = Vec::new();
+
+    let test_cases_dir = Path::new("tests/cases");
+
+    for entry in fs::read_dir(test_cases_dir).expect("Failed to read test cases directory") {
+        let entry = entry.unwrap();
+        let path = entry.path();
+
+        if path.is_dir() {
+            let test_name = entry.file_name().into_string().unwrap();
+
+            tests.push(Trial::test(test_name, move || run_test_case(&path)));
+        }
+    }
+
+    libtest_mimic::run(&args, tests).exit();
+}
+
+fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
+    // 1. Resolve paths
+    let source_path = path.join("source.rs");
+    let expected_ir_path = path.join("ir");
+    let expected_asm_path = path.join("asm");
+    let actual_ir_path = path.join("actual_ir");
+    let actual_obj_path = path.join("actual_obj");
+    let actual_asm_path = path.join("actual_asm");
+
+    // 2. Read files (if expected output files don't exist yet, default to empty string)
+    fs::exists(&source_path)
+        .map_err(|_| Failed::from("Could not find source"))?;
+
+    // 3. Compile the files
+    Command::new("rustc")
+        .arg("+nightly")
+        .arg("--crate-type")
+        .arg("lib")
+        .arg("-Z")
+        .arg("codegen-backend=target/debug/librustc_codegen_tpde.so")
+        .arg("-C")
+        .arg("overflow-checks=no")
+        .arg(&source_path)
+        .arg("-o")
+        .arg(&actual_ir_path)
+        .arg("--emit")
+        .arg("llvm-ir")
+        .output() // Executes the command and captures stdout/stderr
+        .map_err(|e| format!("Failed to execute rustc command: {}", e))?;
+    Command::new("rustc")
+        .arg("+nightly")
+        .arg("--crate-type")
+        .arg("lib")
+        .arg("-Z")
+        .arg("codegen-backend=target/debug/librustc_codegen_tpde.so")
+        .arg("-C")
+        .arg("overflow-checks=no")
+        .arg(&source_path)
+        .arg("-o")
+        .arg(&actual_obj_path)
+        .output() // Executes the command and captures stdout/stderr
+        .map_err(|e| format!("Failed to execute rustc command: {}", e))?;
+
+    let asm_file = File::create(&actual_asm_path)
+        .expect("Failed to create assembly output file");
+    Command::new("objdump")
+        .arg("-D")
+        .arg(&actual_obj_path)
+        .stdout(Stdio::from(asm_file))
+        .status()
+        .expect("Failed to execute objdump");
+
+    fs::remove_file(&actual_obj_path)
+        .map_err(|_| eprintln!("Deleting obj failed")).unwrap_or_default();
+
+    let expected_ir = fs::read_to_string(&expected_ir_path)
+        .map_err(|_| eprintln!("Could not find expected ir")).unwrap_or_default();
+    let expected_result = fs::read_to_string(&expected_asm_path)
+        .map_err(|_| eprintln!("Could not find expected asm")).unwrap_or_default();
+    let actual_ir = fs::read_to_string(&actual_ir_path)
+        .map_err(|_| eprintln!("Could not find generated ir")).unwrap_or_default();
+    let actual_result = fs::read_to_string(&actual_asm_path)
+        .map_err(|_| eprintln!("Could not find generated asm")).unwrap_or_default();
+
+    fs::rename(&actual_ir_path, &expected_ir_path)?;
+    fs::rename(&actual_asm_path, &expected_asm_path)?;
+
+    // 4. Compare the outputs
+    if actual_ir.trim() != expected_ir.trim() {
+        assert_eq!(expected_ir.trim(), actual_ir.trim(), "IR mismatch in {:?}", path);
+    } else if actual_result != expected_result {
+        assert_eq!(expected_result, actual_result, "Result mismatch in {:?}", path);
+    }
+
+    Ok(())
+}

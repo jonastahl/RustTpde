@@ -12,3 +12,11 @@ cmake = "0.1.58"
 
 [lib]
 crate-type = ["dylib"]
+
+[dev-dependencies]
+libtest-mimic = "0.7"
+pretty_assertions = "1.4" # Optional: Makes text comparison diffs readable
+
+[[test]]
+name = "runner"
+harness = false
