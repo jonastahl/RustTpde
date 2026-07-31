@@ -54,7 +54,8 @@ impl<'tcx> DebugInfoBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
     }
 
     fn set_var_name(&mut self, value: Self::Value, name: &str) {
-        todo!()
+        // TODO
+        // todo!()
     }
 }
 

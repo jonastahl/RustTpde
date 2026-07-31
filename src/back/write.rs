@@ -22,17 +22,13 @@ pub(crate) fn codegen(
         if config.emit_bc || config.emit_obj == EmitObj::Bitcode {
             todo!()
         }
-
-        if config.emit_obj == EmitObj::ObjectCode(BitcodeSection::Full) {
-            println!("Compiling to file: {}", bc_out.to_str().expect("path to str"));
-            shared::compile_to_file(&mut module.module_llvm, bc_out.to_str().expect("path to str"));
-        }
     }
 
     if config.emit_ir {
         let out =
             cgcx.output_filenames.temp_path_for_cgu(OutputType::LlvmAssembly, &module.name);
-        std::fs::write(out, format!("{:#?}", module.module_llvm)).expect("write file");
+        let content = format!("{:#?}", module.module_llvm);
+        std::fs::write(out, content).expect("write file");
     }
 
     if config.emit_asm {
@@ -41,10 +37,11 @@ pub(crate) fn codegen(
 
     match config.emit_obj {
         EmitObj::ObjectCode(_) => {
-            println!("Compiling to file: {}", obj_out.to_str().expect("path to str"));
+            println!("Compiling to obj file: {}", obj_out.to_str().expect("path to str"));
             shared::compile_to_file(&mut module.module_llvm, obj_out.to_str().expect("path to str"));
         }
         EmitObj::Bitcode => {
+            println!("Copying bitcode file to obj file: {}", obj_out.to_str().expect("path to str"));
             if let Err(err) = link_or_copy(&bc_out, &obj_out) {
                 todo!()
             }
