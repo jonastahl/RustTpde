@@ -45,7 +45,7 @@ namespace tpde_rust {
     [[nodiscard]] auto funcs_to_compile() const { return funcs(); }
 
     [[nodiscard]] static std::string_view func_link_name(const IRFuncRef func) {
-      return func->name.data();
+      return func->name.c_str();
     }
 
     [[nodiscard]] static bool func_extern(const IRFuncRef func) {
@@ -82,7 +82,7 @@ namespace tpde_rust {
 
     [[nodiscard]] static bool cur_arg_is_byval(const u32 idx) {
       // TODO so far only byval supported
-      return true;
+      return false;
     }
 
     [[nodiscard]] u32 cur_arg_byval_size(const u32 idx) const {
@@ -153,8 +153,7 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] tpde::ValLocalIdx val_local_idx(const IRValueRef ir_value) const {
-      auto a = static_cast<tpde::ValLocalIdx>(std::ranges::distance(cur_func->slots.data(), ir_value));
-      return a;
+      return static_cast<tpde::ValLocalIdx>(std::ranges::distance(cur_func->slots.data(), ir_value));
     }
 
     [[nodiscard]] bool val_ignore_in_liveness_analysis(const IRValueRef value) const {
@@ -268,6 +267,14 @@ namespace tpde_rust {
 
     static ValueParts val_parts(const IRValueRef value) {
       return ValueParts{value->ty};
+    }
+
+    ValueParts val_parts(const ValInfo &info) const {
+      return ValueParts{info.type};
+    }
+
+    IRValueRef val_ref_of_slot(const size_t local_idx) const {
+      return this->cur_func->slots.data() + local_idx;
     }
   };
 

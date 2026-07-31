@@ -6,6 +6,7 @@ fn main() {
         .define("CMAKE_CXX_COMPILER", "clang++")
         .define("TPDE_ENABLE_LLVM_PLUGIN", "OFF")
         .define("TPDE_INCLUDE_TESTS", "OFF")
+        .define("TPDE_LOGGING", "OFF")
         .build();
 
     println!("cargo:rustc-link-search=native={}", dst.join("lib").display());

@@ -68,7 +68,6 @@ mod ffi {
 
         // TODO move to branching instructions
         Ret,
-        RetVoid,
     }
 
     #[derive(Debug)]
