@@ -17,12 +17,12 @@ namespace tpde_rust {
   constexpr auto view_pointify = std::views::transform(PointifyFunctor{});
 
   struct RustAdaptor {
-    using IRValueRef = const Slot *;
-    using IRInstRef = const Instruction *;
+    using IRValueRef = uint32_t;
+    using IRInstRef = Instruction *;
     using IRBlockRef = BasicBlock *;
     using IRFuncRef = Function *;
 
-    static constexpr IRValueRef INVALID_VALUE_REF = nullptr;
+    static constexpr IRValueRef INVALID_VALUE_REF = -1;
     static constexpr IRBlockRef INVALID_BLOCK_REF = nullptr;
     static constexpr IRFuncRef INVALID_FUNC_REF = nullptr;
 
@@ -31,6 +31,10 @@ namespace tpde_rust {
 
     ModuleTpde *mod = nullptr;
     Function *cur_func = nullptr;
+
+    [[nodiscard]] Type type_of_value(const IRValueRef value) const {
+      return cur_func->slots[value].ty;
+    }
 
     struct ValInfo {
       Type type;
@@ -75,9 +79,7 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] auto cur_args() const {
-      return cur_func->slots
-             | std::views::take(cur_func->n_args)
-             | view_pointify;
+      return std::views::iota(0u, cur_func->n_args);
     }
 
     [[nodiscard]] static bool cur_arg_is_byval(const u32 idx) {
@@ -152,13 +154,13 @@ namespace tpde_rust {
       return std::string(block->name);
     }
 
-    [[nodiscard]] tpde::ValLocalIdx val_local_idx(const IRValueRef ir_value) const {
-      return static_cast<tpde::ValLocalIdx>(std::ranges::distance(cur_func->slots.data(), ir_value));
+    [[nodiscard]] tpde::ValLocalIdx val_local_idx(IRValueRef ir_value) const {
+      return static_cast<tpde::ValLocalIdx>(ir_value);
     }
 
     [[nodiscard]] bool val_ignore_in_liveness_analysis(const IRValueRef value) const {
       // TODO
-      return value->ty == Type::Void;
+      return cur_func->slots[value].ty == Type::Void;
     }
 
     [[nodiscard]] bool val_is_phi(const IRValueRef value) const {
@@ -190,11 +192,12 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] u32 val_alloca_size(IRValueRef val) const {
-      return size_of_type(val->ty);
+      return size_of_type(type_of_value(val));
     }
 
     [[nodiscard]] u32 val_alloca_align(IRValueRef val) const {
-      return size_of_type(val->ty);
+      // TODO
+      return val_alloca_size(val);
     }
 
     [[nodiscard]] std::string value_fmt_ref(const IRValueRef val) const {
@@ -203,12 +206,11 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] auto inst_operands(const IRInstRef inst) const {
-      return inst->ops
-        | std::views::transform([this](const std::size_t i) { return &cur_func->slots[i]; });
+      return inst->ops;
     }
 
     [[nodiscard]] auto inst_results(const IRInstRef inst) const {
-      return std::views::single(static_cast<IRValueRef>(inst->has_result ? &cur_func->slots[inst->result] : nullptr))
+      return std::views::single(inst->has_result ? inst->result : INVALID_VALUE_REF)
         | std::views::take(inst->has_result ? 1 : 0);
     }
 
@@ -265,16 +267,16 @@ namespace tpde_rust {
       }
     };
 
-    static ValueParts val_parts(const IRValueRef value) {
-      return ValueParts{value->ty};
+    ValueParts val_parts(const IRValueRef value) {
+      return ValueParts{type_of_value(value)};
     }
 
     ValueParts val_parts(const ValInfo &info) const {
       return ValueParts{info.type};
     }
 
-    IRValueRef val_ref_of_slot(const size_t local_idx) const {
-      return this->cur_func->slots.data() + local_idx;
+    static IRValueRef val_ref_of_slot(const size_t local_idx) {
+      return local_idx;
     }
   };
 

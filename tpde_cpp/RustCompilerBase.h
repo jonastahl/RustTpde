@@ -59,7 +59,7 @@ namespace tpde_rust {
     void prologue_assign_arg(tpde::CCAssigner *cc_assigner,
                              u32 arg_idx,
                              IRValueRef arg) {
-      u32 align = size_of_type(arg->ty);
+      u32 align = size_of_type(Base::adaptor->type_of_value(arg));
       bool allow_split = true; // TODO
       Base::prologue_assign_arg(cc_assigner, arg_idx, arg, align, allow_split);
     }
@@ -323,7 +323,7 @@ namespace tpde_rust {
 
     IRValueRef ir_res = this->adaptor->val_ref_of_slot(inst->result);
 
-    unsigned int_width = size_of_type(ir_res->ty);
+    unsigned int_width = size_of_type(Base::adaptor->type_of_value(ir_res));
     const auto& operands = inst->ops;
     ValueRef lhs = this->val_ref_local(operands[0]);
     ValueRef rhs = this->val_ref_local(operands[1]);
