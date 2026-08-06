@@ -5,7 +5,7 @@ use crate::context::CodegenCx;
 use crate::shared::ir::{BasicBlock, Function, InstructionKind, Slot, Type};
 use rustc_ast::expand::typetree::FncTree;
 use rustc_codegen_ssa::common::{AtomicRmwBinOp, IntPredicate, RealPredicate, SynchronizationScope};
-use rustc_codegen_ssa::mir::operand::OperandRef;
+use rustc_codegen_ssa::mir::operand::{OperandRef, OperandValue};
 use rustc_codegen_ssa::mir::place::PlaceRef;
 use rustc_codegen_ssa::traits::{BackendTypes, BuilderMethods, OverflowOp};
 use rustc_codegen_ssa::MemFlags;
@@ -99,11 +99,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn br(&mut self, dest: Self::BasicBlock) {
-        todo!()
+        self.tpde_module.borrow_mut().add_br(self.basic_block, dest);
     }
 
-    fn cond_br(&mut self, cond: Self::Value, then_llbb: Self::BasicBlock, else_llbb: Self::BasicBlock) {
-        todo!()
+    fn cond_br(&mut self, cond: Self::Value, then_bb: Self::BasicBlock, else_bb: Self::BasicBlock) {
+        self.tpde_module.borrow_mut().add_cond_br(self.basic_block, cond, then_bb, else_bb)
     }
 
     fn switch(&mut self, v: Self::Value, else_llbb: Self::BasicBlock, cases: impl ExactSizeIterator<Item=(u128, Self::BasicBlock)>) {
@@ -255,7 +255,8 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn from_immediate(&mut self, val: Self::Value) -> Self::Value {
-        todo!()
+        // TODO maybe extend this?
+        val
     }
 
     fn to_immediate_scalar(&mut self, val: Self::Value, scalar: rustc_abi::Scalar) -> Self::Value {
@@ -263,7 +264,9 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn alloca(&mut self, size: rustc_abi::Size, align: rustc_abi::Align) -> Self::Value {
-        todo!()
+        self.tpde_module.borrow_mut().add_alloca(
+            self.basic_block.function(),
+            size.bytes_usize(), align.bytes_usize())
     }
 
     fn alloca_with_ty(&mut self, layout: TyAndLayout<'tcx>) -> Self::Value {
@@ -283,7 +286,15 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn load_operand(&mut self, place: PlaceRef<'tcx, Self::Value>) -> OperandRef<'tcx, Self::Value> {
-        todo!()
+
+        let slot = self.tpde_module.borrow_mut().add_instruction_raw(
+            self.basic_block,
+            InstructionKind::Load,
+            vec![place.val.llval.to_ffi(), place.val.align.bytes_usize()],
+            Some(self.cx.tpde_type(place.layout))
+        );
+
+        OperandRef { val: OperandValue::Immediate(slot), layout: place.layout, move_annotation: None }
     }
 
     fn write_operand_repeatedly(&mut self, elem: OperandRef<'tcx, Self::Value>, count: u64, dest: PlaceRef<'tcx, Self::Value>) {
@@ -303,7 +314,8 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn store_with_flags(&mut self, val: Self::Value, ptr: Self::Value, align: rustc_abi::Align, flags: MemFlags) -> Self::Value {
-        todo!()
+        self.tpde_module.borrow_mut().add_instruction_raw(self.basic_block, InstructionKind::Store, vec![val.to_ffi(), ptr.to_ffi(), align.bytes_usize()], None);
+        val
     }
 
     fn atomic_store(&mut self, val: Self::Value, ptr: Self::Value, order: AtomicOrdering, size: rustc_abi::Size) {
@@ -379,7 +391,20 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn icmp(&mut self, op: IntPredicate, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        let instr = match op {
+            IntPredicate::IntEQ => InstructionKind::CMPeq,
+            IntPredicate::IntNE => InstructionKind::CMPne,
+            IntPredicate::IntUGT => InstructionKind::CMPgt,
+            IntPredicate::IntUGE => InstructionKind::CMPge,
+            IntPredicate::IntULT => InstructionKind::CMPlt,
+            IntPredicate::IntULE => InstructionKind::CMPle,
+            IntPredicate::IntSGT => InstructionKind::CMPgt,
+            IntPredicate::IntSGE => InstructionKind::CMPge,
+            IntPredicate::IntSLT => InstructionKind::CMPlt,
+            IntPredicate::IntSLE => InstructionKind::CMPle,
+        };
+
+        self.tpde_module.borrow_mut().add_instruction_raw(self.basic_block, instr, vec![lhs.to_ffi(), rhs.to_ffi()], Some(Type::Bool))
     }
 
     fn fcmp(&mut self, op: RealPredicate, lhs: Self::Value, rhs: Self::Value) -> Self::Value {

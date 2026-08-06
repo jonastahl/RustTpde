@@ -1,0 +1,148 @@
+ModuleTpde {
+    functions: [
+        Function {
+            name: "simplebranch",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                Slot {
+                    ty: i32,
+                },
+                Slot {
+                    ty: Bool,
+                },
+                Slot {
+                    ty: i32,
+                },
+            ],
+            extern_link: false,
+            only_local: false,
+            weak_link: false,
+            allocas: [
+                Alloca {
+                    size: 4,
+                    align: 4,
+                },
+            ],
+            basic_blocks: [
+                BasicBlock {
+                    name: "start",
+                    instructions: [
+                        Instruction {
+                            kind: CMPgt,
+                            ops: [
+                                0,
+                                9223372036854775809,
+                            ],
+                            has_result: true,
+                            result: 1,
+                        },
+                        Instruction {
+                            kind: CondBr,
+                            ops: [
+                                1,
+                                2,
+                                1,
+                            ],
+                            has_result: false,
+                            result: 1,
+                        },
+                    ],
+                    info1: 0,
+                    info2: 0,
+                },
+                BasicBlock {
+                    name: "bb2",
+                    instructions: [
+                        Instruction {
+                            kind: Store,
+                            ops: [
+                                9223372036854775810,
+                                4611686018427387905,
+                                4,
+                            ],
+                            has_result: false,
+                            result: 1,
+                        },
+                        Instruction {
+                            kind: Br,
+                            ops: [
+                                3,
+                            ],
+                            has_result: false,
+                            result: 1,
+                        },
+                    ],
+                    info1: 0,
+                    info2: 0,
+                },
+                BasicBlock {
+                    name: "bb1",
+                    instructions: [
+                        Instruction {
+                            kind: Store,
+                            ops: [
+                                9223372036854775811,
+                                4611686018427387905,
+                                4,
+                            ],
+                            has_result: false,
+                            result: 1,
+                        },
+                        Instruction {
+                            kind: Br,
+                            ops: [
+                                3,
+                            ],
+                            has_result: false,
+                            result: 1,
+                        },
+                    ],
+                    info1: 0,
+                    info2: 0,
+                },
+                BasicBlock {
+                    name: "bb3",
+                    instructions: [
+                        Instruction {
+                            kind: Load,
+                            ops: [
+                                4611686018427387905,
+                                4,
+                            ],
+                            has_result: true,
+                            result: 2,
+                        },
+                        Instruction {
+                            kind: Ret,
+                            ops: [
+                                2,
+                            ],
+                            has_result: false,
+                            result: 2,
+                        },
+                    ],
+                    info1: 0,
+                    info2: 0,
+                },
+            ],
+        },
+    ],
+    immediates: [
+        Value {
+            ty: i32,
+            data1: 0,
+            data2: 100,
+        },
+        Value {
+            ty: i32,
+            data1: 0,
+            data2: 0,
+        },
+        Value {
+            ty: i32,
+            data1: 0,
+            data2: 1,
+        },
+    ],
+}

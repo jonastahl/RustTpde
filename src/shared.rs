@@ -8,6 +8,7 @@ mod ffi {
     #[derive(Debug)]
     pub struct ModuleTpde {
         functions: Vec<Function>,
+        immediates: Vec<Value>
     }
 
     enum Linkage {
@@ -25,6 +26,7 @@ mod ffi {
         only_local: bool,
         weak_link: bool,
 
+        allocas: Vec<Alloca>,
         basic_blocks: Vec<BasicBlock>,
     }
 
@@ -57,17 +59,34 @@ mod ffi {
         i16,
         i32,
         i64,
+
+        ptr,
     }
 
     #[derive(Debug)]
     pub enum InstructionKind {
+        // Math
         Add,
         Sub,
         Mul,
         Div,
 
-        // TODO move to branching instructions
+        CMPeq,
+        CMPne,
+        CMPgt,
+        CMPge,
+        CMPlt,
+        CMPle,
+
+        // Storage operations
+        Alloca,
+        Store,
+        Load,
+
+        // Branching operations
         Ret,
+        Br,
+        CondBr
     }
 
     #[derive(Debug)]
@@ -76,5 +95,18 @@ mod ffi {
         ops: Vec<usize>,
         has_result: bool,
         result: usize,
+    }
+
+    #[derive(Debug)]
+    pub struct Alloca {
+        size: usize,
+        align: usize
+    }
+
+    #[derive(Debug)]
+    pub struct Value {
+        ty: Type,
+        data1: u64,
+        data2: u64
     }
 }

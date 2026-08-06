@@ -1,12 +1,12 @@
 use crate::builder::Builder;
 use crate::context::CodegenCx;
-use rustc_abi::{HasDataLayout, Reg, TargetDataLayout};
+use rustc_abi::{HasDataLayout, TargetDataLayout};
 use rustc_codegen_ssa::mir::place::PlaceRef;
-use rustc_codegen_ssa::traits::{AbiBuilderMethods, ArgAbiBuilderMethods, LayoutTypeCodegenMethods};
+use rustc_codegen_ssa::traits::{AbiBuilderMethods, ArgAbiBuilderMethods};
 use rustc_middle::ty::layout::{FnAbiError, FnAbiOfHelpers, FnAbiRequest, HasTypingEnv, LayoutError, LayoutOfHelpers, MaybeResult, TyAndLayout};
 use rustc_middle::ty::{Ty, TypingEnv};
 use rustc_span::Span;
-use rustc_target::callconv::{ArgAbi, CastTarget, FnAbi};
+use rustc_target::callconv::{ArgAbi, FnAbi};
 
 impl<'tpde, 'tcx> AbiBuilderMethods for Builder<'_, 'tpde, 'tcx> {
     fn get_param(&mut self, index: usize) -> Self::Value {
@@ -68,36 +68,6 @@ impl<'tcx> FnAbiOfHelpers<'tcx> for Builder<'_, '_, 'tcx> {
 
 impl<'tcx> FnAbiOfHelpers<'tcx> for CodegenCx<'_, 'tcx> {
     fn handle_fn_abi_err(&self, err: FnAbiError<'tcx>, span: Span, fn_abi_request: FnAbiRequest<'tcx>) -> <Self::FnAbiOfResult as MaybeResult<&'tcx FnAbi<'tcx, Ty<'tcx>>>>::Error {
-        todo!()
-    }
-}
-
-impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
-    fn backend_type(&self, layout: TyAndLayout<'tcx>) -> Self::Type {
-        todo!()
-    }
-
-    fn cast_backend_type(&self, ty: &CastTarget) -> Self::Type {
-        todo!()
-    }
-
-    fn fn_decl_backend_type(&self, fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> Self::FunctionSignature {
-        todo!()
-    }
-
-    fn fn_ptr_backend_type(&self, fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> Self::Type {
-        todo!()
-    }
-
-    fn reg_backend_type(&self, ty: &Reg) -> Self::Type {
-        todo!()
-    }
-
-    fn immediate_backend_type(&self, layout: TyAndLayout<'tcx>) -> Self::Type {
-        todo!()
-    }
-
-    fn scalar_pair_element_backend_type(&self, layout: TyAndLayout<'tcx>, index: usize, immediate: bool) -> Self::Type {
         todo!()
     }
 }

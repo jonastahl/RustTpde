@@ -1,9 +1,11 @@
 use crate::context::CodegenCx;
 use crate::shared::ir::Type;
-use rustc_abi::{AddressSpace, BackendRepr, Primitive, Scalar};
+use rustc_abi::{AddressSpace, BackendRepr, Primitive, Reg, Scalar};
 use rustc_codegen_ssa::common::TypeKind;
-use rustc_codegen_ssa::traits::{BaseTypeCodegenMethods, DerivedTypeCodegenMethods, TypeMembershipCodegenMethods};
+use rustc_codegen_ssa::traits::{BaseTypeCodegenMethods, DerivedTypeCodegenMethods, LayoutTypeCodegenMethods, TypeMembershipCodegenMethods};
 use rustc_middle::ty::layout::TyAndLayout;
+use rustc_middle::ty::Ty;
+use rustc_target::callconv::{CastTarget, FnAbi};
 
 impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
     pub fn tpde_type(&self, ty: TyAndLayout<'tcx>) -> Type {
@@ -112,4 +114,35 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
 
 impl<'tcx> TypeMembershipCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
 
+}
+
+impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
+    fn backend_type(&self, layout: TyAndLayout<'tcx>) -> Self::Type {
+        todo!()
+    }
+
+    fn cast_backend_type(&self, ty: &CastTarget) -> Self::Type {
+        todo!()
+    }
+
+    fn fn_decl_backend_type(&self, fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> Self::FunctionSignature {
+        todo!()
+    }
+
+    fn fn_ptr_backend_type(&self, fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> Self::Type {
+        todo!()
+    }
+
+    fn reg_backend_type(&self, ty: &Reg) -> Self::Type {
+        todo!()
+    }
+
+    fn immediate_backend_type(&self, layout: TyAndLayout<'tcx>) -> Self::Type {
+        // TODO adapt for i1
+        self.tpde_type(layout)
+    }
+
+    fn scalar_pair_element_backend_type(&self, layout: TyAndLayout<'tcx>, index: usize, immediate: bool) -> Self::Type {
+        todo!()
+    }
 }

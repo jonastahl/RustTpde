@@ -18,6 +18,7 @@ ModuleTpde {
             extern_link: false,
             only_local: false,
             weak_link: false,
+            allocas: [],
             basic_blocks: [
                 BasicBlock {
                     name: "start",
@@ -37,7 +38,7 @@ ModuleTpde {
                                 2,
                             ],
                             has_result: false,
-                            result: 67,
+                            result: 2,
                         },
                     ],
                     info1: 0,
@@ -63,6 +64,7 @@ ModuleTpde {
             extern_link: false,
             only_local: false,
             weak_link: false,
+            allocas: [],
             basic_blocks: [
                 BasicBlock {
                     name: "start",
@@ -82,7 +84,7 @@ ModuleTpde {
                                 2,
                             ],
                             has_result: false,
-                            result: 67,
+                            result: 2,
                         },
                     ],
                     info1: 0,
@@ -91,4 +93,5 @@ ModuleTpde {
             ],
         },
     ],
+    immediates: [],
 }
