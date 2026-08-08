@@ -5,25 +5,40 @@
 #include <deps/tpde/tpde-llvm/src/base.hpp>
 #include <tpde/IRAdaptor.hpp>
 #include <tpde/RegisterFile.hpp>
+#include <generator>
 
 namespace tpde_rust {
   // doing this with a lambda throws magical errors
   struct PointifyFunctor {
-    template <typename T>
-    auto operator()(T& item) const {
+    template<typename T>
+    auto operator()(T &item) const {
       return &item;
     }
   };
+
   constexpr auto view_pointify = std::views::transform(PointifyFunctor{});
 
   struct RustAdaptor {
-    using IRValueRef = uint32_t;
-    using IRInstRef = Instruction *;
-    using IRBlockRef = BasicBlock *;
+    using IRValueRef = size_t;
+    using IRBlockRef = uint32_t;
+
+    struct IRInstRef {
+      size_t inst;
+      IRBlockRef block;
+
+      [[nodiscard]] IRInstRef next() const {
+        return {.inst = inst + 1, .block = block};
+      }
+
+      [[nodiscard]] IRInstRef prev() const {
+        return {.inst = inst - 1, .block = block};
+      }
+    };
+
     using IRFuncRef = Function *;
 
     static constexpr IRValueRef INVALID_VALUE_REF = -1;
-    static constexpr IRBlockRef INVALID_BLOCK_REF = nullptr;
+    static constexpr IRBlockRef INVALID_BLOCK_REF = ~0u;
     static constexpr IRFuncRef INVALID_FUNC_REF = nullptr;
 
     static constexpr bool TPDE_PROVIDES_HIGHEST_VAL_IDX = true;
@@ -32,8 +47,20 @@ namespace tpde_rust {
     ModuleTpde *mod = nullptr;
     Function *cur_func = nullptr;
 
-    [[nodiscard]] Type type_of_value(const IRValueRef value) const {
-      return cur_func->slots[value].ty;
+    [[nodiscard]] Type type_of_ref(const IRValueRef value) const {
+      if (operands::is_val(value))
+        return cur_func->slots[operands::content(value)].ty;
+      if (operands::is_imm(value))
+        return mod->immediates[operands::content(value)].ty;
+      assert(false && "invalid value ref");
+    }
+
+    [[nodiscard]] BasicBlock &get_basic_block(const IRBlockRef block) const {
+      return cur_func->basic_blocks[block];
+    }
+
+    [[nodiscard]] Instruction &get_instruction(const IRInstRef inst) const {
+      return get_basic_block(inst.block).instructions[inst.inst];
     }
 
     struct ValInfo {
@@ -101,6 +128,7 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] static const auto &cur_static_allocas() {
+      // TODO
       return std::views::empty<IRValueRef>;
     }
 
@@ -110,22 +138,42 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] IRBlockRef cur_entry_block() const {
-      return &cur_func->basic_blocks.front();
+      return 0;
     }
 
     [[nodiscard]] auto cur_blocks() const {
-      return cur_func->basic_blocks
-             | view_pointify;
+      return std::ranges::views::iota(0ul, cur_func->basic_blocks.size());
     }
 
-    [[nodiscard]] static auto block_succs(const IRBlockRef bb) {
-      // TODO
-      return std::views::empty<IRBlockRef>;
+    [[nodiscard]] auto block_succs(IRBlockRef bb) const {
+      size_t offset, count;
+      const auto &br_instr = get_basic_block(bb).instructions.back();
+
+      switch (br_instr.kind) {
+        case InstructionKind::Ret:
+          offset = count = 0;
+          break;
+        case InstructionKind::Br:
+          offset = 0;
+          count = 1;
+          break;
+        case InstructionKind::CondBr:
+          offset = 1;
+          count = 2;
+          break;
+        default:
+          throw std::runtime_error("Invalid branching instruction");
+      }
+
+
+      return br_instr.ops
+             | std::ranges::views::drop(offset)
+             | std::ranges::views::take(count);
     }
 
-    [[nodiscard]] static auto block_insts(const IRBlockRef bb) {
-      return bb->instructions
-             | view_pointify;
+    [[nodiscard]] auto block_insts(const IRBlockRef bb) {
+      return std::ranges::views::iota(0u, static_cast<uint32_t>(get_basic_block(bb).instructions.size()))
+             | std::ranges::views::transform([bb](uint32_t idx) { return IRInstRef{.inst = idx, .block = bb}; });
     }
 
     [[nodiscard]] static auto block_phis(const IRBlockRef bb) {
@@ -133,34 +181,34 @@ namespace tpde_rust {
       return std::views::empty<IRValueRef>;
     }
 
-    [[nodiscard]] static u32 block_info(const IRBlockRef bb) {
-      return bb->info1;
+    [[nodiscard]] u32 block_info(const IRBlockRef bb) {
+      return get_basic_block(bb).info1;
     }
 
     void block_set_info(IRBlockRef bb, const u32 info) {
-      bb->info1 = info;
+      get_basic_block(bb).info1 = info;
     }
 
-    [[nodiscard]] static u32 block_info2(const IRBlockRef bb) {
-      return bb->info2;
+    [[nodiscard]] u32 block_info2(const IRBlockRef bb) {
+      return get_basic_block(bb).info2;
     }
 
     void block_set_info2(IRBlockRef bb, const u32 info) {
-      bb->info2 = info;
+      get_basic_block(bb).info2 = info;
     }
 
-    [[nodiscard]] std::string block_fmt_ref(const IRBlockRef block) const {
+    [[nodiscard]] std::string block_fmt_ref(IRBlockRef bb) {
       // TODO
-      return std::string(block->name);
+      return std::string(get_basic_block(bb).name);
     }
 
-    [[nodiscard]] tpde::ValLocalIdx val_local_idx(IRValueRef ir_value) const {
+    [[nodiscard]] static tpde::ValLocalIdx val_local_idx(IRValueRef ir_value) {
       return static_cast<tpde::ValLocalIdx>(ir_value);
     }
 
-    [[nodiscard]] bool val_ignore_in_liveness_analysis(const IRValueRef value) const {
+    [[nodiscard]] static bool val_ignore_in_liveness_analysis(const IRValueRef value) {
       // TODO
-      return cur_func->slots[value].ty == Type::Void;
+      return false;
     }
 
     [[nodiscard]] bool val_is_phi(const IRValueRef value) const {
@@ -170,7 +218,6 @@ namespace tpde_rust {
 
     [[nodiscard]] auto val_as_phi(const IRValueRef value) const {
       struct PHIRef {
-
         [[nodiscard]] u32 incoming_count() const {
           return 0;
         }
@@ -188,11 +235,11 @@ namespace tpde_rust {
         }
       };
 
-      return PHIRef {};
+      return PHIRef{};
     }
 
     [[nodiscard]] u32 val_alloca_size(IRValueRef val) const {
-      return size_of_type(type_of_value(val));
+      return size_of_type(type_of_ref(val));
     }
 
     [[nodiscard]] u32 val_alloca_align(IRValueRef val) const {
@@ -205,16 +252,33 @@ namespace tpde_rust {
       return "value";
     }
 
-    [[nodiscard]] auto inst_operands(const IRInstRef inst) const {
-      return inst->ops;
+    [[nodiscard]] auto inst_operands(IRInstRef inst) const {
+      return get_instruction(inst).ops
+             | std::views::filter([](auto op) {
+               return operands::is_val(op);
+             });
     }
 
-    [[nodiscard]] auto inst_results(const IRInstRef inst) const {
-      return std::views::single(inst->has_result ? inst->result : INVALID_VALUE_REF)
-        | std::views::take(inst->has_result ? 1 : 0);
+    [[nodiscard]] auto inst_results(const IRInstRef instref) const {
+      const auto &inst = get_instruction(instref);
+      return std::views::single(inst.has_result ? inst.result : INVALID_VALUE_REF)
+             | std::views::take(inst.has_result ? 1 : 0);
     }
 
     [[nodiscard]] bool inst_fused(const IRInstRef inst) const {
+      if (inst.inst > 0 && get_instruction(inst).kind == InstructionKind::CondBr) {
+        switch (get_instruction(inst.prev()).kind) {
+          case InstructionKind::CMPeq:
+          case InstructionKind::CMPne:
+          case InstructionKind::CMPge:
+          case InstructionKind::CMPle:
+          case InstructionKind::CMPgt:
+          case InstructionKind::CMPlt:
+            return true;
+          default:
+            return false;
+        }
+      }
       return false;
     }
 
@@ -222,13 +286,15 @@ namespace tpde_rust {
       return ValInfo{inst->has_result ? cur_func->slots[inst->result].ty : Type::Void};
     }
 
-    [[nodiscard]] std::string inst_fmt_ref(const IRInstRef inst) const {
+    [[nodiscard]] std::string inst_fmt_ref(IRInstRef inst) const {
       return "Instance";
     }
 
-    static void start_compile() {}
+    static void start_compile() {
+    }
 
-    static void end_compile() {}
+    static void end_compile() {
+    }
 
     [[nodiscard]] bool switch_func(IRFuncRef func) {
       cur_func = func;
@@ -268,7 +334,7 @@ namespace tpde_rust {
     };
 
     ValueParts val_parts(const IRValueRef value) {
-      return ValueParts{type_of_value(value)};
+      return ValueParts{type_of_ref(value)};
     }
 
     ValueParts val_parts(const ValInfo &info) const {

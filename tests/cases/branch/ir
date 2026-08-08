@@ -41,8 +41,8 @@ ModuleTpde {
                             kind: CondBr,
                             ops: [
                                 1,
-                                2,
-                                1,
+                                13835058055282163714,
+                                13835058055282163713,
                             ],
                             has_result: false,
                             result: 1,
@@ -59,7 +59,7 @@ ModuleTpde {
                             ops: [
                                 9223372036854775810,
                                 4611686018427387905,
-                                4,
+                                13835058055282163716,
                             ],
                             has_result: false,
                             result: 1,
@@ -67,7 +67,7 @@ ModuleTpde {
                         Instruction {
                             kind: Br,
                             ops: [
-                                3,
+                                13835058055282163715,
                             ],
                             has_result: false,
                             result: 1,
@@ -84,7 +84,7 @@ ModuleTpde {
                             ops: [
                                 9223372036854775811,
                                 4611686018427387905,
-                                4,
+                                13835058055282163716,
                             ],
                             has_result: false,
                             result: 1,
@@ -92,7 +92,7 @@ ModuleTpde {
                         Instruction {
                             kind: Br,
                             ops: [
-                                3,
+                                13835058055282163715,
                             ],
                             has_result: false,
                             result: 1,
@@ -107,8 +107,8 @@ ModuleTpde {
                         Instruction {
                             kind: Load,
                             ops: [
-                                4611686018427387905,
-                                4,
+                                13835058055282163713,
+                                13835058055282163716,
                             ],
                             has_result: true,
                             result: 2,

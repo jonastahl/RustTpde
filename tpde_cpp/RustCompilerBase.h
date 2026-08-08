@@ -59,7 +59,7 @@ namespace tpde_rust {
     void prologue_assign_arg(tpde::CCAssigner *cc_assigner,
                              u32 arg_idx,
                              IRValueRef arg) {
-      u32 align = size_of_type(Base::adaptor->type_of_value(arg));
+      u32 align = size_of_type(Base::adaptor->type_of_ref(arg));
       bool allow_split = true; // TODO
       Base::prologue_assign_arg(cc_assigner, arg_idx, arg, align, allow_split);
     }
@@ -147,15 +147,17 @@ namespace tpde_rust {
 
     bool compile(ModuleTpde &mod);
 
-    bool compile_inst(const Instruction *, InstRange);
+    bool compile_inst(RustAdaptor::IRInstRef, InstRange);
 
-    bool compile_unknown(const Instruction *, const ValInfo &, u64) {
-      return false;
+    bool compile_unknown(RustAdaptor::IRInstRef inst, const ValInfo &, u64) {
+      assert(false);
     }
 
-    bool compile_int_binary_op(const Instruction *, const ValInfo &, u64);
+    bool compile_int_binary_op(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
-    bool compile_ret(const Instruction *, const ValInfo &, u64);
+    bool compile_ret(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
+
 
     ValueRef val_ref_local(const size_t local_idx) {
       return this->val_ref(this->adaptor->val_ref_of_slot(local_idx));
@@ -197,12 +199,12 @@ namespace tpde_rust {
   }
 
   template<typename Adaptor, typename Derived, typename Config>
-  bool RustCompilerBase<Adaptor, Derived, Config>::compile_inst(const Instruction *i, InstRange) {
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_inst(RustAdaptor::IRInstRef instr, InstRange) {
     TPDE_LOG_TRACE("Compiling inst {}", this->adaptor->inst_fmt_ref(i));
     static constexpr auto fns = []() constexpr {
       using CompileFn =
-          bool (Derived::*)(const Instruction *, const ValInfo &, u64);
-      std::array<std::pair<CompileFn, u64>, 20> res{};
+          bool (Derived::*)(RustAdaptor::IRInstRef, const ValInfo &, u64);
+      std::array<std::pair<CompileFn, u64>, static_cast<size_t>(InstructionKind::Last)> res{};
       res.fill({&Derived::compile_unknown, 0});
 
       auto set_fn = [&](InstructionKind kind, CompileFn fn, u64 val = 0) {
@@ -216,21 +218,34 @@ namespace tpde_rust {
 
       set_fn(InstructionKind::Ret, &Derived::compile_ret);
 
+      set_fn(InstructionKind::CMPeq, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPne, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPlt, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPle, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPgt, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPge, &Derived::compile_cmp);
+
+      set_fn(InstructionKind::CondBr, &Derived::compile_unknown);
+      set_fn(InstructionKind::Br, &Derived::compile_unknown);
+
       return res;
     }();
 
+    Instruction* i = &this->adaptor->get_instruction(instr);
     const ValInfo val_info = this->adaptor->val_info(i);
     assert(static_cast<size_t>(i->kind) < fns.size());
     const auto [compile_fn, arg] = fns[static_cast<std::size_t>(i->kind)];
-    return (Base::derived()->*compile_fn)(i, val_info, arg);
+    return (Base::derived()->*compile_fn)(instr, val_info, arg);
   }
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_ret(
-    const Instruction *inst, const ValInfo &info, u64 op_val) {
+    RustAdaptor::IRInstRef instr_ref, const ValInfo &info, u64 op_val) {
+    Instruction* instr = &this->adaptor->get_instruction(instr_ref);
+
     typename Base::RetBuilder rb{*this->derived(), *this->derived()->cur_cc_assigner()};
-    if (!inst->ops.empty()) {
-      IRValueRef retval = this->adaptor->val_ref_of_slot(inst->ops[0]);
+    if (!instr->ops.empty()) {
+      IRValueRef retval = this->adaptor->val_ref_of_slot(instr->ops[0]);
       rb.add(retval);
     }
     rb.ret();
@@ -239,7 +254,9 @@ namespace tpde_rust {
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_binary_op(
-    const Instruction *inst, const ValInfo &info, u64 op_val) {
+    RustAdaptor::IRInstRef instr_ref, const ValInfo &info, u64 op_val) {
+    Instruction* instr = &this->adaptor->get_instruction(instr_ref);
+
     IntBinaryOp op = typename IntBinaryOp::Value(op_val);
     auto parts = this->adaptor->val_parts(info);
 
@@ -321,10 +338,10 @@ namespace tpde_rust {
       return {fns[op.index()][ty_idx], ty_idx < 3};
     };
 
-    IRValueRef ir_res = this->adaptor->val_ref_of_slot(inst->result);
+    IRValueRef ir_res = this->adaptor->val_ref_of_slot(instr->result);
 
-    unsigned int_width = size_of_type(Base::adaptor->type_of_value(ir_res));
-    const auto& operands = inst->ops;
+    unsigned int_width = size_of_type(Base::adaptor->type_of_ref(ir_res));
+    const auto& operands = instr->ops;
     ValueRef lhs = this->val_ref_local(operands[0]);
     ValueRef rhs = this->val_ref_local(operands[1]);
     ValueRef res = this->result_ref(ir_res);

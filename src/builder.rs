@@ -4,11 +4,11 @@ mod intrinsic;
 use crate::context::CodegenCx;
 use crate::shared::ir::{BasicBlock, Function, InstructionKind, Slot, Type};
 use rustc_ast::expand::typetree::FncTree;
+use rustc_codegen_ssa::MemFlags;
 use rustc_codegen_ssa::common::{AtomicRmwBinOp, IntPredicate, RealPredicate, SynchronizationScope};
 use rustc_codegen_ssa::mir::operand::{OperandRef, OperandValue};
 use rustc_codegen_ssa::mir::place::PlaceRef;
 use rustc_codegen_ssa::traits::{BackendTypes, BuilderMethods, OverflowOp};
-use rustc_codegen_ssa::MemFlags;
 use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrs;
 use rustc_middle::ty::layout::TyAndLayout;
 use rustc_middle::ty::{AtomicOrdering, Instance, Ty};
@@ -286,11 +286,10 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn load_operand(&mut self, place: PlaceRef<'tcx, Self::Value>) -> OperandRef<'tcx, Self::Value> {
-
         let slot = self.tpde_module.borrow_mut().add_instruction_raw(
             self.basic_block,
             InstructionKind::Load,
-            vec![place.val.llval.to_ffi(), place.val.align.bytes_usize()],
+            vec![Slot::new_raw(place.val.llval.to_ffi()), Slot::new_raw(place.val.align.bytes_usize())],
             Some(self.cx.tpde_type(place.layout))
         );
 
@@ -314,7 +313,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn store_with_flags(&mut self, val: Self::Value, ptr: Self::Value, align: rustc_abi::Align, flags: MemFlags) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_raw(self.basic_block, InstructionKind::Store, vec![val.to_ffi(), ptr.to_ffi(), align.bytes_usize()], None);
+        self.tpde_module.borrow_mut().add_instruction_raw(self.basic_block, InstructionKind::Store, vec![val, ptr, Slot::new_raw(align.bytes_usize())], None);
         val
     }
 
@@ -404,7 +403,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
             IntPredicate::IntSLE => InstructionKind::CMPle,
         };
 
-        self.tpde_module.borrow_mut().add_instruction_raw(self.basic_block, instr, vec![lhs.to_ffi(), rhs.to_ffi()], Some(Type::Bool))
+        self.tpde_module.borrow_mut().add_instruction_raw(self.basic_block, instr, vec![lhs, rhs], Some(Type::Bool))
     }
 
     fn fcmp(&mut self, op: RealPredicate, lhs: Self::Value, rhs: Self::Value) -> Self::Value {

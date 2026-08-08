@@ -86,7 +86,9 @@ mod ffi {
         // Branching operations
         Ret,
         Br,
-        CondBr
+        CondBr,
+
+        Last
     }
 
     #[derive(Debug)]

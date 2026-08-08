@@ -16,7 +16,8 @@ pub struct BasicBlock {
 pub enum Slot {
     Value(usize),
     Ptr(usize),
-    Immediate(usize)
+    Immediate(usize),
+    Raw(usize)
 }
 
 enum SlotKind {
@@ -136,15 +137,15 @@ impl ModuleTpde {
         // create new slot with type of first arg
         let ret = func.slots.get(op.to_ffi()).unwrap().ty;
 
-        self.add_instruction_raw(bb, instr, ops.iter().map(|s| s.to_ffi()).collect(), Some(ret))
+        self.add_instruction_raw(bb, instr, ops, Some(ret))
     }
 
     pub fn add_instruction(&mut self, bb: BasicBlock, instr: InstructionKind, ops: Vec<Slot>) {
-        self.add_instruction_raw(bb, instr, ops.iter().map(|s| s.to_ffi()).collect(), None);
+        self.add_instruction_raw(bb, instr, ops, None);
     }
 
     #[inline]
-    pub fn add_instruction_raw(&mut self, bb: BasicBlock, instr: InstructionKind, ops: Vec<usize>, ret: Option<Type>) -> Slot {
+    pub fn add_instruction_raw(&mut self, bb: BasicBlock, instr: InstructionKind, ops: Vec<Slot>, ret: Option<Type>) -> Slot {
         let func = self.get_function_mut(&bb.function());
 
         if let Some(ty) = ret {
@@ -156,7 +157,7 @@ impl ModuleTpde {
 
         basic_block.instructions.push(ffi::Instruction {
             kind: instr,
-            ops,
+            ops: ops.iter().map(|s| s.to_ffi()).collect(),
             has_result: ret.is_some(),
             result
         });
@@ -180,7 +181,7 @@ impl ModuleTpde {
         self.add_instruction_raw(
             bb,
             InstructionKind::Br,
-            vec![to.index],
+            vec![Slot::new_raw(to.index)],
             None
         );
     }
@@ -189,7 +190,7 @@ impl ModuleTpde {
         self.add_instruction_raw(
             bb,
             InstructionKind::CondBr,
-            vec![cond.to_ffi(), thenbb.index, elsebb.index],
+            vec![cond, Slot::new_raw(thenbb.index), Slot::new_raw(elsebb.index)],
             None
         );
     }
@@ -208,15 +209,18 @@ impl Slot {
         Slot::Immediate(index)
     }
 
-    pub fn to_ffi(&self) -> usize {
-        const MARKER_IMM: usize = 1_usize << (usize::BITS - 1);
-        const MARKER_PTR: usize = 1_usize << (usize::BITS - 2);
+    pub fn new_raw(u: usize) -> Slot { Slot::Raw(u) }
 
-        // TODO mark?
+    pub fn to_ffi(&self) -> usize {
+        pub const MARKER_IMM: usize = 1_usize << (usize::BITS - 1);
+        pub const MARKER_PTR: usize = 1_usize << (usize::BITS - 2);
+        pub const MARKER_RAW: usize = MARKER_IMM | MARKER_PTR;
+
         match self {
             Slot::Value(v) => *v,
             Slot::Immediate(i) => *i | MARKER_IMM,
-            Slot::Ptr(p) => *p | MARKER_PTR
+            Slot::Ptr(p) => *p | MARKER_PTR,
+            Slot::Raw(r) => *r | MARKER_RAW
         }
     }
 }
