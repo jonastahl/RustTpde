@@ -5,45 +5,19 @@ ModuleTpde {
             n_args: 2,
             has_ret: true,
             slots: [
-                Slot {
-                    ty: i32,
-                },
-                Slot {
-                    ty: i32,
-                },
-                Slot {
-                    ty: i32,
-                },
+                i32,
+                i32,
+                i32,
             ],
             extern_link: false,
             only_local: false,
             weak_link: false,
             allocas: [],
             basic_blocks: [
-                BasicBlock {
-                    name: "start",
-                    instructions: [
-                        Instruction {
-                            kind: Add,
-                            ops: [
-                                0,
-                                1,
-                            ],
-                            has_result: true,
-                            result: 2,
-                        },
-                        Instruction {
-                            kind: Ret,
-                            ops: [
-                                2,
-                            ],
-                            has_result: false,
-                            result: 2,
-                        },
-                    ],
-                    info1: 0,
-                    info2: 0,
-                },
+                "start": [
+                    <Add> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
             ],
         },
         Function {
@@ -51,45 +25,19 @@ ModuleTpde {
             n_args: 2,
             has_ret: true,
             slots: [
-                Slot {
-                    ty: i32,
-                },
-                Slot {
-                    ty: i32,
-                },
-                Slot {
-                    ty: i32,
-                },
+                i32,
+                i32,
+                i32,
             ],
             extern_link: false,
             only_local: false,
             weak_link: false,
             allocas: [],
             basic_blocks: [
-                BasicBlock {
-                    name: "start",
-                    instructions: [
-                        Instruction {
-                            kind: Sub,
-                            ops: [
-                                0,
-                                1,
-                            ],
-                            has_result: true,
-                            result: 2,
-                        },
-                        Instruction {
-                            kind: Ret,
-                            ops: [
-                                2,
-                            ],
-                            has_result: false,
-                            result: 2,
-                        },
-                    ],
-                    info1: 0,
-                    info2: 0,
-                },
+                "start": [
+                    <Sub> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
             ],
         },
     ],

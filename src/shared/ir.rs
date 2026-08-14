@@ -1,3 +1,4 @@
+use core::fmt::{Debug, Formatter};
 use crate::context::CodegenCx;
 use rustc_hir::attrs::Linkage;
 use rustc_middle::ty::Ty;
@@ -12,7 +13,7 @@ pub struct BasicBlock {
     function: Function,
     index: usize,
 }
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq)]
 pub enum Slot {
     Value(usize),
     Ptr(usize),
@@ -174,7 +175,7 @@ impl ModuleTpde {
 
     pub fn add_immediate(&mut self, ty: Type, data: u128) -> Slot {
         self.immediates.push(ffi::Value::new(ty, data));
-        Slot::new_imm(self.immediates.len())
+        Slot::new_imm(self.immediates.len() - 1)
     }
 
     pub fn add_br(&mut self, bb: BasicBlock, to: BasicBlock) {
@@ -211,16 +212,41 @@ impl Slot {
 
     pub fn new_raw(u: usize) -> Slot { Slot::Raw(u) }
 
-    pub fn to_ffi(&self) -> usize {
-        pub const MARKER_IMM: usize = 1_usize << (usize::BITS - 1);
-        pub const MARKER_PTR: usize = 1_usize << (usize::BITS - 2);
-        pub const MARKER_RAW: usize = MARKER_IMM | MARKER_PTR;
+    pub const MARKER_IMM: usize = 1_usize << (usize::BITS - 1);
+    pub const MARKER_PTR: usize = 1_usize << (usize::BITS - 2);
+    pub const MARKER_RAW: usize = Self::MARKER_IMM | Self::MARKER_PTR;
 
+    pub fn to_ffi(&self) -> usize {
         match self {
             Slot::Value(v) => *v,
-            Slot::Immediate(i) => *i | MARKER_IMM,
-            Slot::Ptr(p) => *p | MARKER_PTR,
-            Slot::Raw(r) => *r | MARKER_RAW
+            Slot::Immediate(i) => *i | Self::MARKER_IMM,
+            Slot::Ptr(p) => *p | Self::MARKER_PTR,
+            Slot::Raw(r) => *r | Self::MARKER_RAW
+        }
+    }
+
+    pub fn from_ffi(ffi: usize) -> Slot {
+        if ffi & Self::MARKER_RAW != 0 {
+            if ffi & Self::MARKER_PTR == 0 {
+                return Slot::Immediate(ffi & !Self::MARKER_IMM);
+            }
+            if ffi & Self::MARKER_IMM == 0 {
+                return Slot::Ptr(ffi & !Self::MARKER_PTR);
+            }
+
+            return Slot::Raw(ffi & !Self::MARKER_RAW);
+        }
+        Slot::Value(ffi)
+    }
+}
+
+impl Debug for Slot {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        match self {
+            Slot::Value(v) => write!(f, "[val: {}]", v),
+            Slot::Ptr(v) => write!(f, "[ptr: {}]", v),
+            Slot::Immediate(v) => write!(f, "[imm: {}]", v),
+            Slot::Raw(v) => write!(f, "[raw: {}]", v),
         }
     }
 }

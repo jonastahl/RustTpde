@@ -1,3 +1,6 @@
+use crate::shared::ffi::Type;
+use crate::shared::ir::Slot;
+use core::fmt::{Debug, Formatter};
 #[allow(unused_imports)]
 pub use ffi::compile_to_file;
 
@@ -8,11 +11,11 @@ mod ffi {
     #[derive(Debug)]
     pub struct ModuleTpde {
         functions: Vec<Function>,
-        immediates: Vec<Value>
+        immediates: Vec<Value>,
     }
 
     enum Linkage {
-        External
+        External,
     }
 
     #[derive(Debug)]
@@ -30,12 +33,10 @@ mod ffi {
         basic_blocks: Vec<BasicBlock>,
     }
 
-    #[derive(Debug)]
     pub struct BasicBlock {
         name: String,
         instructions: Vec<Instruction>,
         // TODO add phis and similar
-
         info1: u32,
         info2: u32,
     }
@@ -46,9 +47,9 @@ mod ffi {
         pub fn compile_to_file(module: &mut ModuleTpde, path: &str) -> u32;
     }
 
-    #[derive(Debug, Copy, Clone)]
+    #[derive(Copy, Clone)]
     pub struct Slot {
-        ty: Type
+        ty: Type,
     }
 
     #[derive(Debug, Copy, Clone)]
@@ -88,10 +89,9 @@ mod ffi {
         Br,
         CondBr,
 
-        Last
+        Last,
     }
 
-    #[derive(Debug)]
     pub struct Instruction {
         kind: InstructionKind,
         ops: Vec<usize>,
@@ -99,16 +99,73 @@ mod ffi {
         result: usize,
     }
 
-    #[derive(Debug)]
     pub struct Alloca {
         size: usize,
-        align: usize
+        align: usize,
     }
 
-    #[derive(Debug)]
     pub struct Value {
         ty: Type,
         data1: u64,
-        data2: u64
+        data2: u64,
+    }
+}
+
+impl Debug for ffi::BasicBlock {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{:?}: ", self.name)?;
+        f.debug_list()
+            .entries(&self.instructions)
+            .finish()
+    }
+}
+
+impl Debug for ffi::Instruction {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        write!(f, "<{:?}> (", self.kind)?;
+        let mut first = true;
+        for &op in &self.ops {
+            if !first {
+                write!(f, ", ")?;
+            }
+            first = false;
+            write!(f, "{:?}", Slot::from_ffi(op))?;
+        }
+        write!(f, ")")?;
+
+        if self.has_result {
+            write!(f, " -> {:?}", Slot::from_ffi(self.result))?;
+        }
+
+        Ok(())
+    }
+}
+
+impl Debug for ffi::Value {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        let val = match self.ty {
+            Type::i8 => format!("{}", self.data1 as i8),
+            Type::i16 => format!("{}", self.data1 as i16),
+            Type::i32 => format!("{}", self.data1 as i32),
+            Type::i64 => format!("{}", self.data1 as i64),
+            _ => todo!(),
+        };
+        write!(
+            f,
+            "[{:#?}] ({} {}) -> {}",
+            self.ty, self.data1, self.data2, val
+        )
+    }
+}
+
+impl Debug for ffi::Slot {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{:?}", self.ty)
+    }
+}
+
+impl Debug for ffi::Alloca {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        write!(f, "size: {:?}, align: {:?}", self.size, self.align)
     }
 }
