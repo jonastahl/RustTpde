@@ -19,7 +19,7 @@ namespace tpde_rust {
   constexpr auto view_pointify = std::views::transform(PointifyFunctor{});
 
   struct RustAdaptor {
-    using IRValueRef = size_t;
+    using IRValueRef = uint32_t;
     using IRBlockRef = uint32_t;
 
     struct IRInstRef {
@@ -127,9 +127,9 @@ namespace tpde_rust {
       return false;
     }
 
-    [[nodiscard]] static const auto &cur_static_allocas() {
-      // TODO
-      return std::views::empty<IRValueRef>;
+    [[nodiscard]] auto cur_static_allocas() const {
+      return std::ranges::views::iota(static_cast<IRValueRef>(0), cur_func->allocas.size())
+        | std::views::transform([](const IRValueRef idx) { return operands::MARKER_PTR | idx; });
     }
 
     [[nodiscard]] static auto cur_has_dynamic_alloca() {
@@ -168,7 +168,8 @@ namespace tpde_rust {
 
       return br_instr.ops
              | std::ranges::views::drop(offset)
-             | std::ranges::views::take(count);
+             | std::ranges::views::take(count)
+             | std::ranges::views::transform([](uint32_t op) { return operands::content(op); });
     }
 
     [[nodiscard]] auto block_insts(const IRBlockRef bb) {
@@ -202,8 +203,12 @@ namespace tpde_rust {
       return std::string(get_basic_block(bb).name);
     }
 
-    [[nodiscard]] static tpde::ValLocalIdx val_local_idx(IRValueRef ir_value) {
-      return static_cast<tpde::ValLocalIdx>(ir_value);
+    [[nodiscard]] tpde::ValLocalIdx val_local_idx(IRValueRef ir_value) {
+      if (operands::is_ptr(ir_value))
+        return static_cast<tpde::ValLocalIdx>(operands::content(ir_value));
+      if (operands::is_val(ir_value))
+        return static_cast<tpde::ValLocalIdx>(operands::content(ir_value) + cur_func->allocas.size());
+      assert(false);
     }
 
     [[nodiscard]] static bool val_ignore_in_liveness_analysis(const IRValueRef value) {
@@ -239,11 +244,18 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] u32 val_alloca_size(IRValueRef val) const {
+      // TODO
+      if (operands::is_ptr(val)) {
+        return cur_func->allocas[operands::content(val)].size;
+      }
       return size_of_type(type_of_ref(val));
     }
 
     [[nodiscard]] u32 val_alloca_align(IRValueRef val) const {
       // TODO
+      if (operands::is_ptr(val)) {
+        return cur_func->allocas[operands::content(val)].align;
+      }
       return val_alloca_size(val);
     }
 

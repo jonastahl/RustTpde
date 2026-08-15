@@ -150,6 +150,7 @@ namespace tpde_rust {
     bool compile_inst(RustAdaptor::IRInstRef, InstRange);
 
     bool compile_unknown(RustAdaptor::IRInstRef inst, const ValInfo &, u64) {
+      auto instr = this->adaptor->get_instruction(inst);
       assert(false);
     }
 

@@ -29,7 +29,7 @@ ModuleTpde {
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([raw: 1], [raw: 4]) -> [val: 2],
+                    <Load> ([ptr: 1], [raw: 4]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],

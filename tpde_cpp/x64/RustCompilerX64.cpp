@@ -131,7 +131,7 @@ namespace tpde_rust::x64 {
             // TODO add for all the unsigned things
           default: TPDE_UNREACHABLE("invalid icmp predicate");
         }
-        generate_cond_branch(jump, jmpi.ops[1], jmpi.ops[2]);
+        generate_cond_branch(jump, operands::content(jmpi.ops[1]), operands::content(jmpi.ops[2]));
 
         return true;
       }

@@ -289,7 +289,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         let slot = self.tpde_module.borrow_mut().add_instruction_raw(
             self.basic_block,
             InstructionKind::Load,
-            vec![Slot::new_raw(place.val.llval.to_ffi()), Slot::new_raw(place.val.align.bytes_usize())],
+            vec![place.val.llval, Slot::new_raw(place.val.align.bytes_usize() as u32)],
             Some(self.cx.tpde_type(place.layout))
         );
 
@@ -313,7 +313,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn store_with_flags(&mut self, val: Self::Value, ptr: Self::Value, align: rustc_abi::Align, flags: MemFlags) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_raw(self.basic_block, InstructionKind::Store, vec![val, ptr, Slot::new_raw(align.bytes_usize())], None);
+        self.tpde_module.borrow_mut().add_instruction_raw(
+            self.basic_block,
+            InstructionKind::Store,
+            vec![val, ptr, Slot::new_raw(align.bytes_usize() as u32)],
+            None);
         val
     }
 

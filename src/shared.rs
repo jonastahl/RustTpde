@@ -94,9 +94,9 @@ mod ffi {
 
     pub struct Instruction {
         kind: InstructionKind,
-        ops: Vec<usize>,
+        ops: Vec<u32>,
         has_result: bool,
-        result: usize,
+        result: u32,
     }
 
     pub struct Alloca {

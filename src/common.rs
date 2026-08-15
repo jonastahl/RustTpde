@@ -93,7 +93,7 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     fn const_to_opt_u128(&self, v: Self::Value, sign_ext: bool) -> Option<u128> {
         match v {
             Slot::Immediate(i) =>
-                Some(self.tpde_module.borrow().immediates.get(i).unwrap().data()),
+                Some(self.tpde_module.borrow().immediates.get(i as usize).unwrap().data()),
             _ => None
         }
     }

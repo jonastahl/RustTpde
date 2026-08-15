@@ -13,16 +13,13 @@ pub struct BasicBlock {
     function: Function,
     index: usize,
 }
+
 #[derive(Copy, Clone, PartialEq)]
 pub enum Slot {
-    Value(usize),
-    Ptr(usize),
-    Immediate(usize),
-    Raw(usize)
-}
-
-enum SlotKind {
-
+    Value(u32),
+    Ptr(u32),
+    Immediate(u32),
+    Raw(u32)
 }
 
 pub use super::ffi::Type;
@@ -85,7 +82,7 @@ impl ModuleTpde {
         Function(self.functions.len() - 1)
     }
 
-    pub fn get_slot(&self, index: usize) -> Slot {
+    pub fn get_slot(&self, index: u32) -> Slot {
         Slot::new_val(index)
     }
 
@@ -136,9 +133,12 @@ impl ModuleTpde {
         let op = ops.get(0).unwrap();
 
         // create new slot with type of first arg
-        let ret = func.slots.get(op.to_ffi()).unwrap().ty;
-
-        self.add_instruction_raw(bb, instr, ops, Some(ret))
+        if let &Slot::Value(v) = op {
+            let ret = func.slots.get(v as usize).unwrap().ty;
+            self.add_instruction_raw(bb, instr, ops, Some(ret))
+        } else {
+            panic!("First operand of return instruction must be a value slot");
+        }
     }
 
     pub fn add_instruction(&mut self, bb: BasicBlock, instr: InstructionKind, ops: Vec<Slot>) {
@@ -152,7 +152,7 @@ impl ModuleTpde {
         if let Some(ty) = ret {
             func.slots.push(ffi::Slot { ty });
         }
-        let result = func.slots.len() - 1;
+        let result = (func.slots.len() - 1) as u32;
 
         let basic_block = ModuleTpde::get_basic_block_mut_helper(func, bb);
 
@@ -163,26 +163,26 @@ impl ModuleTpde {
             result
         });
 
-        Slot::new_val(result)
+        Slot::new_val(result as u32)
     }
 
     pub fn add_alloca(&mut self, func: Function, size: usize, align: usize) -> Slot {
         let func = self.get_function_mut(&func);
 
         func.allocas.push(ffi::Alloca{size, align});
-        Slot::new_ptr(func.allocas.len())
+        Slot::new_ptr(func.allocas.len() as u32)
     }
 
     pub fn add_immediate(&mut self, ty: Type, data: u128) -> Slot {
         self.immediates.push(ffi::Value::new(ty, data));
-        Slot::new_imm(self.immediates.len() - 1)
+        Slot::new_imm((self.immediates.len() - 1) as u32)
     }
 
     pub fn add_br(&mut self, bb: BasicBlock, to: BasicBlock) {
         self.add_instruction_raw(
             bb,
             InstructionKind::Br,
-            vec![Slot::new_raw(to.index)],
+            vec![Slot::new_raw(to.index as u32)],
             None
         );
     }
@@ -191,32 +191,32 @@ impl ModuleTpde {
         self.add_instruction_raw(
             bb,
             InstructionKind::CondBr,
-            vec![cond, Slot::new_raw(thenbb.index), Slot::new_raw(elsebb.index)],
+            vec![cond, Slot::new_raw(thenbb.index as u32), Slot::new_raw(elsebb.index as u32)],
             None
         );
     }
 }
 
 impl Slot {
-    fn new_val(index: usize) -> Slot {
+    fn new_val(index: u32) -> Slot {
         Slot::Value(index)
     }
 
-    fn new_ptr(index: usize) -> Slot {
+    fn new_ptr(index: u32) -> Slot {
         Slot::Ptr(index)
     }
 
-    fn new_imm(index: usize) -> Slot {
+    fn new_imm(index: u32) -> Slot {
         Slot::Immediate(index)
     }
 
-    pub fn new_raw(u: usize) -> Slot { Slot::Raw(u) }
+    pub fn new_raw(u: u32) -> Slot { Slot::Raw(u) }
 
-    pub const MARKER_IMM: usize = 1_usize << (usize::BITS - 1);
-    pub const MARKER_PTR: usize = 1_usize << (usize::BITS - 2);
-    pub const MARKER_RAW: usize = Self::MARKER_IMM | Self::MARKER_PTR;
+    pub const MARKER_IMM: u32 = 1_u32 << (u32::BITS - 1);
+    pub const MARKER_PTR: u32 = 1_u32 << (u32::BITS - 2);
+    pub const MARKER_RAW: u32 = Self::MARKER_IMM | Self::MARKER_PTR;
 
-    pub fn to_ffi(&self) -> usize {
+    pub fn to_ffi(&self) -> u32 {
         match self {
             Slot::Value(v) => *v,
             Slot::Immediate(i) => *i | Self::MARKER_IMM,
@@ -225,7 +225,7 @@ impl Slot {
         }
     }
 
-    pub fn from_ffi(ffi: usize) -> Slot {
+    pub fn from_ffi(ffi: u32) -> Slot {
         if ffi & Self::MARKER_RAW != 0 {
             if ffi & Self::MARKER_PTR == 0 {
                 return Slot::Immediate(ffi & !Self::MARKER_IMM);
