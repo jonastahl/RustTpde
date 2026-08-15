@@ -20,18 +20,18 @@ namespace operands {
   }
 
   inline bool is_imm(uint32_t op) {
-    return op & MARKER_IMM;
+    return (op & MARKER_RAW) == MARKER_IMM;
   }
 
   inline bool is_ptr(uint32_t op) {
-    return op & MARKER_PTR;
+    return (op & MARKER_RAW) == MARKER_PTR;
   }
 
   inline bool is_raw(uint32_t op) {
     return (op & MARKER_RAW) == MARKER_RAW;
   }
 
-  inline size_t content(size_t op) {
+  inline uint32_t content(size_t op) {
     return op & ERASE;
   }
 }

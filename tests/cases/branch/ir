@@ -21,15 +21,15 @@ ModuleTpde {
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 1], [ptr: 1], [raw: 4]),
+                    <Store> ([imm: 1], [ptr: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 2], [ptr: 1], [raw: 4]),
+                    <Store> ([imm: 2], [ptr: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 1], [raw: 4]) -> [val: 2],
+                    <Load> ([ptr: 0], [raw: 4]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],

@@ -24,7 +24,10 @@ namespace tpde_rust {
     using AsmReg = Base::AsmReg;
 
     using ValInfo = Adaptor::ValInfo;
-    using ValRefSpecial = Base::ValRefSpecial;
+    struct ValRefSpecial {
+      uint8_t mode = 4;
+      IRValueRef const_data;
+    };
 
     tpde::util::BumpAllocator<> const_allocator;
 
@@ -46,14 +49,30 @@ namespace tpde_rust {
     }
 
     std::optional<ValRefSpecial> val_ref_special(IRValueRef value) {
-      return std::nullopt;
+      if (operands::is_imm(value)) {
+        return ValRefSpecial { .const_data = operands::content(value) };
+      }
 
-      // TODO we don't support constants or globals so far
+      return std::nullopt;
     }
 
     ValuePart val_part_ref_special(ValRefSpecial &vrs, u32 part) {
-      // TODO we don't support constants or globals so far
-      throw std::runtime_error("not implemented");
+      Value& imm = this->adaptor->mod->immediates[vrs.const_data];
+
+      switch (imm.ty) {
+        case Type::Bool:
+        case Type::i8:
+          return ValuePart(imm.data2, 1, tpde::RegBank{0});
+        case Type::i16:
+          return ValuePart(imm.data2, 2, tpde::RegBank{0});
+        case Type::i32:
+          return ValuePart(imm.data2, 4, tpde::RegBank{0});
+        case Type::i64:
+          return ValuePart(imm.data2, 8, tpde::RegBank{0});
+
+        default:
+          throw std::runtime_error("not implemented");
+      }
     }
 
     void prologue_assign_arg(tpde::CCAssigner *cc_assigner,
@@ -158,7 +177,15 @@ namespace tpde_rust {
 
     bool compile_ret(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
+    bool compile_br(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
+    bool compile_store(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
+    bool compile_store_generic(Instruction&, GenericValuePart &&);
+
+    bool compile_load(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
+    bool compile_load_generic(Instruction&, GenericValuePart &&);
 
     ValueRef val_ref_local(const size_t local_idx) {
       return this->val_ref(this->adaptor->val_ref_of_slot(local_idx));
@@ -226,13 +253,16 @@ namespace tpde_rust {
       set_fn(InstructionKind::CMPgt, &Derived::compile_cmp);
       set_fn(InstructionKind::CMPge, &Derived::compile_cmp);
 
+      set_fn(InstructionKind::Store, &Derived::compile_store);
+      set_fn(InstructionKind::Load, &Derived::compile_load);
+
       set_fn(InstructionKind::CondBr, &Derived::compile_unknown);
-      set_fn(InstructionKind::Br, &Derived::compile_unknown);
+      set_fn(InstructionKind::Br, &Derived::compile_br);
 
       return res;
     }();
 
-    Instruction* i = &this->adaptor->get_instruction(instr);
+    Instruction *i = &this->adaptor->get_instruction(instr);
     const ValInfo val_info = this->adaptor->val_info(i);
     assert(static_cast<size_t>(i->kind) < fns.size());
     const auto [compile_fn, arg] = fns[static_cast<std::size_t>(i->kind)];
@@ -242,7 +272,7 @@ namespace tpde_rust {
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_ret(
     RustAdaptor::IRInstRef instr_ref, const ValInfo &info, u64 op_val) {
-    Instruction* instr = &this->adaptor->get_instruction(instr_ref);
+    Instruction *instr = &this->adaptor->get_instruction(instr_ref);
 
     typename Base::RetBuilder rb{*this->derived(), *this->derived()->cur_cc_assigner()};
     if (!instr->ops.empty()) {
@@ -256,7 +286,7 @@ namespace tpde_rust {
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_binary_op(
     RustAdaptor::IRInstRef instr_ref, const ValInfo &info, u64 op_val) {
-    Instruction* instr = &this->adaptor->get_instruction(instr_ref);
+    Instruction *instr = &this->adaptor->get_instruction(instr_ref);
 
     IntBinaryOp op = typename IntBinaryOp::Value(op_val);
     auto parts = this->adaptor->val_parts(info);
@@ -342,16 +372,16 @@ namespace tpde_rust {
     IRValueRef ir_res = this->adaptor->val_ref_of_slot(instr->result);
 
     unsigned int_width = size_of_type(Base::adaptor->type_of_ref(ir_res));
-    const auto& operands = instr->ops;
+    const auto &operands = instr->ops;
     ValueRef lhs = this->val_ref_local(operands[0]);
     ValueRef rhs = this->val_ref_local(operands[1]);
     ValueRef res = this->result_ref(ir_res);
 
     auto handle_part = [this, int_width, op](EncodeFnTy encode_fn,
-                                         bool is_scalar,
-                                         ValuePartRef &&lhs_op,
-                                         ValuePartRef &&rhs_op,
-                                         ValuePartRef &res_op) {
+                                             bool is_scalar,
+                                             ValuePartRef &&lhs_op,
+                                             ValuePartRef &&rhs_op,
+                                             ValuePartRef &res_op) {
       if (is_scalar) {
         if (op.is_symmetric() && lhs_op.is_const() && !rhs_op.is_const()) {
           // TODO(ts): this is a hack since the encoder can currently not do
@@ -417,6 +447,126 @@ namespace tpde_rust {
       //   this->derived()->insert_element(res, elem_idx, elem_ty, std::move(e_res));
       // }
     }
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_store(
+    RustAdaptor::IRInstRef inst, const ValInfo &, u64) {
+    Instruction &storei = this->adaptor->get_instruction(inst);
+
+    auto [_, ptr_ref] = this->val_ref_single(storei.ops[1]);
+    if (ptr_ref.has_assignment() && ptr_ref.assignment().is_stack_variable()) {
+      GenericValuePart addr =
+          this->derived()->create_addr_for_alloca(ptr_ref.assignment());
+
+      return compile_store_generic(storei, std::move(addr));
+    }
+    return compile_store_generic(storei, std::move(ptr_ref));
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_store_generic(
+    Instruction& storei, GenericValuePart &&ptr_op) {
+
+    const auto op_val = storei.ops[0];
+    auto op_ref = this->val_ref(op_val);
+
+    Type ty = this->adaptor->type_of_ref(op_val);
+
+    using EncodeFnTy =
+      bool (Derived::*)(GenericValuePart &&, GenericValuePart &&);
+    static constexpr auto int_fns = []() consteval {
+      std::array<EncodeFnTy, 8> res{};
+      res[0] = &Derived::encode_storei8;
+      res[1] = &Derived::encode_storei16;
+      res[2] = &Derived::encode_storei24;
+      res[3] = &Derived::encode_storei32;
+      res[4] = &Derived::encode_storei40;
+      res[5] = &Derived::encode_storei48;
+      res[6] = &Derived::encode_storei56;
+      res[7] = &Derived::encode_storei64;
+      return res;
+    }();
+
+    switch (ty) {
+      case Type::Bool:
+      case Type::i8:
+      case Type::i16:
+      case Type::i32:
+      case Type::i64: {
+        const auto num_bytes = size_of_type(ty);
+        EncodeFnTy fn = int_fns[(num_bytes - 1) / 8];
+        (this->derived()->*fn)(std::move(ptr_op), op_ref.part(0));
+        return true;
+      }
+
+      default: return false;
+    }
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_load(
+    RustAdaptor::IRInstRef inst, const ValInfo &, u64) {
+    Instruction &loadi = this->adaptor->get_instruction(inst);
+
+    auto [_, ptr_ref] = this->val_ref_single(loadi.ops[0]);
+    if (ptr_ref.has_assignment() && ptr_ref.assignment().is_stack_variable()) {
+      GenericValuePart addr =
+          this->derived()->create_addr_for_alloca(ptr_ref.assignment());
+
+      return compile_load_generic(loadi, std::move(addr));
+    }
+    return compile_load_generic(loadi, std::move(ptr_ref));
+  }
+
+  template <typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_load_generic(
+  Instruction& loadi, GenericValuePart &&ptr_op) {
+    Type ty = this->adaptor->type_of_ref(loadi.result);
+
+    using EncodeFnTy = bool (Derived::*)(GenericValuePart &&, ValuePart &&);
+    static constexpr auto int_fns = []() consteval {
+      std::array<EncodeFnTy[2], 8> res{};
+      res[0][0] = &Derived::encode_loadi8_zext;
+      res[0][1] = &Derived::encode_loadi8_sext;
+      res[1][0] = &Derived::encode_loadi16_zext;
+      res[1][1] = &Derived::encode_loadi16_sext;
+      res[2][0] = &Derived::encode_loadi24;
+      res[3][0] = &Derived::encode_loadi32_zext;
+      res[3][1] = &Derived::encode_loadi32_sext;
+      res[4][0] = &Derived::encode_loadi40;
+      res[5][0] = &Derived::encode_loadi48;
+      res[6][0] = &Derived::encode_loadi56;
+      res[7][0] = &Derived::encode_loadi64;
+      return res;
+    }();
+
+    bool sext = false;
+    switch (ty) {
+      case Type::Bool:
+      case Type::i8:
+      case Type::i16:
+      case Type::i32:
+      case Type::i64: {
+        const auto num_bytes = size_of_type(ty);
+        EncodeFnTy fn = int_fns[(num_bytes - 1) / 8][sext];
+
+        (this->derived()->*fn)(std::move(ptr_op), this->result_ref(loadi.result).part(0));
+        return true;
+      }
+
+      default: return false;
+    }
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_br(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {
+    Instruction &bri = this->adaptor->get_instruction(instr);
+
+    assert(operands::is_raw(bri.ops[0]));
+    Base::generate_uncond_branch(operands::content(bri.ops[0]));
+
     return true;
   }
 }

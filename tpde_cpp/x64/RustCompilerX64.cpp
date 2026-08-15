@@ -54,6 +54,8 @@ namespace tpde_rust::x64 {
     }
 
     bool compile_cmp(RustAdaptor::IRInstRef inst, const ValInfo &, u64);
+
+    static GenericValuePart create_addr_for_alloca(tpde::AssignmentPartRef ap);
   };
 
   std::unique_ptr<RustCompiler> create_compiler() {
@@ -139,5 +141,10 @@ namespace tpde_rust::x64 {
 
     // Only support fusing cmp and condbr by now
     return false;
+  }
+
+  RustCompilerX64::GenericValuePart
+    RustCompilerX64::create_addr_for_alloca(tpde::AssignmentPartRef ap) {
+    return GenericValuePart::Expr{AsmReg::BP, ap.variable_stack_off()};
   }
 }

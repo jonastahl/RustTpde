@@ -170,7 +170,7 @@ impl ModuleTpde {
         let func = self.get_function_mut(&func);
 
         func.allocas.push(ffi::Alloca{size, align});
-        Slot::new_ptr(func.allocas.len() as u32)
+        Slot::new_ptr((func.allocas.len() - 1) as u32)
     }
 
     pub fn add_immediate(&mut self, ty: Type, data: u128) -> Slot {
