@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <tpde/base.hpp>
+#include <limits>
 
 #include "rustc_codegen_tpde/src/shared.rs.h"
 

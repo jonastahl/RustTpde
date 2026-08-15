@@ -2,7 +2,6 @@ use crate::shared::ir::*;
 use crate::{back, base};
 use rustc_codegen_ssa::back::lto::ThinModule;
 use rustc_codegen_ssa::back::write::{CodegenContext, FatLtoInput, ModuleConfig, SharedEmitter, TargetMachineFactoryFn, ThinLtoInput};
-use rustc_codegen_ssa::target_features::cfg_target_feature;
 use rustc_codegen_ssa::traits::{
     CodegenBackend, ExtraBackendMethods, ModuleBufferMethods, WriteBackendMethods,
 };
@@ -14,11 +13,12 @@ use rustc_middle::dep_graph::{WorkProduct, WorkProductMap};
 use rustc_middle::ty::TyCtxt;
 use rustc_middle::util::Providers;
 use rustc_session::config::{OptLevel, OutputFilenames, PrintRequest};
-use rustc_session::Session;
+use rustc_session::{IncrCompSession, Session};
 use rustc_span::Symbol;
 use std::any::Any;
 use std::path::PathBuf;
 use std::sync::Arc;
+use rustc_codegen_ssa::target_features::internal_target_features;
 
 #[derive(Clone)]
 pub struct TpdeCodegenBackend();
@@ -164,13 +164,14 @@ impl CodegenBackend for TpdeCodegenBackend {
         &self,
         ongoing_codegen: Box<dyn Any>,
         sess: &Session,
+        incr_comp_session: Option<&IncrCompSession>,
         outputs: &OutputFilenames,
         crate_info: &CrateInfo,
     ) -> (CompiledModules, WorkProductMap) {
         ongoing_codegen
             .downcast::<rustc_codegen_ssa::back::write::OngoingCodegen<TpdeCodegenBackend>>()
             .expect("Expected TpdeCodegenBackend's OngoingCodegen, found Box<Any>")
-            .join(sess, crate_info)
+            .join(sess, incr_comp_session, crate_info)
     }
 
     fn print(&self, _req: &PrintRequest, _out: &mut String, _sess: &Session) {
@@ -178,14 +179,13 @@ impl CodegenBackend for TpdeCodegenBackend {
     }
 
     fn target_config(&self, sess: &Session) -> TargetConfig {
-        let (target_features, unstable_target_features) = cfg_target_feature(
+        let internal_target_features = internal_target_features(
             sess,
             |_| SmallVec::<[_; 0]>::new(),
             |feature| ["x87", "sse2"].contains(&feature),
         );
         TargetConfig {
-            target_features,
-            unstable_target_features,
+            internal_target_features,
             has_reliable_f16: false,
             has_reliable_f16_math: false,
             has_reliable_f128: false,

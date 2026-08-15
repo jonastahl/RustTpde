@@ -71,7 +71,7 @@ fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
     let asm_file = File::create(&actual_asm_path)
         .expect("Failed to create assembly output file");
     Command::new("objdump")
-        .arg("-sd")
+        .arg("-d")
         .arg(&actual_obj_path)
         .stdout(Stdio::from(asm_file))
         .status()
