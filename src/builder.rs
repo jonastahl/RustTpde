@@ -290,7 +290,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
             self.basic_block,
             InstructionKind::Load,
             vec![place.val.llval, Slot::new_raw(place.val.align.bytes_usize() as u32)],
-            Some(self.cx.tpde_type(place.layout))
+            Some(self.cx.tpde_direct_type(place.layout))
         );
 
         OperandRef { val: OperandValue::Immediate(slot), layout: place.layout, move_annotation: None }

@@ -8,20 +8,28 @@ use rustc_middle::ty::Ty;
 use rustc_target::callconv::{CastTarget, FnAbi};
 
 impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
-    pub fn tpde_type(&self, ty: TyAndLayout<'tcx>) -> Type {
+    pub fn tpde_direct_type(&self, ty: TyAndLayout<'tcx>) -> Type {
         match ty.backend_repr {
             BackendRepr::Scalar(scalar) => {
-                if scalar.is_bool() {
-                    Type::Bool
-                } else {
-                    self.tpde_scalar_type(scalar)
-                }
+                self.tpde_scalar_type(scalar)
+            },
+            _ => todo!()
+        }
+    }
+
+    pub fn tpde_pair_type(&self, ty: TyAndLayout<'tcx>) -> (Type, Type, usize) {
+        match ty.backend_repr {
+            BackendRepr::ScalarPair{ a, b, b_offset} => {
+                (self.tpde_scalar_type(a), self.tpde_scalar_type(b), b_offset.bytes_usize())
             },
             _ => todo!()
         }
     }
 
     fn tpde_scalar_type(&self, scalar: Scalar) -> Type {
+        if scalar.is_bool() {
+            return Type::Bool;
+        }
         match scalar.primitive() {
             Primitive::Int(i, _) => self.type_from_integer(i),
             Primitive::Float(f) => self.type_from_float(f),
@@ -139,7 +147,7 @@ impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
 
     fn immediate_backend_type(&self, layout: TyAndLayout<'tcx>) -> Self::Type {
         // TODO adapt for i1
-        self.tpde_type(layout)
+        self.tpde_direct_type(layout)
     }
 
     fn scalar_pair_element_backend_type(&self, layout: TyAndLayout<'tcx>, index: usize, immediate: bool) -> Self::Type {

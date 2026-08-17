@@ -26,13 +26,13 @@ impl<'tpde, 'tcx> ArgAbiBuilderMethods<'tcx> for Builder<'_, 'tpde, 'tcx> {
 
 impl<'tcx> HasDataLayout for Builder<'_, '_, 'tcx> {
     fn data_layout(&self) -> &TargetDataLayout {
-        todo!()
+        self.tcx.data_layout()
     }
 }
 
 impl<'tcx> HasDataLayout for CodegenCx<'_, 'tcx> {
     fn data_layout(&self) -> &TargetDataLayout {
-        todo!()
+        &self.data_layout
     }
 }
 

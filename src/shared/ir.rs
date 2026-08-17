@@ -1,10 +1,10 @@
-use core::fmt::{Debug, Formatter};
+use super::ffi;
+pub use super::ffi::ModuleTpde;
 use crate::context::CodegenCx;
+use core::fmt::{Debug, Formatter};
 use rustc_hir::attrs::Linkage;
 use rustc_middle::ty::Ty;
 use rustc_target::callconv::{FnAbi, PassMode};
-pub use super::ffi::ModuleTpde;
-use super::ffi;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Function(usize);
@@ -19,52 +19,52 @@ pub enum Slot {
     Value(u32),
     Ptr(u32),
     Immediate(u32),
-    Raw(u32)
+    Raw(u32),
 }
 
-pub use super::ffi::Type;
 pub use super::ffi::InstructionKind;
+pub use super::ffi::Type;
 
 impl ModuleTpde {
-
     pub fn new() -> Self {
         Self {
             functions: vec![],
-            immediates: vec![]
+            immediates: vec![],
         }
     }
 
-    pub fn add_function<'tpde, 'tcx>(self: &mut ModuleTpde, cx: &CodegenCx<'tpde, 'tcx>, name: &str, fn_abi: &FnAbi<'tcx, Ty<'tcx>>, linkage: Linkage) -> Function {
-        let n_args = fn_abi.args.len();
+    pub fn add_function<'tpde, 'tcx>(
+        self: &mut ModuleTpde,
+        cx: &CodegenCx<'tpde, 'tcx>,
+        name: &str,
+        fn_abi: &FnAbi<'tcx, Ty<'tcx>>,
+        linkage: Linkage,
+    ) -> Function {
+        let slots: Vec<ffi::Slot> = {
+            // we can ignore variadic arguments
+            let args = if fn_abi.c_variadic {
+                &fn_abi.args[..fn_abi.fixed_count as usize]
+            } else {
+                &fn_abi.args
+            };
+            args.iter().flat_map(|arg| {
+                match &fn_abi.ret.mode {
+                    PassMode::Ignore => vec![ffi::Slot{ty: Type::Void}],
+                    PassMode::Direct(_) => vec![ffi::Slot{ty: cx.tpde_direct_type(arg.layout)}],
+                    PassMode::Pair(..) => {
+                        let (a, b, _) = cx.tpde_pair_type(arg.layout);
+                        vec![ffi::Slot{ty:a}, ffi::Slot{ty: b}]
+                    },
+                    PassMode::Cast { cast, pad_i32: _ } => todo!(),
+                    PassMode::Indirect { .. } => {
+                        todo!()
+                    }
+                }
+            }).collect()
+        };
+
+        let n_args = slots.len();
         let has_ret = !fn_abi.ret.is_ignore();
-
-        // we can ignore variadic arguments
-        let args =
-            if fn_abi.c_variadic { &fn_abi.args[..fn_abi.fixed_count as usize] } else { &fn_abi.args };
-        let slots: Vec<ffi::Slot> = args.iter().map(|arg| {
-            let ty = match &fn_abi.ret.mode {
-                PassMode::Ignore => Type::Void,
-                PassMode::Direct(_) => cx.tpde_type(arg.layout),
-                PassMode::Pair(..) => todo!(),
-                PassMode::Cast { cast, pad_i32: _ } => todo!(),
-                PassMode::Indirect { .. } => {
-                    todo!()
-                }
-            };
-            ffi::Slot { ty }
-        }).collect();
-
-        {
-            let return_ty: Type = match &fn_abi.ret.mode {
-                PassMode::Ignore => Type::Void,
-                PassMode::Direct(_) => cx.tpde_type(fn_abi.ret.layout),
-                PassMode::Pair(..) => todo!(),
-                PassMode::Cast { cast, pad_i32: _ } => todo!(),
-                PassMode::Indirect { .. } => {
-                    todo!()
-                }
-            };
-        }
 
         self.functions.push(ffi::Function {
             name: name.to_string(),
@@ -87,19 +87,20 @@ impl ModuleTpde {
     }
 
     fn get_function_mut(self: &mut ModuleTpde, func: &Function) -> &mut ffi::Function {
-        self.functions.get_mut(func.0)
+        self.functions
+            .get_mut(func.0)
             .unwrap_or_else(|| panic!("Function not found"))
     }
 
     fn get_function(self: &ModuleTpde, func: &Function) -> &ffi::Function {
-        self.functions.get(func.0)
+        self.functions
+            .get(func.0)
             .unwrap_or_else(|| panic!("Function not found"))
     }
 
     pub fn add_basic_block(self: &mut Self, func: &Function, name: &str) -> BasicBlock {
         let function = self.get_function_mut(func);
-        function
-            .basic_blocks.push(ffi::BasicBlock {
+        function.basic_blocks.push(ffi::BasicBlock {
             name: name.to_string(),
             instructions: vec![],
             info1: 0,
@@ -108,9 +109,12 @@ impl ModuleTpde {
         BasicBlock::new(*func, function.basic_blocks.len() - 1)
     }
 
-    fn get_basic_block_mut_helper<'a>(func: &'a mut ffi::Function, bb: BasicBlock) -> &'a mut ffi::BasicBlock {
-        func
-            .basic_blocks.get_mut(bb.index())
+    fn get_basic_block_mut_helper(
+        func: &mut ffi::Function,
+        bb: BasicBlock,
+    ) -> &mut ffi::BasicBlock {
+        func.basic_blocks
+            .get_mut(bb.index())
             .unwrap_or_else(|| panic!("Basic block not found"))
     }
 
@@ -122,11 +126,17 @@ impl ModuleTpde {
     fn get_basic_block(self: &Self, bb: BasicBlock) -> &ffi::BasicBlock {
         let function = self.get_function(&bb.function());
         function
-            .basic_blocks.get(bb.index())
+            .basic_blocks
+            .get(bb.index())
             .unwrap_or_else(|| panic!("Basic block not found"))
     }
 
-    pub fn add_instruction_ret(&mut self, bb: BasicBlock, instr: InstructionKind, ops: Vec<Slot>) -> Slot {
+    pub fn add_instruction_ret(
+        &mut self,
+        bb: BasicBlock,
+        instr: InstructionKind,
+        ops: Vec<Slot>,
+    ) -> Slot {
         assert!(ops.len() >= 1);
 
         let func = self.get_function_mut(&bb.function());
@@ -146,7 +156,13 @@ impl ModuleTpde {
     }
 
     #[inline]
-    pub fn add_instruction_raw(&mut self, bb: BasicBlock, instr: InstructionKind, ops: Vec<Slot>, ret: Option<Type>) -> Slot {
+    pub fn add_instruction_raw(
+        &mut self,
+        bb: BasicBlock,
+        instr: InstructionKind,
+        ops: Vec<Slot>,
+        ret: Option<Type>,
+    ) -> Slot {
         let func = self.get_function_mut(&bb.function());
 
         if let Some(ty) = ret {
@@ -160,22 +176,23 @@ impl ModuleTpde {
             kind: instr,
             ops: ops.iter().map(|s| s.to_ffi()).collect(),
             has_result: ret.is_some(),
-            result
+            result,
         });
 
-        Slot::new_val(result as u32)
+        Slot::new_val(result)
     }
 
     pub fn add_alloca(&mut self, func: Function, size: usize, align: usize) -> Slot {
         let func = self.get_function_mut(&func);
 
-        func.allocas.push(ffi::Alloca{size, align});
+        func.allocas.push(ffi::Alloca { size, align });
         Slot::new_ptr((func.allocas.len() - 1) as u32)
     }
 
     pub fn add_immediate(&mut self, ty: Type, data: u128) -> Slot {
-        self.immediates.push(ffi::Value::new(ty, data));
-        Slot::new_imm((self.immediates.len() - 1) as u32)
+        let imms = &mut self.immediates;
+        imms.push(ffi::Value::new(ty, data));
+        Slot::new_imm((imms.len() - 1) as u32)
     }
 
     pub fn add_br(&mut self, bb: BasicBlock, to: BasicBlock) {
@@ -183,16 +200,26 @@ impl ModuleTpde {
             bb,
             InstructionKind::Br,
             vec![Slot::new_raw(to.index as u32)],
-            None
+            None,
         );
     }
 
-    pub fn add_cond_br(&mut self, bb: BasicBlock, cond: Slot, thenbb: BasicBlock, elsebb: BasicBlock) {
+    pub fn add_cond_br(
+        &mut self,
+        bb: BasicBlock,
+        cond: Slot,
+        thenbb: BasicBlock,
+        elsebb: BasicBlock,
+    ) {
         self.add_instruction_raw(
             bb,
             InstructionKind::CondBr,
-            vec![cond, Slot::new_raw(thenbb.index as u32), Slot::new_raw(elsebb.index as u32)],
-            None
+            vec![
+                cond,
+                Slot::new_raw(thenbb.index as u32),
+                Slot::new_raw(elsebb.index as u32),
+            ],
+            None,
         );
     }
 }
@@ -210,7 +237,9 @@ impl Slot {
         Slot::Immediate(index)
     }
 
-    pub fn new_raw(u: u32) -> Slot { Slot::Raw(u) }
+    pub fn new_raw(u: u32) -> Slot {
+        Slot::Raw(u)
+    }
 
     pub const MARKER_IMM: u32 = 1_u32 << (u32::BITS - 1);
     pub const MARKER_PTR: u32 = 1_u32 << (u32::BITS - 2);
@@ -221,7 +250,7 @@ impl Slot {
             Slot::Value(v) => *v,
             Slot::Immediate(i) => *i | Self::MARKER_IMM,
             Slot::Ptr(p) => *p | Self::MARKER_PTR,
-            Slot::Raw(r) => *r | Self::MARKER_RAW
+            Slot::Raw(r) => *r | Self::MARKER_RAW,
         }
     }
 
@@ -265,10 +294,22 @@ impl BasicBlock {
     }
 }
 
+impl Function {
+    pub fn find_slot(&self, slots: &Vec<Vec<Slot>>, index: usize) -> Option<Slot> {
+        slots
+            .get(self.0)
+            .map(|sl| sl.get(index))
+            .flatten()
+            .map(|sl| *sl)
+    }
+}
+
 impl ffi::Value {
     fn new(ty: Type, v: u128) -> Self {
         ffi::Value {
-            ty, data1: (v >> 64) as u64, data2: v as u64
+            ty,
+            data1: (v >> 64) as u64,
+            data2: v as u64,
         }
     }
 

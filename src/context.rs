@@ -8,6 +8,7 @@ use rustc_middle::ty::{ExistentialTraitRef, Instance, Ty, TyCtxt};
 use rustc_session::{PointerAuthSchema, Session};
 use rustc_span::Symbol;
 use std::cell::RefCell;
+use rustc_abi::TargetDataLayout;
 
 pub struct CodegenCx<'tpde, 'tcx> {
     pub tcx: TyCtxt<'tcx>,
@@ -15,6 +16,8 @@ pub struct CodegenCx<'tpde, 'tcx> {
 
     pub tpde_module: &'tpde RefCell<ModuleTpde>,
     pub functions: FxHashMap<Instance<'tcx>, Function>,
+
+    pub data_layout: TargetDataLayout,
 }
 
 impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
@@ -23,11 +26,18 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
         cgu: &'tcx CodegenUnit<'tcx>,
         tpde_module: &'tpde RefCell<ModuleTpde>,
     ) -> Self {
+        let sess = tcx.sess;
+
+        let data_layout = sess.target.parse_data_layout().unwrap_or_else(|err| {
+            sess.dcx().emit_fatal(err);
+        });
+
         Self {
             tcx,
             codegen_unit: cgu,
             tpde_module,
             functions: FxHashMap::default(),
+            data_layout,
         }
     }
 }
