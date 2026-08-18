@@ -2,7 +2,7 @@ mod coverageinfo;
 mod intrinsic;
 
 use crate::context::CodegenCx;
-use crate::shared::ir::{BasicBlock, Function, InstructionKind, Slot, Type};
+use crate::shared::ir::{BasicBlock, FullType, Function, InstructionKind, Slot, Type};
 use rustc_ast::expand::typetree::FncTree;
 use rustc_codegen_ssa::MemFlags;
 use rustc_codegen_ssa::common::{AtomicRmwBinOp, IntPredicate, RealPredicate, SynchronizationScope};
@@ -39,7 +39,7 @@ impl<'tpde, 'tcx> BackendTypes for CodegenCx<'tpde, 'tcx> {
     type BasicBlock = BasicBlock;
     type Funclet = ();
     type Value = Slot;
-    type Type = Type;
+    type Type = FullType;
     type FunctionSignature = ();
     type DIScope = ();
     type DILocation = ();
@@ -286,11 +286,13 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn load_operand(&mut self, place: PlaceRef<'tcx, Self::Value>) -> OperandRef<'tcx, Self::Value> {
+        let FullType::Single(ret_ty) = self.cx.tpde_direct_type(place.layout) else { todo!() };
+
         let slot = self.tpde_module.borrow_mut().add_instruction_raw(
             self.basic_block,
             InstructionKind::Load,
             vec![place.val.llval, Slot::new_raw(place.val.align.bytes_usize() as u32)],
-            Some(self.cx.tpde_direct_type(place.layout))
+            Some(ret_ty)
         );
 
         OperandRef { val: OperandValue::Immediate(slot), layout: place.layout, move_annotation: None }
@@ -451,7 +453,27 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn insert_value(&mut self, agg_val: Self::Value, elt: Self::Value, idx: u64) -> Self::Value {
-        todo!()
+        let module = &mut self.tpde_module.borrow_mut();
+        let (slot_a, slot_b, offset_b) = module.extract_vals(agg_val);
+
+        let func = match agg_val {
+            Slot::Pair(func, ..) => func,
+            _ =>
+                match elt {
+                    Slot::Value(func, ..) => func,
+                    _ => todo!()
+                },
+        };
+
+        match idx {
+            0 => {
+                module.add_pair(func, elt, slot_b, offset_b)
+            }
+            1 => {
+                module.add_pair(func, slot_a, elt, offset_b)
+            }
+            _ => panic!("pairs only support index 0 or 1"),
+        }
     }
 
     fn set_personality_fn(&mut self, personality: Self::Function) {

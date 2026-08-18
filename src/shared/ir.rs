@@ -6,7 +6,7 @@ use rustc_hir::attrs::Linkage;
 use rustc_middle::ty::Ty;
 use rustc_target::callconv::{FnAbi, PassMode};
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Function(usize);
 #[derive(Debug, Copy, Clone)]
 pub struct BasicBlock {
@@ -16,10 +16,18 @@ pub struct BasicBlock {
 
 #[derive(Copy, Clone, PartialEq)]
 pub enum Slot {
-    Value(u32),
-    Ptr(u32),
-    Immediate(u32),
+    Value(Function, u32),
+    Pair(Function, u32),
+    Const(u32),
+    CPair(u32),
     Raw(u32),
+    Ptr(u32),
+}
+
+#[derive(Copy, Clone, PartialEq, Debug)]
+pub enum FullType {
+    Single(Type),
+    Pair(Type, Type, u8),
 }
 
 pub use super::ffi::InstructionKind;
@@ -29,7 +37,8 @@ impl ModuleTpde {
     pub fn new() -> Self {
         Self {
             functions: vec![],
-            immediates: vec![],
+            consts: vec![],
+            const_pairs: vec![],
         }
     }
 
@@ -47,20 +56,27 @@ impl ModuleTpde {
             } else {
                 &fn_abi.args
             };
-            args.iter().flat_map(|arg| {
-                match &fn_abi.ret.mode {
-                    PassMode::Ignore => vec![ffi::Slot{ty: Type::Void}],
-                    PassMode::Direct(_) => vec![ffi::Slot{ty: cx.tpde_direct_type(arg.layout)}],
+            args.iter()
+                .flat_map(|arg| match &fn_abi.ret.mode {
+                    PassMode::Ignore => vec![ffi::Slot { ty: Type::Void }],
+                    PassMode::Direct(_) => {
+                        let FullType::Single(ty) = cx.tpde_direct_type(arg.layout) else {
+                            unreachable!()
+                        };
+                        vec![ffi::Slot { ty }]
+                    }
                     PassMode::Pair(..) => {
-                        let (a, b, _) = cx.tpde_pair_type(arg.layout);
-                        vec![ffi::Slot{ty:a}, ffi::Slot{ty: b}]
-                    },
+                        let FullType::Pair(a, b, _) = cx.tpde_direct_type(arg.layout) else {
+                            unreachable!()
+                        };
+                        vec![ffi::Slot { ty: a }, ffi::Slot { ty: b }]
+                    }
                     PassMode::Cast { cast, pad_i32: _ } => todo!(),
                     PassMode::Indirect { .. } => {
                         todo!()
                     }
-                }
-            }).collect()
+                })
+                .collect()
         };
 
         let n_args = slots.len();
@@ -71,6 +87,7 @@ impl ModuleTpde {
             n_args,
             has_ret,
             slots,
+            slot_pairs: vec![],
             extern_link: linkage == Linkage::AvailableExternally,
             only_local: linkage == Linkage::Internal,
             weak_link: linkage == Linkage::WeakODR
@@ -82,8 +99,44 @@ impl ModuleTpde {
         Function(self.functions.len() - 1)
     }
 
-    pub fn get_slot(&self, index: u32) -> Slot {
-        Slot::new_val(index)
+    pub fn get_slot(&self, func: Function, index: u32) -> Slot {
+        Slot::new_val(func, index)
+    }
+
+    pub fn type_of_slot(&self, slot: Slot) -> FullType {
+        match slot {
+            Slot::Value(func, ind) => {
+                FullType::Single(self.functions[func.0].slots[ind as usize].ty)
+            }
+            Slot::Pair(func, ind) => {
+                let func = &self.functions[func.0];
+                let pair = &func.slot_pairs[ind as usize];
+                let FullType::Single(slot_a) = self.type_of_slot(Slot::from_ffi(pair.slot_a))
+                else {
+                    unreachable!()
+                };
+                let FullType::Single(slot_b) = self.type_of_slot(Slot::from_ffi(pair.slot_b))
+                else {
+                    unreachable!()
+                };
+                FullType::Pair(slot_a, slot_b, pair.offset_b)
+            }
+            Slot::Const(ind) => FullType::Single(self.consts[ind as usize].ty),
+            Slot::CPair(ind) => {
+                let pair = &self.const_pairs[ind as usize];
+                let FullType::Single(slot_a) = self.type_of_slot(Slot::from_ffi(pair.slot_a))
+                else {
+                    unreachable!()
+                };
+                let FullType::Single(slot_b) = self.type_of_slot(Slot::from_ffi(pair.slot_b))
+                else {
+                    unreachable!()
+                };
+                FullType::Pair(slot_a, slot_b, pair.offset_b)
+            }
+            Slot::Ptr(_) => todo!(),
+            Slot::Raw(_) => unreachable!(),
+        }
     }
 
     fn get_function_mut(self: &mut ModuleTpde, func: &Function) -> &mut ffi::Function {
@@ -143,7 +196,9 @@ impl ModuleTpde {
         let op = ops.get(0).unwrap();
 
         // create new slot with type of first arg
-        if let &Slot::Value(v) = op {
+        if let &Slot::Value(f, v) = op {
+            assert_eq!(bb.function(), f);
+
             let ret = func.slots.get(v as usize).unwrap().ty;
             self.add_instruction_raw(bb, instr, ops, Some(ret))
         } else {
@@ -179,7 +234,7 @@ impl ModuleTpde {
             result,
         });
 
-        Slot::new_val(result)
+        Slot::new_val(bb.function(), result)
     }
 
     pub fn add_alloca(&mut self, func: Function, size: usize, align: usize) -> Slot {
@@ -189,10 +244,42 @@ impl ModuleTpde {
         Slot::new_ptr((func.allocas.len() - 1) as u32)
     }
 
-    pub fn add_immediate(&mut self, ty: Type, data: u128) -> Slot {
-        let imms = &mut self.immediates;
-        imms.push(ffi::Value::new(ty, data));
-        Slot::new_imm((imms.len() - 1) as u32)
+    pub fn add_const(&mut self, ty: Type, data: u128) -> Slot {
+        let consts = &mut self.consts;
+        consts.push(ffi::Value::new(ty, data));
+        Slot::new_const((consts.len() - 1) as u32)
+    }
+
+    pub fn add_const_pair(&mut self, ty_a: Type, ty_b: Type, offset_b: u8, data_a: u128, data_b: u128) -> Slot {
+        let slot_a = self.add_const(ty_a, data_a).to_ffi();
+        let slot_b = self.add_const(ty_b, data_b).to_ffi();
+
+        let const_pairs = &mut self.const_pairs;
+        const_pairs.push(ffi::PairRef {
+            slot_a,
+            slot_b,
+            offset_b,
+        });
+        Slot::new_cpair((const_pairs.len() - 1) as u32)
+    }
+
+    pub fn extract_vals(&self, pair: Slot) -> (Slot, Slot, u8) {
+        let v = match pair {
+            Slot::CPair(ind) => self.const_pairs[ind as usize],
+            Slot::Pair(func, ind) => self.functions[func.0].slot_pairs[ind as usize],
+            _ => panic!("agg_val has to be a pair"),
+        };
+        (Slot::from_ffi(v.slot_a), Slot::from_ffi(v.slot_b), v.offset_b)
+    }
+
+    pub fn add_pair(&mut self, func: Function, slot_a: Slot, slot_b: Slot, offset_b: u8) -> Slot {
+        let slot_pairs = &mut self.functions[func.0].slot_pairs;
+        slot_pairs.push(ffi::PairRef {
+            slot_a: slot_a.to_ffi(),
+            slot_b: slot_b.to_ffi(),
+            offset_b,
+        });
+        Slot::new_pair(func, (slot_pairs.len() - 1) as u32)
     }
 
     pub fn add_br(&mut self, bb: BasicBlock, to: BasicBlock) {
@@ -224,58 +311,91 @@ impl ModuleTpde {
     }
 }
 
+type Marker = u32;
+pub const MARKER_BLOCK: Marker = 7_u32 << (u32::BITS - 3);
+
+pub const MARKER_VAL: Marker = 0_u32 << (u32::BITS - 3);
+pub const MARKER_CONST: Marker = 1_u32 << (u32::BITS - 3);
+pub const MARKER_PAIR: Marker = 2_u32 << (u32::BITS - 3);
+pub const MARKER_CPAIR: Marker = 3_u32 << (u32::BITS - 3);
+pub const MARKER_RAW: Marker = 4_u32 << (u32::BITS - 3);
+pub const MARKER_PTR: Marker = 5_u32 << (u32::BITS - 3);
 impl Slot {
-    fn new_val(index: u32) -> Slot {
-        Slot::Value(index)
+    fn new_val(func: Function, index: u32) -> Self {
+        Self::Value(func, index)
     }
 
-    fn new_ptr(index: u32) -> Slot {
-        Slot::Ptr(index)
+    fn new_pair(func: Function, index: u32) -> Self {
+        Self::Pair(func, index)
     }
 
-    fn new_imm(index: u32) -> Slot {
-        Slot::Immediate(index)
+    fn new_const(index: u32) -> Self {
+        Self::Const(index)
     }
 
-    pub fn new_raw(u: u32) -> Slot {
-        Slot::Raw(u)
+    fn new_cpair(index: u32) -> Self {
+        Self::CPair(index)
     }
 
-    pub const MARKER_IMM: u32 = 1_u32 << (u32::BITS - 1);
-    pub const MARKER_PTR: u32 = 1_u32 << (u32::BITS - 2);
-    pub const MARKER_RAW: u32 = Self::MARKER_IMM | Self::MARKER_PTR;
+    fn new_ptr(index: u32) -> Self {
+        Self::Ptr(index)
+    }
+
+    pub fn new_raw(u: u32) -> Self {
+        Self::Raw(u)
+    }
 
     pub fn to_ffi(&self) -> u32 {
         match self {
-            Slot::Value(v) => *v,
-            Slot::Immediate(i) => *i | Self::MARKER_IMM,
-            Slot::Ptr(p) => *p | Self::MARKER_PTR,
-            Slot::Raw(r) => *r | Self::MARKER_RAW,
+            Self::Value(_, v) => *v,
+            Self::Const(i) => *i | MARKER_CONST,
+            Self::Ptr(p) => *p | MARKER_PTR,
+            Self::Raw(r) => *r | MARKER_RAW,
+            Self::Pair(_, p) => *p | MARKER_PAIR,
+            Self::CPair(p) => *p | MARKER_CPAIR,
         }
     }
 
-    pub fn from_ffi(ffi: u32) -> Slot {
-        if ffi & Self::MARKER_RAW != 0 {
-            if ffi & Self::MARKER_PTR == 0 {
-                return Slot::Immediate(ffi & !Self::MARKER_IMM);
-            }
-            if ffi & Self::MARKER_IMM == 0 {
-                return Slot::Ptr(ffi & !Self::MARKER_PTR);
-            }
-
-            return Slot::Raw(ffi & !Self::MARKER_RAW);
+    #[inline]
+    fn is(ffi: u32, marker: Marker) -> Option<u32> {
+        if (ffi & MARKER_BLOCK) == marker {
+            return Some(ffi & !MARKER_BLOCK);
         }
-        Slot::Value(ffi)
+        None
+    }
+
+    pub fn from_ffi(ffi: u32) -> Self {
+        if let Some(u) = Self::is(ffi, MARKER_VAL) {
+            return Self::Value(Function(0), u);
+        }
+        if let Some(u) = Self::is(ffi, MARKER_PAIR) {
+            return Self::Pair(Function(0), u);
+        }
+        if let Some(u) = Self::is(ffi, MARKER_CONST) {
+            return Self::Const(u);
+        }
+        if let Some(u) = Self::is(ffi, MARKER_CPAIR) {
+            return Self::CPair(u);
+        }
+        if let Some(u) = Self::is(ffi, MARKER_PTR) {
+            return Self::Ptr(u);
+        }
+        if let Some(u) = Self::is(ffi, MARKER_RAW) {
+            return Self::Raw(u);
+        }
+        unreachable!()
     }
 }
 
 impl Debug for Slot {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         match self {
-            Slot::Value(v) => write!(f, "[val: {}]", v),
-            Slot::Ptr(v) => write!(f, "[ptr: {}]", v),
-            Slot::Immediate(v) => write!(f, "[imm: {}]", v),
-            Slot::Raw(v) => write!(f, "[raw: {}]", v),
+            Self::Value(func, v) => write!(f, "[val: {}]", v),
+            Self::Pair(func, v) => write!(f, "[pair: {}]", v),
+            Self::Const(v) => write!(f, "[imm: {}]", v),
+            Self::CPair(v) => write!(f, "[cpair: {}]", v),
+            Self::Ptr(v) => write!(f, "[ptr: {}]", v),
+            Self::Raw(v) => write!(f, "[raw: {}]", v),
         }
     }
 }

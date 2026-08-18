@@ -57,7 +57,7 @@ namespace tpde_rust {
     }
 
     ValuePart val_part_ref_special(ValRefSpecial &vrs, u32 part) {
-      Value& imm = this->adaptor->mod->immediates[vrs.const_data];
+      Value& imm = this->adaptor->mod->consts[vrs.const_data];
 
       switch (imm.ty) {
         case Type::Bool:

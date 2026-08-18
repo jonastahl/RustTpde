@@ -8,10 +8,12 @@ pub mod ir;
 
 #[cxx::bridge]
 mod ffi {
+
     #[derive(Debug)]
     pub struct ModuleTpde {
         functions: Vec<Function>,
-        immediates: Vec<Value>,
+        consts: Vec<Value>,
+        const_pairs: Vec<PairRef>,
     }
 
     enum Linkage {
@@ -24,6 +26,7 @@ mod ffi {
         n_args: usize,
         has_ret: bool,
         slots: Vec<Slot>,
+        slot_pairs: Vec<PairRef>,
 
         extern_link: bool,
         only_local: bool,
@@ -52,6 +55,13 @@ mod ffi {
         ty: Type,
     }
 
+    #[derive(Copy, Clone)]
+    pub struct PairRef {
+        slot_a: u32,
+        slot_b: u32,
+        offset_b: u8,
+    }
+
     #[derive(Debug, Copy, Clone)]
     pub enum Type {
         Void,
@@ -61,7 +71,7 @@ mod ffi {
         i32,
         i64,
 
-        ptr,
+        Poison, // Represents that type is not known and cannot be used
     }
 
     #[derive(Debug)]
@@ -114,9 +124,7 @@ mod ffi {
 impl Debug for ffi::BasicBlock {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         write!(f, "{:?}: ", self.name)?;
-        f.debug_list()
-            .entries(&self.instructions)
-            .finish()
+        f.debug_list().entries(&self.instructions).finish()
     }
 }
 
@@ -154,6 +162,18 @@ impl Debug for ffi::Value {
             f,
             "[{:#?}] ({} {}) -> {}",
             self.ty, self.data1, self.data2, val
+        )
+    }
+}
+
+impl Debug for ffi::PairRef {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        write!(
+            f,
+            "(a: {:?}, b: {:?}, offset: {:?})",
+            Slot::from_ffi(self.slot_a),
+            Slot::from_ffi(self.slot_b),
+            self.offset_b
         )
     }
 }

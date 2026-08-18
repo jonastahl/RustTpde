@@ -1,0 +1,36 @@
+ModuleTpde {
+    functions: [
+        Function {
+            name: "increase_age",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i8,
+                i8,
+            ],
+            slot_pairs: [
+                (a: [val: 0], b: [imm: 2], offset: 8),
+                (a: [val: 0], b: [val: 2], offset: 8),
+            ],
+            extern_link: false,
+            only_local: false,
+            weak_link: false,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Add> ([val: 1], [imm: 0]) -> [val: 2],
+                    <Ret> ([pair: 1]),
+                ],
+            ],
+        },
+    ],
+    consts: [
+        [i8] (0 1) -> 0,
+        [i64] (0 0) -> 0,
+        [i8] (0 0) -> 0,
+    ],
+    const_pairs: [
+        (a: [imm: 1], b: [imm: 2], offset: 8),
+    ],
+}

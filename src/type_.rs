@@ -1,5 +1,5 @@
 use crate::context::CodegenCx;
-use crate::shared::ir::Type;
+use crate::shared::ir::{FullType, Type};
 use rustc_abi::{AddressSpace, BackendRepr, Primitive, Reg, Scalar};
 use rustc_codegen_ssa::common::TypeKind;
 use rustc_codegen_ssa::traits::{BaseTypeCodegenMethods, DerivedTypeCodegenMethods, LayoutTypeCodegenMethods, TypeMembershipCodegenMethods};
@@ -8,27 +8,24 @@ use rustc_middle::ty::Ty;
 use rustc_target::callconv::{CastTarget, FnAbi};
 
 impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
-    pub fn tpde_direct_type(&self, ty: TyAndLayout<'tcx>) -> Type {
+    pub fn tpde_direct_type(&self, ty: TyAndLayout<'tcx>) -> FullType {
         match ty.backend_repr {
             BackendRepr::Scalar(scalar) => {
                 self.tpde_scalar_type(scalar)
             },
-            _ => todo!()
-        }
-    }
+            BackendRepr::ScalarPair { a, b, b_offset } => {
+                let FullType::Single(a) = self.tpde_scalar_type(a) else { unreachable!() };
+                let FullType::Single(b) = self.tpde_scalar_type(b) else { unreachable!() };
 
-    pub fn tpde_pair_type(&self, ty: TyAndLayout<'tcx>) -> (Type, Type, usize) {
-        match ty.backend_repr {
-            BackendRepr::ScalarPair{ a, b, b_offset} => {
-                (self.tpde_scalar_type(a), self.tpde_scalar_type(b), b_offset.bytes_usize())
+                FullType::Pair(a, b, b_offset.bytes_usize() as u8)
             },
             _ => todo!()
         }
     }
 
-    fn tpde_scalar_type(&self, scalar: Scalar) -> Type {
+    fn tpde_scalar_type(&self, scalar: Scalar) -> FullType {
         if scalar.is_bool() {
-            return Type::Bool;
+            return FullType::Single(Type::Bool);
         }
         match scalar.primitive() {
             Primitive::Int(i, _) => self.type_from_integer(i),
@@ -40,19 +37,19 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
 
 impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     fn type_i8(&self) -> Self::Type {
-        Type::i8
+        FullType::Single(Type::i8)
     }
 
     fn type_i16(&self) -> Self::Type {
-        Type::i16
+        FullType::Single(Type::i16)
     }
 
     fn type_i32(&self) -> Self::Type {
-        Type::i32
+        FullType::Single(Type::i32)
     }
 
     fn type_i64(&self) -> Self::Type {
-        Type::i64
+        FullType::Single(Type::i64)
     }
 
     fn type_i128(&self) -> Self::Type {
@@ -88,7 +85,14 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn type_kind(&self, ty: Self::Type) -> TypeKind {
-        todo!()
+        match ty {
+            FullType::Single(ty) => match ty {
+                Type::Void => TypeKind::Void,
+                Type::Bool | Type::i8 |  Type::i16 | Type::i32 | Type::i64 => TypeKind::Integer,
+                _ => unreachable!()
+            },
+            FullType::Pair(ty1, ty2, _) => TypeKind::Struct,
+        }
     }
 
     fn type_ptr(&self) -> Self::Type {
@@ -116,7 +120,7 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn val_ty(&self, v: Self::Value) -> Self::Type {
-        todo!()
+        self.tpde_module.borrow().type_of_slot(v)
     }
 }
 

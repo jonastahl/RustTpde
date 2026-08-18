@@ -104,7 +104,7 @@ namespace tpde_rust::x64 {
           {
             const auto imm_ref = operands::content(right);
 
-            const auto& imm_info = this->adaptor->mod->immediates[imm_ref];
+            const auto& imm_info = this->adaptor->mod->consts[imm_ref];
             imm_h = imm_info.data1;
             imm_l = imm_info.data2;
           }

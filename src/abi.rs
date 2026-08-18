@@ -10,7 +10,7 @@ use rustc_target::callconv::{ArgAbi, FnAbi};
 
 impl<'tpde, 'tcx> AbiBuilderMethods for Builder<'_, 'tpde, 'tcx> {
     fn get_param(&mut self, index: usize) -> Self::Value {
-        self.tpde_module.borrow().get_slot(index as u32)
+        self.tpde_module.borrow().get_slot(self.basic_block.function(), index as u32)
     }
 }
 

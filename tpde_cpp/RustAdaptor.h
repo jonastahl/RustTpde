@@ -51,7 +51,7 @@ namespace tpde_rust {
       if (operands::is_val(value))
         return cur_func->slots[operands::content(value)].ty;
       if (operands::is_imm(value))
-        return mod->immediates[operands::content(value)].ty;
+        return mod->consts[operands::content(value)].ty;
       assert(false && "invalid value ref");
     }
 

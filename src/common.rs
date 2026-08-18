@@ -3,7 +3,7 @@ use rustc_codegen_ssa::traits::ConstCodegenMethods;
 use rustc_middle::mir::interpret::Scalar;
 use rustc_session::PointerAuthSchema;
 use crate::context::CodegenCx;
-use crate::shared::ir::{Slot, Type};
+use crate::shared::ir::{FullType, Slot, Type};
 
 impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     fn const_null(&self, t: Self::Type) -> Self::Value {
@@ -15,7 +15,14 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn const_poison(&self, t: Self::Type) -> Self::Value {
-        todo!()
+        match t {
+            FullType::Single(t) => self.tpde_module.borrow_mut().add_const(t, 0),
+            FullType::Pair(ty_a, ty_b, o) => {
+                let module = &mut self.tpde_module.borrow_mut();
+
+                module.add_const_pair(ty_a, ty_b, o, 0, 0)
+            },
+        }
     }
 
     fn const_bool(&self, val: bool) -> Self::Value {
@@ -92,13 +99,14 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
 
     fn const_to_opt_u128(&self, v: Self::Value, sign_ext: bool) -> Option<u128> {
         match v {
-            Slot::Immediate(i) =>
-                Some(self.tpde_module.borrow().immediates.get(i as usize).unwrap().data()),
+            Slot::Const(i) =>
+                Some(self.tpde_module.borrow().consts.get(i as usize).unwrap().data()),
             _ => None
         }
     }
 
     fn scalar_to_backend_with_pac(&self, cv: Scalar, layout: rustc_abi::Scalar, ty: Self::Type, schema: Option<&PointerAuthSchema>) -> Self::Value {
+        let FullType::Single(ty) = ty else { unreachable!() };
         let data = match ty {
             Type::i8 => cv.to_i8().unwrap() as u128,
             Type::i16 => cv.to_i16().unwrap() as u128,
@@ -106,7 +114,7 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
             Type::i64 => cv.to_i64().unwrap() as u128,
             _ => todo!()
         };
-        self.tpde_module.borrow_mut().add_immediate(ty, data)
+        self.tpde_module.borrow_mut().add_const(ty, data)
     }
 
     fn const_ptr_byte_offset(&self, val: Self::Value, offset: Size) -> Self::Value {
