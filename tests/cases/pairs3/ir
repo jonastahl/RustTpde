@@ -1,0 +1,57 @@
+ModuleTpde {
+    functions: [
+        Function {
+            name: "find_user_by_age",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                Bool,
+                i64,
+                i64,
+                i8,
+            ],
+            slot_pairs: [
+                (a: [val: 2], b: [imm: 5], offset: 8),
+                (a: [val: 2], b: [val: 4], offset: 8),
+            ],
+            extern_link: false,
+            only_local: false,
+            weak_link: false,
+            allocas: [
+                size: 16, align: 8,
+            ],
+            basic_blocks: [
+                "start": [
+                    <CMPgt> ([val: 0], [imm: 0]) -> [val: 1],
+                    <CondBr> ([val: 1], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([imm: 1], [ptr: 0], [raw: 8]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([imm: 2], [ptr: 0], [raw: 8]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([ptr: 0], [raw: 8]) -> [val: 2],
+                    <GEP> ([ptr: 0], [raw: 8], [imm: 3]) -> [val: 3],
+                    <Load> ([val: 3], [raw: 8]) -> [val: 4],
+                    <Ret> ([pair: 1]),
+                ],
+            ],
+        },
+    ],
+    consts: [
+        [i32] (0 100) -> 0,
+        [i64] (1 1) -> 1,
+        [i64] (0 0) -> 0,
+        [i64] (0 1) -> 0,
+        [i64] (0 0) -> 0,
+        [i8] (0 0) -> 0,
+    ],
+    const_pairs: [
+        (a: [imm: 4], b: [imm: 5], offset: 8),
+    ],
+}

@@ -9,6 +9,7 @@ ModuleTpde {
                 i32,
                 i32,
             ],
+            slot_pairs: [],
             extern_link: false,
             only_local: false,
             weak_link: false,
@@ -29,6 +30,7 @@ ModuleTpde {
                 i32,
                 i32,
             ],
+            slot_pairs: [],
             extern_link: false,
             only_local: false,
             weak_link: false,
@@ -41,5 +43,6 @@ ModuleTpde {
             ],
         },
     ],
-    immediates: [],
+    consts: [],
+    const_pairs: [],
 }

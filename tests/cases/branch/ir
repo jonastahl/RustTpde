@@ -9,6 +9,7 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
+            slot_pairs: [],
             extern_link: false,
             only_local: false,
             weak_link: false,
@@ -35,9 +36,10 @@ ModuleTpde {
             ],
         },
     ],
-    immediates: [
+    consts: [
         [i32] (0 100) -> 0,
         [i32] (0 0) -> 0,
         [i32] (0 1) -> 0,
     ],
+    const_pairs: [],
 }

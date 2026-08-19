@@ -80,6 +80,14 @@ fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
     fs::remove_file(&actual_obj_path)
         .map_err(|_| eprintln!("Deleting obj failed")).unwrap_or_default();
 
+    for entry in fs::read_dir(&path).expect("Failed to read directory") {
+        let entry = entry.expect("Failed to read directory entry");
+        let path = entry.path();
+        if path.is_dir() {
+            fs::remove_dir_all(path).expect("Failed to delete file");
+        }
+    }
+
     let expected_ir = fs::read_to_string(&expected_ir_path)
         .map_err(|_| eprintln!("Could not find expected ir")).unwrap_or_default();
     let expected_result = fs::read_to_string(&expected_asm_path)

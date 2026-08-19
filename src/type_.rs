@@ -53,7 +53,7 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn type_i128(&self) -> Self::Type {
-        todo!()
+        FullType::Single(Type::i128)
     }
 
     fn type_isize(&self) -> Self::Type {

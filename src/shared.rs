@@ -70,8 +70,7 @@ mod ffi {
         i16,
         i32,
         i64,
-
-        Poison, // Represents that type is not known and cannot be used
+        i128,
     }
 
     #[derive(Debug)]
@@ -93,6 +92,7 @@ mod ffi {
         Alloca,
         Store,
         Load,
+        GEP,
 
         // Branching operations
         Ret,

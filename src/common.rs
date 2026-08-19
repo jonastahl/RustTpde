@@ -66,7 +66,7 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn const_usize(&self, i: u64) -> Self::Value {
-        todo!()
+        self.tpde_module.borrow_mut().add_const(Type::i64, i as u128)
     }
 
     fn const_uint(&self, t: Self::Type, i: u64) -> Self::Value {
@@ -74,7 +74,7 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn const_uint_big(&self, t: Self::Type, u: u128) -> Self::Value {
-        todo!()
+        self.tpde_module.borrow_mut().add_const(Type::i64, u as u128)
     }
 
     fn const_real(&self, t: Self::Type, val: f64) -> Self::Value {

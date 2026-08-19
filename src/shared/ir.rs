@@ -30,6 +30,17 @@ pub enum FullType {
     Pair(Type, Type, u8),
 }
 
+pub fn size_of_type(ty: Type) -> u32 {
+    match ty {
+        Type::Void => 0,
+        Type::Bool | Type::i8 => 1,
+        Type::i16 => 2,
+        Type::i32 => 4,
+        Type::i64 => 8,
+        Type { repr: 6_u8..=u8::MAX } => todo!(),
+    }
+}
+
 pub use super::ffi::InstructionKind;
 pub use super::ffi::Type;
 
@@ -57,7 +68,7 @@ impl ModuleTpde {
                 &fn_abi.args
             };
             args.iter()
-                .flat_map(|arg| match &fn_abi.ret.mode {
+                .flat_map(|arg| match &arg.mode {
                     PassMode::Ignore => vec![ffi::Slot { ty: Type::Void }],
                     PassMode::Direct(_) => {
                         let FullType::Single(ty) = cx.tpde_direct_type(arg.layout) else {

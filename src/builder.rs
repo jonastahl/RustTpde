@@ -2,7 +2,7 @@ mod coverageinfo;
 mod intrinsic;
 
 use crate::context::CodegenCx;
-use crate::shared::ir::{BasicBlock, FullType, Function, InstructionKind, Slot, Type};
+use crate::shared::ir::{size_of_type, BasicBlock, FullType, Function, InstructionKind, Slot, Type};
 use rustc_ast::expand::typetree::FncTree;
 use rustc_codegen_ssa::MemFlags;
 use rustc_codegen_ssa::common::{AtomicRmwBinOp, IntPredicate, RealPredicate, SynchronizationScope};
@@ -286,16 +286,43 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn load_operand(&mut self, place: PlaceRef<'tcx, Self::Value>) -> OperandRef<'tcx, Self::Value> {
-        let FullType::Single(ret_ty) = self.cx.tpde_direct_type(place.layout) else { todo!() };
+        match self.cx.tpde_direct_type(place.layout) {
+            FullType::Single(ret_ty) => {
+                let slot = self.tpde_module.borrow_mut().add_instruction_raw(
+                    self.basic_block,
+                    InstructionKind::Load,
+                    vec![place.val.llval, Slot::new_raw(place.val.align.bytes_usize() as u32)],
+                    Some(ret_ty)
+                );
 
-        let slot = self.tpde_module.borrow_mut().add_instruction_raw(
-            self.basic_block,
-            InstructionKind::Load,
-            vec![place.val.llval, Slot::new_raw(place.val.align.bytes_usize() as u32)],
-            Some(ret_ty)
-        );
+                OperandRef { val: OperandValue::Immediate(slot), layout: place.layout, move_annotation: None }
+            }
+            FullType::Pair(ty_a, ty_b, offset) => {
+                let module = &mut self.tpde_module.borrow_mut();
 
-        OperandRef { val: OperandValue::Immediate(slot), layout: place.layout, move_annotation: None }
+                let slot_a = module.add_instruction_raw(
+                    self.basic_block,
+                    InstructionKind::Load,
+                    vec![place.val.llval, Slot::new_raw(place.val.align.bytes_usize() as u32)],
+                    Some(ty_a)
+                );
+                let ind = module.add_const(Type::i64, 1);
+                let ptr_b = module.add_instruction_raw(
+                    self.basic_block,
+                    InstructionKind::GEP,
+                    vec![place.val.llval, Slot::new_raw(offset as u32), ind],
+                    Some(Type::i64));
+                let slot_b = module.add_instruction_raw(
+                    self.basic_block,
+                    InstructionKind::Load,
+                    vec![ptr_b, Slot::new_raw(place.val.align.bytes_usize() as u32)],
+                    Some(ty_b)
+                );
+
+                OperandRef { val: OperandValue::Pair(slot_a, slot_b), layout: place.layout, move_annotation: None }
+            }
+        }
+
     }
 
     fn write_operand_repeatedly(&mut self, elem: OperandRef<'tcx, Self::Value>, count: u64, dest: PlaceRef<'tcx, Self::Value>) {
@@ -311,16 +338,16 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn store(&mut self, val: Self::Value, ptr: Self::Value, align: rustc_abi::Align) -> Self::Value {
-        todo!()
-    }
-
-    fn store_with_flags(&mut self, val: Self::Value, ptr: Self::Value, align: rustc_abi::Align, flags: MemFlags) -> Self::Value {
         self.tpde_module.borrow_mut().add_instruction_raw(
             self.basic_block,
             InstructionKind::Store,
             vec![val, ptr, Slot::new_raw(align.bytes_usize() as u32)],
             None);
         val
+    }
+
+    fn store_with_flags(&mut self, val: Self::Value, ptr: Self::Value, align: rustc_abi::Align, flags: MemFlags) -> Self::Value {
+        self.store(val, ptr, align)
     }
 
     fn atomic_store(&mut self, val: Self::Value, ptr: Self::Value, order: AtomicOrdering, size: rustc_abi::Size) {
@@ -332,7 +359,17 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn inbounds_gep(&mut self, ty: Self::Type, ptr: Self::Value, indices: &[Self::Value]) -> Self::Value {
-        todo!()
+        let offset = match ty {
+            FullType::Single(ty) => size_of_type(ty),
+            FullType::Pair(_, _, offset) => offset as u32
+        };
+        assert_eq!(indices.len(), 1);
+
+        self.tpde_module.borrow_mut().add_instruction_raw(
+            self.basic_block,
+            InstructionKind::GEP,
+            vec![ptr, Slot::new_raw(offset), indices[0]],
+            Some(Type::i64))
     }
 
     fn trunc(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
