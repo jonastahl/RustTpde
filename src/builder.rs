@@ -95,7 +95,13 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn ret(&mut self, v: Self::Value) {
-        self.tpde_module.borrow_mut().add_instruction(self.basic_block, InstructionKind::Ret, vec![v])
+        let module = &mut self.tpde_module.borrow_mut();
+
+        let ops = match v.pair_slots(module) {
+            Some((slot_a, slot_b)) => vec![slot_a, slot_b],
+            None => vec![v],
+        };
+        module.add_instruction(self.basic_block, InstructionKind::Ret, ops)
     }
 
     fn br(&mut self, dest: Self::BasicBlock) {

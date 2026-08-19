@@ -20,7 +20,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <Add> ([val: 1], [imm: 0]) -> [val: 2],
-                    <Ret> ([pair: 1]),
+                    <Ret> ([val: 0], [val: 2]),
                 ],
             ],
         },

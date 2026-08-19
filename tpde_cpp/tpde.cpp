@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include "RustCompiler.h"
+#include "tpde/RegisterFile.hpp"
 
 
 uint32_t compile_to_file(ModuleTpde& module, const rust::Str path) {
@@ -34,6 +35,19 @@ uint32_t compile_to_file(ModuleTpde& module, const rust::Str path) {
         case Type::i16: return 2;
         case Type::i32: return 4;
         case Type::i64: return 8;
+        default:
+            throw std::runtime_error("unsupported type");
+    }
+}
+
+[[nodiscard]] tpde::RegBank reg_bank_of_type(Type type) {
+    switch (type) {
+        case Type::Bool:
+        case Type::i8:
+        case Type::i16:
+        case Type::i32:
+        case Type::i64:
+            return tpde::RegBank{0};
         default:
             throw std::runtime_error("unsupported type");
     }

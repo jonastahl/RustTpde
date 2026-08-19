@@ -66,7 +66,7 @@ namespace tpde_rust::x64 {
   bool RustCompilerX64::compile_cmp(const RustAdaptor::IRInstRef inst, const ValInfo &, u64) {
     Instruction& cmpi = adaptor->get_instruction(inst);
 
-    // check if we fuse can fuse it
+    // check if we can fuse it
     if (adaptor->get_basic_block(inst.block).instructions.size() > inst.inst) {
       const auto jmpi = adaptor->get_instruction(inst.next());
       if (jmpi.kind == InstructionKind::CondBr && cmpi.result == jmpi.ops[0]) {
@@ -78,8 +78,8 @@ namespace tpde_rust::x64 {
         auto lhs = this->val_ref_local(left);
         auto lhs_op = lhs.part(0);
 
-        const Type tyl = Base::adaptor->type_of_ref(left);
-        const Type tyr = Base::adaptor->type_of_ref(right);
+        const Type tyl = Base::adaptor->type_of_single_ref(left);
+        const Type tyr = Base::adaptor->type_of_single_ref(right);
         assert(tyl == tyr);
 
         const auto lhs_reg = lhs_op.has_reg() ? lhs_op.cur_reg() : lhs_op.load_to_reg();
@@ -97,7 +97,7 @@ namespace tpde_rust::x64 {
             default:
               TPDE_UNREACHABLE("Invalid type");
           }
-        } else if (operands::is_imm(right)) {
+        } else if (operands::is_const(right)) {
           // TODO support has_assignment mi operations
           uint64_t imm_h;
           uint64_t imm_l;

@@ -1,7 +1,7 @@
 
-struct User {
-    id: u64,
-    age: u8,
+pub struct User {
+    pub id: u64,
+    pub age: u8,
 }
 
 #[no_mangle]

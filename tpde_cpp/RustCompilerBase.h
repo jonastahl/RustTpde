@@ -25,8 +25,25 @@ namespace tpde_rust {
 
     using ValInfo = Adaptor::ValInfo;
     struct ValRefSpecial {
-      uint8_t mode = 4;
-      IRValueRef const_data;
+      enum MODE : uint8_t {
+        CONST = 4,
+        PAIR = 5,
+      };
+
+      uint8_t mode;
+      IRValueRef data;
+
+    private:
+      ValRefSpecial(MODE mode, IRValueRef ref) : mode{mode}, data{ref} {}
+
+    public:
+      static ValRefSpecial make_const(IRValueRef data) {
+        return {CONST, data};
+      }
+
+      static ValRefSpecial make_pair(IRValueRef data) {
+        return {PAIR, data};
+      }
     };
 
     tpde::util::BumpAllocator<> const_allocator;
@@ -49,36 +66,58 @@ namespace tpde_rust {
     }
 
     std::optional<ValRefSpecial> val_ref_special(IRValueRef value) {
-      if (operands::is_imm(value)) {
-        return ValRefSpecial { .const_data = operands::content(value) };
+      if (operands::is_const(value)) {
+        return ValRefSpecial::make_const(operands::content(value));
       }
-
+      if (operands::is_pair(value) || operands::is_cpair(value)) {
+        return ValRefSpecial::make_pair(value);
+      }
       return std::nullopt;
     }
 
     ValuePart val_part_ref_special(ValRefSpecial &vrs, u32 part) {
-      Value& imm = this->adaptor->mod->consts[vrs.const_data];
+      switch (vrs.mode) {
+        case ValRefSpecial::CONST: {
+          Value& imm = this->adaptor->mod->consts[vrs.data];
 
-      switch (imm.ty) {
-        case Type::Bool:
-        case Type::i8:
-          return ValuePart(imm.data2, 1, tpde::RegBank{0});
-        case Type::i16:
-          return ValuePart(imm.data2, 2, tpde::RegBank{0});
-        case Type::i32:
-          return ValuePart(imm.data2, 4, tpde::RegBank{0});
-        case Type::i64:
-          return ValuePart(imm.data2, 8, tpde::RegBank{0});
+          switch (imm.ty) {
+            case Type::Bool:
+            case Type::i8:
+              return ValuePart(imm.data2, 1, tpde::RegBank{0});
+            case Type::i16:
+              return ValuePart(imm.data2, 2, tpde::RegBank{0});
+            case Type::i32:
+              return ValuePart(imm.data2, 4, tpde::RegBank{0});
+            case Type::i64:
+              return ValuePart(imm.data2, 8, tpde::RegBank{0});
 
+            default:
+              throw std::runtime_error("not implemented");
+          }
+        }
+        case ValRefSpecial::PAIR: {
+          PairRef* pr;
+          if (operands::is_pair(vrs.data)) {
+            pr = &this->adaptor->cur_func->slot_pairs[operands::content(vrs.data)];
+          } else if (operands::is_cpair(vrs.data)) {
+            pr = &this->adaptor->mod->const_pairs[operands::content(vrs.data)];
+          } else {
+            throw std::runtime_error("invalid pair type");
+          }
+
+          return this
+            ->val_ref(part == 0 ? pr->slot_a : pr->slot_b)
+            .part(0);
+        }
         default:
-          throw std::runtime_error("not implemented");
+          throw std::runtime_error("unknown special mode");
       }
     }
 
     void prologue_assign_arg(tpde::CCAssigner *cc_assigner,
                              u32 arg_idx,
                              IRValueRef arg) {
-      u32 align = size_of_type(Base::adaptor->type_of_ref(arg));
+      u32 align = size_of_type(Base::adaptor->type_of_single_ref(arg));
       bool allow_split = true; // TODO
       Base::prologue_assign_arg(cc_assigner, arg_idx, arg, align, allow_split);
     }
@@ -276,8 +315,9 @@ namespace tpde_rust {
 
     typename Base::RetBuilder rb{*this->derived(), *this->derived()->cur_cc_assigner()};
     if (!instr->ops.empty()) {
-      IRValueRef retval = this->adaptor->val_ref_of_slot(instr->ops[0]);
-      rb.add(retval);
+      for (auto op : instr->ops) {
+        rb.add(this->adaptor->val_ref_of_slot(op));
+      }
     }
     rb.ret();
     return true;
@@ -371,7 +411,7 @@ namespace tpde_rust {
 
     IRValueRef ir_res = this->adaptor->val_ref_of_slot(instr->result);
 
-    unsigned int_width = size_of_type(Base::adaptor->type_of_ref(ir_res));
+    unsigned int_width = size_of_type(Base::adaptor->type_of_single_ref(ir_res));
     const auto &operands = instr->ops;
     ValueRef lhs = this->val_ref_local(operands[0]);
     ValueRef rhs = this->val_ref_local(operands[1]);
@@ -472,7 +512,7 @@ namespace tpde_rust {
     const auto op_val = storei.ops[0];
     auto op_ref = this->val_ref(op_val);
 
-    Type ty = this->adaptor->type_of_ref(op_val);
+    Type ty = this->adaptor->type_of_single_ref(op_val);
 
     using EncodeFnTy =
       bool (Derived::*)(GenericValuePart &&, GenericValuePart &&);
@@ -523,7 +563,7 @@ namespace tpde_rust {
   template <typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_load_generic(
   Instruction& loadi, GenericValuePart &&ptr_op) {
-    Type ty = this->adaptor->type_of_ref(loadi.result);
+    Type ty = this->adaptor->type_of_single_ref(loadi.result);
 
     using EncodeFnTy = bool (Derived::*)(GenericValuePart &&, ValuePart &&);
     static constexpr auto int_fns = []() consteval {

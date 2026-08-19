@@ -425,13 +425,18 @@ impl BasicBlock {
     }
 }
 
-impl Function {
-    pub fn find_slot(&self, slots: &Vec<Vec<Slot>>, index: usize) -> Option<Slot> {
-        slots
-            .get(self.0)
-            .map(|sl| sl.get(index))
-            .flatten()
-            .map(|sl| *sl)
+impl Slot {
+    pub fn pair_slots(&self, module: &ModuleTpde) -> Option<(Slot, Slot)> {
+        let pair = match self {
+            Slot::Pair(func, ind) => {
+                module.functions[func.0].slot_pairs[*ind as usize]
+            }
+            Slot::CPair(ind) => {
+                module.const_pairs[*ind as usize]
+            }
+            _ => return None,
+        };
+        Some((Slot::from_ffi(pair.slot_a), Slot::from_ffi(pair.slot_b)))
     }
 }
 

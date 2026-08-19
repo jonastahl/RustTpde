@@ -7,6 +7,8 @@
 #include <tpde/RegisterFile.hpp>
 #include <generator>
 
+#include "tpde/util/SmallVector.hpp"
+
 namespace tpde_rust {
   // doing this with a lambda throws magical errors
   struct PointifyFunctor {
@@ -47,12 +49,28 @@ namespace tpde_rust {
     ModuleTpde *mod = nullptr;
     Function *cur_func = nullptr;
 
-    [[nodiscard]] Type type_of_ref(const IRValueRef value) const {
+    [[nodiscard]] Type type_of_single_ref(const IRValueRef value) const {
       if (operands::is_val(value))
         return cur_func->slots[operands::content(value)].ty;
-      if (operands::is_imm(value))
+      if (operands::is_const(value))
         return mod->consts[operands::content(value)].ty;
       assert(false && "invalid value ref");
+    }
+
+    [[nodiscard]] tpde::util::SmallVector<Type> type_of_ref(const IRValueRef value) const {
+      auto types = tpde::util::SmallVector<Type>{};
+      if (operands::is_pair(value)) {
+        auto& pair = cur_func->slot_pairs[operands::content(value)];
+        types.push_back(type_of_single_ref(pair.slot_a));
+        types.push_back(type_of_single_ref(pair.slot_b));
+      } else if (operands::is_cpair(value)) {
+        auto& pair = mod->const_pairs[operands::content(value)];
+        types.push_back(type_of_single_ref(pair.slot_a));
+        types.push_back(type_of_single_ref(pair.slot_b));
+      } else {
+        types.push_back(type_of_single_ref(value));
+      }
+      return types;
     }
 
     [[nodiscard]] BasicBlock &get_basic_block(const IRBlockRef block) const {
@@ -110,7 +128,7 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] static bool cur_arg_is_byval(const u32 idx) {
-      // TODO so far only byval supported
+      // TODO so far no byval supported
       return false;
     }
 
@@ -248,7 +266,7 @@ namespace tpde_rust {
       if (operands::is_ptr(val)) {
         return cur_func->allocas[operands::content(val)].size;
       }
-      return size_of_type(type_of_ref(val));
+      return size_of_type(type_of_single_ref(val));
     }
 
     [[nodiscard]] u32 val_alloca_align(IRValueRef val) const {
@@ -325,31 +343,37 @@ namespace tpde_rust {
     // things for compiler
 
     struct ValueParts {
-      Type ty;
+      tpde::util::SmallVector<Type> types;
 
-      static u32 count() {
-        return 1;
+      ValueParts() = delete;
+      ValueParts(tpde::util::SmallVector<Type>&& types) : types(std::move(types)) {
+      }
+      ValueParts(Type type) {
+        types.push_back(type);
+      }
+
+      [[nodiscard]] u32 count() const {
+        return types.size();
       }
 
       [[nodiscard]] Type type(u32 n) const {
-        return ty;
+        return types[n];
       }
 
       [[nodiscard]] u32 size_bytes(u32 n) const {
-        return size_of_type(ty);
+        return size_of_type(type(n));
       }
 
-      static tpde::RegBank reg_bank(u32 n) {
-        // TODO everything in basic register bank so far
-        return tpde::RegBank{0};
+      [[nodiscard]] tpde::RegBank reg_bank(u32 n) const {
+        return reg_bank_of_type(type(n));
       }
     };
 
-    ValueParts val_parts(const IRValueRef value) {
+    [[nodiscard]] ValueParts val_parts(const IRValueRef value) const {
       return ValueParts{type_of_ref(value)};
     }
 
-    ValueParts val_parts(const ValInfo &info) const {
+    static ValueParts val_parts(const ValInfo &info) {
       return ValueParts{info.type};
     }
 

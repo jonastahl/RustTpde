@@ -44,7 +44,7 @@ ModuleTpde {
                     <Load> ([ptr: 0], [raw: 8]) -> [val: 4],
                     <GEP> ([ptr: 0], [raw: 8], [imm: 7]) -> [val: 5],
                     <Load> ([val: 5], [raw: 8]) -> [val: 6],
-                    <Ret> ([pair: 1]),
+                    <Ret> ([val: 4], [val: 6]),
                 ],
             ],
         },
