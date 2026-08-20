@@ -15,16 +15,18 @@ Disassembly of section .text:
    0:	55                   	push   %rbp
    1:	48 89 e5             	mov    %rsp,%rbp
    4:	83 ff 64             	cmp    $0x64,%edi
-   7:	0f 8f 11 00 00 00    	jg     1e <find_user+0x1e>
-   d:	48 c7 45 c0 01 00 00 	movq   $0x1,-0x40(%rbp)
-  14:	00 
-  15:	c6 45 c8 01          	movb   $0x1,-0x38(%rbp)
-  19:	e9 0c 00 00 00       	jmp    2a <find_user+0x2a>
-  1e:	48 c7 45 c0 00 00 00 	movq   $0x0,-0x40(%rbp)
-  25:	00 
-  26:	c6 45 c8 00          	movb   $0x0,-0x38(%rbp)
-  2a:	48 8b 45 c0          	mov    -0x40(%rbp),%rax
-  2e:	0f b6 4d c8          	movzbl -0x38(%rbp),%ecx
-  32:	89 ca                	mov    %ecx,%edx
-  34:	5d                   	pop    %rbp
-  35:	c3                   	ret
+   7:	0f 87 17 00 00 00    	ja     24 <find_user+0x24>
+   d:	48 b8 0f 0f 0f 0f 0f 	movabs $0xf0f0f0f0f0f0f0f,%rax
+  14:	0f 0f 0f 
+  17:	48 89 45 c0          	mov    %rax,-0x40(%rbp)
+  1b:	c6 45 c8 f2          	movb   $0xf2,-0x38(%rbp)
+  1f:	e9 12 00 00 00       	jmp    36 <find_user+0x36>
+  24:	48 b8 f0 f0 f0 f0 f0 	movabs $0xf0f0f0f0f0f0f0f0,%rax
+  2b:	f0 f0 f0 
+  2e:	48 89 45 c0          	mov    %rax,-0x40(%rbp)
+  32:	c6 45 c8 f1          	movb   $0xf1,-0x38(%rbp)
+  36:	48 8b 45 c0          	mov    -0x40(%rbp),%rax
+  3a:	0f b6 4d c8          	movzbl -0x38(%rbp),%ecx
+  3e:	89 ca                	mov    %ecx,%edx
+  40:	5d                   	pop    %rbp
+  41:	c3                   	ret

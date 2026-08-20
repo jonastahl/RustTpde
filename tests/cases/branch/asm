@@ -15,10 +15,10 @@ Disassembly of section .text:
    0:	55                   	push   %rbp
    1:	48 89 e5             	mov    %rsp,%rbp
    4:	83 ff 64             	cmp    $0x64,%edi
-   7:	0f 8f 0c 00 00 00    	jg     19 <simplebranch+0x19>
-   d:	c7 45 d4 00 00 00 00 	movl   $0x0,-0x2c(%rbp)
+   7:	0f 87 0c 00 00 00    	ja     19 <simplebranch+0x19>
+   d:	c7 45 d4 0f 0f 0f 0f 	movl   $0xf0f0f0f,-0x2c(%rbp)
   14:	e9 07 00 00 00       	jmp    20 <simplebranch+0x20>
-  19:	c7 45 d4 01 00 00 00 	movl   $0x1,-0x2c(%rbp)
+  19:	c7 45 d4 f0 f0 f0 f0 	movl   $0xf0f0f0f0,-0x2c(%rbp)
   20:	8b 45 d4             	mov    -0x2c(%rbp),%eax
   23:	5d                   	pop    %rbp
   24:	c3                   	ret

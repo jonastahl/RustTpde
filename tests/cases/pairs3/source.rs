@@ -8,13 +8,13 @@ pub struct User {
 fn find_user_by_age(age: u32) -> User {
     if age > 100 {
         User {
-            id: 0,
-            age: 0,
+            id: 0xF0F0F0F0F0F0F0F0,
+            age: 0xF1,
         }
     } else {
         User {
-            id: 1,
-            age: 1,
+            id: 0x0F0F0F0F0F0F0F0F,
+            age: 0xF2,
         }
     }
 }

@@ -1,3 +1,5 @@
+#![feature(exit_status_error)]
+
 use libtest_mimic::{Arguments, Trial, Failed};
 use pretty_assertions::assert_eq;
 use std::fs;
@@ -33,6 +35,9 @@ fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
     let actual_ir_path = path.join("actual_ir");
     let actual_obj_path = path.join("actual_obj");
     let actual_asm_path = path.join("actual_asm");
+
+    let test_path = path.join("test.rs");
+    let test_runner = path.join("test_runner");
 
     // 2. Read files (if expected output files don't exist yet, default to empty string)
     fs::exists(&source_path)
@@ -77,9 +82,6 @@ fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
         .status()
         .expect("Failed to execute objdump");
 
-    fs::remove_file(&actual_obj_path)
-        .map_err(|_| eprintln!("Deleting obj failed")).unwrap_or_default();
-
     for entry in fs::read_dir(&path).expect("Failed to read directory") {
         let entry = entry.expect("Failed to read directory entry");
         let path = entry.path();
@@ -106,6 +108,33 @@ fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
     } else if actual_result != expected_result {
         assert_eq!(expected_result, actual_result, "Result mismatch in {:?}", path);
     }
+
+    // 5. Compile the test files
+    if test_path.try_exists().unwrap_or(false) {
+        Command::new("rustc")
+            .arg("+nightly")
+            .arg(&test_path)
+            .arg("-C")
+            .arg(format!("link-arg={}", actual_obj_path.to_str().unwrap()))
+            .arg("-o")
+            .arg(&test_runner)
+            .status()
+            .expect("Failed to link file")
+            .exit_ok()
+            .expect("Compilation failed");
+        Command::new(&test_runner)
+            .status()
+            .expect("Files seems to be not correct")
+            .exit_ok()
+            .expect("Test runner failed");
+        fs::remove_file(&test_runner)
+            .map_err(|_| eprintln!("Could not find test runner")).unwrap_or_default();
+    } else {
+        panic!("Test runner not found")
+    }
+
+    fs::remove_file(&actual_obj_path)
+        .map_err(|_| eprintln!("Deleting obj failed")).unwrap_or_default();
 
     Ok(())
 }

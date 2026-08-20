@@ -1,11 +1,11 @@
 
 #[no_mangle]
-pub fn simplebranch(a: u32) -> u32 {
+pub extern "C" fn simplebranch(a: u32) -> u32 {
     let b;
     if a > 100 {
-        b = 1;
+        b = 0xF0F0F0F0;
     } else {
-        b = 0;
+        b = 0x0F0F0F0F;;
     }
     return b;
 }

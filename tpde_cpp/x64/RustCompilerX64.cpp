@@ -126,10 +126,10 @@ namespace tpde_rust::x64 {
         switch (cmpi.kind) {
           case InstructionKind::CMPeq: jump = Jump::je; break;
           case InstructionKind::CMPne: jump = Jump::jne; break;
-          case InstructionKind::CMPgt: jump = Jump::jg; break;
-          case InstructionKind::CMPge: jump = Jump::jge; break;
-          case InstructionKind::CMPlt: jump = Jump::jl; break;
-          case InstructionKind::CMPle: jump = Jump::jle; break;
+          case InstructionKind::CMPgt: jump = Jump::ja; break;
+          case InstructionKind::CMPge: jump = Jump::jae; break;
+          case InstructionKind::CMPlt: jump = Jump::jb; break;
+          case InstructionKind::CMPle: jump = Jump::jbe; break;
             // TODO add for all the unsigned things
           default: TPDE_UNREACHABLE("invalid icmp predicate");
         }
