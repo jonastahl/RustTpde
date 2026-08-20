@@ -25,7 +25,7 @@ ModuleTpde {
             ],
             basic_blocks: [
                 "start": [
-                    <CMPgt> ([val: 0], [imm: 0]) -> [val: 1],
+                    <CMPugt> ([val: 0], [imm: 0]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
