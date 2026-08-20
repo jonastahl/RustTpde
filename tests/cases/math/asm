@@ -1,4 +1,4 @@
-In archive tests/cases/add/actual_obj:
+In archive tests/cases/math/actual_obj:
 
 lib.rmeta:     file format elf64-x86-64
 
@@ -11,15 +11,165 @@ actual_obj.source.1c0322721a2f7889-cgu.0.rcgu.o:     file format elf64-x86-64
 
 Disassembly of section .text:
 
-0000000000000000 <add>:
+0000000000000000 <add3_u32>:
    0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
-   3:	89 f8                	mov    %edi,%eax
-   5:	c3                   	ret
-   6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
-   d:	00 00 
-   f:	90                   	nop
+   3:	8d 3c 17             	lea    (%rdi,%rdx,1),%edi
+   6:	89 f8                	mov    %edi,%eax
+   8:	c3                   	ret
+   9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
 
-0000000000000010 <sub>:
-  10:	29 f7                	sub    %esi,%edi
-  12:	89 f8                	mov    %edi,%eax
-  14:	c3                   	ret
+0000000000000010 <add8_args_u32>:
+  10:	55                   	push   %rbp
+  11:	48 89 e5             	mov    %rsp,%rbp
+  14:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+  17:	8d 3c 17             	lea    (%rdi,%rdx,1),%edi
+  1a:	8d 3c 0f             	lea    (%rdi,%rcx,1),%edi
+  1d:	42 8d 3c 07          	lea    (%rdi,%r8,1),%edi
+  21:	42 8d 3c 0f          	lea    (%rdi,%r9,1),%edi
+  25:	8b 45 10             	mov    0x10(%rbp),%eax
+  28:	8d 3c 07             	lea    (%rdi,%rax,1),%edi
+  2b:	8b 45 18             	mov    0x18(%rbp),%eax
+  2e:	8d 3c 07             	lea    (%rdi,%rax,1),%edi
+  31:	89 f8                	mov    %edi,%eax
+  33:	5d                   	pop    %rbp
+  34:	c3                   	ret
+  35:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  3c:	00 00 
+  3e:	66 90                	xchg   %ax,%ax
+
+0000000000000040 <add_i16>:
+  40:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+  43:	89 f8                	mov    %edi,%eax
+  45:	c3                   	ret
+  46:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  4d:	00 00 
+  4f:	90                   	nop
+
+0000000000000050 <add_i32>:
+  50:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+  53:	89 f8                	mov    %edi,%eax
+  55:	c3                   	ret
+  56:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  5d:	00 00 
+  5f:	90                   	nop
+
+0000000000000060 <add_i64>:
+  60:	48 8d 3c 37          	lea    (%rdi,%rsi,1),%rdi
+  64:	48 89 f8             	mov    %rdi,%rax
+  67:	c3                   	ret
+  68:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+  6f:	00 
+
+0000000000000070 <add_i8>:
+  70:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+  73:	89 f8                	mov    %edi,%eax
+  75:	c3                   	ret
+  76:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  7d:	00 00 
+  7f:	90                   	nop
+
+0000000000000080 <add_sub_u32>:
+  80:	8d 04 37             	lea    (%rdi,%rsi,1),%eax
+  83:	29 f7                	sub    %esi,%edi
+  85:	29 f8                	sub    %edi,%eax
+  87:	c3                   	ret
+  88:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+  8f:	00 
+
+0000000000000090 <add_sub_u8>:
+  90:	8d 04 37             	lea    (%rdi,%rsi,1),%eax
+  93:	29 f7                	sub    %esi,%edi
+  95:	29 f8                	sub    %edi,%eax
+  97:	c3                   	ret
+  98:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+  9f:	00 
+
+00000000000000a0 <add_u16>:
+  a0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+  a3:	89 f8                	mov    %edi,%eax
+  a5:	c3                   	ret
+  a6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  ad:	00 00 
+  af:	90                   	nop
+
+00000000000000b0 <add_u32>:
+  b0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+  b3:	89 f8                	mov    %edi,%eax
+  b5:	c3                   	ret
+  b6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  bd:	00 00 
+  bf:	90                   	nop
+
+00000000000000c0 <add_u64>:
+  c0:	48 8d 3c 37          	lea    (%rdi,%rsi,1),%rdi
+  c4:	48 89 f8             	mov    %rdi,%rax
+  c7:	c3                   	ret
+  c8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+  cf:	00 
+
+00000000000000d0 <add_u8>:
+  d0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+  d3:	89 f8                	mov    %edi,%eax
+  d5:	c3                   	ret
+  d6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  dd:	00 00 
+  df:	90                   	nop
+
+00000000000000e0 <sub_i16>:
+  e0:	29 f7                	sub    %esi,%edi
+  e2:	89 f8                	mov    %edi,%eax
+  e4:	c3                   	ret
+  e5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  ec:	00 00 
+  ee:	66 90                	xchg   %ax,%ax
+
+00000000000000f0 <sub_i32>:
+  f0:	29 f7                	sub    %esi,%edi
+  f2:	89 f8                	mov    %edi,%eax
+  f4:	c3                   	ret
+  f5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  fc:	00 00 
+  fe:	66 90                	xchg   %ax,%ax
+
+0000000000000100 <sub_i64>:
+ 100:	48 29 f7             	sub    %rsi,%rdi
+ 103:	48 89 f8             	mov    %rdi,%rax
+ 106:	c3                   	ret
+ 107:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+ 10e:	00 00 
+
+0000000000000110 <sub_i8>:
+ 110:	29 f7                	sub    %esi,%edi
+ 112:	89 f8                	mov    %edi,%eax
+ 114:	c3                   	ret
+ 115:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+ 11c:	00 00 
+ 11e:	66 90                	xchg   %ax,%ax
+
+0000000000000120 <sub_u16>:
+ 120:	29 f7                	sub    %esi,%edi
+ 122:	89 f8                	mov    %edi,%eax
+ 124:	c3                   	ret
+ 125:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+ 12c:	00 00 
+ 12e:	66 90                	xchg   %ax,%ax
+
+0000000000000130 <sub_u32>:
+ 130:	29 f7                	sub    %esi,%edi
+ 132:	89 f8                	mov    %edi,%eax
+ 134:	c3                   	ret
+ 135:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+ 13c:	00 00 
+ 13e:	66 90                	xchg   %ax,%ax
+
+0000000000000140 <sub_u64>:
+ 140:	48 29 f7             	sub    %rsi,%rdi
+ 143:	48 89 f8             	mov    %rdi,%rax
+ 146:	c3                   	ret
+ 147:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+ 14e:	00 00 
+
+0000000000000150 <sub_u8>:
+ 150:	29 f7                	sub    %esi,%edi
+ 152:	89 f8                	mov    %edi,%eax
+ 154:	c3                   	ret

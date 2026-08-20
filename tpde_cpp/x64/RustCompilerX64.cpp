@@ -113,7 +113,18 @@ namespace tpde_rust::x64 {
             case Type::i8: ASM(CMP8ri, lhs_reg, static_cast<i8>(imm_l)); break;
             case Type::i16: ASM(CMP16ri, lhs_reg, static_cast<i16>(imm_l)); break;
             case Type::i32: ASM(CMP32ri, lhs_reg, static_cast<i32>(imm_l)); break;
-            case Type::i64: ASM(CMP64ri, lhs_reg, static_cast<i64>(imm_l)); break;
+            case Type::i64: {
+              u64 val = static_cast<i64>(imm_l);
+              if (i32(val) == val) {
+                ASM(CMP64ri, lhs_reg, imm_l);
+              } else {
+                ScratchReg scratch{this};
+                AsmReg tmp_reg = scratch.alloc_gp();
+                materialize_constant(&imm_l, tpde::RegBank{0}, 8, tmp_reg);
+                ASM(CMP64rr, lhs_reg, tmp_reg);
+              }
+              break;
+            }
             default:
               TPDE_UNREACHABLE("Invalid type");
           }
