@@ -309,10 +309,14 @@ namespace tpde_rust {
           switch (prev.kind) {
             case InstructionKind::CMPeq:
             case InstructionKind::CMPne:
-            case InstructionKind::CMPge:
-            case InstructionKind::CMPle:
-            case InstructionKind::CMPgt:
-            case InstructionKind::CMPlt:
+            case InstructionKind::CMPuge:
+            case InstructionKind::CMPule:
+            case InstructionKind::CMPugt:
+            case InstructionKind::CMPult:
+            case InstructionKind::CMPsge:
+            case InstructionKind::CMPsle:
+            case InstructionKind::CMPsgt:
+            case InstructionKind::CMPslt:
               return prev.result == cur.ops[0];
             default:
               return false;

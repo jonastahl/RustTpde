@@ -83,10 +83,14 @@ mod ffi {
 
         CMPeq,
         CMPne,
-        CMPgt,
-        CMPge,
-        CMPlt,
-        CMPle,
+        CMPsgt,
+        CMPsge,
+        CMPslt,
+        CMPsle,
+        CMPugt,
+        CMPuge,
+        CMPult,
+        CMPule,
 
         // Storage operations
         Alloca,

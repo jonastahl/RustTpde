@@ -298,10 +298,14 @@ namespace tpde_rust {
 
       set_fn(InstructionKind::CMPeq, &Derived::compile_cmp);
       set_fn(InstructionKind::CMPne, &Derived::compile_cmp);
-      set_fn(InstructionKind::CMPlt, &Derived::compile_cmp);
-      set_fn(InstructionKind::CMPle, &Derived::compile_cmp);
-      set_fn(InstructionKind::CMPgt, &Derived::compile_cmp);
-      set_fn(InstructionKind::CMPge, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPult, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPule, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPugt, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPuge, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPslt, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPsle, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPsgt, &Derived::compile_cmp);
+      set_fn(InstructionKind::CMPsge, &Derived::compile_cmp);
 
       set_fn(InstructionKind::GEP, &Derived::compile_gep);
       set_fn(InstructionKind::Store, &Derived::compile_store);

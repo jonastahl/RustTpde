@@ -442,14 +442,14 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         let instr = match op {
             IntPredicate::IntEQ => InstructionKind::CMPeq,
             IntPredicate::IntNE => InstructionKind::CMPne,
-            IntPredicate::IntUGT => InstructionKind::CMPgt,
-            IntPredicate::IntUGE => InstructionKind::CMPge,
-            IntPredicate::IntULT => InstructionKind::CMPlt,
-            IntPredicate::IntULE => InstructionKind::CMPle,
-            IntPredicate::IntSGT => InstructionKind::CMPgt,
-            IntPredicate::IntSGE => InstructionKind::CMPge,
-            IntPredicate::IntSLT => InstructionKind::CMPlt,
-            IntPredicate::IntSLE => InstructionKind::CMPle,
+            IntPredicate::IntUGT => InstructionKind::CMPugt,
+            IntPredicate::IntUGE => InstructionKind::CMPuge,
+            IntPredicate::IntULT => InstructionKind::CMPult,
+            IntPredicate::IntULE => InstructionKind::CMPule,
+            IntPredicate::IntSGT => InstructionKind::CMPsgt,
+            IntPredicate::IntSGE => InstructionKind::CMPsge,
+            IntPredicate::IntSLT => InstructionKind::CMPslt,
+            IntPredicate::IntSLE => InstructionKind::CMPsle,
         };
 
         self.tpde_module.borrow_mut().add_instruction_raw(self.basic_block, instr, vec![lhs, rhs], Some(Type::Bool))
