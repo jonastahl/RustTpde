@@ -28,6 +28,7 @@ pub enum Slot {
 pub enum FullType {
     Single(Type),
     Pair(Type, Type, u8),
+    Memory{sized: bool}
 }
 
 pub fn size_of_type(ty: Type) -> u32 {
@@ -37,7 +38,9 @@ pub fn size_of_type(ty: Type) -> u32 {
         Type::i16 => 2,
         Type::i32 => 4,
         Type::i64 => 8,
-        Type { repr: 6_u8..=u8::MAX } => todo!(),
+        Type {
+            repr: 6_u8..=u8::MAX,
+        } => todo!(),
     }
 }
 
@@ -60,7 +63,7 @@ impl ModuleTpde {
         fn_abi: &FnAbi<'tcx, Ty<'tcx>>,
         linkage: Linkage,
     ) -> Function {
-        let slots: Vec<ffi::Slot> = {
+        let mut slots: Vec<ffi::Slot> = {
             // we can ignore variadic arguments
             let args = if fn_abi.c_variadic {
                 &fn_abi.args[..fn_abi.fixed_count as usize]
@@ -83,11 +86,25 @@ impl ModuleTpde {
                         vec![ffi::Slot { ty: a }, ffi::Slot { ty: b }]
                     }
                     PassMode::Cast { cast, pad_i32: _ } => todo!(),
-                    PassMode::Indirect { .. } => {
-                        todo!()
+                    PassMode::Indirect {
+                        attrs,
+                        meta_attrs,
+                        on_stack,
+                    } => {
+                        vec![ffi::Slot { ty: Type::ptr }]
                     }
                 })
                 .collect()
+        };
+        match fn_abi.ret.mode {
+            PassMode::Indirect {
+                attrs,
+                meta_attrs,
+                on_stack,
+            } => {
+                slots.insert(0, ffi::Slot { ty: Type::ptr });
+            }
+            _ => (),
         };
 
         let n_args = slots.len();
@@ -195,7 +212,24 @@ impl ModuleTpde {
             .unwrap_or_else(|| panic!("Basic block not found"))
     }
 
-    pub fn add_instruction_ret(
+    #[inline]
+    pub fn add_instruction(&mut self, bb: BasicBlock, instr: InstructionKind, ops: Vec<Slot>) {
+        self.add_instruction_raw_internal(bb, instr, ops, None);
+    }
+    
+    #[inline]
+    pub fn add_instructionr_ret(
+        &mut self,
+        bb: BasicBlock,
+        instr: InstructionKind,
+        ops: Vec<Slot>,
+        ret: Type,
+    ) -> Slot {
+        self.add_instruction_raw_internal(bb, instr, ops, Some(ret)).unwrap()
+    }
+
+    #[inline]
+    pub fn add_instruction_ret_first(
         &mut self,
         bb: BasicBlock,
         instr: InstructionKind,
@@ -211,24 +245,20 @@ impl ModuleTpde {
             assert_eq!(bb.function(), f);
 
             let ret = func.slots.get(v as usize).unwrap().ty;
-            self.add_instruction_raw(bb, instr, ops, Some(ret))
+            self.add_instruction_raw_internal(bb, instr, ops, Some(ret)).unwrap()
         } else {
             panic!("First operand of return instruction must be a value slot");
         }
     }
 
-    pub fn add_instruction(&mut self, bb: BasicBlock, instr: InstructionKind, ops: Vec<Slot>) {
-        self.add_instruction_raw(bb, instr, ops, None);
-    }
-
     #[inline]
-    pub fn add_instruction_raw(
+    fn add_instruction_raw_internal(
         &mut self,
         bb: BasicBlock,
         instr: InstructionKind,
         ops: Vec<Slot>,
         ret: Option<Type>,
-    ) -> Slot {
+    ) -> Option<Slot> {
         let func = self.get_function_mut(&bb.function());
 
         if let Some(ty) = ret {
@@ -245,7 +275,11 @@ impl ModuleTpde {
             result,
         });
 
-        Slot::new_val(bb.function(), result)
+        if ret.is_some() {
+            Some(Slot::new_val(bb.function(), result))
+        } else {
+            None
+        }
     }
 
     pub fn add_alloca(&mut self, func: Function, size: usize, align: usize) -> Slot {
@@ -261,17 +295,32 @@ impl ModuleTpde {
         Slot::new_const((consts.len() - 1) as u32)
     }
 
-    pub fn add_const_pair(&mut self, ty_a: Type, ty_b: Type, offset_b: u8, data_a: u128, data_b: u128) -> Slot {
-        let slot_a = self.add_const(ty_a, data_a).to_ffi();
-        let slot_b = self.add_const(ty_b, data_b).to_ffi();
-
+    pub fn add_const_pair(
+        &mut self,
+        slot_a: Slot,
+        slot_b: Slot,
+        offset_b: u8
+    ) -> Slot {
         let const_pairs = &mut self.const_pairs;
         const_pairs.push(ffi::PairRef {
-            slot_a,
-            slot_b,
+            slot_a: slot_a.to_ffi(),
+            slot_b: slot_b.to_ffi(),
             offset_b,
         });
         Slot::new_cpair((const_pairs.len() - 1) as u32)
+    }
+    
+    pub fn add_const_pair_values(
+        &mut self,
+        ty_a: Type,
+        ty_b: Type,
+        offset_b: u8,
+        data_a: u128,
+        data_b: u128,
+    ) -> Slot {
+        let slot_a = self.add_const(ty_a, data_a);
+        let slot_b = self.add_const(ty_b, data_b);
+        self.add_const_pair(slot_a, slot_b, offset_b)
     }
 
     pub fn extract_vals(&self, pair: Slot) -> (Slot, Slot, u8) {
@@ -280,7 +329,11 @@ impl ModuleTpde {
             Slot::Pair(func, ind) => self.functions[func.0].slot_pairs[ind as usize],
             _ => panic!("agg_val has to be a pair"),
         };
-        (Slot::from_ffi(v.slot_a), Slot::from_ffi(v.slot_b), v.offset_b)
+        (
+            Slot::from_ffi(v.slot_a),
+            Slot::from_ffi(v.slot_b),
+            v.offset_b,
+        )
     }
 
     pub fn add_pair(&mut self, func: Function, slot_a: Slot, slot_b: Slot, offset_b: u8) -> Slot {
@@ -294,11 +347,10 @@ impl ModuleTpde {
     }
 
     pub fn add_br(&mut self, bb: BasicBlock, to: BasicBlock) {
-        self.add_instruction_raw(
+        self.add_instruction(
             bb,
             InstructionKind::Br,
             vec![Slot::new_raw(to.index as u32)],
-            None,
         );
     }
 
@@ -309,7 +361,7 @@ impl ModuleTpde {
         thenbb: BasicBlock,
         elsebb: BasicBlock,
     ) {
-        self.add_instruction_raw(
+        self.add_instruction(
             bb,
             InstructionKind::CondBr,
             vec![
@@ -317,7 +369,6 @@ impl ModuleTpde {
                 Slot::new_raw(thenbb.index as u32),
                 Slot::new_raw(elsebb.index as u32),
             ],
-            None,
         );
     }
 }
@@ -396,6 +447,14 @@ impl Slot {
         }
         unreachable!()
     }
+    
+    pub fn get_func(&self) -> Option<Function> {
+        match self {
+            Slot::Value(func, _) => Some(*func),
+            Slot::Pair(func, _) => Some(*func),
+            _ => None,
+        }
+    }
 }
 
 impl Debug for Slot {
@@ -428,12 +487,8 @@ impl BasicBlock {
 impl Slot {
     pub fn pair_slots(&self, module: &ModuleTpde) -> Option<(Slot, Slot)> {
         let pair = match self {
-            Slot::Pair(func, ind) => {
-                module.functions[func.0].slot_pairs[*ind as usize]
-            }
-            Slot::CPair(ind) => {
-                module.const_pairs[*ind as usize]
-            }
+            Slot::Pair(func, ind) => module.functions[func.0].slot_pairs[*ind as usize],
+            Slot::CPair(ind) => module.const_pairs[*ind as usize],
             _ => return None,
         };
         Some((Slot::from_ffi(pair.slot_a), Slot::from_ffi(pair.slot_b)))

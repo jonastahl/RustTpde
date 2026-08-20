@@ -99,7 +99,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn ret_void(&mut self) {
-        todo!()
+        self.tpde_module.borrow_mut().add_instruction(self.basic_block, InstructionKind::Ret, vec![])
     }
 
     fn ret(&mut self, v: Self::Value) {
@@ -151,7 +151,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn add(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_ret(
+        self.tpde_module.borrow_mut().add_instruction_ret_first(
             self.basic_block,
             InstructionKind::Add,
             vec![lhs, rhs],
@@ -171,7 +171,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn sub(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_ret(
+        self.tpde_module.borrow_mut().add_instruction_ret_first(
             self.basic_block,
             InstructionKind::Sub,
             vec![lhs, rhs],
@@ -323,6 +323,45 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
 
     fn load(&mut self, ty: Self::Type, ptr: Self::Value, align: rustc_abi::Align) -> Self::Value {
         todo!()
+        // match ty {
+        //     FullType::Single(ret_ty) => {
+        //         todo!()
+        //     }
+        //     FullType::Pair(ty_a, ty_b, offset) => {
+        //         let module = &mut self.tpde_module.borrow_mut();
+        //
+        //         let slot_a = module.add_instruction_raw(
+        //             self.basic_block,
+        //             InstructionKind::Load,
+        //             vec![
+        //                 ptr,
+        //                 Slot::new_raw(align.bytes_usize() as u32),
+        //             ],
+        //             Some(ty_a),
+        //         );
+        //         let ind = module.add_const(Type::i64, 1);
+        //         let ptr_b = module.add_instruction_raw(
+        //             self.basic_block,
+        //             InstructionKind::GEP,
+        //             vec![ptr, Slot::new_raw(offset as u32), ind],
+        //             Some(Type::i64),
+        //         );
+        //         let slot_b = module.add_instruction_raw(
+        //             self.basic_block,
+        //             InstructionKind::Load,
+        //             vec![ptr_b, Slot::new_raw(align.bytes_usize() as u32)],
+        //             Some(ty_b),
+        //         );
+        //
+        //         match slot_a.get_func().or(slot_b.get_func()) {
+        //             None => module.add_const_pair(slot_a, slot_b, offset),
+        //             Some(func) => module.add_pair(func, slot_a, slot_b, offset),
+        //         }
+        //     },
+        //     FullType::Memory { sized } => {
+        //         todo!()
+        //     }
+        // }
     }
 
     fn volatile_load(
@@ -349,56 +388,55 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         &mut self,
         place: PlaceRef<'tcx, Self::Value>,
     ) -> OperandRef<'tcx, Self::Value> {
-        match self.cx.tpde_direct_type(place.layout) {
+        let val = match self.cx.tpde_direct_type(place.layout) {
             FullType::Single(ret_ty) => {
-                let slot = self.tpde_module.borrow_mut().add_instruction_raw(
+                let slot = self.tpde_module.borrow_mut().add_instructionr_ret(
                     self.basic_block,
                     InstructionKind::Load,
                     vec![
                         place.val.llval,
                         Slot::new_raw(place.val.align.bytes_usize() as u32),
                     ],
-                    Some(ret_ty),
+                    ret_ty,
                 );
-
-                OperandRef {
-                    val: OperandValue::Immediate(slot),
-                    layout: place.layout,
-                    move_annotation: None,
-                }
+                OperandValue::Immediate(slot)
             }
             FullType::Pair(ty_a, ty_b, offset) => {
                 let module = &mut self.tpde_module.borrow_mut();
 
-                let slot_a = module.add_instruction_raw(
+                let slot_a = module.add_instructionr_ret(
                     self.basic_block,
                     InstructionKind::Load,
                     vec![
                         place.val.llval,
                         Slot::new_raw(place.val.align.bytes_usize() as u32),
                     ],
-                    Some(ty_a),
+                    ty_a,
                 );
                 let ind = module.add_const(Type::i64, 1);
-                let ptr_b = module.add_instruction_raw(
+                let ptr_b = module.add_instructionr_ret(
                     self.basic_block,
                     InstructionKind::GEP,
                     vec![place.val.llval, Slot::new_raw(offset as u32), ind],
-                    Some(Type::i64),
+                    Type::i64,
                 );
-                let slot_b = module.add_instruction_raw(
+                let slot_b = module.add_instructionr_ret(
                     self.basic_block,
                     InstructionKind::Load,
                     vec![ptr_b, Slot::new_raw(place.val.align.bytes_usize() as u32)],
-                    Some(ty_b),
+                    ty_b,
                 );
 
-                OperandRef {
-                    val: OperandValue::Pair(slot_a, slot_b),
-                    layout: place.layout,
-                    move_annotation: None,
-                }
+                OperandValue::Pair(slot_a, slot_b)
+            },
+            FullType::Memory { sized } => {
+                OperandValue::Ref(place.val)
             }
+        };
+        OperandRef {
+            val,
+            layout: place.layout,
+            move_annotation: None,
         }
     }
 
@@ -425,11 +463,10 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         ptr: Self::Value,
         align: rustc_abi::Align,
     ) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_raw(
+        self.tpde_module.borrow_mut().add_instruction(
             self.basic_block,
             InstructionKind::Store,
             vec![val, ptr, Slot::new_raw(align.bytes_usize() as u32)],
-            None,
         );
         val
     }
@@ -468,14 +505,15 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         let offset = match ty {
             FullType::Single(ty) => size_of_type(ty),
             FullType::Pair(_, _, offset) => offset as u32,
+            FullType::Memory { sized } => todo!()
         };
         assert_eq!(indices.len(), 1);
 
-        self.tpde_module.borrow_mut().add_instruction_raw(
+        self.tpde_module.borrow_mut().add_instructionr_ret(
             self.basic_block,
             InstructionKind::GEP,
             vec![ptr, Slot::new_raw(offset), indices[0]],
-            Some(Type::i64),
+            Type::i64,
         )
     }
 
@@ -553,11 +591,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
             IntPredicate::IntSLE => InstructionKind::CMPsle,
         };
 
-        self.tpde_module.borrow_mut().add_instruction_raw(
+        self.tpde_module.borrow_mut().add_instructionr_ret(
             self.basic_block,
             instr,
             vec![lhs, rhs],
-            Some(Type::Bool),
+            Type::Bool,
         )
     }
 
@@ -575,7 +613,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         flags: MemFlags,
         tt: Option<FncTree>,
     ) {
-        todo!()
+        self.tpde_module.borrow_mut().add_instruction(
+            self.basic_block,
+            InstructionKind::MemCpy,
+            vec![dst, Slot::new_raw(dst_align.bytes_usize() as u32), src, Slot::new_raw(src_align.bytes_usize() as u32), size],
+        );
     }
 
     fn memmove(

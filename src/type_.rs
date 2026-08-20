@@ -19,6 +19,9 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
 
                 FullType::Pair(a, b, b_offset.bytes_usize() as u8)
             },
+            BackendRepr::Memory { sized } => {
+                FullType::Memory { sized }
+            },
             _ => todo!()
         }
     }
@@ -89,9 +92,10 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
             FullType::Single(ty) => match ty {
                 Type::Void => TypeKind::Void,
                 Type::Bool | Type::i8 |  Type::i16 | Type::i32 | Type::i64 => TypeKind::Integer,
-                _ => unreachable!()
+                _ => todo!()
             },
             FullType::Pair(ty1, ty2, _) => TypeKind::Struct,
+            FullType::Memory { .. } => todo!()
         }
     }
 
@@ -130,7 +134,7 @@ impl<'tcx> TypeMembershipCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
 
 impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     fn backend_type(&self, layout: TyAndLayout<'tcx>) -> Self::Type {
-        todo!()
+        self.tpde_direct_type(layout)
     }
 
     fn cast_backend_type(&self, ty: &CastTarget) -> Self::Type {

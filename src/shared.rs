@@ -71,6 +71,7 @@ mod ffi {
         i32,
         i64,
         i128,
+        ptr
     }
 
     #[derive(Debug)]
@@ -97,6 +98,7 @@ mod ffi {
         Store,
         Load,
         GEP,
+        MemCpy,
 
         // Branching operations
         Ret,

@@ -56,6 +56,10 @@ namespace tpde_rust::x64 {
     bool compile_cmp(RustAdaptor::IRInstRef inst, const ValInfo &, u64);
 
     static GenericValuePart create_addr_for_alloca(tpde::AssignmentPartRef ap);
+
+    void create_helper_call(std::span<IRValueRef> args,
+                        ValueRef *result,
+                        SymRef sym);
   };
 
   std::unique_ptr<RustCompiler> create_compiler() {
@@ -160,5 +164,14 @@ namespace tpde_rust::x64 {
   RustCompilerX64::GenericValuePart
     RustCompilerX64::create_addr_for_alloca(tpde::AssignmentPartRef ap) {
     return GenericValuePart::Expr{AsmReg::BP, ap.variable_stack_off()};
+  }
+
+  void RustCompilerX64::create_helper_call(std::span<IRValueRef> args, ValueRef *result, SymRef sym) {
+    tpde::util::SmallVector<CallArg, 8> arg_vec{};
+    for (auto arg : args) {
+      arg_vec.push_back(CallArg{arg});
+    }
+
+    generate_call(sym, arg_vec, result);
   }
 }

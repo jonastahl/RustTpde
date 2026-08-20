@@ -237,6 +237,8 @@ namespace tpde_rust {
 
     bool compile_load_generic(Instruction&, GenericValuePart &&);
 
+    bool compile_memcpy(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     ValueRef val_ref_local(const size_t local_idx) {
       return this->val_ref(this->adaptor->val_ref_of_slot(local_idx));
     }
@@ -310,6 +312,7 @@ namespace tpde_rust {
       set_fn(InstructionKind::GEP, &Derived::compile_gep);
       set_fn(InstructionKind::Store, &Derived::compile_store);
       set_fn(InstructionKind::Load, &Derived::compile_load);
+      set_fn(InstructionKind::MemCpy, &Derived::compile_memcpy);
 
       set_fn(InstructionKind::CondBr, &Derived::compile_unknown);
       set_fn(InstructionKind::Br, &Derived::compile_br);
@@ -782,6 +785,22 @@ namespace tpde_rust {
       default: return false;
     }
   }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_memcpy(RustAdaptor::IRInstRef inst, const ValInfo &, u64) {
+    Instruction &memcpy = this->adaptor->get_instruction(inst);
+
+    const auto dst = memcpy.ops[0];
+    const auto src = memcpy.ops[2];
+    const auto len = memcpy.ops[4];
+
+    std::array<IRValueRef, 3> args{dst, src, len};
+
+    auto sym = this->assembler.sym_add_undef("memcpy", tpde::Assembler::SymBinding::GLOBAL);
+    this->derived()->create_helper_call(args, nullptr, sym);
+    return true;
+  }
+
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_br(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {

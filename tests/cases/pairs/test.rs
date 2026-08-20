@@ -1,6 +1,4 @@
 
-// Must mirror the layout of `User` in source.rs exactly (default Rust ABI,
-// so the struct must *not* be `repr(C)` here either).
 struct User {
     id: u64,
     age: u8,

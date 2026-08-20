@@ -55,6 +55,8 @@ namespace tpde_rust {
         return cur_func->slots[operands::content(value)].ty;
       if (operands::is_const(value))
         return mod->consts[operands::content(value)].ty;
+      if (operands::is_ptr(value))
+        return Type::ptr;
       assert(false && "invalid value ref");
     }
 
@@ -121,7 +123,7 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] u32 cur_highest_val_idx() const {
-      return cur_func->slots.size();
+      return cur_func->allocas.size() + cur_func->slots.size();
     }
 
     [[nodiscard]] auto cur_args() const {

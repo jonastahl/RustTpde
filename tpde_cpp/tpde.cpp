@@ -36,8 +36,9 @@ uint32_t compile_to_file(ModuleTpde& module, const rust::Str path) {
         case Type::i32: return 4;
         case Type::i64: return 8;
         case Type::i128: return 16;
+        case Type::ptr: return 8;
         default:
-            throw std::runtime_error("unsupported type");
+            throw std::runtime_error("size_of_type: unsupported type");
     }
 }
 
@@ -48,8 +49,9 @@ uint32_t compile_to_file(ModuleTpde& module, const rust::Str path) {
         case Type::i16:
         case Type::i32:
         case Type::i64:
+        case Type::ptr:
             return tpde::RegBank{0};
         default:
-            throw std::runtime_error("unsupported type");
+            throw std::runtime_error("reg_bank_of_type: unsupported type");
     }
 }

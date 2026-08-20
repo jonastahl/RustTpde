@@ -1,0 +1,110 @@
+In archive tests/cases/structs/actual_obj:
+
+lib.rmeta:     file format elf64-x86-64
+
+
+lib.rmeta-link:     file format elf64-x86-64
+
+
+actual_obj.source.a5d34ad7a00a7042-cgu.0.rcgu.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <find_user>:
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	53                   	push   %rbx
+   5:	48 81 ec 88 00 00 00 	sub    $0x88,%rsp
+   c:	48 89 fb             	mov    %rdi,%rbx
+   f:	83 fe 64             	cmp    $0x64,%esi
+  12:	0f 87 4a 00 00 00    	ja     62 <find_user+0x62>
+  18:	48 b8 0f 0f 0f 0f 0f 	movabs $0xf0f0f0f0f0f0f0f,%rax
+  1f:	0f 0f 0f 
+  22:	48 89 85 70 ff ff ff 	mov    %rax,-0x90(%rbp)
+  29:	c6 45 82 1f          	movb   $0x1f,-0x7e(%rbp)
+  2d:	c6 45 83 2f          	movb   $0x2f,-0x7d(%rbp)
+  31:	66 c7 45 80 3f 3f    	movw   $0x3f3f,-0x80(%rbp)
+  37:	48 b8 3f 3f 3f 3f 3f 	movabs $0x3f3f3f3f3f3f3f3f,%rax
+  3e:	3f 3f 3f 
+  41:	48 89 85 78 ff ff ff 	mov    %rax,-0x88(%rbp)
+  48:	48 8d 7d b0          	lea    -0x50(%rbp),%rdi
+  4c:	48 8d b5 70 ff ff ff 	lea    -0x90(%rbp),%rsi
+  53:	ba 18 00 00 00       	mov    $0x18,%edx
+  58:	e8 00 00 00 00       	call   5d <find_user+0x5d>
+  5d:	e9 3c 00 00 00       	jmp    9e <find_user+0x9e>
+  62:	48 b8 f0 f0 f0 f0 f0 	movabs $0xf0f0f0f0f0f0f0f0,%rax
+  69:	f0 f0 f0 
+  6c:	48 89 45 90          	mov    %rax,-0x70(%rbp)
+  70:	c6 45 a2 f1          	movb   $0xf1,-0x5e(%rbp)
+  74:	c6 45 a3 f2          	movb   $0xf2,-0x5d(%rbp)
+  78:	66 c7 45 a0 f3 73    	movw   $0x73f3,-0x60(%rbp)
+  7e:	48 b8 f3 f3 f3 f3 f3 	movabs $0xf3f3f3f3f3f3f3f3,%rax
+  85:	f3 f3 f3 
+  88:	48 89 45 98          	mov    %rax,-0x68(%rbp)
+  8c:	48 8d 7d b0          	lea    -0x50(%rbp),%rdi
+  90:	48 8d 75 90          	lea    -0x70(%rbp),%rsi
+  94:	ba 18 00 00 00       	mov    $0x18,%edx
+  99:	e8 00 00 00 00       	call   9e <find_user+0x9e>
+  9e:	48 89 df             	mov    %rbx,%rdi
+  a1:	48 8d 75 b0          	lea    -0x50(%rbp),%rsi
+  a5:	ba 18 00 00 00       	mov    $0x18,%edx
+  aa:	e8 00 00 00 00       	call   af <find_user+0xaf>
+  af:	48 81 c4 88 00 00 00 	add    $0x88,%rsp
+  b6:	5b                   	pop    %rbx
+  b7:	5d                   	pop    %rbp
+  b8:	c3                   	ret
+  b9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+00000000000000c0 <find_user_by_age>:
+  c0:	55                   	push   %rbp
+  c1:	48 89 e5             	mov    %rsp,%rbp
+  c4:	53                   	push   %rbx
+  c5:	48 89 fb             	mov    %rdi,%rbx
+  c8:	83 fe 64             	cmp    $0x64,%esi
+  cb:	0f 87 2e 00 00 00    	ja     ff <find_user_by_age+0x3f>
+  d1:	48 b8 0f 0f 0f 0f 0f 	movabs $0xf0f0f0f0f0f0f0f,%rax
+  d8:	0f 0f 0f 
+  db:	48 89 03             	mov    %rax,(%rbx)
+  de:	c6 43 12 1f          	movb   $0x1f,0x12(%rbx)
+  e2:	c6 43 13 2f          	movb   $0x2f,0x13(%rbx)
+  e6:	66 c7 43 10 3f 3f    	movw   $0x3f3f,0x10(%rbx)
+  ec:	48 b8 3f 3f 3f 3f 3f 	movabs $0x3f3f3f3f3f3f3f3f,%rax
+  f3:	3f 3f 3f 
+  f6:	48 89 43 08          	mov    %rax,0x8(%rbx)
+  fa:	e9 29 00 00 00       	jmp    128 <find_user_by_age+0x68>
+  ff:	48 b8 f0 f0 f0 f0 f0 	movabs $0xf0f0f0f0f0f0f0f0,%rax
+ 106:	f0 f0 f0 
+ 109:	48 89 03             	mov    %rax,(%rbx)
+ 10c:	c6 43 12 f1          	movb   $0xf1,0x12(%rbx)
+ 110:	c6 43 13 f2          	movb   $0xf2,0x13(%rbx)
+ 114:	66 c7 43 10 f3 73    	movw   $0x73f3,0x10(%rbx)
+ 11a:	48 b8 f3 f3 f3 f3 f3 	movabs $0xf3f3f3f3f3f3f3f3,%rax
+ 121:	f3 f3 f3 
+ 124:	48 89 43 08          	mov    %rax,0x8(%rbx)
+ 128:	5b                   	pop    %rbx
+ 129:	5d                   	pop    %rbp
+ 12a:	c3                   	ret
+ 12b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+0000000000000130 <increase_age>:
+ 130:	55                   	push   %rbp
+ 131:	48 89 e5             	mov    %rsp,%rbp
+ 134:	53                   	push   %rbx
+ 135:	48 8b 06             	mov    (%rsi),%rax
+ 138:	0f b6 4e 12          	movzbl 0x12(%rsi),%ecx
+ 13c:	8d 49 01             	lea    0x1(%rcx),%ecx
+ 13f:	0f b6 56 13          	movzbl 0x13(%rsi),%edx
+ 143:	8d 52 02             	lea    0x2(%rdx),%edx
+ 146:	0f b7 5e 10          	movzwl 0x10(%rsi),%ebx
+ 14a:	83 eb 14             	sub    $0x14,%ebx
+ 14d:	4c 8b 46 08          	mov    0x8(%rsi),%r8
+ 151:	4d 8d 80 67 2b 00 00 	lea    0x2b67(%r8),%r8
+ 158:	48 89 07             	mov    %rax,(%rdi)
+ 15b:	88 4f 12             	mov    %cl,0x12(%rdi)
+ 15e:	88 57 13             	mov    %dl,0x13(%rdi)
+ 161:	66 89 5f 10          	mov    %bx,0x10(%rdi)
+ 165:	4c 89 47 08          	mov    %r8,0x8(%rdi)
+ 169:	5b                   	pop    %rbx
+ 16a:	5d                   	pop    %rbp
+ 16b:	c3                   	ret

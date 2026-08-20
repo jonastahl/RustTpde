@@ -20,8 +20,9 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
             FullType::Pair(ty_a, ty_b, o) => {
                 let module = &mut self.tpde_module.borrow_mut();
 
-                module.add_const_pair(ty_a, ty_b, o, 0, 0)
+                module.add_const_pair_values(ty_a, ty_b, o, 0, 0)
             },
+            FullType::Memory { .. } => todo!()
         }
     }
 
@@ -113,6 +114,7 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
             Type::i16 => cv.to_i16().unwrap() as u128,
             Type::i32 => cv.to_i32().unwrap() as u128,
             Type::i64 => cv.to_i64().unwrap() as u128,
+            Type::i128 => cv.to_i128().unwrap() as u128,
             _ => todo!()
         };
         self.tpde_module.borrow_mut().add_const(ty, data)
