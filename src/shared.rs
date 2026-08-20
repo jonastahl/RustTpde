@@ -156,6 +156,7 @@ impl Debug for ffi::Value {
             Type::i16 => format!("{}", self.data1 as i16),
             Type::i32 => format!("{}", self.data1 as i32),
             Type::i64 => format!("{}", self.data1 as i64),
+            Type::i128 => format!("{}", (self.data1 as i128) << 64 | (self.data1 as i128)),
             _ => todo!(),
         };
         write!(

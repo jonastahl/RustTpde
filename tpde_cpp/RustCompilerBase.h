@@ -90,6 +90,15 @@ namespace tpde_rust {
               return ValuePart(imm.data2, 4, tpde::RegBank{0});
             case Type::i64:
               return ValuePart(imm.data2, 8, tpde::RegBank{0});
+            case Type::i128:
+              switch (part) {
+                case 0:
+                  return ValuePart(imm.data2, 8, tpde::RegBank{0});
+                case 1:
+                  return ValuePart(imm.data1, 8, tpde::RegBank{0});
+                default:
+                  throw std::runtime_error("invalid part");
+              }
 
             default:
               throw std::runtime_error("not implemented");
@@ -218,6 +227,8 @@ namespace tpde_rust {
 
     bool compile_br(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
+    bool compile_gep(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     bool compile_store(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
     bool compile_store_generic(Instruction&, GenericValuePart &&);
@@ -292,6 +303,7 @@ namespace tpde_rust {
       set_fn(InstructionKind::CMPgt, &Derived::compile_cmp);
       set_fn(InstructionKind::CMPge, &Derived::compile_cmp);
 
+      set_fn(InstructionKind::GEP, &Derived::compile_gep);
       set_fn(InstructionKind::Store, &Derived::compile_store);
       set_fn(InstructionKind::Load, &Derived::compile_load);
 
@@ -491,6 +503,169 @@ namespace tpde_rust {
   }
 
   template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_gep(
+    RustAdaptor::IRInstRef inst, const ValInfo &, u64) {
+    // operands:
+    // base - ptr
+    // scale - raw
+    // index - val or const
+
+    RustAdaptor::IRInstRef gep_ref = inst;
+    Instruction *gep = &this->adaptor->get_instruction(inst);
+
+    GenericValuePart addr = typename GenericValuePart::Expr{};
+
+    {
+      ValueRef index_vr{this};
+      ValuePartRef index_vp{this};
+      auto &expr = std::get<typename GenericValuePart::Expr>(addr.state);
+
+      // Kept separate from expr.disp, we don't want to fold the displacement
+      // whenever we add an index. Indices are sign-extended, but we must use an
+      // unsigned integer here to correctly handle overflows.
+      u64 displacement = 0;
+      // If set, the base is actually a stack variable reference and expr.base is
+      // still uninitialized.
+      bool base_is_stack_var = false;
+
+      auto [ptr_ref, base] = this->val_ref_single(gep->ops[0]);
+      if (base.has_assignment() && base.assignment().is_stack_variable()) {
+        base_is_stack_var = true;
+      } else {
+        expr.base = base.load_to_reg();
+        if (base.can_salvage()) {
+          expr.base = ScratchReg{this};
+          std::get<ScratchReg>(expr.base).alloc_specific(base.salvage());
+        }
+      }
+
+      // The instruction following the last fused GEP, if it might be fusable.
+      Instruction *next_val = nullptr;
+      RustAdaptor::IRInstRef next_ref{};
+      do {
+        const u64 scale = operands::content(gep->ops[1]);
+
+        const IRValueRef idx = gep->ops[2];
+        if (operands::is_const(idx)) {
+          // Constant index: fold into the displacement.
+          const Value &imm = this->adaptor->mod->consts[operands::content(idx)];
+          displacement += static_cast<u64>(scale) * imm.data2;
+        } else if (scale == 0) {
+          // The index doesn't contribute anything, but we still have to
+          // reference it for the reference counting to stay correct.
+          (void) this->val_ref(idx);
+        } else {
+          if (base_is_stack_var) {
+            addr = this->derived()->create_addr_for_alloca(base.assignment());
+            assert(addr.is_expr());
+            displacement += expr.disp;
+            expr.disp = 0;
+            base_is_stack_var = false;
+          }
+
+          if (expr.scale) {
+            // We already have an index; materialize the current address
+            // expression into a register and use it as the new base.
+            this->derived()->gval_expr_as_reg(addr);
+            index_vp.reset();
+            index_vr.reset();
+            base.reset();
+            ptr_ref.reset();
+
+            ScratchReg new_base = std::move(std::get<ScratchReg>(addr.state));
+            addr = typename GenericValuePart::Expr{};
+            expr.base = std::move(new_base);
+          }
+
+          const unsigned idx_width =
+              8 * size_of_type(this->adaptor->type_of_single_ref(idx));
+          index_vr = this->val_ref(idx);
+          if (idx_width != 64) {
+            index_vp = index_vr.part(0).into_extended(true, idx_width, 64);
+          } else {
+            index_vp = index_vr.part(0);
+          }
+          if (index_vp.can_salvage()) {
+            expr.index = ScratchReg{this};
+            std::get<ScratchReg>(expr.index).alloc_specific(index_vp.salvage());
+          } else {
+            expr.index = index_vp.load_to_reg();
+          }
+
+          expr.scale = scale;
+        }
+
+        // Try to fuse the following instruction. This is only possible if it is
+        // the sole user of this GEP and directly follows it.
+        if (!gep->has_result) {
+          break;
+        }
+        // The definition itself counts as one reference.
+        const auto local_idx = this->adaptor->val_local_idx(gep->result);
+        if (this->analyzer.liveness_info(local_idx).ref_count > 2) {
+          break;
+        }
+
+        next_ref = gep_ref.next();
+        const auto &insts = this->adaptor->get_basic_block(gep_ref.block).instructions;
+        if (next_ref.inst >= insts.size()) {
+          next_ref = {};
+          break;
+        }
+        next_val = &this->adaptor->get_instruction(next_ref);
+
+        if (true || // we don't merge multiple GEPs for now
+          next_val->kind != InstructionKind::GEP ||
+            next_val->ops[0] != gep->result) {
+          break;
+        }
+
+        // Chain of GEPs: fold the next one into this address computation.
+        gep_ref = next_ref;
+        gep = next_val;
+        next_val = nullptr;
+      } while (true);
+
+      if (base_is_stack_var) {
+        if (!next_val) {
+          // Create a new stack variable reference to avoid materializing this
+          // simple addition.
+          (void) this->result_ref_stack_slot(
+              gep->result, base.assignment(), displacement);
+          return true;
+        }
+
+        addr = this->derived()->create_addr_for_alloca(base.assignment());
+        expr.disp += displacement;
+      } else {
+        expr.disp = displacement;
+      }
+
+      if (next_val) {
+        if (next_val->kind == InstructionKind::Store &&
+            next_val->ops[1] == gep->result) {
+          return compile_store_generic(*next_val, std::move(addr));
+        }
+        if (next_val->kind == InstructionKind::Load &&
+            next_val->ops[0] == gep->result) {
+          return compile_load_generic(*next_val, std::move(addr));
+        }
+      }
+    }
+
+    auto [res_vr, res_ref] = this->result_ref_single(gep->result);
+
+    AsmReg res_reg = this->derived()->gval_expr_as_reg(addr);
+    if (auto *op_reg = std::get_if<ScratchReg>(&addr.state)) {
+      res_ref.set_value(std::move(*op_reg));
+    } else {
+      this->derived()->mov(res_ref.alloc_reg(), res_reg, 8);
+    }
+
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_store(
     RustAdaptor::IRInstRef inst, const ValInfo &, u64) {
     Instruction &storei = this->adaptor->get_instruction(inst);
@@ -536,8 +711,12 @@ namespace tpde_rust {
       case Type::i32:
       case Type::i64: {
         const auto num_bytes = size_of_type(ty);
-        EncodeFnTy fn = int_fns[(num_bytes - 1) / 8];
+        EncodeFnTy fn = int_fns[num_bytes - 1];
         (this->derived()->*fn)(std::move(ptr_op), op_ref.part(0));
+        return true;
+      }
+      case Type::i128: {
+        this->derived()->encode_storei128(std::move(ptr_op), op_ref.part(0), op_ref.part(1));
         return true;
       }
 
@@ -590,7 +769,7 @@ namespace tpde_rust {
       case Type::i32:
       case Type::i64: {
         const auto num_bytes = size_of_type(ty);
-        EncodeFnTy fn = int_fns[(num_bytes - 1) / 8][sext];
+        EncodeFnTy fn = int_fns[num_bytes - 1][sext];
 
         (this->derived()->*fn)(std::move(ptr_op), this->result_ref(loadi.result).part(0));
         return true;

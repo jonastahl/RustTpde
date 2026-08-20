@@ -6,6 +6,7 @@
 #include <tpde/IRAdaptor.hpp>
 #include <tpde/RegisterFile.hpp>
 #include <generator>
+#include <unordered_set>
 
 #include "tpde/util/SmallVector.hpp"
 
@@ -296,17 +297,26 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] bool inst_fused(const IRInstRef inst) const {
-      if (inst.inst > 0 && get_instruction(inst).kind == InstructionKind::CondBr) {
-        switch (get_instruction(inst.prev()).kind) {
-          case InstructionKind::CMPeq:
-          case InstructionKind::CMPne:
-          case InstructionKind::CMPge:
-          case InstructionKind::CMPle:
-          case InstructionKind::CMPgt:
-          case InstructionKind::CMPlt:
-            return true;
-          default:
-            return false;
+      const auto& cur = get_instruction(inst);
+      if (inst.inst > 0) {
+        Instruction& prev = get_instruction(inst.prev());
+
+        if ((cur.kind == InstructionKind::Store || cur.kind == InstructionKind::Load)
+          && prev.kind == InstructionKind::GEP) {
+          return true;
+        }
+        if (cur.kind == InstructionKind::CondBr) {
+          switch (prev.kind) {
+            case InstructionKind::CMPeq:
+            case InstructionKind::CMPne:
+            case InstructionKind::CMPge:
+            case InstructionKind::CMPle:
+            case InstructionKind::CMPgt:
+            case InstructionKind::CMPlt:
+              return prev.result == cur.ops[0];
+            default:
+              return false;
+          }
         }
       }
       return false;
