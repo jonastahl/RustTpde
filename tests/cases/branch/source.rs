@@ -288,6 +288,7 @@ pub extern "C" fn cmp_imm_i64(a: i64) -> u32 {
     if a < -1 { TAKEN } else { NOT_TAKEN }
 }
 
+#[no_mangle]
 pub extern "C" fn cmp_imm_i64_fits(a: i64) -> u32 {
     if a >= 0x7FFF_FFFF { TAKEN } else { NOT_TAKEN }
 }

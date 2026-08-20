@@ -45,7 +45,7 @@ fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
 
     // 3. Compile the files
     Command::new("rustc")
-        .arg("+nightly-2026-08-14")
+        .arg("+nightly-2026-08-19")
         .arg("--crate-type")
         .arg("lib")
         .arg("-Z")
@@ -60,7 +60,7 @@ fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
         .output() // Executes the command and captures stdout/stderr
         .map_err(|e| format!("Failed to execute rustc command: {}", e))?;
     Command::new("rustc")
-        .arg("+nightly-2026-08-14")
+        .arg("+nightly-2026-08-19")
         .arg("--crate-type")
         .arg("lib")
         .arg("-Z")
@@ -112,7 +112,7 @@ fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
     // 5. Compile the test files
     if test_path.try_exists().unwrap_or(false) {
         Command::new("rustc")
-            .arg("+nightly")
+            .arg("+nightly-2026-08-19")
             .arg(&test_path)
             .arg("-C")
             .arg(format!("link-arg={}", actual_obj_path.to_str().unwrap()))

@@ -2,10 +2,14 @@ mod coverageinfo;
 mod intrinsic;
 
 use crate::context::CodegenCx;
-use crate::shared::ir::{size_of_type, BasicBlock, FullType, Function, InstructionKind, Slot, Type};
+use crate::shared::ir::{
+    BasicBlock, FullType, Function, InstructionKind, Slot, Type, size_of_type,
+};
 use rustc_ast::expand::typetree::FncTree;
 use rustc_codegen_ssa::MemFlags;
-use rustc_codegen_ssa::common::{AtomicRmwBinOp, IntPredicate, RealPredicate, SynchronizationScope};
+use rustc_codegen_ssa::common::{
+    AtomicRmwBinOp, IntPredicate, RealPredicate, SynchronizationScope,
+};
 use rustc_codegen_ssa::mir::operand::{OperandRef, OperandValue};
 use rustc_codegen_ssa::mir::place::PlaceRef;
 use rustc_codegen_ssa::traits::{BackendTypes, BuilderMethods, OverflowOp};
@@ -17,7 +21,7 @@ use std::ops::Deref;
 
 pub struct Builder<'a, 'tpde, 'tcx> {
     pub cx: &'a CodegenCx<'tpde, 'tcx>,
-    pub basic_block: BasicBlock
+    pub basic_block: BasicBlock,
 }
 
 impl<'a, 'tpde, 'tcx> BackendTypes for Builder<'a, 'tpde, 'tcx> {
@@ -78,7 +82,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
 
     fn set_span(&mut self, span: Span) {}
 
-    fn append_block(cx: &'a Self::CodegenCx, tpde_fn: Self::Function, name: &str) -> Self::BasicBlock {
+    fn append_block(
+        cx: &'a Self::CodegenCx,
+        tpde_fn: Self::Function,
+        name: &str,
+    ) -> Self::BasicBlock {
         cx.tpde_module.borrow_mut().add_basic_block(&tpde_fn, name)
     }
 
@@ -109,14 +117,32 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn cond_br(&mut self, cond: Self::Value, then_bb: Self::BasicBlock, else_bb: Self::BasicBlock) {
-        self.tpde_module.borrow_mut().add_cond_br(self.basic_block, cond, then_bb, else_bb)
+        self.tpde_module
+            .borrow_mut()
+            .add_cond_br(self.basic_block, cond, then_bb, else_bb)
     }
 
-    fn switch(&mut self, v: Self::Value, else_llbb: Self::BasicBlock, cases: impl ExactSizeIterator<Item=(u128, Self::BasicBlock)>) {
+    fn switch(
+        &mut self,
+        v: Self::Value,
+        else_llbb: Self::BasicBlock,
+        cases: impl ExactSizeIterator<Item = (u128, Self::BasicBlock)>,
+    ) {
         todo!()
     }
 
-    fn invoke(&mut self, llty: Self::FunctionSignature, fn_attrs: Option<&CodegenFnAttrs>, fn_abi: Option<&rustc_target::callconv::FnAbi<'tcx, Ty<'tcx>>>, llfn: Self::Value, args: &[Self::Value], then: Self::BasicBlock, catch: Self::BasicBlock, funclet: Option<&Self::Funclet>, instance: Option<Instance<'tcx>>) -> Self::Value {
+    fn invoke(
+        &mut self,
+        llty: Self::FunctionSignature,
+        fn_attrs: Option<&CodegenFnAttrs>,
+        fn_abi: Option<&rustc_target::callconv::FnAbi<'tcx, Ty<'tcx>>>,
+        llfn: Self::Value,
+        args: &[Self::Value],
+        then: Self::BasicBlock,
+        catch: Self::BasicBlock,
+        funclet: Option<&Self::Funclet>,
+        instance: Option<Instance<'tcx>>,
+    ) -> Self::Value {
         todo!()
     }
 
@@ -125,7 +151,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn add(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_ret(self.basic_block, InstructionKind::Add, vec![lhs, rhs])
+        self.tpde_module.borrow_mut().add_instruction_ret(
+            self.basic_block,
+            InstructionKind::Add,
+            vec![lhs, rhs],
+        )
     }
 
     fn fadd(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
@@ -141,7 +171,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn sub(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_ret(self.basic_block, InstructionKind::Sub, vec![lhs, rhs])
+        self.tpde_module.borrow_mut().add_instruction_ret(
+            self.basic_block,
+            InstructionKind::Sub,
+            vec![lhs, rhs],
+        )
     }
 
     fn fsub(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
@@ -256,7 +290,13 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         todo!()
     }
 
-    fn checked_binop(&mut self, oop: OverflowOp, ty: Ty<'tcx>, lhs: Self::Value, rhs: Self::Value) -> (Self::Value, Self::Value) {
+    fn checked_binop(
+        &mut self,
+        oop: OverflowOp,
+        ty: Ty<'tcx>,
+        lhs: Self::Value,
+        rhs: Self::Value,
+    ) -> (Self::Value, Self::Value) {
         todo!()
     }
 
@@ -272,7 +312,9 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     fn alloca(&mut self, size: rustc_abi::Size, align: rustc_abi::Align) -> Self::Value {
         self.tpde_module.borrow_mut().add_alloca(
             self.basic_block.function(),
-            size.bytes_usize(), align.bytes_usize())
+            size.bytes_usize(),
+            align.bytes_usize(),
+        )
     }
 
     fn alloca_with_ty(&mut self, layout: TyAndLayout<'tcx>) -> Self::Value {
@@ -283,25 +325,47 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         todo!()
     }
 
-    fn volatile_load(&mut self, ty: Self::Type, ptr: Self::Value, align: rustc_abi::Align) -> Self::Value {
+    fn volatile_load(
+        &mut self,
+        ty: Self::Type,
+        ptr: Self::Value,
+        align: rustc_abi::Align,
+    ) -> Self::Value {
         todo!()
     }
 
-    fn atomic_load(&mut self, ty: Self::Type, ptr: Self::Value, order: AtomicOrdering, size: rustc_abi::Size) -> Self::Value {
+    fn atomic_load(
+        &mut self,
+        ty: Self::Type,
+        ptr: Self::Value,
+        order: AtomicOrdering,
+        volatile: bool,
+        size: rustc_abi::Size,
+    ) -> Self::Value {
         todo!()
     }
 
-    fn load_operand(&mut self, place: PlaceRef<'tcx, Self::Value>) -> OperandRef<'tcx, Self::Value> {
+    fn load_operand(
+        &mut self,
+        place: PlaceRef<'tcx, Self::Value>,
+    ) -> OperandRef<'tcx, Self::Value> {
         match self.cx.tpde_direct_type(place.layout) {
             FullType::Single(ret_ty) => {
                 let slot = self.tpde_module.borrow_mut().add_instruction_raw(
                     self.basic_block,
                     InstructionKind::Load,
-                    vec![place.val.llval, Slot::new_raw(place.val.align.bytes_usize() as u32)],
-                    Some(ret_ty)
+                    vec![
+                        place.val.llval,
+                        Slot::new_raw(place.val.align.bytes_usize() as u32),
+                    ],
+                    Some(ret_ty),
                 );
 
-                OperandRef { val: OperandValue::Immediate(slot), layout: place.layout, move_annotation: None }
+                OperandRef {
+                    val: OperandValue::Immediate(slot),
+                    layout: place.layout,
+                    move_annotation: None,
+                }
             }
             FullType::Pair(ty_a, ty_b, offset) => {
                 let module = &mut self.tpde_module.borrow_mut();
@@ -309,29 +373,41 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
                 let slot_a = module.add_instruction_raw(
                     self.basic_block,
                     InstructionKind::Load,
-                    vec![place.val.llval, Slot::new_raw(place.val.align.bytes_usize() as u32)],
-                    Some(ty_a)
+                    vec![
+                        place.val.llval,
+                        Slot::new_raw(place.val.align.bytes_usize() as u32),
+                    ],
+                    Some(ty_a),
                 );
                 let ind = module.add_const(Type::i64, 1);
                 let ptr_b = module.add_instruction_raw(
                     self.basic_block,
                     InstructionKind::GEP,
                     vec![place.val.llval, Slot::new_raw(offset as u32), ind],
-                    Some(Type::i64));
+                    Some(Type::i64),
+                );
                 let slot_b = module.add_instruction_raw(
                     self.basic_block,
                     InstructionKind::Load,
                     vec![ptr_b, Slot::new_raw(place.val.align.bytes_usize() as u32)],
-                    Some(ty_b)
+                    Some(ty_b),
                 );
 
-                OperandRef { val: OperandValue::Pair(slot_a, slot_b), layout: place.layout, move_annotation: None }
+                OperandRef {
+                    val: OperandValue::Pair(slot_a, slot_b),
+                    layout: place.layout,
+                    move_annotation: None,
+                }
             }
         }
-
     }
 
-    fn write_operand_repeatedly(&mut self, elem: OperandRef<'tcx, Self::Value>, count: u64, dest: PlaceRef<'tcx, Self::Value>) {
+    fn write_operand_repeatedly(
+        &mut self,
+        elem: OperandRef<'tcx, Self::Value>,
+        count: u64,
+        dest: PlaceRef<'tcx, Self::Value>,
+    ) {
         todo!()
     }
 
@@ -343,20 +419,39 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         todo!()
     }
 
-    fn store(&mut self, val: Self::Value, ptr: Self::Value, align: rustc_abi::Align) -> Self::Value {
+    fn store(
+        &mut self,
+        val: Self::Value,
+        ptr: Self::Value,
+        align: rustc_abi::Align,
+    ) -> Self::Value {
         self.tpde_module.borrow_mut().add_instruction_raw(
             self.basic_block,
             InstructionKind::Store,
             vec![val, ptr, Slot::new_raw(align.bytes_usize() as u32)],
-            None);
+            None,
+        );
         val
     }
 
-    fn store_with_flags(&mut self, val: Self::Value, ptr: Self::Value, align: rustc_abi::Align, flags: MemFlags) -> Self::Value {
+    fn store_with_flags(
+        &mut self,
+        val: Self::Value,
+        ptr: Self::Value,
+        align: rustc_abi::Align,
+        flags: MemFlags,
+    ) -> Self::Value {
         self.store(val, ptr, align)
     }
 
-    fn atomic_store(&mut self, val: Self::Value, ptr: Self::Value, order: AtomicOrdering, size: rustc_abi::Size) {
+    fn atomic_store(
+        &mut self,
+        val: Self::Value,
+        ptr: Self::Value,
+        order: AtomicOrdering,
+        volatile: bool,
+        size: rustc_abi::Size,
+    ) {
         todo!()
     }
 
@@ -364,10 +459,15 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         todo!()
     }
 
-    fn inbounds_gep(&mut self, ty: Self::Type, ptr: Self::Value, indices: &[Self::Value]) -> Self::Value {
+    fn inbounds_gep(
+        &mut self,
+        ty: Self::Type,
+        ptr: Self::Value,
+        indices: &[Self::Value],
+    ) -> Self::Value {
         let offset = match ty {
             FullType::Single(ty) => size_of_type(ty),
-            FullType::Pair(_, _, offset) => offset as u32
+            FullType::Pair(_, _, offset) => offset as u32,
         };
         assert_eq!(indices.len(), 1);
 
@@ -375,7 +475,8 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
             self.basic_block,
             InstructionKind::GEP,
             vec![ptr, Slot::new_raw(offset), indices[0]],
-            Some(Type::i64))
+            Some(Type::i64),
+        )
     }
 
     fn trunc(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
@@ -452,22 +553,51 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
             IntPredicate::IntSLE => InstructionKind::CMPsle,
         };
 
-        self.tpde_module.borrow_mut().add_instruction_raw(self.basic_block, instr, vec![lhs, rhs], Some(Type::Bool))
+        self.tpde_module.borrow_mut().add_instruction_raw(
+            self.basic_block,
+            instr,
+            vec![lhs, rhs],
+            Some(Type::Bool),
+        )
     }
 
     fn fcmp(&mut self, op: RealPredicate, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
         todo!()
     }
 
-    fn memcpy(&mut self, dst: Self::Value, dst_align: rustc_abi::Align, src: Self::Value, src_align: rustc_abi::Align, size: Self::Value, flags: MemFlags, tt: Option<FncTree>) {
+    fn memcpy(
+        &mut self,
+        dst: Self::Value,
+        dst_align: rustc_abi::Align,
+        src: Self::Value,
+        src_align: rustc_abi::Align,
+        size: Self::Value,
+        flags: MemFlags,
+        tt: Option<FncTree>,
+    ) {
         todo!()
     }
 
-    fn memmove(&mut self, dst: Self::Value, dst_align: rustc_abi::Align, src: Self::Value, src_align: rustc_abi::Align, size: Self::Value, flags: MemFlags) {
+    fn memmove(
+        &mut self,
+        dst: Self::Value,
+        dst_align: rustc_abi::Align,
+        src: Self::Value,
+        src_align: rustc_abi::Align,
+        size: Self::Value,
+        flags: MemFlags,
+    ) {
         todo!()
     }
 
-    fn memset(&mut self, ptr: Self::Value, fill_byte: Self::Value, size: Self::Value, align: rustc_abi::Align, flags: MemFlags) {
+    fn memset(
+        &mut self,
+        ptr: Self::Value,
+        fill_byte: Self::Value,
+        size: Self::Value,
+        align: rustc_abi::Align,
+        flags: MemFlags,
+    ) {
         todo!()
     }
 
@@ -475,7 +605,12 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         todo!()
     }
 
-    fn select(&mut self, cond: Self::Value, then_val: Self::Value, else_val: Self::Value) -> Self::Value {
+    fn select(
+        &mut self,
+        cond: Self::Value,
+        then_val: Self::Value,
+        else_val: Self::Value,
+    ) -> Self::Value {
         todo!()
     }
 
@@ -501,20 +636,15 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
 
         let func = match agg_val {
             Slot::Pair(func, ..) => func,
-            _ =>
-                match elt {
-                    Slot::Value(func, ..) => func,
-                    _ => todo!()
-                },
+            _ => match elt {
+                Slot::Value(func, ..) => func,
+                _ => todo!(),
+            },
         };
 
         match idx {
-            0 => {
-                module.add_pair(func, elt, slot_b, offset_b)
-            }
-            1 => {
-                module.add_pair(func, slot_a, elt, offset_b)
-            }
+            0 => module.add_pair(func, elt, slot_b, offset_b),
+            1 => module.add_pair(func, slot_a, elt, offset_b),
             _ => panic!("pairs only support index 0 or 1"),
         }
     }
@@ -547,7 +677,12 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         todo!()
     }
 
-    fn catch_switch(&mut self, parent: Option<Self::Value>, unwind: Option<Self::BasicBlock>, handlers: &[Self::BasicBlock]) -> Self::Value {
+    fn catch_switch(
+        &mut self,
+        parent: Option<Self::Value>,
+        unwind: Option<Self::BasicBlock>,
+        handlers: &[Self::BasicBlock],
+    ) -> Self::Value {
         todo!()
     }
 
@@ -555,11 +690,26 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         todo!()
     }
 
-    fn atomic_cmpxchg(&mut self, dst: Self::Value, cmp: Self::Value, src: Self::Value, order: AtomicOrdering, failure_order: AtomicOrdering, weak: bool) -> (Self::Value, Self::Value) {
+    fn atomic_cmpxchg(
+        &mut self,
+        dst: Self::Value,
+        cmp: Self::Value,
+        src: Self::Value,
+        order: AtomicOrdering,
+        failure_order: AtomicOrdering,
+        weak: bool,
+    ) -> (Self::Value, Self::Value) {
         todo!()
     }
 
-    fn atomic_rmw(&mut self, op: AtomicRmwBinOp, dst: Self::Value, src: Self::Value, order: AtomicOrdering, ret_ptr: bool) -> Self::Value {
+    fn atomic_rmw(
+        &mut self,
+        op: AtomicRmwBinOp,
+        dst: Self::Value,
+        src: Self::Value,
+        order: AtomicOrdering,
+        ret_ptr: bool,
+    ) -> Self::Value {
         todo!()
     }
 
@@ -579,11 +729,29 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         todo!()
     }
 
-    fn call(&mut self, llty: Self::FunctionSignature, caller_attrs: Option<&CodegenFnAttrs>, fn_abi: Option<&rustc_target::callconv::FnAbi<'tcx, Ty<'tcx>>>, fn_val: Self::Value, args: &[Self::Value], funclet: Option<&Self::Funclet>, callee_instance: Option<Instance<'tcx>>) -> Self::Value {
+    fn call(
+        &mut self,
+        llty: Self::FunctionSignature,
+        caller_attrs: Option<&CodegenFnAttrs>,
+        fn_abi: Option<&rustc_target::callconv::FnAbi<'tcx, Ty<'tcx>>>,
+        fn_val: Self::Value,
+        args: &[Self::Value],
+        funclet: Option<&Self::Funclet>,
+        callee_instance: Option<Instance<'tcx>>,
+    ) -> Self::Value {
         todo!()
     }
 
-    fn tail_call(&mut self, llty: Self::FunctionSignature, caller_attrs: Option<&CodegenFnAttrs>, fn_abi: &rustc_target::callconv::FnAbi<'tcx, Ty<'tcx>>, llfn: Self::Value, args: &[Self::Value], funclet: Option<&Self::Funclet>, callee_instance: Option<Instance<'tcx>>) {
+    fn tail_call(
+        &mut self,
+        llty: Self::FunctionSignature,
+        caller_attrs: Option<&CodegenFnAttrs>,
+        fn_abi: &rustc_target::callconv::FnAbi<'tcx, Ty<'tcx>>,
+        llfn: Self::Value,
+        args: &[Self::Value],
+        funclet: Option<&Self::Funclet>,
+        callee_instance: Option<Instance<'tcx>>,
+    ) {
         todo!()
     }
 
