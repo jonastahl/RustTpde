@@ -105,6 +105,9 @@ mod ffi {
         Br,
         CondBr,
 
+        // Calls
+        Call,
+
         Last,
     }
 

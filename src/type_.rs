@@ -1,11 +1,11 @@
 use crate::context::CodegenCx;
-use crate::shared::ir::{FullType, Type};
+use crate::shared::ir::{FullType, FunctionSignature, Type};
 use rustc_abi::{AddressSpace, BackendRepr, Primitive, Reg, Scalar};
 use rustc_codegen_ssa::common::TypeKind;
 use rustc_codegen_ssa::traits::{BaseTypeCodegenMethods, DerivedTypeCodegenMethods, LayoutTypeCodegenMethods, TypeMembershipCodegenMethods};
 use rustc_middle::ty::layout::TyAndLayout;
 use rustc_middle::ty::Ty;
-use rustc_target::callconv::{CastTarget, FnAbi};
+use rustc_target::callconv::{CastTarget, FnAbi, PassMode};
 
 impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
     pub fn tpde_direct_type(&self, ty: TyAndLayout<'tcx>) -> FullType {
@@ -104,7 +104,7 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn type_ptr_ext(&self, address_space: AddressSpace) -> Self::Type {
-        todo!()
+        FullType::Single(Type::ptr)
     }
 
     fn element_type(&self, ty: Self::Type) -> Self::Type {
@@ -132,6 +132,65 @@ impl<'tcx> TypeMembershipCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
 
 }
 
+impl<'tcx> CodegenCx<'_, 'tcx> {
+    pub fn create_function_signature(
+        &self,
+        fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> FunctionSignature {
+        let mut args: Vec<Type> = {
+            // we can ignore variadic arguments
+            let args = if fn_abi.c_variadic {
+                &fn_abi.args[..fn_abi.fixed_count as usize]
+            } else {
+                &fn_abi.args
+            };
+            args.iter()
+                .flat_map(|arg| match &arg.mode {
+                    PassMode::Ignore => vec![Type::Void],
+                    PassMode::Direct(_) => {
+                        let FullType::Single(ty) = self.tpde_direct_type(arg.layout) else {
+                            unreachable!()
+                        };
+                        vec![ ty ]
+                    }
+                    PassMode::Pair(..) => {
+                        let FullType::Pair(a, b, _) = self.tpde_direct_type(arg.layout) else {
+                            unreachable!()
+                        };
+                        vec![a, b]
+                    }
+                    PassMode::Cast { cast, pad_i32: _ } => todo!(),
+                    PassMode::Indirect {
+                        attrs,
+                        meta_attrs,
+                        on_stack,
+                    } => {
+                        vec![Type::ptr]
+                    }
+                })
+                .collect()
+        };
+        match fn_abi.ret.mode {
+            PassMode::Indirect {
+                attrs,
+                meta_attrs,
+                on_stack,
+            } => {
+                args.insert(0, Type::ptr);
+            }
+            _ => (),
+        };
+
+        let ret =
+            if fn_abi.ret.is_ignore() {
+                None
+            } else {
+                Some(self.tpde_direct_type(fn_abi.ret.layout))
+            };
+
+        FunctionSignature{ args, ret }
+    }
+}
+
 impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     fn backend_type(&self, layout: TyAndLayout<'tcx>) -> Self::Type {
         self.tpde_direct_type(layout)
@@ -142,7 +201,9 @@ impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     }
 
     fn fn_decl_backend_type(&self, fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> Self::FunctionSignature {
-        todo!()
+        let signs = &mut self.function_signatures.borrow_mut();
+        signs.push(self.create_function_signature(fn_abi));
+        signs.len() - 1
     }
 
     fn fn_ptr_backend_type(&self, fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> Self::Type {

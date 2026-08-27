@@ -28,7 +28,8 @@ impl<'tcx> PreDefineCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     ) {
         let fn_abi: &FnAbi<'tcx, Ty<'tcx>> = self.fn_abi_of_instance(instance, ty::List::empty());
 
-        let func = self.tpde_module.borrow_mut().add_function(self, symbol_name, fn_abi, linkage);
+        let func = self.tpde_module.borrow_mut()
+            .add_function(self, symbol_name, &self.create_function_signature(fn_abi), linkage);
         self.functions.insert(instance, func);
     }
 }

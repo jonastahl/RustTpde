@@ -3,8 +3,6 @@ pub use super::ffi::ModuleTpde;
 use crate::context::CodegenCx;
 use core::fmt::{Debug, Formatter};
 use rustc_hir::attrs::Linkage;
-use rustc_middle::ty::Ty;
-use rustc_target::callconv::{FnAbi, PassMode};
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Function(usize);
@@ -22,6 +20,7 @@ pub enum Slot {
     CPair(u32),
     Raw(u32),
     Ptr(u32),
+    Func(Function),
 }
 
 #[derive(Copy, Clone, PartialEq, Debug)]
@@ -29,6 +28,12 @@ pub enum FullType {
     Single(Type),
     Pair(Type, Type, u8),
     Memory{sized: bool}
+}
+
+pub struct FunctionSignatureRef(usize);
+pub struct FunctionSignature {
+    pub args: Vec<Type>,
+    pub ret: Option<FullType>,
 }
 
 pub fn size_of_type(ty: Type) -> u32 {
@@ -60,61 +65,14 @@ impl ModuleTpde {
         self: &mut ModuleTpde,
         cx: &CodegenCx<'tpde, 'tcx>,
         name: &str,
-        fn_abi: &FnAbi<'tcx, Ty<'tcx>>,
+        fn_sign: &FunctionSignature,
         linkage: Linkage,
     ) -> Function {
-        let mut slots: Vec<ffi::Slot> = {
-            // we can ignore variadic arguments
-            let args = if fn_abi.c_variadic {
-                &fn_abi.args[..fn_abi.fixed_count as usize]
-            } else {
-                &fn_abi.args
-            };
-            args.iter()
-                .flat_map(|arg| match &arg.mode {
-                    PassMode::Ignore => vec![ffi::Slot { ty: Type::Void }],
-                    PassMode::Direct(_) => {
-                        let FullType::Single(ty) = cx.tpde_direct_type(arg.layout) else {
-                            unreachable!()
-                        };
-                        vec![ffi::Slot { ty }]
-                    }
-                    PassMode::Pair(..) => {
-                        let FullType::Pair(a, b, _) = cx.tpde_direct_type(arg.layout) else {
-                            unreachable!()
-                        };
-                        vec![ffi::Slot { ty: a }, ffi::Slot { ty: b }]
-                    }
-                    PassMode::Cast { cast, pad_i32: _ } => todo!(),
-                    PassMode::Indirect {
-                        attrs,
-                        meta_attrs,
-                        on_stack,
-                    } => {
-                        vec![ffi::Slot { ty: Type::ptr }]
-                    }
-                })
-                .collect()
-        };
-        match fn_abi.ret.mode {
-            PassMode::Indirect {
-                attrs,
-                meta_attrs,
-                on_stack,
-            } => {
-                slots.insert(0, ffi::Slot { ty: Type::ptr });
-            }
-            _ => (),
-        };
-
-        let n_args = slots.len();
-        let has_ret = !fn_abi.ret.is_ignore();
-
         self.functions.push(ffi::Function {
             name: name.to_string(),
-            n_args,
-            has_ret,
-            slots,
+            n_args: fn_sign.args.len(),
+            has_ret: fn_sign.ret.is_some(),
+            slots: fn_sign.args.iter().map(|ty| ffi::Slot { ty: *ty }).collect(),
             slot_pairs: vec![],
             extern_link: linkage == Linkage::AvailableExternally,
             only_local: linkage == Linkage::Internal,
@@ -164,6 +122,7 @@ impl ModuleTpde {
             }
             Slot::Ptr(_) => todo!(),
             Slot::Raw(_) => unreachable!(),
+            Slot::Func(func) => todo!(),
         }
     }
 
@@ -214,9 +173,9 @@ impl ModuleTpde {
 
     #[inline]
     pub fn add_instruction(&mut self, bb: BasicBlock, instr: InstructionKind, ops: Vec<Slot>) {
-        self.add_instruction_raw_internal(bb, instr, ops, None);
+        self.add_instruction_raw_internal(bb, instr, ops.as_slice(), None);
     }
-    
+
     #[inline]
     pub fn add_instructionr_ret(
         &mut self,
@@ -225,7 +184,7 @@ impl ModuleTpde {
         ops: Vec<Slot>,
         ret: Type,
     ) -> Slot {
-        self.add_instruction_raw_internal(bb, instr, ops, Some(ret)).unwrap()
+        self.add_instruction_raw_internal(bb, instr, ops.as_slice(), Some(FullType::Single(ret))).unwrap()
     }
 
     #[inline]
@@ -245,7 +204,7 @@ impl ModuleTpde {
             assert_eq!(bb.function(), f);
 
             let ret = func.slots.get(v as usize).unwrap().ty;
-            self.add_instruction_raw_internal(bb, instr, ops, Some(ret)).unwrap()
+            self.add_instruction_raw_internal(bb, instr, ops.as_slice(), Some(FullType::Single(ret))).unwrap()
         } else {
             panic!("First operand of return instruction must be a value slot");
         }
@@ -256,30 +215,46 @@ impl ModuleTpde {
         &mut self,
         bb: BasicBlock,
         instr: InstructionKind,
-        ops: Vec<Slot>,
-        ret: Option<Type>,
+        ops: &[Slot],
+        ret: Option<FullType>,
     ) -> Option<Slot> {
-        let func = self.get_function_mut(&bb.function());
+        let ret: Option<Slot> =
+            ret.map(|ty| {
+                match ty {
+                    FullType::Single(ty) => self.add_slot(bb.function, ty),
+                    FullType::Pair(ty_a, ty_b, offset_b) => {
+                        let slot_a = self.add_slot(bb.function, ty_a);
+                        let slot_b = self.add_slot(bb.function, ty_b);
+                        self.add_pair(bb.function, slot_a, slot_b, offset_b)
+                    },
+                    FullType::Memory { .. } => todo!(),
+                }
+            });
 
-        if let Some(ty) = ret {
-            func.slots.push(ffi::Slot { ty });
-        }
-        let result = (func.slots.len() - 1) as u32;
-
-        let basic_block = ModuleTpde::get_basic_block_mut_helper(func, bb);
+        let basic_block = self.get_basic_block_mut(bb);
 
         basic_block.instructions.push(ffi::Instruction {
             kind: instr,
             ops: ops.iter().map(|s| s.to_ffi()).collect(),
             has_result: ret.is_some(),
-            result,
+            result: ret.map_or_default(|f| f.to_ffi()),
         });
 
-        if ret.is_some() {
-            Some(Slot::new_val(bb.function(), result))
-        } else {
-            None
-        }
+        ret
+    }
+
+    pub fn add_call(
+        &mut self,
+        bb: BasicBlock,
+        func_ref: Slot,
+        func_sign: &FunctionSignature,
+        ops: &[Slot]) -> Option<Slot> {
+        self.add_instruction_raw_internal(
+            bb,
+            InstructionKind::Call,
+            ops,
+            func_sign.ret
+        )
     }
 
     pub fn add_alloca(&mut self, func: Function, size: usize, align: usize) -> Slot {
@@ -309,7 +284,7 @@ impl ModuleTpde {
         });
         Slot::new_cpair((const_pairs.len() - 1) as u32)
     }
-    
+
     pub fn add_const_pair_values(
         &mut self,
         ty_a: Type,
@@ -334,6 +309,13 @@ impl ModuleTpde {
             Slot::from_ffi(v.slot_b),
             v.offset_b,
         )
+    }
+
+    #[inline]
+    pub fn add_slot(&mut self, func: Function, ty: Type) -> Slot {
+        let slots = &mut self.functions[func.0].slots;
+        slots.push(ffi::Slot { ty });
+        Slot::new_val(func, slots.len() as u32 - 1)
     }
 
     pub fn add_pair(&mut self, func: Function, slot_a: Slot, slot_b: Slot, offset_b: u8) -> Slot {
@@ -382,6 +364,7 @@ pub const MARKER_PAIR: Marker = 2_u32 << (u32::BITS - 3);
 pub const MARKER_CPAIR: Marker = 3_u32 << (u32::BITS - 3);
 pub const MARKER_RAW: Marker = 4_u32 << (u32::BITS - 3);
 pub const MARKER_PTR: Marker = 5_u32 << (u32::BITS - 3);
+pub const MARKER_FUNC: Marker = 6_u32 << (u32::BITS - 3);
 impl Slot {
     fn new_val(func: Function, index: u32) -> Self {
         Self::Value(func, index)
@@ -407,6 +390,10 @@ impl Slot {
         Self::Raw(u)
     }
 
+    pub fn new_func(func: Function) -> Self {
+        Self::Func(func)
+    }
+
     pub fn to_ffi(&self) -> u32 {
         match self {
             Self::Value(_, v) => *v,
@@ -415,6 +402,7 @@ impl Slot {
             Self::Raw(r) => *r | MARKER_RAW,
             Self::Pair(_, p) => *p | MARKER_PAIR,
             Self::CPair(p) => *p | MARKER_CPAIR,
+            Self::Func(f) => (f.0 as u32) | MARKER_FUNC,
         }
     }
 
@@ -445,9 +433,12 @@ impl Slot {
         if let Some(u) = Self::is(ffi, MARKER_RAW) {
             return Self::Raw(u);
         }
+        if let Some(f) = Self::is(ffi, MARKER_FUNC) {
+            return Self::Func(Function(f as usize));
+        }
         unreachable!()
     }
-    
+
     pub fn get_func(&self) -> Option<Function> {
         match self {
             Slot::Value(func, _) => Some(*func),
@@ -466,6 +457,7 @@ impl Debug for Slot {
             Self::CPair(v) => write!(f, "[cpair: {}]", v),
             Self::Ptr(v) => write!(f, "[ptr: {}]", v),
             Self::Raw(v) => write!(f, "[raw: {}]", v),
+            Self::Func(v) => write!(f, "[func: {}]", v.0),
         }
     }
 }

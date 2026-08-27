@@ -2,9 +2,7 @@ mod coverageinfo;
 mod intrinsic;
 
 use crate::context::CodegenCx;
-use crate::shared::ir::{
-    BasicBlock, FullType, Function, InstructionKind, Slot, Type, size_of_type,
-};
+use crate::shared::ir::{size_of_type, BasicBlock, FullType, Function, InstructionKind, Slot, Type};
 use rustc_ast::expand::typetree::FncTree;
 use rustc_codegen_ssa::MemFlags;
 use rustc_codegen_ssa::common::{
@@ -44,7 +42,7 @@ impl<'tpde, 'tcx> BackendTypes for CodegenCx<'tpde, 'tcx> {
     type Funclet = ();
     type Value = Slot;
     type Type = FullType;
-    type FunctionSignature = ();
+    type FunctionSignature = usize;
     type DIScope = ();
     type DILocation = ();
     type DIVariable = ();
@@ -773,7 +771,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
 
     fn call(
         &mut self,
-        llty: Self::FunctionSignature,
+        func_sig: Self::FunctionSignature,
         caller_attrs: Option<&CodegenFnAttrs>,
         fn_abi: Option<&rustc_target::callconv::FnAbi<'tcx, Ty<'tcx>>>,
         fn_val: Self::Value,
@@ -781,7 +779,15 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         funclet: Option<&Self::Funclet>,
         callee_instance: Option<Instance<'tcx>>,
     ) -> Self::Value {
-        todo!()
+        let func_sig = &self.function_signatures.borrow()[func_sig];
+
+        self.tpde_module.borrow_mut()
+            .add_call(
+                self.basic_block,
+                fn_val,
+                func_sig,
+                args,
+            ).unwrap_or_else(|| Slot::new_raw(0))
     }
 
     fn tail_call(

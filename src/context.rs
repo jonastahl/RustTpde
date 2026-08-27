@@ -1,5 +1,5 @@
 use crate::builder::Builder;
-use crate::shared::ir::{Function, ModuleTpde};
+use crate::shared::ir::{Function, FunctionSignature, ModuleTpde, Slot};
 use rustc_codegen_ssa::traits::MiscCodegenMethods;
 use rustc_data_structures::fx::FxHashMap;
 use rustc_middle::mono::CodegenUnit;
@@ -15,13 +15,15 @@ pub struct CodegenCx<'tpde, 'tcx> {
     pub codegen_unit: &'tcx CodegenUnit<'tcx>,
 
     pub tpde_module: &'tpde RefCell<ModuleTpde>,
+
     pub functions: FxHashMap<Instance<'tcx>, Function>,
+    pub function_signatures: RefCell<Vec<FunctionSignature>>,
 
     pub data_layout: TargetDataLayout,
 }
 
 impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
-    pub(crate) fn new(
+    pub fn new(
         tcx: TyCtxt<'tcx>,
         cgu: &'tcx CodegenUnit<'tcx>,
         tpde_module: &'tpde RefCell<ModuleTpde>,
@@ -37,6 +39,7 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
             codegen_unit: cgu,
             tpde_module,
             functions: FxHashMap::default(),
+            function_signatures: RefCell::new(vec![]),
             data_layout,
         }
     }
@@ -52,11 +55,11 @@ impl<'tcx> MiscCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
             return i;
         };
 
-        todo!()
+        unreachable!()
     }
 
     fn get_fn_addr(&self, instance: Instance<'tcx>, pointer_auth_schema: Option<&PointerAuthSchema>) -> Self::Value {
-        todo!()
+        Slot::new_func(self.get_fn(instance))
     }
 
     fn eh_personality(&self) -> Self::Function {
