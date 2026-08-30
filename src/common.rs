@@ -108,16 +108,23 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn scalar_to_backend_with_pac(&self, cv: Scalar, layout: rustc_abi::Scalar, ty: Self::Type, schema: Option<&PointerAuthSchema>) -> Self::Value {
-        let FullType::Single(ty) = ty else { unreachable!() };
-        let data = match ty {
-            Type::i8 => cv.to_i8().unwrap() as u128,
-            Type::i16 => cv.to_i16().unwrap() as u128,
-            Type::i32 => cv.to_i32().unwrap() as u128,
-            Type::i64 => cv.to_i64().unwrap() as u128,
-            Type::i128 => cv.to_i128().unwrap() as u128,
+        match ty {
+            FullType::Single(ty) => {
+                let data = match ty {
+                    Type::i8 => cv.to_i8().unwrap() as u128,
+                    Type::i16 => cv.to_i16().unwrap() as u128,
+                    Type::i32 => cv.to_i32().unwrap() as u128,
+                    Type::i64 => cv.to_i64().unwrap() as u128,
+                    Type::i128 => cv.to_i128().unwrap() as u128,
+                    _ => todo!()
+                };
+                self.tpde_module.borrow_mut().add_const(ty, data)
+            },
+            FullType::Pair(ty_a, ty_b, offset_b) => {
+                todo!()
+            }
             _ => todo!()
-        };
-        self.tpde_module.borrow_mut().add_const(ty, data)
+        }
     }
 
     fn const_ptr_byte_offset(&self, val: Self::Value, offset: Size) -> Self::Value {

@@ -667,7 +667,12 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn extract_value(&mut self, agg_val: Self::Value, idx: u64) -> Self::Value {
-        todo!()
+        let (slot_a, slot_b, _) = self.tpde_module.borrow_mut().extract_vals(agg_val);
+        match idx {
+            0 => slot_a,
+            1 => slot_b,
+            _ => panic!("pairs only support index 0 or 1"),
+        }
     }
 
     fn insert_value(&mut self, agg_val: Self::Value, elt: Self::Value, idx: u64) -> Self::Value {

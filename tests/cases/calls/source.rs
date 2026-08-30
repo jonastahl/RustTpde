@@ -14,19 +14,16 @@ pub struct User {
     pub age: u8
 }
 
+#[no_mangle]
 pub fn editor(user: User) -> User {
     User {
-        id: user.id,
+        id: user.id + 1,
         age: user.age
     }
 }
 
-pub fn dummy() {
-    println!("Hello, world!");
-}
-
+#[no_mangle]
 pub fn user() -> User {
-    dummy();
     editor(User {
         id: 1,
         age: 2

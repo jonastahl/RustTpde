@@ -220,6 +220,6 @@ impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     }
 
     fn scalar_pair_element_backend_type(&self, layout: TyAndLayout<'tcx>, index: usize, immediate: bool) -> Self::Type {
-        todo!()
+        self.tpde_direct_type(layout)
     }
 }
