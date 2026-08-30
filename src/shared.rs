@@ -108,6 +108,9 @@ mod ffi {
         // Calls
         Call,
 
+        // Pair return type
+        AddRet,
+
         Last,
     }
 

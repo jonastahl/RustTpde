@@ -60,6 +60,8 @@ namespace tpde_rust::x64 {
     void create_helper_call(std::span<IRValueRef> args,
                         ValueRef *result,
                         SymRef sym);
+
+    std::optional<CallBuilder> create_call_builder();
   };
 
   std::unique_ptr<RustCompiler> create_compiler() {
@@ -173,5 +175,11 @@ namespace tpde_rust::x64 {
     }
 
     generate_call(sym, arg_vec, result);
+  }
+
+  std::optional<tpde::x64::CompilerX64<RustAdaptor, RustCompilerX64, RustCompilerBase, CompilerConfig>::CallBuilder>
+  RustCompilerX64::create_call_builder() {
+    cc_assigners = tpde::x64::CCAssignerSysV(false);
+    return CallBuilder{*this, std::get<tpde::x64::CCAssignerSysV>(cc_assigners)};
   }
 }

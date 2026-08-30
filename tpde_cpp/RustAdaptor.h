@@ -300,6 +300,8 @@ namespace tpde_rust {
 
     [[nodiscard]] bool inst_fused(const IRInstRef inst) const {
       const auto& cur = get_instruction(inst);
+      if (cur.kind == InstructionKind::AddRet)
+        return true;
       if (inst.inst > 0) {
         Instruction& prev = get_instruction(inst.prev());
 

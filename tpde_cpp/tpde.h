@@ -20,6 +20,7 @@ namespace operands {
   inline constexpr uint32_t MARKER_CPAIR = size_t{3} << (std::numeric_limits<std::uint32_t>::digits - 3);
   inline constexpr uint32_t MARKER_RAW = size_t{4} << (std::numeric_limits<std::uint32_t>::digits - 3);
   inline constexpr uint32_t MARKER_PTR = size_t{5} << (std::numeric_limits<std::uint32_t>::digits - 3);
+  inline constexpr uint32_t MARKER_FUNC = size_t{6} << (std::numeric_limits<std::uint32_t>::digits - 3);
 
   inline bool is(uint32_t op, uint32_t marker) {
     return (op & MARKER_BLOCK) == marker;
@@ -47,6 +48,10 @@ namespace operands {
 
   inline bool is_raw(uint32_t op) {
     return is(op, MARKER_RAW);
+  }
+  
+  inline bool is_func(uint32_t op) {
+    return is(op, MARKER_FUNC);
   }
 
   inline uint32_t content(size_t op) {

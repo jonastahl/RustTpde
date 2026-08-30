@@ -239,6 +239,8 @@ namespace tpde_rust {
 
     bool compile_memcpy(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
+    bool compile_call(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     ValueRef val_ref_local(const size_t local_idx) {
       return this->val_ref(this->adaptor->val_ref_of_slot(local_idx));
     }
@@ -313,6 +315,7 @@ namespace tpde_rust {
       set_fn(InstructionKind::Store, &Derived::compile_store);
       set_fn(InstructionKind::Load, &Derived::compile_load);
       set_fn(InstructionKind::MemCpy, &Derived::compile_memcpy);
+      set_fn(InstructionKind::Call, &Derived::compile_call);
 
       set_fn(InstructionKind::CondBr, &Derived::compile_unknown);
       set_fn(InstructionKind::Br, &Derived::compile_br);
@@ -801,6 +804,55 @@ namespace tpde_rust {
     return true;
   }
 
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_call(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {
+    auto cb = this->derived()->create_call_builder();
+    if (!cb) {
+      return false;
+    }
+
+    Instruction &calli = this->adaptor->get_instruction(instr);
+    for (auto &op : calli.ops | std::ranges::views::drop(1)) {
+      using CallArg = typename Derived::CallArg;
+
+      CallArg arg{op};
+      // TODO need to set flags for arg
+
+      cb->add_arg(arg);
+    }
+
+    {
+      const auto func = calli.ops[0];
+      assert(operands::is_func(func));
+      SymRef sym = this->func_syms[operands::content(func)];
+      cb->call(sym);
+    }
+
+    if (calli.has_result) {
+      tpde::CCAssignment cca;
+
+      {
+        auto res = calli.result;
+        assert(operands::is_val(res));
+        ValueRef ref = this->result_ref(res);
+        ValuePart part = ref.part(0);
+        cb->add_ret(part, cca);
+      }
+
+      if (this->adaptor->get_basic_block(instr.block).instructions.size() > instr.inst) {
+        Instruction &pot_addret = this->adaptor->get_instruction(instr.next());
+        if (pot_addret.kind == InstructionKind::AddRet) {
+          auto res = pot_addret.result;
+          assert(operands::is_val(res));
+          ValueRef ref = this->result_ref(res);
+          ValuePart part = ref.part(0);
+          cb->add_ret(part, cca);
+        }
+      }
+    }
+
+    return true;
+  }
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_br(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {

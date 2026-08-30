@@ -218,29 +218,77 @@ impl ModuleTpde {
         ops: &[Slot],
         ret: Option<FullType>,
     ) -> Option<Slot> {
-        let ret: Option<Slot> =
-            ret.map(|ty| {
-                match ty {
-                    FullType::Single(ty) => self.add_slot(bb.function, ty),
-                    FullType::Pair(ty_a, ty_b, offset_b) => {
-                        let slot_a = self.add_slot(bb.function, ty_a);
-                        let slot_b = self.add_slot(bb.function, ty_b);
-                        self.add_pair(bb.function, slot_a, slot_b, offset_b)
-                    },
-                    FullType::Memory { .. } => todo!(),
+        enum ReturnType {
+            None,
+            Single(Slot),
+            Pair(Slot, Slot, Slot),
+        }
+
+        impl ReturnType {
+            fn num_ret(&self) -> u8 {
+                match self {
+                    ReturnType::None => 0,
+                    ReturnType::Single(_) => 1,
+                    ReturnType::Pair(_, _, _) => 2,
                 }
-            });
+            }
+
+            fn result_a(&self) -> u32 {
+                match self {
+                    ReturnType::None => 0,
+                    ReturnType::Single(slot) => slot.to_ffi(),
+                    ReturnType::Pair(_, a, _) => a.to_ffi(),
+                }
+            }
+
+            fn result_b(&self) -> u32 {
+                match self {
+                    ReturnType::None => 0,
+                    ReturnType::Single(_) => 0,
+                    ReturnType::Pair(_, _, b) => b.to_ffi(),
+                }
+            }
+
+            fn result(&self) -> Option<Slot> {
+                match self {
+                    ReturnType::None => None,
+                    ReturnType::Single(slot) => Some(*slot),
+                    ReturnType::Pair(slot, _, _) => Some(*slot),
+                }
+            }
+        }
+
+        let ret: ReturnType =
+            match ret {
+                None => ReturnType::None,
+                Some(FullType::Single(ty)) => ReturnType::Single(self.add_slot(bb.function, ty)),
+                Some(FullType::Pair(ty_a, ty_b, offset_b)) => {
+                    let slot_a = self.add_slot(bb.function, ty_a);
+                    let slot_b = self.add_slot(bb.function, ty_b);
+                    let pair = self.add_pair(bb.function, slot_a, slot_b, offset_b);
+                    ReturnType::Pair(pair, slot_a, slot_b)
+                }
+                Some(FullType::Memory { .. }) => todo!(),
+            };
 
         let basic_block = self.get_basic_block_mut(bb);
 
         basic_block.instructions.push(ffi::Instruction {
             kind: instr,
             ops: ops.iter().map(|s| s.to_ffi()).collect(),
-            has_result: ret.is_some(),
-            result: ret.map_or_default(|f| f.to_ffi()),
+            has_result: ret.num_ret() >= 1,
+            result: ret.result_a(),
         });
+        if ret.num_ret() >= 2 {
+            basic_block.instructions.push(ffi::Instruction {
+                kind: InstructionKind::AddRet,
+                ops: vec![],
+                has_result: true,
+                result: ret.result_b(),
+            });
+        }
 
-        ret
+        ret.result()
     }
 
     pub fn add_call(
@@ -248,11 +296,14 @@ impl ModuleTpde {
         bb: BasicBlock,
         func_ref: Slot,
         func_sign: &FunctionSignature,
-        ops: &[Slot]) -> Option<Slot> {
+        args: &[Slot]) -> Option<Slot> {
+        let mut ops = Vec::with_capacity(1 + args.len());
+        ops.push(func_ref);
+        ops.extend_from_slice(args);
         self.add_instruction_raw_internal(
             bb,
             InstructionKind::Call,
-            ops,
+            ops.as_slice(),
             func_sign.ret
         )
     }

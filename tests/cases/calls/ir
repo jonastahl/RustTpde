@@ -1,0 +1,114 @@
+ModuleTpde {
+    functions: [
+        Function {
+            name: "editor",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+            ],
+            slot_pairs: [
+                (a: [val: 2], b: [imm: 2], offset: 1),
+                (a: [val: 2], b: [val: 1], offset: 1),
+                (a: [val: 0], b: [imm: 9], offset: 1),
+                (a: [val: 0], b: [val: 1], offset: 1),
+            ],
+            extern_link: false,
+            only_local: false,
+            weak_link: false,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Add> ([val: 0], [imm: 0]) -> [val: 2],
+                    <Ret> ([val: 2], [val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "fib",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i64,
+                Bool,
+                i64,
+                i64,
+                i64,
+                i64,
+                i64,
+                i64,
+            ],
+            slot_pairs: [],
+            extern_link: false,
+            only_local: false,
+            weak_link: false,
+            allocas: [
+                size: 8, align: 8,
+            ],
+            basic_blocks: [
+                "start": [
+                    <CMPule> ([val: 0], [imm: 3]) -> [val: 1],
+                    <CondBr> ([val: 1], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Sub> ([val: 0], [imm: 4]) -> [val: 2],
+                    <Call> ([func: 1], [val: 2]) -> [val: 3],
+                    <Sub> ([val: 0], [imm: 5]) -> [val: 4],
+                    <Call> ([func: 1], [val: 4]) -> [val: 5],
+                    <Add> ([val: 3], [val: 5]) -> [val: 6],
+                    <Store> ([val: 6], [ptr: 0], [raw: 8]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([val: 0], [ptr: 0], [raw: 8]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb5": [
+                    <Load> ([ptr: 0], [raw: 8]) -> [val: 7],
+                    <Ret> ([val: 7]),
+                ],
+            ],
+        },
+        Function {
+            name: "user",
+            n_args: 0,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+            ],
+            slot_pairs: [
+                (a: [val: 0], b: [val: 1], offset: 1),
+            ],
+            extern_link: false,
+            only_local: false,
+            weak_link: false,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Call> ([func: 0], [imm: 6], [imm: 7]) -> [val: 0],
+                    <AddRet> () -> [val: 1],
+                    <Ret> ([val: 0], [val: 1]),
+                ],
+            ],
+        },
+    ],
+    consts: [
+        [i8] (0 1) -> 0,
+        [i8] (0 0) -> 0,
+        [i8] (0 0) -> 0,
+        [i64] (0 2) -> 0,
+        [i64] (0 1) -> 0,
+        [i64] (0 2) -> 0,
+        [i8] (0 1) -> 0,
+        [i8] (0 2) -> 0,
+        [i8] (0 0) -> 0,
+        [i8] (0 0) -> 0,
+    ],
+    const_pairs: [
+        (a: [imm: 1], b: [imm: 2], offset: 1),
+        (a: [imm: 8], b: [imm: 9], offset: 1),
+    ],
+}

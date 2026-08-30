@@ -1,0 +1,17 @@
+In archive tests/cases/add/actual_obj:
+
+lib.rmeta:     file format elf64-x86-64
+
+
+lib.rmeta-link:     file format elf64-x86-64
+
+
+actual_obj.source.a5d34ad7a00a7042-cgu.0.rcgu.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <add>:
+   0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+   3:	89 f8                	mov    %edi,%eax
+   5:	c3                   	ret

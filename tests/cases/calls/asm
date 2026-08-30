@@ -1,0 +1,61 @@
+In archive tests/cases/calls/actual_obj:
+
+lib.rmeta:     file format elf64-x86-64
+
+
+lib.rmeta-link:     file format elf64-x86-64
+
+
+actual_obj.source.a5d34ad7a00a7042-cgu.0.rcgu.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <editor>:
+   0:	8d 7f 01             	lea    0x1(%rdi),%edi
+   3:	89 f8                	mov    %edi,%eax
+   5:	89 f2                	mov    %esi,%edx
+   7:	c3                   	ret
+   8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+   f:	00 
+
+0000000000000010 <fib>:
+  10:	55                   	push   %rbp
+  11:	48 89 e5             	mov    %rsp,%rbp
+  14:	53                   	push   %rbx
+  15:	48 83 ec 38          	sub    $0x38,%rsp
+  19:	48 89 fb             	mov    %rdi,%rbx
+  1c:	48 83 fb 02          	cmp    $0x2,%rbx
+  20:	0f 86 33 00 00 00    	jbe    59 <fib+0x49>
+  26:	48 89 d8             	mov    %rbx,%rax
+  29:	48 83 e8 01          	sub    $0x1,%rax
+  2d:	48 89 c7             	mov    %rax,%rdi
+  30:	e8 00 00 00 00       	call   35 <fib+0x25>
+  35:	48 89 d9             	mov    %rbx,%rcx
+  38:	48 83 e9 02          	sub    $0x2,%rcx
+  3c:	48 89 cf             	mov    %rcx,%rdi
+  3f:	48 89 45 c8          	mov    %rax,-0x38(%rbp)
+  43:	e8 00 00 00 00       	call   48 <fib+0x38>
+  48:	48 8b 4d c8          	mov    -0x38(%rbp),%rcx
+  4c:	48 8d 0c 01          	lea    (%rcx,%rax,1),%rcx
+  50:	48 89 4d d0          	mov    %rcx,-0x30(%rbp)
+  54:	e9 04 00 00 00       	jmp    5d <fib+0x4d>
+  59:	48 89 5d d0          	mov    %rbx,-0x30(%rbp)
+  5d:	48 8b 45 d0          	mov    -0x30(%rbp),%rax
+  61:	48 83 c4 38          	add    $0x38,%rsp
+  65:	5b                   	pop    %rbx
+  66:	5d                   	pop    %rbp
+  67:	c3                   	ret
+  68:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+  6f:	00 
+
+0000000000000070 <user>:
+  70:	55                   	push   %rbp
+  71:	48 89 e5             	mov    %rsp,%rbp
+  74:	48 83 ec 30          	sub    $0x30,%rsp
+  78:	bf 01 00 00 00       	mov    $0x1,%edi
+  7d:	be 02 00 00 00       	mov    $0x2,%esi
+  82:	e8 00 00 00 00       	call   87 <user+0x17>
+  87:	48 83 c4 30          	add    $0x30,%rsp
+  8b:	5d                   	pop    %rbp
+  8c:	c3                   	ret
