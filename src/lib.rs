@@ -29,7 +29,7 @@ mod builder;
 mod asm;
 mod debuginfo;
 mod abi;
-mod statics;
+mod consts;
 mod common;
 mod type_;
 mod mono_item;

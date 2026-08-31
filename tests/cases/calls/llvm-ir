@@ -1,0 +1,71 @@
+; ModuleID = 'source.3eb93f6d772c651c-cgu.0'
+source_filename = "source.3eb93f6d772c651c-cgu.0"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-i128:128-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+; Function Attrs: nonlazybind uwtable
+define { i64, i64 } @editor(i64 %user.0, i64 %user.1) unnamed_addr #0 !guid !4 {
+start:
+  %_2 = add i64 %user.0, 1
+  %0 = insertvalue { i64, i64 } poison, i64 %_2, 0
+  %1 = insertvalue { i64, i64 } %0, i64 %user.1, 1
+  ret { i64, i64 } %1
+}
+
+; Function Attrs: nonlazybind uwtable
+define i64 @fib(i64 %n) unnamed_addr #0 !guid !5 {
+start:
+  %_0 = alloca [8 x i8], align 8
+  %_2 = icmp ule i64 %n, 2
+  br i1 %_2, label %bb1, label %bb2
+
+bb2:                                              ; preds = %start
+  %_4 = sub i64 %n, 1
+  %_3 = call i64 @fib(i64 %_4)
+  %_6 = sub i64 %n, 2
+  %_5 = call i64 @fib(i64 %_6)
+  %0 = add i64 %_3, %_5
+  store i64 %0, ptr %_0, align 8
+  br label %bb5
+
+bb1:                                              ; preds = %start
+  store i64 %n, ptr %_0, align 8
+  br label %bb5
+
+bb5:                                              ; preds = %bb1, %bb2
+  %1 = load i64, ptr %_0, align 8
+  ret i64 %1
+}
+
+; Function Attrs: nonlazybind uwtable
+define { i64, i64 } @func(i32 %a, i32 %b, i32 %c, i32 %d, i32 %e, i64 %u.0, i64 %u.1, i32 %f) unnamed_addr #0 !guid !6 {
+start:
+  %0 = insertvalue { i64, i64 } poison, i64 %u.0, 0
+  %1 = insertvalue { i64, i64 } %0, i64 %u.1, 1
+  ret { i64, i64 } %1
+}
+
+; Function Attrs: nonlazybind uwtable
+define { i64, i64 } @user() unnamed_addr #0 !guid !7 {
+start:
+  %0 = call { i64, i64 } @editor(i64 1, i64 2)
+  %_0.0 = extractvalue { i64, i64 } %0, 0
+  %_0.1 = extractvalue { i64, i64 } %0, 1
+  %1 = insertvalue { i64, i64 } poison, i64 %_0.0, 0
+  %2 = insertvalue { i64, i64 } %1, i64 %_0.1, 1
+  ret { i64, i64 } %2
+}
+
+attributes #0 = { nonlazybind uwtable "probe-stack"="inline-asm" "target-cpu"="x86-64" }
+
+!llvm.module.flags = !{!0, !1, !2}
+!llvm.ident = !{!3}
+
+!0 = !{i32 8, !"PIC Level", i32 2}
+!1 = !{i32 2, !"RtLibUseGOT", i32 1}
+!2 = !{i32 7, !"uwtable", i32 2}
+!3 = !{!"rustc version 1.100.0-nightly (f7d782a3b 2026-08-19)"}
+!4 = !{i64 4145590028843478618}
+!5 = !{i64 8667248078361406812}
+!6 = !{i64 7289175272376759421}
+!7 = !{i64 856900610518880750}

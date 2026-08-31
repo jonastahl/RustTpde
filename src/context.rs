@@ -1,5 +1,6 @@
 use crate::builder::Builder;
-use crate::shared::ir::{Function, FunctionSignature, ModuleTpde, Slot};
+use crate::shared::ir::{Function, FunctionSignature, Global, ModuleTpde, Slot};
+use rustc_abi::TargetDataLayout;
 use rustc_codegen_ssa::traits::MiscCodegenMethods;
 use rustc_data_structures::fx::FxHashMap;
 use rustc_middle::mono::CodegenUnit;
@@ -7,8 +8,8 @@ use rustc_middle::ty::layout::HasTyCtxt;
 use rustc_middle::ty::{ExistentialTraitRef, Instance, Ty, TyCtxt};
 use rustc_session::{PointerAuthSchema, Session};
 use rustc_span::Symbol;
-use std::cell::RefCell;
-use rustc_abi::TargetDataLayout;
+use rustc_span::def_id::DefId;
+use std::cell::{Cell, RefCell};
 
 pub struct CodegenCx<'tpde, 'tcx> {
     pub tcx: TyCtxt<'tcx>,
@@ -19,7 +20,11 @@ pub struct CodegenCx<'tpde, 'tcx> {
     pub functions: FxHashMap<Instance<'tcx>, Function>,
     pub function_signatures: RefCell<Vec<FunctionSignature>>,
 
+    pub globals: FxHashMap<DefId, Global>,
+
     pub data_layout: TargetDataLayout,
+
+    pub global_gen_sym_counter: Cell<usize>,
 }
 
 impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
@@ -40,7 +45,9 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
             tpde_module,
             functions: FxHashMap::default(),
             function_signatures: RefCell::new(vec![]),
+            globals: FxHashMap::default(),
             data_layout,
+            global_gen_sym_counter: Cell::new(0),
         }
     }
 }

@@ -101,15 +101,15 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] static bool func_extern(const IRFuncRef func) {
-      return func->extern_link;
+      return func->flags.extern_link;
     }
 
     [[nodiscard]] static bool func_only_local(const IRFuncRef func) {
-      return func->only_local;
+      return func->flags.only_local;
     }
 
     [[nodiscard]] static bool func_has_weak_linkage(const IRFuncRef func) {
-      return func->weak_link;
+      return func->flags.weak_link;
     }
 
     [[nodiscard]] static bool cur_needs_unwind_info() {

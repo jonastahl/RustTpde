@@ -13,7 +13,10 @@ mod ffi {
     pub struct ModuleTpde {
         functions: Vec<Function>,
         consts: Vec<Value>,
+        // TODO move pairs to CodegenCx
         const_pairs: Vec<PairRef>,
+        globals: Vec<Global>,
+        relocations: Vec<Relocation>,
     }
 
     enum Linkage {
@@ -26,14 +29,20 @@ mod ffi {
         n_args: usize,
         has_ret: bool,
         slots: Vec<Slot>,
+        // TODO move pairs to Builder
         slot_pairs: Vec<PairRef>,
 
-        extern_link: bool,
-        only_local: bool,
-        weak_link: bool,
+        flags: LinkerFlags,
 
         allocas: Vec<Alloca>,
         basic_blocks: Vec<BasicBlock>,
+    }
+
+    #[derive(Debug)]
+    pub struct LinkerFlags {
+        extern_link: bool,
+        only_local: bool,
+        weak_link: bool,
     }
 
     pub struct BasicBlock {
@@ -82,6 +91,11 @@ mod ffi {
         Mul,
         Div,
 
+        // Bitwise
+        And,
+        Or,
+        Shl,
+
         CMPeq,
         CMPne,
         CMPsgt,
@@ -108,6 +122,10 @@ mod ffi {
         // Calls
         Call,
 
+        // Casts
+        Cast,
+        Zext,
+
         // Pair return type
         AddRet,
 
@@ -130,6 +148,44 @@ mod ffi {
         ty: Type,
         data1: u64,
         data2: u64,
+    }
+
+    #[derive(Debug)]
+    pub struct Global {
+        name: String,
+
+        align: u32,
+        // mutable: bool,
+
+        flags: LinkerFlags,
+
+        size: u32,
+        chunks: Vec<Chunk>,
+        data: Vec<ChunkData>,
+    }
+
+    #[derive(Debug)]
+    enum ChunkType {
+        Init,
+        UnInit,
+        Reloc,
+    }
+
+    #[derive(Debug)]
+    pub struct Chunk {
+        type_: ChunkType,
+        // position for Init and Reloc, size for UnInit
+        data: u32,
+    }
+
+    #[derive(Debug)]
+    pub struct ChunkData {
+        data: Vec<u8>,
+    }
+
+    #[derive(Debug)]
+    pub struct Relocation {
+        address_space: u32,
     }
 }
 
@@ -169,6 +225,7 @@ impl Debug for ffi::Value {
             Type::i32 => format!("{}", self.data1 as i32),
             Type::i64 => format!("{}", self.data1 as i64),
             Type::i128 => format!("{}", (self.data1 as i128) << 64 | (self.data1 as i128)),
+            Type::ptr => format!("[ptr: {}]", self.data1),
             _ => todo!(),
         };
         write!(

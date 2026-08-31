@@ -6,6 +6,8 @@ use rustc_hir::attrs::Linkage;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Function(usize);
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub struct Global(usize);
 #[derive(Debug, Copy, Clone)]
 pub struct BasicBlock {
     function: Function,
@@ -19,8 +21,9 @@ pub enum Slot {
     Const(u32),
     CPair(u32),
     Raw(u32),
-    Ptr(u32),
+    Alloc(u32),
     Func(Function),
+    Global(Global)
 }
 
 #[derive(Copy, Clone, PartialEq, Debug)]
@@ -58,6 +61,8 @@ impl ModuleTpde {
             functions: vec![],
             consts: vec![],
             const_pairs: vec![],
+            globals: vec![],
+            relocations: vec![],
         }
     }
 
@@ -74,15 +79,85 @@ impl ModuleTpde {
             has_ret: fn_sign.ret.is_some(),
             slots: fn_sign.args.iter().map(|ty| ffi::Slot { ty: *ty }).collect(),
             slot_pairs: vec![],
+            flags: Self::create_linker_flags(linkage),
+            allocas: vec![],
+            basic_blocks: vec![],
+        });
+        Function(self.functions.len() - 1)
+    }
+
+    pub fn add_global(
+        self: &mut ModuleTpde,
+        name: &str,
+        linkage: Linkage
+    ) -> Global {
+        self.globals.push(ffi::Global {
+            name: name.to_string(),
+            size: 0,
+            align: 0,
+            flags: Self::create_linker_flags(linkage),
+            chunks: vec![],
+            data: vec![],
+        });
+        Global(self.globals.len() - 1)
+    }
+
+    pub fn global_set_align(
+        self: &mut ModuleTpde,
+        global: Global,
+        align: u32
+    ) {
+        self.globals[global.0].align = align;
+    }
+
+    pub fn global_add_unit_chunk(
+        &mut self,
+        global: Global,
+        size: u32
+    ) {
+        self.globals[global.0].chunks.push(ffi::Chunk {
+            type_: ffi::ChunkType::UnInit,
+            data: size
+        })
+    }
+
+    pub fn global_add_init_chunk(
+        &mut self,
+        global: Global,
+        chunk: &[u8]
+    ) {
+        let global = &mut self.globals[global.0];
+        global.data.push(ffi::ChunkData { data: chunk.to_vec() });
+        global.chunks.push(ffi::Chunk {
+            type_: ffi::ChunkType::Init,
+            data: global.data.len() as u32 - 1
+        })
+    }
+
+    pub fn global_add_reloc_chunk(
+        &mut self,
+        global: Global,
+        address_space: u32,
+    ) {
+        self.relocations.push(ffi::Relocation {
+            address_space
+        });
+        self.globals[global.0].chunks.push(ffi::Chunk {
+            type_: ffi::ChunkType::Reloc,
+            data: self.relocations.len() as u32 - 1
+        })
+    }
+
+    fn create_linker_flags(
+        linkage: Linkage
+    ) -> ffi::LinkerFlags {
+        ffi::LinkerFlags {
             extern_link: linkage == Linkage::AvailableExternally,
             only_local: linkage == Linkage::Internal,
             weak_link: linkage == Linkage::WeakODR
                 || linkage == Linkage::WeakAny
                 || linkage == Linkage::ExternalWeak,
-            allocas: vec![],
-            basic_blocks: vec![],
-        });
-        Function(self.functions.len() - 1)
+        }
     }
 
     pub fn get_slot(&self, func: Function, index: u32) -> Slot {
@@ -120,9 +195,10 @@ impl ModuleTpde {
                 };
                 FullType::Pair(slot_a, slot_b, pair.offset_b)
             }
-            Slot::Ptr(_) => todo!(),
+            Slot::Alloc(_) => todo!(),
             Slot::Raw(_) => unreachable!(),
             Slot::Func(func) => todo!(),
+            Slot::Global(_) => todo!(),
         }
     }
 
@@ -177,7 +253,7 @@ impl ModuleTpde {
     }
 
     #[inline]
-    pub fn add_instructionr_ret(
+    pub fn add_instruction_ret(
         &mut self,
         bb: BasicBlock,
         instr: InstructionKind,
@@ -197,17 +273,20 @@ impl ModuleTpde {
         assert!(ops.len() >= 1);
 
         let func = self.get_function_mut(&bb.function());
-        let op = ops.get(0).unwrap();
+        let op = *ops.get(0).unwrap();
 
         // create new slot with type of first arg
-        if let &Slot::Value(f, v) = op {
-            assert_eq!(bb.function(), f);
-
-            let ret = func.slots.get(v as usize).unwrap().ty;
-            self.add_instruction_raw_internal(bb, instr, ops.as_slice(), Some(FullType::Single(ret))).unwrap()
-        } else {
-            panic!("First operand of return instruction must be a value slot");
-        }
+        let ret = match op {
+            Slot::Value(f, v) => {
+                assert_eq!(bb.function(), f);
+                func.slots.get(v as usize).unwrap().ty
+            }
+            Slot::Const(v) => {
+                self.consts.get(v as usize).unwrap().ty
+            }
+            _ => panic!("First operand of return instruction must be a value slot"),
+        };
+        self.add_instruction_raw_internal(bb, instr, ops.as_slice(), Some(FullType::Single(ret))).unwrap()
     }
 
     #[inline]
@@ -312,7 +391,7 @@ impl ModuleTpde {
         let func = self.get_function_mut(&func);
 
         func.allocas.push(ffi::Alloca { size, align });
-        Slot::new_ptr((func.allocas.len() - 1) as u32)
+        Slot::new_alloc((func.allocas.len() - 1) as u32)
     }
 
     pub fn add_const(&mut self, ty: Type, data: u128) -> Slot {
@@ -411,11 +490,12 @@ pub const MARKER_BLOCK: Marker = 7_u32 << (u32::BITS - 3);
 
 pub const MARKER_VAL: Marker = 0_u32 << (u32::BITS - 3);
 pub const MARKER_CONST: Marker = 1_u32 << (u32::BITS - 3);
-pub const MARKER_PAIR: Marker = 2_u32 << (u32::BITS - 3);
-pub const MARKER_CPAIR: Marker = 3_u32 << (u32::BITS - 3);
-pub const MARKER_RAW: Marker = 4_u32 << (u32::BITS - 3);
-pub const MARKER_PTR: Marker = 5_u32 << (u32::BITS - 3);
-pub const MARKER_FUNC: Marker = 6_u32 << (u32::BITS - 3);
+pub const MARKER_RAW: Marker = 2_u32 << (u32::BITS - 3);
+pub const MARKER_PTR: Marker = 3_u32 << (u32::BITS - 3);
+pub const MARKER_FUNC: Marker = 4_u32 << (u32::BITS - 3);
+pub const MARKER_GLOBAL: Marker = 5_u32 << (u32::BITS - 3);
+// pub const MARKER_PAIR: Marker = 2_u32 << (u32::BITS - 3);
+// pub const MARKER_CPAIR: Marker = 3_u32 << (u32::BITS - 3);
 impl Slot {
     fn new_val(func: Function, index: u32) -> Self {
         Self::Value(func, index)
@@ -433,8 +513,8 @@ impl Slot {
         Self::CPair(index)
     }
 
-    fn new_ptr(index: u32) -> Self {
-        Self::Ptr(index)
+    fn new_alloc(index: u32) -> Self {
+        Self::Alloc(index)
     }
 
     pub fn new_raw(u: u32) -> Self {
@@ -445,15 +525,24 @@ impl Slot {
         Self::Func(func)
     }
 
+    pub fn new_global(global: Global) -> Self {
+        Self::Global(global)
+    }
+
     pub fn to_ffi(&self) -> u32 {
         match self {
             Self::Value(_, v) => *v,
             Self::Const(i) => *i | MARKER_CONST,
-            Self::Ptr(p) => *p | MARKER_PTR,
+            Self::Alloc(p) => *p | MARKER_PTR,
             Self::Raw(r) => *r | MARKER_RAW,
-            Self::Pair(_, p) => *p | MARKER_PAIR,
-            Self::CPair(p) => *p | MARKER_CPAIR,
             Self::Func(f) => (f.0 as u32) | MARKER_FUNC,
+            Self::Global(g) => g.0 as u32 | MARKER_GLOBAL,
+            Self::Pair(_, p) =>
+                unreachable!("Only used for tracking during generation"),
+                // *p | MARKER_PAIR,
+            Self::CPair(p) =>
+                unreachable!("Only used for tracking during generation"),
+                // *p | MARKER_CPAIR,
         }
     }
 
@@ -469,17 +558,11 @@ impl Slot {
         if let Some(u) = Self::is(ffi, MARKER_VAL) {
             return Self::Value(Function(0), u);
         }
-        if let Some(u) = Self::is(ffi, MARKER_PAIR) {
-            return Self::Pair(Function(0), u);
-        }
         if let Some(u) = Self::is(ffi, MARKER_CONST) {
             return Self::Const(u);
         }
-        if let Some(u) = Self::is(ffi, MARKER_CPAIR) {
-            return Self::CPair(u);
-        }
         if let Some(u) = Self::is(ffi, MARKER_PTR) {
-            return Self::Ptr(u);
+            return Self::Alloc(u);
         }
         if let Some(u) = Self::is(ffi, MARKER_RAW) {
             return Self::Raw(u);
@@ -487,7 +570,16 @@ impl Slot {
         if let Some(f) = Self::is(ffi, MARKER_FUNC) {
             return Self::Func(Function(f as usize));
         }
+        if let Some(g) = Self::is(ffi, MARKER_GLOBAL) {
+            return Self::Global(Global(g as usize));
+        }
         unreachable!()
+        // if let Some(u) = Self::is(ffi, MARKER_CPAIR) {
+        //     return Self::CPair(u);
+        // }
+        // if let Some(u) = Self::is(ffi, MARKER_PAIR) {
+        //     return Self::Pair(Function(0), u);
+        // }
     }
 
     pub fn get_func(&self) -> Option<Function> {
@@ -503,12 +595,17 @@ impl Debug for Slot {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         match self {
             Self::Value(func, v) => write!(f, "[val: {}]", v),
-            Self::Pair(func, v) => write!(f, "[pair: {}]", v),
-            Self::Const(v) => write!(f, "[imm: {}]", v),
-            Self::CPair(v) => write!(f, "[cpair: {}]", v),
-            Self::Ptr(v) => write!(f, "[ptr: {}]", v),
+            Self::Alloc(v) => write!(f, "[alloc: {}]", v),
             Self::Raw(v) => write!(f, "[raw: {}]", v),
             Self::Func(v) => write!(f, "[func: {}]", v.0),
+            Self::Global(g) => write!(f, "[global: {}]", g.0),
+            Self::Const(v) => write!(f, "[const: {}]", v),
+            Self::Pair(func, v) =>
+                unreachable!("Only used for tracking during generation"),
+                // write!(f, "[pair: {}]", v),
+            Self::CPair(v) =>
+                unreachable!("Only used for tracking during generation"),
+                // write!(f, "[cpair: {}]", v),
         }
     }
 }

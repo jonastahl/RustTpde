@@ -15,7 +15,7 @@ crate-type = ["dylib"]
 
 [dev-dependencies]
 libtest-mimic = "0.7"
-pretty_assertions = "1.4" # Optional: Makes text comparison diffs readable
+pretty_assertions = "1.4"
 
 [[test]]
 name = "runner"

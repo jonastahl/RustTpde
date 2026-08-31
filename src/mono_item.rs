@@ -16,7 +16,9 @@ impl<'tcx> PreDefineCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
         visibility: Visibility,
         symbol_name: &str,
     ) {
-        todo!()
+        let global = self.tpde_module.borrow_mut()
+            .add_global(symbol_name, linkage);
+        self.globals.insert(def_id, global);
     }
 
     fn predefine_fn(

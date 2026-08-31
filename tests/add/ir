@@ -1,0 +1,27 @@
+ModuleTpde {
+    functions: [
+        Function {
+            name: "add",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+            ],
+            slot_pairs: [],
+            extern_link: false,
+            only_local: false,
+            weak_link: false,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Add> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+    ],
+    consts: [],
+    const_pairs: [],
+}

@@ -1,0 +1,81 @@
+ModuleTpde {
+    functions: [
+        Function {
+            name: "give_me_str",
+            n_args: 0,
+            has_ret: true,
+            slots: [
+                ptr,
+                i64,
+                i64,
+            ],
+            slot_pairs: [
+                (a: [val: 0], b: [const: 2], offset: 8),
+                (a: [val: 0], b: [val: 2], offset: 8),
+            ],
+            flags: LinkerFlags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Load> ([global: 0], [raw: 8]) -> [val: 0],
+                    <GEP> ([global: 0], [raw: 8], [const: 0]) -> [val: 1],
+                    <Load> ([val: 1], [raw: 8]) -> [val: 2],
+                    <Ret> ([val: 0], [val: 2]),
+                ],
+            ],
+        },
+    ],
+    consts: [
+        [i64] (0 1) -> 0,
+        [ptr] (0 0) -> [ptr: 0],
+        [i64] (0 0) -> 0,
+    ],
+    const_pairs: [
+        (a: [const: 1], b: [const: 2], offset: 8),
+    ],
+    globals: [
+        Global {
+            name: "HELLO_WORLD",
+            align: 8,
+            flags: LinkerFlags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            size: 0,
+            chunks: [
+                Chunk {
+                    type_: Reloc,
+                    data: 0,
+                },
+                Chunk {
+                    type_: Init,
+                    data: 0,
+                },
+            ],
+            data: [
+                ChunkData {
+                    data: [
+                        12,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                    ],
+                },
+            ],
+        },
+    ],
+    relocations: [
+        Relocation {
+            address_space: 0,
+        },
+    ],
+}

@@ -60,7 +60,7 @@ pub fn compile_codegen_unit(tcx: TyCtxt<'_>, cgu_name: Symbol) -> (ModuleCodegen
 
             // we don't have coverage
 
-            // no used statistics
+            // statics?
 
             // also ignore debug infoo
         }

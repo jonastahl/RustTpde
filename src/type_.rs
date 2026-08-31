@@ -3,6 +3,7 @@ use crate::shared::ir::{FullType, FunctionSignature, Type};
 use rustc_abi::{AddressSpace, BackendRepr, Primitive, Reg, Scalar};
 use rustc_codegen_ssa::common::TypeKind;
 use rustc_codegen_ssa::traits::{BaseTypeCodegenMethods, DerivedTypeCodegenMethods, LayoutTypeCodegenMethods, TypeMembershipCodegenMethods};
+use rustc_middle::bug;
 use rustc_middle::ty::layout::TyAndLayout;
 use rustc_middle::ty::Ty;
 use rustc_target::callconv::{CastTarget, FnAbi, PassMode};
@@ -92,6 +93,7 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
             FullType::Single(ty) => match ty {
                 Type::Void => TypeKind::Void,
                 Type::Bool | Type::i8 |  Type::i16 | Type::i32 | Type::i64 => TypeKind::Integer,
+                Type::ptr => TypeKind::Pointer,
                 _ => todo!()
             },
             FullType::Pair(ty1, ty2, _) => TypeKind::Struct,
@@ -120,7 +122,17 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn int_width(&self, ty: Self::Type) -> u64 {
-        todo!()
+        match ty {
+            FullType::Single(ty) =>
+                match ty {
+                    Type::i8 => 1,
+                    Type::i16 => 2,
+                    Type::i32 => 4,
+                    Type::i64 => 8,
+                    _ => todo!()
+                }
+            _ => todo!()
+        }
     }
 
     fn val_ty(&self, v: Self::Value) -> Self::Type {
@@ -220,6 +232,11 @@ impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     }
 
     fn scalar_pair_element_backend_type(&self, layout: TyAndLayout<'tcx>, index: usize, immediate: bool) -> Self::Type {
-        self.tpde_direct_type(layout)
+        let BackendRepr::ScalarPair { a, b, b_offset: _ } = layout.backend_repr else {
+            bug!("Cannot appear")
+        };
+        let scalar = [a, b][index];
+
+        self.tpde_scalar_type(scalar)
     }
 }
