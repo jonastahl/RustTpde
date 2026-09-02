@@ -2,8 +2,12 @@ use crate::context::CodegenCx;
 use crate::shared::ir::{FullType, Slot, Type};
 use rustc_abi::Size;
 use rustc_codegen_ssa::traits::ConstCodegenMethods;
+use rustc_data_structures::stable_hash::{StableHash, StableHasher};
+use rustc_hir::attrs::Linkage;
 use rustc_middle::mir::interpret::{GlobalAlloc, Scalar};
 use rustc_session::PointerAuthSchema;
+use crate::consts::IsInitOrFini;
+use rustc_hashes::Hash128;
 
 impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     fn const_null(&self, t: Self::Type) -> Self::Value {
@@ -150,25 +154,42 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
             Scalar::Ptr(ptr, _size) => {
                 let (prov, offset) = ptr.prov_and_relative_offset();
                 let global_alloc = self.tcx.global_alloc(prov.alloc_id());
+                let base_addr_space = global_alloc.address_space(self);
                 match global_alloc {
                     GlobalAlloc::Static(def_id) => {
                         assert!(self.tcx.is_static(def_id));
                         assert!(!self.tcx.is_thread_local_static(def_id));
                         Slot::new_global(*self.globals.get(&def_id).expect("Global undeclared"))
                     }
-                    // GlobalAlloc::Memory(alloc) if alloc.inner().len() == 0 => {
-                    //     todo!()
-                    //     // let val = alloc.inner().align.bytes().wrapping_add(offset.bytes());
-                    //     // let data = self.tcx.truncate_to_target_usize(val) as u128;
-                    //     // self.tpde_module.borrow_mut().add_const(Type::ptr, data)
-                    // }
-                    // GlobalAlloc::Memory(alloc) => {
-                    //     let id = prov.alloc_id().0;
-                    //     let offset = offset.bytes();
-                    //     // let global = self.global_for_alloc(prov.alloc_id());
-                    //     // self.global_addr(global, offset.bytes() as i64)
-                    //     todo!()
-                    // }
+                    GlobalAlloc::Memory(alloc) if alloc.inner().len() == 0 => {
+                        todo!()
+                        // let val = alloc.inner().align.bytes().wrapping_add(offset.bytes());
+                        // let data = self.tcx.truncate_to_target_usize(val) as u128;
+                        // self.tpde_module.borrow_mut().add_const(Type::ptr, data)
+                    }
+                    GlobalAlloc::Memory(alloc) => {
+                        let id = prov.alloc_id().0;
+                        let offset = offset.bytes();
+                        let alloc = alloc.inner();
+
+                        let mut module = self.tpde_module.borrow_mut();
+
+                        let name = {
+                            let hash = self.tcx.with_stable_hashing_context(|mut hcx| {
+                                let mut hasher = StableHasher::new();
+                                alloc.stable_hash(&mut hcx, &mut hasher);
+                                hasher.finish::<Hash128>()
+                            });
+                            format!("alloc_{hash:032x}")
+                        };
+
+                        let g = module.add_global(&name, Linkage::Internal);
+                        self.const_alloc_to_tpde(&mut module, g, &alloc, IsInitOrFini::No);
+
+                        // TODO so far we ignore the address space
+
+                        Slot::new_global_ptr(g, offset as u32)
+                    }
                     // GlobalAlloc::Function { instance, .. } => {
                     //     assert_eq!(offset.bytes(), 0, "offset into a function pointer");
                     //     self.get_fn_addr(instance, schema)

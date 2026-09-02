@@ -17,6 +17,7 @@ extern crate rustc_hir;
 extern crate alloc;
 extern crate rustc_fs_util;
 extern crate core;
+extern crate rustc_hashes;
 
 use rustc_codegen_ssa::traits::CodegenBackend;
 use crate::backend::TpdeCodegenBackend;

@@ -2,7 +2,7 @@ mod coverageinfo;
 mod intrinsic;
 
 use crate::context::CodegenCx;
-use crate::shared::ir::{size_of_type, BasicBlock, FullType, Function, InstructionKind, Slot, Type};
+use crate::shared::ir::{BasicBlock, FullType, Function, InstructionKind, ModuleTpde, Slot, Type, size_of_type};
 use rustc_ast::expand::typetree::FncTree;
 use rustc_codegen_ssa::MemFlags;
 use rustc_codegen_ssa::common::{
@@ -401,28 +401,24 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     ) -> OperandRef<'tcx, Self::Value> {
         let val = match self.cx.tpde_direct_type(place.layout) {
             FullType::Single(ret_ty) => {
-                let slot = self.tpde_module.borrow_mut().add_instruction_ret(
-                    self.basic_block,
-                    InstructionKind::Load,
-                    vec![
-                        place.val.llval,
-                        Slot::new_raw(place.val.align.bytes_usize() as u32),
-                    ],
-                    ret_ty,
+                let slot = generate_load_instr(
+                  &mut self.tpde_module.borrow_mut(),
+                  self.basic_block,
+                  place.val.llval,
+                  place.val.align.bytes_usize() as u32,
+                  ret_ty
                 );
                 OperandValue::Immediate(slot)
             }
             FullType::Pair(ty_a, ty_b, offset) => {
                 let module = &mut self.tpde_module.borrow_mut();
 
-                let slot_a = module.add_instruction_ret(
+                let slot_a = generate_load_instr(
+                    module,
                     self.basic_block,
-                    InstructionKind::Load,
-                    vec![
-                        place.val.llval,
-                        Slot::new_raw(place.val.align.bytes_usize() as u32),
-                    ],
-                    ty_a,
+                    place.val.llval,
+                    place.val.align.bytes_usize() as u32,
+                    ty_a
                 );
                 let ind = module.add_const(Type::i64, 1);
                 let ptr_b = module.add_instruction_ret(
@@ -431,11 +427,12 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
                     vec![place.val.llval, Slot::new_raw(offset as u32), ind],
                     Type::i64,
                 );
-                let slot_b = module.add_instruction_ret(
+                let slot_b = generate_load_instr(
+                    module,
                     self.basic_block,
-                    InstructionKind::Load,
-                    vec![ptr_b, Slot::new_raw(place.val.align.bytes_usize() as u32)],
-                    ty_b,
+                    ptr_b,
+                    place.val.align.bytes_usize() as u32,
+                    ty_b
                 );
 
                 OperandValue::Pair(slot_a, slot_b)
@@ -708,13 +705,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         let module = &mut self.tpde_module.borrow_mut();
         let (slot_a, slot_b, offset_b) = module.extract_vals(agg_val);
 
-        let func = match agg_val {
-            Slot::Pair(func, ..) => func,
-            _ => match elt {
-                Slot::Value(func, ..) => func,
-                _ => todo!(),
-            },
-        };
+        let func = self.basic_block.function();
 
         match idx {
             0 => module.add_pair(func, elt, slot_b, offset_b),
@@ -852,4 +843,34 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     fn apply_attrs_to_cleanup_callsite(&mut self, llret: Self::Value) {
         todo!()
     }
+}
+
+fn generate_load_instr(
+    module: &mut ModuleTpde,
+    bb: BasicBlock,
+    ptr: Slot,
+    align: u32,
+    ret_ty: Type,
+) -> Slot {
+    let ptr = if let Slot::GlobalPtr(global, offset) = ptr {
+        let ind = module.add_const(Type::i64, offset as u128);
+        module.add_instruction_ret(
+            bb,
+            InstructionKind::GEP,
+            vec![Slot::new_global(global), Slot::new_raw(1), ind],
+            Type::i64,
+        )
+    } else {
+        ptr
+    };
+
+    module.add_instruction_ret(
+        bb,
+        InstructionKind::Load,
+        vec![
+            ptr,
+            Slot::new_raw(align),
+        ],
+        ret_ty,
+    )
 }

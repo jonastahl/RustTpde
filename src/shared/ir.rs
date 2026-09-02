@@ -23,7 +23,8 @@ pub enum Slot {
     Raw(u32),
     Alloc(u32),
     Func(Function),
-    Global(Global)
+    Global(Global),
+    GlobalPtr(Global, u32)
 }
 
 #[derive(Copy, Clone, PartialEq, Debug)]
@@ -199,6 +200,7 @@ impl ModuleTpde {
             Slot::Raw(_) => unreachable!(),
             Slot::Func(func) => todo!(),
             Slot::Global(_) => todo!(),
+            Slot::GlobalPtr(..) => todo!(),
         }
     }
 
@@ -529,6 +531,10 @@ impl Slot {
         Self::Global(global)
     }
 
+    pub fn new_global_ptr(global: Global, offset: u32) -> Self {
+        Self::GlobalPtr(global, offset)
+    }
+
     pub fn to_ffi(&self) -> u32 {
         match self {
             Self::Value(_, v) => *v,
@@ -537,12 +543,8 @@ impl Slot {
             Self::Raw(r) => *r | MARKER_RAW,
             Self::Func(f) => (f.0 as u32) | MARKER_FUNC,
             Self::Global(g) => g.0 as u32 | MARKER_GLOBAL,
-            Self::Pair(_, p) =>
+            Self::Pair(..) | Self::CPair(..) | Self::GlobalPtr(..) =>
                 unreachable!("Only used for tracking during generation"),
-                // *p | MARKER_PAIR,
-            Self::CPair(p) =>
-                unreachable!("Only used for tracking during generation"),
-                // *p | MARKER_CPAIR,
         }
     }
 
@@ -600,12 +602,8 @@ impl Debug for Slot {
             Self::Func(v) => write!(f, "[func: {}]", v.0),
             Self::Global(g) => write!(f, "[global: {}]", g.0),
             Self::Const(v) => write!(f, "[const: {}]", v),
-            Self::Pair(func, v) =>
+            Self::Pair(..) | Self::CPair(..) | Self::GlobalPtr(..) =>
                 unreachable!("Only used for tracking during generation"),
-                // write!(f, "[pair: {}]", v),
-            Self::CPair(v) =>
-                unreachable!("Only used for tracking during generation"),
-                // write!(f, "[cpair: {}]", v),
         }
     }
 }
