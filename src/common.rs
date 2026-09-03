@@ -109,7 +109,7 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
         self.module.borrow().const_data(v)
     }
 
-    fn scalar_to_backend_with_pac(&self, cv: Scalar, layout: rustc_abi::Scalar, ty: Self::Type, schema: Option<&PointerAuthSchema>) -> Self::Value {
+    fn scalar_to_backend(&self, cv: Scalar, layout: rustc_abi::Scalar, ty: Self::Type) -> Self::Value {
         match ty {
             FullType::Single(ty) => {
                 let data = match ty {
@@ -118,7 +118,7 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
                     Type::i32 => cv.to_i32().unwrap() as u128,
                     Type::i64 => cv.to_i64().unwrap() as u128,
                     Type::i128 => cv.to_i128().unwrap() as u128,
-                    Type::ptr => return self.ptr_scalar_to_backend(cv, layout, schema),
+                    Type::ptr => return self.ptr_scalar_to_backend(cv, layout),
                     _ => todo!()
                 };
                 self.module.borrow_mut().add_const(ty, data)
@@ -128,6 +128,10 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
             }
             _ => todo!()
         }
+    }
+
+    fn scalar_to_backend_with_pac(&self, cv: Scalar, layout: rustc_abi::Scalar, ty: Self::Type, schema: Option<&PointerAuthSchema>) -> Self::Value {
+        todo!()
     }
 
     fn const_ptr_byte_offset(&self, val: Self::Value, offset: Size) -> Self::Value {
@@ -140,7 +144,6 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
         &self,
         cv: Scalar,
         layout: rustc_abi::Scalar,
-        schema: Option<&PointerAuthSchema>,
     ) -> Slot {
         match cv {
             Scalar::Int(int) => {
@@ -185,7 +188,11 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
 
                         // TODO so far we ignore the address space
 
-                        Slot::new_global_ptr(g, offset as u32)
+                        if offset != 0 {
+                            module.add_global_ptr(g, offset as u32)
+                        } else {
+                            Slot::new_global(g)
+                        }
                     }
                     // GlobalAlloc::Function { instance, .. } => {
                     //     assert_eq!(offset.bytes(), 0, "offset into a function pointer");

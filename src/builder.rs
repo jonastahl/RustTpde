@@ -2,7 +2,9 @@ mod coverageinfo;
 mod intrinsic;
 
 use crate::context::CodegenCx;
-use crate::shared::ir::{BasicBlock, FullType, Function, InstructionKind, Module, Slot, Type, size_of_type};
+use crate::shared::ir::{
+    BasicBlock, FullType, Function, InstructionKind, Slot, Type, size_of_type,
+};
 use rustc_ast::expand::typetree::FncTree;
 use rustc_codegen_ssa::MemFlags;
 use rustc_codegen_ssa::common::{
@@ -97,7 +99,9 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn ret_void(&mut self) {
-        self.module.borrow_mut().add_instruction(self.basic_block, InstructionKind::Ret, vec![])
+        self.module
+            .borrow_mut()
+            .add_instruction(self.basic_block, InstructionKind::Ret, vec![])
     }
 
     fn ret(&mut self, v: Self::Value) {
@@ -401,24 +405,28 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     ) -> OperandRef<'tcx, Self::Value> {
         let val = match self.cx.tpde_direct_type(place.layout) {
             FullType::Single(ret_ty) => {
-                let slot = generate_load_instr(
-                    &mut self.module.borrow_mut(),
+                let slot = self.module.borrow_mut().add_instruction_ret(
                     self.basic_block,
-                    place.val.llval,
-                    place.val.align.bytes_usize() as u32,
-                    ret_ty
+                    InstructionKind::Load,
+                    vec![
+                        place.val.llval,
+                        Slot::new_raw(place.val.align.bytes() as u32),
+                    ],
+                    ret_ty,
                 );
                 OperandValue::Immediate(slot)
             }
             FullType::Pair(ty_a, ty_b, offset) => {
                 let module = &mut self.module.borrow_mut();
 
-                let slot_a = generate_load_instr(
-                    module,
+                let slot_a = module.add_instruction_ret(
                     self.basic_block,
-                    place.val.llval,
-                    place.val.align.bytes_usize() as u32,
-                    ty_a
+                    InstructionKind::Load,
+                    vec![
+                        place.val.llval,
+                        Slot::new_raw(place.val.align.bytes() as u32),
+                    ],
+                    ty_a,
                 );
                 let ind = module.add_const(Type::i64, 1);
                 let ptr_b = module.add_instruction_ret(
@@ -427,19 +435,19 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
                     vec![place.val.llval, Slot::new_raw(offset as u32), ind],
                     Type::i64,
                 );
-                let slot_b = generate_load_instr(
-                    module,
+                let slot_b = module.add_instruction_ret(
                     self.basic_block,
-                    ptr_b,
-                    place.val.align.bytes_usize() as u32,
-                    ty_b
+                    InstructionKind::Load,
+                    vec![
+                        place.val.llval,
+                        Slot::new_raw(place.val.align.bytes() as u32),
+                    ],
+                    ty_b,
                 );
 
                 OperandValue::Pair(slot_a, slot_b)
-            },
-            FullType::Memory { sized } => {
-                OperandValue::Ref(place.val)
             }
+            FullType::Memory { sized } => OperandValue::Ref(place.val),
         };
         OperandRef {
             val,
@@ -513,7 +521,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         let offset = match ty {
             FullType::Single(ty) => size_of_type(ty),
             FullType::Pair(_, _, offset) => offset as u32,
-            FullType::Memory { sized } => todo!()
+            FullType::Memory { sized } => todo!(),
         };
         assert_eq!(indices.len(), 1);
 
@@ -640,7 +648,13 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         self.module.borrow_mut().add_instruction(
             self.basic_block,
             InstructionKind::MemCpy,
-            vec![dst, Slot::new_raw(dst_align.bytes_usize() as u32), src, Slot::new_raw(src_align.bytes_usize() as u32), size],
+            vec![
+                dst,
+                Slot::new_raw(dst_align.bytes_usize() as u32),
+                src,
+                Slot::new_raw(src_align.bytes_usize() as u32),
+                size,
+            ],
         );
     }
 
@@ -806,13 +820,10 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     ) -> Self::Value {
         let func_sig = &self.function_signatures.borrow()[func_sig];
 
-        self.module.borrow_mut()
-            .add_call(
-                self.basic_block,
-                fn_val,
-                func_sig,
-                args,
-            ).unwrap_or_else(|| Slot::new_raw(0))
+        self.module
+            .borrow_mut()
+            .add_call(self.basic_block, fn_val, func_sig, args)
+            .unwrap_or_else(|| Slot::new_raw(0))
     }
 
     fn tail_call(
@@ -836,41 +847,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
             self.basic_block,
             InstructionKind::Zext,
             vec![val],
-            dest_ty
+            dest_ty,
         )
     }
 
     fn apply_attrs_to_cleanup_callsite(&mut self, llret: Self::Value) {
         todo!()
     }
-}
-
-fn generate_load_instr(
-    module: &mut Module,
-    bb: BasicBlock,
-    ptr: Slot,
-    align: u32,
-    ret_ty: Type,
-) -> Slot {
-    let ptr = if let Slot::GlobalPtr(global, offset) = ptr {
-        let ind = module.add_const(Type::i64, offset as u128);
-        module.add_instruction_ret(
-            bb,
-            InstructionKind::GEP,
-            vec![Slot::new_global(global), Slot::new_raw(1), ind],
-            Type::i64,
-        )
-    } else {
-        ptr
-    };
-
-    module.add_instruction_ret(
-        bb,
-        InstructionKind::Load,
-        vec![
-            ptr,
-            Slot::new_raw(align),
-        ],
-        ret_ty,
-    )
 }

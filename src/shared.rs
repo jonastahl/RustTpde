@@ -1,4 +1,4 @@
-use crate::shared::ffi::Type;
+use crate::shared::ffi::{Chunk, ChunkData, GlobalPtr, Relocation, Type};
 use crate::shared::ir::Slot;
 use core::fmt::{Debug, Formatter};
 #[allow(unused_imports)]
@@ -13,8 +13,10 @@ mod ffi {
     pub struct ModuleTpde {
         functions: Vec<Function>,
         consts: Vec<Value>,
+
         globals: Vec<Global>,
         relocations: Vec<Relocation>,
+        global_ptrs: Vec<GlobalPtr>
     }
 
     enum Linkage {
@@ -153,6 +155,11 @@ mod ffi {
         data: Vec<ChunkData>,
     }
 
+    pub struct GlobalPtr {
+        global: u32,
+        offset: u32,
+    }
+
     #[derive(Debug)]
     enum ChunkType {
         Init,
@@ -160,19 +167,16 @@ mod ffi {
         Reloc,
     }
 
-    #[derive(Debug)]
     pub struct Chunk {
         type_: ChunkType,
         // position for Init and Reloc, size for UnInit
         data: u32,
     }
 
-    #[derive(Debug)]
     pub struct ChunkData {
         data: Vec<u8>,
     }
 
-    #[derive(Debug)]
     pub struct Relocation {
         address_space: u32,
     }
@@ -234,5 +238,47 @@ impl Debug for ffi::Slot {
 impl Debug for ffi::Alloca {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         write!(f, "size: {:?}, align: {:?}", self.size, self.align)
+    }
+}
+
+impl Debug for Chunk {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{:?}: {:?}", self.type_, self.data)
+    }
+}
+
+impl Debug for ChunkData {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        write!(f, "ChunkData ({} bytes):", self.data.len())?;
+
+        for (i, chunk) in self.data.chunks(16).enumerate() {
+            // Print offset
+            write!(f, "\n  {:04x}  ", i * 16)?;
+
+            // Print hex values with padding for incomplete lines
+            for b in chunk { write!(f, "{:02x} ", b)?; }
+            for _ in 0..(16 - chunk.len()) { write!(f, "   ")?; }
+
+            // Print ASCII representation
+            write!(f, " |")?;
+            for &b in chunk {
+                let c = if b.is_ascii_graphic() || b == b' ' { b as char } else { '.' };
+                write!(f, "{}", c)?;
+            }
+            write!(f, "|")?;
+        }
+        Ok(())
+    }
+}
+
+impl Debug for Relocation {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        write!(f, "[{:?}]", self.address_space)
+    }
+}
+
+impl Debug for GlobalPtr {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        write!(f, "[{:?}] + {:?}", self.global, self.offset)
     }
 }

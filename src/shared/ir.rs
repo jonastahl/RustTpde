@@ -23,7 +23,7 @@ pub enum Slot {
     Alloc(u32),
     Func(Function),
     Global(Global),
-    GlobalPtr(Global, u32)
+    GlobalPtr(u32)
 }
 
 #[derive(Copy, Clone, PartialEq, Debug)]
@@ -74,8 +74,10 @@ impl Module {
             tpde: ModuleTpde {
                 functions: vec![],
                 consts: vec![],
+
                 globals: vec![],
                 relocations: vec![],
+                global_ptrs: vec![]
             },
             pairs: vec![],
         }
@@ -168,6 +170,18 @@ impl Module {
             type_: ffi::ChunkType::Reloc,
             data: self.tpde.relocations.len() as u32 - 1
         })
+    }
+
+    pub fn add_global_ptr(
+        &mut self,
+        global: Global,
+        offset: u32
+    ) -> Slot {
+        self.tpde.global_ptrs.push(ffi::GlobalPtr {
+            global: global.0 as u32,
+            offset
+        });
+        Slot::GlobalPtr(self.tpde.global_ptrs.len() as u32 - 1)
     }
 
     fn create_linker_flags(
@@ -496,8 +510,7 @@ pub const MARKER_RAW: Marker = 2_u32 << (u32::BITS - 3);
 pub const MARKER_PTR: Marker = 3_u32 << (u32::BITS - 3);
 pub const MARKER_FUNC: Marker = 4_u32 << (u32::BITS - 3);
 pub const MARKER_GLOBAL: Marker = 5_u32 << (u32::BITS - 3);
-// pub const MARKER_PAIR: Marker = 2_u32 << (u32::BITS - 3);
-// pub const MARKER_CPAIR: Marker = 3_u32 << (u32::BITS - 3);
+pub const MARKER_GLOBAL_PTR: Marker = 6_u32 << (u32::BITS - 3);
 impl Slot {
     fn new_val(func: Function, index: u32) -> Self {
         Self::Value(func, index)
@@ -527,10 +540,6 @@ impl Slot {
         Self::Global(global)
     }
 
-    pub fn new_global_ptr(global: Global, offset: u32) -> Self {
-        Self::GlobalPtr(global, offset)
-    }
-
     pub fn to_ffi(&self) -> u32 {
         match self {
             Self::Value(_, v) => *v,
@@ -539,7 +548,8 @@ impl Slot {
             Self::Raw(r) => *r | MARKER_RAW,
             Self::Func(f) => (f.0 as u32) | MARKER_FUNC,
             Self::Global(g) => g.0 as u32 | MARKER_GLOBAL,
-            Self::Pair(..) | Self::GlobalPtr(..) =>
+            Self::GlobalPtr(p) => *p | MARKER_GLOBAL_PTR,
+            Self::Pair(..) =>
                 unreachable!("Only used for tracking during generation"),
         }
     }
@@ -571,6 +581,9 @@ impl Slot {
         if let Some(g) = Self::is(ffi, MARKER_GLOBAL) {
             return Self::Global(Global(g as usize));
         }
+        if let Some(p) = Self::is(ffi, MARKER_GLOBAL_PTR) {
+            return Self::GlobalPtr(p)
+        }
         unreachable!()
         // if let Some(u) = Self::is(ffi, MARKER_CPAIR) {
         //     return Self::CPair(u);
@@ -597,7 +610,8 @@ impl Debug for Slot {
             Self::Func(v) => write!(f, "[func: {}]", v.0),
             Self::Global(g) => write!(f, "[global: {}]", g.0),
             Self::Const(v) => write!(f, "[const: {}]", v),
-            Self::Pair(..) | Self::GlobalPtr(..) =>
+            Self::GlobalPtr(p) => write!(f, "[globalptr: {}]", p),
+            Self::Pair(..) =>
                 unreachable!("Only used for tracking during generation"),
         }
     }
