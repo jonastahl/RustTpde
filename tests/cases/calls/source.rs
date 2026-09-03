@@ -10,15 +10,10 @@ fn fib(n: u64) -> u64 {
 }
 
 pub struct User {
-    pub id: u64,
-    pub age: u64
+    pub id: u8,
+    pub age: u8
 }
 
-
-#[no_mangle]
-pub fn func(a: i32, b: i32, c: i32, d: i32, e: i32, u: User, f: i32) -> User {
-    u
-}
 
 #[no_mangle]
 pub fn editor(user: User) -> User {

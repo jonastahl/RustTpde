@@ -34,10 +34,6 @@ namespace operands {
     return is(op, MARKER_CONST);
   }
 
-  inline bool is_ptr(uint32_t op) {
-    return is(op, MARKER_ALLOC);
-  }
-
   inline bool is_raw(uint32_t op) {
     return is(op, MARKER_RAW);
   }

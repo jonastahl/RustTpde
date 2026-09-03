@@ -439,7 +439,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
                     self.basic_block,
                     InstructionKind::Load,
                     vec![
-                        place.val.llval,
+                        ptr_b,
                         Slot::new_raw(place.val.align.bytes() as u32),
                     ],
                     ty_b,

@@ -14,7 +14,7 @@ ModuleTpde {
                 i64,
                 ptr,
             ],
-            flags: LinkerFlags {
+            flags: Flags {
                 extern_link: false,
                 only_local: true,
                 weak_link: false,
@@ -40,8 +40,8 @@ ModuleTpde {
                 ptr,
                 ptr,
             ],
-            flags: LinkerFlags {
-                extern_link: true,
+            flags: Flags {
+                extern_link: false,
                 only_local: false,
                 weak_link: false,
             },
@@ -63,7 +63,7 @@ ModuleTpde {
                 ptr,
                 ptr,
             ],
-            flags: LinkerFlags {
+            flags: Flags {
                 extern_link: true,
                 only_local: false,
                 weak_link: false,
@@ -84,7 +84,7 @@ ModuleTpde {
         Global {
             name: "alloc_3213114faf700a46436312d7d5d956d1",
             align: 0,
-            flags: LinkerFlags {
+            flags: Flags {
                 extern_link: false,
                 only_local: true,
                 weak_link: false,

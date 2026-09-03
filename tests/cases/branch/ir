@@ -10,10 +10,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -23,15 +24,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 0], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 0], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 1], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 1], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -46,10 +47,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -59,15 +61,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 2], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 2], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 3], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 3], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -82,10 +84,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -95,15 +98,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 4], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 4], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 5], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 5], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -118,10 +121,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -131,15 +135,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 6], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 6], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 7], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 7], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -154,10 +158,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -167,15 +172,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 8], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 8], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 9], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 9], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -190,10 +195,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -203,15 +209,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 10], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 10], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 11], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 11], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -226,10 +232,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -239,15 +246,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 12], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 12], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 13], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 13], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -262,10 +269,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -275,15 +283,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 14], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 14], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 15], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 15], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -298,10 +306,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -311,15 +320,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 16], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 16], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 17], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 17], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -334,10 +343,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -347,15 +357,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 18], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 18], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 19], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 19], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -370,10 +380,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -383,15 +394,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 20], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 20], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 21], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 21], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -406,10 +417,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -419,15 +431,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 22], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 22], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 23], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 23], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -442,10 +454,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -455,15 +468,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 24], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 24], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 25], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 25], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -478,10 +491,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -491,15 +505,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 26], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 26], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 27], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 27], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -514,10 +528,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -527,15 +542,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 28], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 28], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 29], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 29], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -550,10 +565,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -563,15 +579,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 30], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 30], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 31], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 31], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -586,10 +602,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -599,15 +616,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 32], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 32], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 33], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 33], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -622,10 +639,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -635,15 +653,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 34], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 34], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 35], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 35], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -658,10 +676,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -671,15 +690,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 36], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 36], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 37], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 37], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -694,10 +713,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -707,15 +727,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 38], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 38], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 39], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 39], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -730,10 +750,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -743,15 +764,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 40], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 40], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 41], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 41], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -766,10 +787,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -779,15 +801,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 42], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 42], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 43], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 43], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -802,10 +824,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -815,15 +838,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 44], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 44], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 45], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 45], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -838,10 +861,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -851,15 +875,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 46], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 46], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 47], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 47], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -873,28 +897,29 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
             basic_blocks: [
                 "start": [
-                    <CMPslt> ([val: 0], [imm: 48]) -> [val: 1],
+                    <CMPslt> ([val: 0], [const: 48]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 49], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 49], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 50], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 50], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 2],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -908,28 +933,29 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
             basic_blocks: [
                 "start": [
-                    <CMPsge> ([val: 0], [imm: 51]) -> [val: 1],
+                    <CMPsge> ([val: 0], [const: 51]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 52], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 52], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 53], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 53], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 2],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -943,28 +969,29 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
             basic_blocks: [
                 "start": [
-                    <CMPsge> ([val: 0], [imm: 54]) -> [val: 1],
+                    <CMPsge> ([val: 0], [const: 54]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 55], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 55], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 56], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 56], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 2],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -978,28 +1005,29 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
             basic_blocks: [
                 "start": [
-                    <CMPsgt> ([val: 0], [imm: 57]) -> [val: 1],
+                    <CMPsgt> ([val: 0], [const: 57]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 58], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 58], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 59], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 59], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 2],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -1013,28 +1041,29 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
             basic_blocks: [
                 "start": [
-                    <CMPuge> ([val: 0], [imm: 60]) -> [val: 1],
+                    <CMPuge> ([val: 0], [const: 60]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 61], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 61], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 62], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 62], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 2],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -1048,28 +1077,29 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
             basic_blocks: [
                 "start": [
-                    <CMPuge> ([val: 0], [imm: 63]) -> [val: 1],
+                    <CMPuge> ([val: 0], [const: 63]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 64], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 64], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 65], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 65], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 2],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -1083,28 +1113,29 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
             basic_blocks: [
                 "start": [
-                    <CMPuge> ([val: 0], [imm: 66]) -> [val: 1],
+                    <CMPuge> ([val: 0], [const: 66]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 67], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 67], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 68], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 68], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 2],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -1118,28 +1149,29 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
             basic_blocks: [
                 "start": [
-                    <CMPugt> ([val: 0], [imm: 69]) -> [val: 1],
+                    <CMPugt> ([val: 0], [const: 69]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 70], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 70], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 71], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 71], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 2],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -1154,10 +1186,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1167,15 +1200,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 72], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 72], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 73], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 73], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1190,10 +1223,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1203,15 +1237,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 74], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 74], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 75], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 75], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1226,10 +1260,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1239,15 +1274,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 76], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 76], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 77], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 77], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1262,10 +1297,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1275,15 +1311,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 78], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 78], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 79], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 79], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1298,10 +1334,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1311,15 +1348,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 80], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 80], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 81], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 81], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1334,10 +1371,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1347,15 +1385,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 82], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 82], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 83], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 83], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1370,10 +1408,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1383,15 +1422,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 84], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 84], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 85], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 85], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1406,10 +1445,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1419,15 +1459,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 86], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 86], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 87], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 87], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1442,10 +1482,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1455,15 +1496,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 88], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 88], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 89], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 89], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1478,10 +1519,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1491,15 +1533,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 90], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 90], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 91], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 91], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1514,10 +1556,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1527,15 +1570,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 92], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 92], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 93], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 93], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1550,10 +1593,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1563,15 +1607,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 94], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 94], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 95], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 95], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1586,10 +1630,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1599,15 +1644,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 96], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 96], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 97], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 97], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1622,10 +1667,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1635,15 +1681,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 98], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 98], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 99], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 99], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1658,10 +1704,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1671,15 +1718,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 100], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 100], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 101], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 101], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1694,10 +1741,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1707,15 +1755,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 102], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 102], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 103], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 103], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1730,10 +1778,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1743,15 +1792,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 104], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 104], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 105], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 105], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1766,10 +1815,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1779,15 +1829,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 106], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 106], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 107], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 107], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1802,10 +1852,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1815,15 +1866,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 108], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 108], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 109], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 109], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1838,10 +1889,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1851,15 +1903,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 110], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 110], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 111], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 111], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1874,10 +1926,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1887,15 +1940,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 112], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 112], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 113], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 113], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1910,10 +1963,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1923,15 +1977,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 114], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 114], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 115], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 115], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1946,10 +2000,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1959,15 +2014,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 116], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 116], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 117], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 117], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -1982,10 +2037,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -1995,15 +2051,15 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 118], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 118], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 119], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 119], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -2021,10 +2077,11 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
@@ -2038,35 +2095,35 @@ ModuleTpde {
                     <CondBr> ([val: 3], [raw: 4], [raw: 3]),
                 ],
                 "bb1": [
-                    <CMPslt> ([val: 0], [imm: 124]) -> [val: 5],
+                    <CMPslt> ([val: 0], [const: 124]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 9], [raw: 8]),
                 ],
                 "bb8": [
-                    <Store> ([imm: 120], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 120], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 5]),
                 ],
                 "bb5": [
-                    <CMPslt> ([val: 1], [imm: 121]) -> [val: 4],
+                    <CMPslt> ([val: 1], [const: 121]) -> [val: 4],
                     <CondBr> ([val: 4], [raw: 7], [raw: 6]),
                 ],
                 "bb9": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 6],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 6],
                     <Ret> ([val: 6]),
                 ],
                 "bb7": [
-                    <Store> ([imm: 122], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 122], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 5]),
                 ],
                 "bb6": [
-                    <Store> ([imm: 123], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 123], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 5]),
                 ],
                 "bb3": [
-                    <Store> ([imm: 125], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 125], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 5]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 126], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 126], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 5]),
                 ],
             ],
@@ -2080,28 +2137,29 @@ ModuleTpde {
                 Bool,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 4, align: 4,
             ],
             basic_blocks: [
                 "start": [
-                    <CMPugt> ([val: 0], [imm: 127]) -> [val: 1],
+                    <CMPugt> ([val: 0], [const: 127]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 128], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 128], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 129], [ptr: 0], [raw: 4]),
+                    <Store> ([const: 129], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 4]) -> [val: 2],
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -2239,5 +2297,6 @@ ModuleTpde {
         [i32] (0 252645135) -> 0,
         [i32] (18446744073709551615 18446744073456906480) -> -1,
     ],
-    const_pairs: [],
+    globals: [],
+    global_ptrs: [],
 }

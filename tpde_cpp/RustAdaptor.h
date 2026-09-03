@@ -55,7 +55,7 @@ namespace tpde_rust {
         return cur_func->slots[operands::content(value)].ty;
       if (operands::is_const(value))
         return mod->consts[operands::content(value)].ty;
-      if (operands::is_ptr(value))
+      if (operands::is_alloc(value))
         return Type::ptr;
       assert(false && "invalid value ref");
     }
@@ -209,7 +209,7 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] tpde::ValLocalIdx val_local_idx(IRValueRef ir_value) {
-      if (operands::is_ptr(ir_value))
+      if (operands::is_alloc(ir_value))
         return static_cast<tpde::ValLocalIdx>(operands::content(ir_value));
       if (operands::is_val(ir_value))
         return static_cast<tpde::ValLocalIdx>(operands::content(ir_value) + cur_func->allocas.size());
@@ -250,7 +250,7 @@ namespace tpde_rust {
 
     [[nodiscard]] u32 val_alloca_size(IRValueRef val) const {
       // TODO
-      if (operands::is_ptr(val)) {
+      if (operands::is_alloc(val)) {
         return cur_func->allocas[operands::content(val)].size;
       }
       return size_of_type(type_of_ref(val));
@@ -258,7 +258,7 @@ namespace tpde_rust {
 
     [[nodiscard]] u32 val_alloca_align(IRValueRef val) const {
       // TODO
-      if (operands::is_ptr(val)) {
+      if (operands::is_alloc(val)) {
         return cur_func->allocas[operands::content(val)].align;
       }
       return val_alloca_size(val);

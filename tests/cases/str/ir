@@ -9,7 +9,7 @@ ModuleTpde {
                 i64,
                 i64,
             ],
-            flags: LinkerFlags {
+            flags: Flags {
                 extern_link: false,
                 only_local: false,
                 weak_link: false,
@@ -19,7 +19,7 @@ ModuleTpde {
                 "start": [
                     <Load> ([global: 0], [raw: 8]) -> [val: 0],
                     <GEP> ([global: 0], [raw: 8], [const: 0]) -> [val: 1],
-                    <Load> ([global: 0], [raw: 8]) -> [val: 2],
+                    <Load> ([val: 1], [raw: 8]) -> [val: 2],
                     <Ret> ([val: 0], [val: 2]),
                 ],
             ],
@@ -29,7 +29,7 @@ ModuleTpde {
             n_args: 0,
             has_ret: true,
             slots: [],
-            flags: LinkerFlags {
+            flags: Flags {
                 extern_link: false,
                 only_local: false,
                 weak_link: false,
@@ -54,7 +54,7 @@ ModuleTpde {
         Global {
             name: "HELLO_WORLD",
             align: 8,
-            flags: LinkerFlags {
+            flags: Flags {
                 extern_link: false,
                 only_local: false,
                 weak_link: false,
@@ -72,7 +72,7 @@ ModuleTpde {
         Global {
             name: "alloc_f7486cd712a27ca42f772f74632985be",
             align: 0,
-            flags: LinkerFlags {
+            flags: Flags {
                 extern_link: false,
                 only_local: true,
                 weak_link: false,

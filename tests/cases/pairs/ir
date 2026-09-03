@@ -13,36 +13,34 @@ ModuleTpde {
                 i64,
                 i8,
             ],
-            slot_pairs: [
-                (a: [val: 4], b: [imm: 9], offset: 8),
-                (a: [val: 4], b: [val: 6], offset: 8),
-            ],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 16, align: 8,
             ],
             basic_blocks: [
                 "start": [
-                    <CMPugt> ([val: 0], [imm: 0]) -> [val: 1],
+                    <CMPugt> ([val: 0], [const: 0]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 1], [ptr: 0], [raw: 8]),
-                    <GEP> ([ptr: 0], [raw: 1], [imm: 3]) -> [val: 2],
-                    <Store> ([imm: 2], [val: 2], [raw: 8]),
+                    <Store> ([const: 1], [alloc: 0], [raw: 8]),
+                    <GEP> ([alloc: 0], [raw: 1], [const: 3]) -> [val: 2],
+                    <Store> ([const: 2], [val: 2], [raw: 8]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 4], [ptr: 0], [raw: 8]),
-                    <GEP> ([ptr: 0], [raw: 1], [imm: 6]) -> [val: 3],
-                    <Store> ([imm: 5], [val: 3], [raw: 8]),
+                    <Store> ([const: 4], [alloc: 0], [raw: 8]),
+                    <GEP> ([alloc: 0], [raw: 1], [const: 6]) -> [val: 3],
+                    <Store> ([const: 5], [val: 3], [raw: 8]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 8]) -> [val: 4],
-                    <GEP> ([ptr: 0], [raw: 8], [imm: 7]) -> [val: 5],
+                    <Load> ([alloc: 0], [raw: 8]) -> [val: 4],
+                    <GEP> ([alloc: 0], [raw: 8], [const: 7]) -> [val: 5],
                     <Load> ([val: 5], [raw: 8]) -> [val: 6],
                     <Ret> ([val: 4], [val: 6]),
                 ],
@@ -59,32 +57,30 @@ ModuleTpde {
                 i64,
                 i8,
             ],
-            slot_pairs: [
-                (a: [val: 2], b: [imm: 15], offset: 8),
-                (a: [val: 2], b: [val: 4], offset: 8),
-            ],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [
                 size: 16, align: 8,
             ],
             basic_blocks: [
                 "start": [
-                    <CMPugt> ([val: 0], [imm: 10]) -> [val: 1],
+                    <CMPugt> ([val: 0], [const: 10]) -> [val: 1],
                     <CondBr> ([val: 1], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([imm: 11], [ptr: 0], [raw: 8]),
+                    <Store> ([const: 11], [alloc: 0], [raw: 8]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([imm: 12], [ptr: 0], [raw: 8]),
+                    <Store> ([const: 12], [alloc: 0], [raw: 8]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
-                    <Load> ([ptr: 0], [raw: 8]) -> [val: 2],
-                    <GEP> ([ptr: 0], [raw: 8], [imm: 13]) -> [val: 3],
+                    <Load> ([alloc: 0], [raw: 8]) -> [val: 2],
+                    <GEP> ([alloc: 0], [raw: 8], [const: 13]) -> [val: 3],
                     <Load> ([val: 3], [raw: 8]) -> [val: 4],
                     <Ret> ([val: 2], [val: 4]),
                 ],
@@ -99,17 +95,15 @@ ModuleTpde {
                 i8,
                 i8,
             ],
-            slot_pairs: [
-                (a: [val: 0], b: [imm: 18], offset: 8),
-                (a: [val: 0], b: [val: 2], offset: 8),
-            ],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <Add> ([val: 1], [imm: 16]) -> [val: 2],
+                    <Add> ([val: 1], [const: 16]) -> [val: 2],
                     <Ret> ([val: 0], [val: 2]),
                 ],
             ],
@@ -136,9 +130,6 @@ ModuleTpde {
         [i64] (0 0) -> 0,
         [i8] (0 0) -> 0,
     ],
-    const_pairs: [
-        (a: [imm: 8], b: [imm: 9], offset: 8),
-        (a: [imm: 14], b: [imm: 15], offset: 8),
-        (a: [imm: 17], b: [imm: 18], offset: 8),
-    ],
+    globals: [],
+    global_ptrs: [],
 }

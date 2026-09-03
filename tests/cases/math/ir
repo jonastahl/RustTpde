@@ -11,10 +11,11 @@ ModuleTpde {
                 i32,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -45,10 +46,11 @@ ModuleTpde {
                 i32,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -72,10 +74,11 @@ ModuleTpde {
                 i16,
                 i16,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -93,10 +96,11 @@ ModuleTpde {
                 i32,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -114,10 +118,11 @@ ModuleTpde {
                 i64,
                 i64,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -135,10 +140,11 @@ ModuleTpde {
                 i8,
                 i8,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -158,10 +164,11 @@ ModuleTpde {
                 i32,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -183,10 +190,11 @@ ModuleTpde {
                 i8,
                 i8,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -206,10 +214,11 @@ ModuleTpde {
                 i16,
                 i16,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -227,10 +236,11 @@ ModuleTpde {
                 i32,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -248,10 +258,11 @@ ModuleTpde {
                 i64,
                 i64,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -269,10 +280,11 @@ ModuleTpde {
                 i8,
                 i8,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -290,10 +302,11 @@ ModuleTpde {
                 i16,
                 i16,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -311,10 +324,11 @@ ModuleTpde {
                 i32,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -332,10 +346,11 @@ ModuleTpde {
                 i64,
                 i64,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -353,10 +368,11 @@ ModuleTpde {
                 i8,
                 i8,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -374,10 +390,11 @@ ModuleTpde {
                 i16,
                 i16,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -395,10 +412,11 @@ ModuleTpde {
                 i32,
                 i32,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -416,10 +434,11 @@ ModuleTpde {
                 i64,
                 i64,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -437,10 +456,11 @@ ModuleTpde {
                 i8,
                 i8,
             ],
-            slot_pairs: [],
-            extern_link: false,
-            only_local: false,
-            weak_link: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -451,5 +471,6 @@ ModuleTpde {
         },
     ],
     consts: [],
-    const_pairs: [],
+    globals: [],
+    global_ptrs: [],
 }
