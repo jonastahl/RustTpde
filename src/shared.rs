@@ -13,8 +13,6 @@ mod ffi {
     pub struct ModuleTpde {
         functions: Vec<Function>,
         consts: Vec<Value>,
-        // TODO move pairs to CodegenCx
-        const_pairs: Vec<PairRef>,
         globals: Vec<Global>,
         relocations: Vec<Relocation>,
     }
@@ -29,8 +27,6 @@ mod ffi {
         n_args: usize,
         has_ret: bool,
         slots: Vec<Slot>,
-        // TODO move pairs to Builder
-        slot_pairs: Vec<PairRef>,
 
         flags: LinkerFlags,
 
@@ -62,13 +58,6 @@ mod ffi {
     #[derive(Copy, Clone)]
     pub struct Slot {
         ty: Type,
-    }
-
-    #[derive(Copy, Clone)]
-    pub struct PairRef {
-        slot_a: u32,
-        slot_b: u32,
-        offset_b: u8,
     }
 
     #[derive(Debug, Copy, Clone)]
@@ -232,18 +221,6 @@ impl Debug for ffi::Value {
             f,
             "[{:#?}] ({} {}) -> {}",
             self.ty, self.data1, self.data2, val
-        )
-    }
-}
-
-impl Debug for ffi::PairRef {
-    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
-        write!(
-            f,
-            "(a: {:?}, b: {:?}, offset: {:?})",
-            Slot::from_ffi(self.slot_a),
-            Slot::from_ffi(self.slot_b),
-            self.offset_b
         )
     }
 }

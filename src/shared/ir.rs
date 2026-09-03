@@ -17,9 +17,8 @@ pub struct BasicBlock {
 #[derive(Copy, Clone, PartialEq)]
 pub enum Slot {
     Value(Function, u32),
-    Pair(Function, u32),
+    Pair(u32),
     Const(u32),
-    CPair(u32),
     Raw(u32),
     Alloc(u32),
     Func(Function),
@@ -56,43 +55,65 @@ pub fn size_of_type(ty: Type) -> u32 {
 pub use super::ffi::InstructionKind;
 pub use super::ffi::Type;
 
-impl ModuleTpde {
+pub struct Module {
+    tpde: ModuleTpde,
+
+    pairs: Vec<PairRef>,
+}
+
+#[derive(Copy, Clone)]
+pub struct PairRef {
+    slot_a: Slot,
+    slot_b: Slot,
+    offset_b: u8,
+}
+
+impl Module {
     pub fn new() -> Self {
         Self {
-            functions: vec![],
-            consts: vec![],
-            const_pairs: vec![],
-            globals: vec![],
-            relocations: vec![],
+            tpde: ModuleTpde {
+                functions: vec![],
+                consts: vec![],
+                globals: vec![],
+                relocations: vec![],
+            },
+            pairs: vec![],
         }
     }
 
+    pub fn tpde(&self) -> &ModuleTpde {
+        &self.tpde
+    }
+
+    pub fn tpde_mut(&mut self) -> &mut ModuleTpde {
+        &mut self.tpde
+    }
+
     pub fn add_function<'tpde, 'tcx>(
-        self: &mut ModuleTpde,
+        &mut self,
         cx: &CodegenCx<'tpde, 'tcx>,
         name: &str,
         fn_sign: &FunctionSignature,
         linkage: Linkage,
     ) -> Function {
-        self.functions.push(ffi::Function {
+        self.tpde.functions.push(ffi::Function {
             name: name.to_string(),
             n_args: fn_sign.args.len(),
             has_ret: fn_sign.ret.is_some(),
             slots: fn_sign.args.iter().map(|ty| ffi::Slot { ty: *ty }).collect(),
-            slot_pairs: vec![],
             flags: Self::create_linker_flags(linkage),
             allocas: vec![],
             basic_blocks: vec![],
         });
-        Function(self.functions.len() - 1)
+        Function(self.tpde.functions.len() - 1)
     }
 
     pub fn add_global(
-        self: &mut ModuleTpde,
+        &mut self,
         name: &str,
         linkage: Linkage
     ) -> Global {
-        self.globals.push(ffi::Global {
+        self.tpde.globals.push(ffi::Global {
             name: name.to_string(),
             size: 0,
             align: 0,
@@ -100,15 +121,15 @@ impl ModuleTpde {
             chunks: vec![],
             data: vec![],
         });
-        Global(self.globals.len() - 1)
+        Global(self.tpde.globals.len() - 1)
     }
 
     pub fn global_set_align(
-        self: &mut ModuleTpde,
+        &mut self,
         global: Global,
         align: u32
     ) {
-        self.globals[global.0].align = align;
+        self.tpde.globals[global.0].align = align;
     }
 
     pub fn global_add_unit_chunk(
@@ -116,7 +137,7 @@ impl ModuleTpde {
         global: Global,
         size: u32
     ) {
-        self.globals[global.0].chunks.push(ffi::Chunk {
+        self.tpde.globals[global.0].chunks.push(ffi::Chunk {
             type_: ffi::ChunkType::UnInit,
             data: size
         })
@@ -127,7 +148,7 @@ impl ModuleTpde {
         global: Global,
         chunk: &[u8]
     ) {
-        let global = &mut self.globals[global.0];
+        let global = &mut self.tpde.globals[global.0];
         global.data.push(ffi::ChunkData { data: chunk.to_vec() });
         global.chunks.push(ffi::Chunk {
             type_: ffi::ChunkType::Init,
@@ -140,12 +161,12 @@ impl ModuleTpde {
         global: Global,
         address_space: u32,
     ) {
-        self.relocations.push(ffi::Relocation {
+        self.tpde.relocations.push(ffi::Relocation {
             address_space
         });
-        self.globals[global.0].chunks.push(ffi::Chunk {
+        self.tpde.globals[global.0].chunks.push(ffi::Chunk {
             type_: ffi::ChunkType::Reloc,
-            data: self.relocations.len() as u32 - 1
+            data: self.tpde.relocations.len() as u32 - 1
         })
     }
 
@@ -168,29 +189,16 @@ impl ModuleTpde {
     pub fn type_of_slot(&self, slot: Slot) -> FullType {
         match slot {
             Slot::Value(func, ind) => {
-                FullType::Single(self.functions[func.0].slots[ind as usize].ty)
+                FullType::Single(self.tpde.functions[func.0].slots[ind as usize].ty)
             }
-            Slot::Pair(func, ind) => {
-                let func = &self.functions[func.0];
-                let pair = &func.slot_pairs[ind as usize];
-                let FullType::Single(slot_a) = self.type_of_slot(Slot::from_ffi(pair.slot_a))
+            Slot::Const(ind) => FullType::Single(self.tpde.consts[ind as usize].ty),
+            Slot::Pair(ind) => {
+                let pair = &self.pairs[ind as usize];
+                let FullType::Single(slot_a) = self.type_of_slot(pair.slot_a)
                 else {
                     unreachable!()
                 };
-                let FullType::Single(slot_b) = self.type_of_slot(Slot::from_ffi(pair.slot_b))
-                else {
-                    unreachable!()
-                };
-                FullType::Pair(slot_a, slot_b, pair.offset_b)
-            }
-            Slot::Const(ind) => FullType::Single(self.consts[ind as usize].ty),
-            Slot::CPair(ind) => {
-                let pair = &self.const_pairs[ind as usize];
-                let FullType::Single(slot_a) = self.type_of_slot(Slot::from_ffi(pair.slot_a))
-                else {
-                    unreachable!()
-                };
-                let FullType::Single(slot_b) = self.type_of_slot(Slot::from_ffi(pair.slot_b))
+                let FullType::Single(slot_b) = self.type_of_slot(pair.slot_b)
                 else {
                     unreachable!()
                 };
@@ -204,14 +212,14 @@ impl ModuleTpde {
         }
     }
 
-    fn get_function_mut(self: &mut ModuleTpde, func: &Function) -> &mut ffi::Function {
-        self.functions
+    fn get_function_mut(&mut self, func: &Function) -> &mut ffi::Function {
+        self.tpde.functions
             .get_mut(func.0)
             .unwrap_or_else(|| panic!("Function not found"))
     }
 
-    fn get_function(self: &ModuleTpde, func: &Function) -> &ffi::Function {
-        self.functions
+    fn get_function(&self, func: &Function) -> &ffi::Function {
+        self.tpde.functions
             .get(func.0)
             .unwrap_or_else(|| panic!("Function not found"))
     }
@@ -236,12 +244,12 @@ impl ModuleTpde {
             .unwrap_or_else(|| panic!("Basic block not found"))
     }
 
-    fn get_basic_block_mut(self: &mut Self, bb: BasicBlock) -> &mut ffi::BasicBlock {
+    fn get_basic_block_mut(&mut self, bb: BasicBlock) -> &mut ffi::BasicBlock {
         let function = self.get_function_mut(&bb.function());
-        ModuleTpde::get_basic_block_mut_helper(function, bb)
+        Module::get_basic_block_mut_helper(function, bb)
     }
 
-    fn get_basic_block(self: &Self, bb: BasicBlock) -> &ffi::BasicBlock {
+    fn get_basic_block(&self, bb: BasicBlock) -> &ffi::BasicBlock {
         let function = self.get_function(&bb.function());
         function
             .basic_blocks
@@ -284,7 +292,7 @@ impl ModuleTpde {
                 func.slots.get(v as usize).unwrap().ty
             }
             Slot::Const(v) => {
-                self.consts.get(v as usize).unwrap().ty
+                self.tpde.consts.get(v as usize).unwrap().ty
             }
             _ => panic!("First operand of return instruction must be a value slot"),
         };
@@ -346,7 +354,7 @@ impl ModuleTpde {
                 Some(FullType::Pair(ty_a, ty_b, offset_b)) => {
                     let slot_a = self.add_slot(bb.function, ty_a);
                     let slot_b = self.add_slot(bb.function, ty_b);
-                    let pair = self.add_pair(bb.function, slot_a, slot_b, offset_b);
+                    let pair = self.add_pair(slot_a, slot_b, offset_b);
                     ReturnType::Pair(pair, slot_a, slot_b)
                 }
                 Some(FullType::Memory { .. }) => todo!(),
@@ -397,27 +405,30 @@ impl ModuleTpde {
     }
 
     pub fn add_const(&mut self, ty: Type, data: u128) -> Slot {
-        let consts = &mut self.consts;
+        let consts = &mut self.tpde.consts;
         consts.push(ffi::Value::new(ty, data));
         Slot::new_const((consts.len() - 1) as u32)
     }
 
-    pub fn add_const_pair(
-        &mut self,
-        slot_a: Slot,
-        slot_b: Slot,
-        offset_b: u8
-    ) -> Slot {
-        let const_pairs = &mut self.const_pairs;
-        const_pairs.push(ffi::PairRef {
-            slot_a: slot_a.to_ffi(),
-            slot_b: slot_b.to_ffi(),
-            offset_b,
-        });
-        Slot::new_cpair((const_pairs.len() - 1) as u32)
+    pub fn const_data(&self, slot: Slot) -> Option<u128> {
+        match slot {
+            Slot::Const(i) =>
+                Some(self.tpde.consts.get(i as usize).unwrap().data()),
+            _ => None
+        }
     }
 
-    pub fn add_const_pair_values(
+    pub fn add_pair(&mut self, slot_a: Slot, slot_b: Slot, offset_b: u8) -> Slot {
+        let slot_pairs = &mut self.pairs;
+        slot_pairs.push(PairRef {
+            slot_a: slot_a,
+            slot_b: slot_b,
+            offset_b,
+        });
+        Slot::new_pair((slot_pairs.len() - 1) as u32)
+    }
+
+    pub fn add_pair_consts(
         &mut self,
         ty_a: Type,
         ty_b: Type,
@@ -427,37 +438,26 @@ impl ModuleTpde {
     ) -> Slot {
         let slot_a = self.add_const(ty_a, data_a);
         let slot_b = self.add_const(ty_b, data_b);
-        self.add_const_pair(slot_a, slot_b, offset_b)
+        self.add_pair(slot_a, slot_b, offset_b)
     }
 
     pub fn extract_vals(&self, pair: Slot) -> (Slot, Slot, u8) {
         let v = match pair {
-            Slot::CPair(ind) => self.const_pairs[ind as usize],
-            Slot::Pair(func, ind) => self.functions[func.0].slot_pairs[ind as usize],
+            Slot::Pair(ind) => self.pairs[ind as usize],
             _ => panic!("agg_val has to be a pair"),
         };
         (
-            Slot::from_ffi(v.slot_a),
-            Slot::from_ffi(v.slot_b),
+            v.slot_a,
+            v.slot_b,
             v.offset_b,
         )
     }
 
     #[inline]
     pub fn add_slot(&mut self, func: Function, ty: Type) -> Slot {
-        let slots = &mut self.functions[func.0].slots;
+        let slots = &mut self.tpde.functions[func.0].slots;
         slots.push(ffi::Slot { ty });
         Slot::new_val(func, slots.len() as u32 - 1)
-    }
-
-    pub fn add_pair(&mut self, func: Function, slot_a: Slot, slot_b: Slot, offset_b: u8) -> Slot {
-        let slot_pairs = &mut self.functions[func.0].slot_pairs;
-        slot_pairs.push(ffi::PairRef {
-            slot_a: slot_a.to_ffi(),
-            slot_b: slot_b.to_ffi(),
-            offset_b,
-        });
-        Slot::new_pair(func, (slot_pairs.len() - 1) as u32)
     }
 
     pub fn add_br(&mut self, bb: BasicBlock, to: BasicBlock) {
@@ -503,16 +503,12 @@ impl Slot {
         Self::Value(func, index)
     }
 
-    fn new_pair(func: Function, index: u32) -> Self {
-        Self::Pair(func, index)
+    fn new_pair(index: u32) -> Self {
+        Self::Pair(index)
     }
 
     fn new_const(index: u32) -> Self {
         Self::Const(index)
-    }
-
-    fn new_cpair(index: u32) -> Self {
-        Self::CPair(index)
     }
 
     fn new_alloc(index: u32) -> Self {
@@ -543,7 +539,7 @@ impl Slot {
             Self::Raw(r) => *r | MARKER_RAW,
             Self::Func(f) => (f.0 as u32) | MARKER_FUNC,
             Self::Global(g) => g.0 as u32 | MARKER_GLOBAL,
-            Self::Pair(..) | Self::CPair(..) | Self::GlobalPtr(..) =>
+            Self::Pair(..) | Self::GlobalPtr(..) =>
                 unreachable!("Only used for tracking during generation"),
         }
     }
@@ -587,7 +583,6 @@ impl Slot {
     pub fn get_func(&self) -> Option<Function> {
         match self {
             Slot::Value(func, _) => Some(*func),
-            Slot::Pair(func, _) => Some(*func),
             _ => None,
         }
     }
@@ -602,7 +597,7 @@ impl Debug for Slot {
             Self::Func(v) => write!(f, "[func: {}]", v.0),
             Self::Global(g) => write!(f, "[global: {}]", g.0),
             Self::Const(v) => write!(f, "[const: {}]", v),
-            Self::Pair(..) | Self::CPair(..) | Self::GlobalPtr(..) =>
+            Self::Pair(..) | Self::GlobalPtr(..) =>
                 unreachable!("Only used for tracking during generation"),
         }
     }
@@ -623,13 +618,12 @@ impl BasicBlock {
 }
 
 impl Slot {
-    pub fn pair_slots(&self, module: &ModuleTpde) -> Option<(Slot, Slot)> {
+    pub fn pair_slots(&self, ir: &Module) -> Option<(Slot, Slot)> {
         let pair = match self {
-            Slot::Pair(func, ind) => module.functions[func.0].slot_pairs[*ind as usize],
-            Slot::CPair(ind) => module.const_pairs[*ind as usize],
+            Slot::Pair(ind) => ir.pairs[*ind as usize],
             _ => return None,
         };
-        Some((Slot::from_ffi(pair.slot_a), Slot::from_ffi(pair.slot_b)))
+        Some((pair.slot_a, pair.slot_b))
     }
 }
 

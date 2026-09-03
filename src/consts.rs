@@ -1,6 +1,6 @@
 use crate::builder::Builder;
 use crate::context::CodegenCx;
-use crate::shared::ir::{Global, ModuleTpde};
+use crate::shared::ir::{Global, Module};
 use rustc_codegen_ssa::traits::{MiscCodegenMethods, StaticBuilderMethods, StaticCodegenMethods};
 use rustc_middle::mir::interpret::{Allocation, ConstAllocation, InitChunk, read_target_uint};
 use rustc_span::def_id::DefId;
@@ -20,7 +20,7 @@ pub enum IsInitOrFini {
 impl<'tcx> CodegenCx<'_, 'tcx> {
     pub fn const_alloc_to_tpde(
         &self,
-        module: &mut ModuleTpde,
+        module: &mut Module,
         g: Global,
         alloc: &Allocation,
         is_init_fini: IsInitOrFini,
@@ -30,7 +30,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
 
         fn append_chunks_of_bytes(
             cx: &CodegenCx,
-            module: &mut ModuleTpde,
+            module: &mut Module,
             global: Global,
             alloc: &Allocation,
             range: Range<usize>
@@ -117,7 +117,7 @@ impl<'tcx> StaticCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn codegen_static(&mut self, def_id: DefId) {
-        let mut module = self.tpde_module.borrow_mut();
+        let mut module = self.module.borrow_mut();
         let g = *self.globals.get(&def_id).expect("Global was not declared before");
 
         let attrs = self.tcx.codegen_fn_attrs(def_id);

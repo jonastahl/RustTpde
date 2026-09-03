@@ -33,11 +33,11 @@ impl TpdeCodegenBackend {
     }
 }
 
-unsafe impl Send for ModuleTpde {}
-unsafe impl Sync for ModuleTpde {}
+unsafe impl Send for Module {}
+unsafe impl Sync for Module {}
 
 impl ExtraBackendMethods for TpdeCodegenBackend {
-    type Module = ModuleTpde;
+    type Module = Module;
 
     fn codegen_allocator<'tcx>(
         &self,
@@ -45,9 +45,8 @@ impl ExtraBackendMethods for TpdeCodegenBackend {
         module_name: &str,
         methods: &[rustc_ast::expand::allocator::AllocatorMethod],
     ) -> Self::Module {
-        let module_tpde = ModuleTpde::new();
         // TODO could do some allocation methods
-        module_tpde
+        Module::new()
     }
 
     fn compile_codegen_unit(
@@ -62,7 +61,7 @@ impl ExtraBackendMethods for TpdeCodegenBackend {
 impl WriteBackendMethods for TpdeCodegenBackend {
     // implementation similar to gcc for less convoluted solution
 
-    type Module = ModuleTpde;
+    type Module = Module;
     type TargetMachine = ();
     type ModuleBuffer = ModuleBuffer;
     type ThinData = ();

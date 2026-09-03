@@ -84,8 +84,8 @@ namespace tpde_rust::x64 {
         auto lhs = this->val_ref_local(left);
         auto lhs_op = lhs.part(0);
 
-        const Type tyl = Base::adaptor->type_of_single_ref(left);
-        const Type tyr = Base::adaptor->type_of_single_ref(right);
+        const Type tyl = Base::adaptor->type_of_ref(left);
+        const Type tyr = Base::adaptor->type_of_ref(right);
         assert(tyl == tyr);
 
         const auto lhs_reg = lhs_op.has_reg() ? lhs_op.cur_reg() : lhs_op.load_to_reg();

@@ -2,7 +2,7 @@ mod coverageinfo;
 mod intrinsic;
 
 use crate::context::CodegenCx;
-use crate::shared::ir::{BasicBlock, FullType, Function, InstructionKind, ModuleTpde, Slot, Type, size_of_type};
+use crate::shared::ir::{BasicBlock, FullType, Function, InstructionKind, Module, Slot, Type, size_of_type};
 use rustc_ast::expand::typetree::FncTree;
 use rustc_codegen_ssa::MemFlags;
 use rustc_codegen_ssa::common::{
@@ -85,7 +85,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         tpde_fn: Self::Function,
         name: &str,
     ) -> Self::BasicBlock {
-        cx.tpde_module.borrow_mut().add_basic_block(&tpde_fn, name)
+        cx.module.borrow_mut().add_basic_block(&tpde_fn, name)
     }
 
     fn append_sibling_block(&mut self, name: &str) -> Self::BasicBlock {
@@ -97,11 +97,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn ret_void(&mut self) {
-        self.tpde_module.borrow_mut().add_instruction(self.basic_block, InstructionKind::Ret, vec![])
+        self.module.borrow_mut().add_instruction(self.basic_block, InstructionKind::Ret, vec![])
     }
 
     fn ret(&mut self, v: Self::Value) {
-        let module = &mut self.tpde_module.borrow_mut();
+        let module = &mut self.module.borrow_mut();
 
         let ops = match v.pair_slots(module) {
             Some((slot_a, slot_b)) => vec![slot_a, slot_b],
@@ -111,11 +111,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn br(&mut self, dest: Self::BasicBlock) {
-        self.tpde_module.borrow_mut().add_br(self.basic_block, dest);
+        self.module.borrow_mut().add_br(self.basic_block, dest);
     }
 
     fn cond_br(&mut self, cond: Self::Value, then_bb: Self::BasicBlock, else_bb: Self::BasicBlock) {
-        self.tpde_module
+        self.module
             .borrow_mut()
             .add_cond_br(self.basic_block, cond, then_bb, else_bb)
     }
@@ -149,7 +149,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn add(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_ret_first(
+        self.module.borrow_mut().add_instruction_ret_first(
             self.basic_block,
             InstructionKind::Add,
             vec![lhs, rhs],
@@ -169,7 +169,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn sub(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_ret_first(
+        self.module.borrow_mut().add_instruction_ret_first(
             self.basic_block,
             InstructionKind::Sub,
             vec![lhs, rhs],
@@ -253,7 +253,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn shl(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_ret_first(
+        self.module.borrow_mut().add_instruction_ret_first(
             self.basic_block,
             InstructionKind::Shl,
             vec![lhs, rhs],
@@ -269,7 +269,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn and(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_ret_first(
+        self.module.borrow_mut().add_instruction_ret_first(
             self.basic_block,
             InstructionKind::And,
             vec![lhs, rhs],
@@ -277,7 +277,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn or(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction_ret_first(
+        self.module.borrow_mut().add_instruction_ret_first(
             self.basic_block,
             InstructionKind::Or,
             vec![lhs, rhs],
@@ -321,7 +321,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn alloca(&mut self, size: rustc_abi::Size, align: rustc_abi::Align) -> Self::Value {
-        self.tpde_module.borrow_mut().add_alloca(
+        self.module.borrow_mut().add_alloca(
             self.basic_block.function(),
             size.bytes_usize(),
             align.bytes_usize(),
@@ -402,16 +402,16 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         let val = match self.cx.tpde_direct_type(place.layout) {
             FullType::Single(ret_ty) => {
                 let slot = generate_load_instr(
-                  &mut self.tpde_module.borrow_mut(),
-                  self.basic_block,
-                  place.val.llval,
-                  place.val.align.bytes_usize() as u32,
-                  ret_ty
+                    &mut self.module.borrow_mut(),
+                    self.basic_block,
+                    place.val.llval,
+                    place.val.align.bytes_usize() as u32,
+                    ret_ty
                 );
                 OperandValue::Immediate(slot)
             }
             FullType::Pair(ty_a, ty_b, offset) => {
-                let module = &mut self.tpde_module.borrow_mut();
+                let module = &mut self.module.borrow_mut();
 
                 let slot_a = generate_load_instr(
                     module,
@@ -471,7 +471,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         ptr: Self::Value,
         align: rustc_abi::Align,
     ) -> Self::Value {
-        self.tpde_module.borrow_mut().add_instruction(
+        self.module.borrow_mut().add_instruction(
             self.basic_block,
             InstructionKind::Store,
             vec![val, ptr, Slot::new_raw(align.bytes_usize() as u32)],
@@ -517,7 +517,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         };
         assert_eq!(indices.len(), 1);
 
-        self.tpde_module.borrow_mut().add_instruction_ret(
+        self.module.borrow_mut().add_instruction_ret(
             self.basic_block,
             InstructionKind::GEP,
             vec![ptr, Slot::new_raw(offset), indices[0]],
@@ -573,7 +573,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         let FullType::Single(dest_ty) = dest_ty else {
             todo!()
         };
-        self.tpde_module.borrow_mut().add_instruction_ret(
+        self.module.borrow_mut().add_instruction_ret(
             self.basic_block,
             InstructionKind::Cast,
             vec![val],
@@ -593,7 +593,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         let FullType::Single(dest_ty) = dest_ty else {
             todo!()
         };
-        self.tpde_module.borrow_mut().add_instruction_ret(
+        self.module.borrow_mut().add_instruction_ret(
             self.basic_block,
             InstructionKind::Cast,
             vec![val],
@@ -615,7 +615,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
             IntPredicate::IntSLE => InstructionKind::CMPsle,
         };
 
-        self.tpde_module.borrow_mut().add_instruction_ret(
+        self.module.borrow_mut().add_instruction_ret(
             self.basic_block,
             instr,
             vec![lhs, rhs],
@@ -637,7 +637,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         flags: MemFlags,
         tt: Option<FncTree>,
     ) {
-        self.tpde_module.borrow_mut().add_instruction(
+        self.module.borrow_mut().add_instruction(
             self.basic_block,
             InstructionKind::MemCpy,
             vec![dst, Slot::new_raw(dst_align.bytes_usize() as u32), src, Slot::new_raw(src_align.bytes_usize() as u32), size],
@@ -693,7 +693,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn extract_value(&mut self, agg_val: Self::Value, idx: u64) -> Self::Value {
-        let (slot_a, slot_b, _) = self.tpde_module.borrow_mut().extract_vals(agg_val);
+        let (slot_a, slot_b, _) = self.module.borrow_mut().extract_vals(agg_val);
         match idx {
             0 => slot_a,
             1 => slot_b,
@@ -702,14 +702,14 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn insert_value(&mut self, agg_val: Self::Value, elt: Self::Value, idx: u64) -> Self::Value {
-        let module = &mut self.tpde_module.borrow_mut();
+        let module = &mut self.module.borrow_mut();
         let (slot_a, slot_b, offset_b) = module.extract_vals(agg_val);
 
         let func = self.basic_block.function();
 
         match idx {
-            0 => module.add_pair(func, elt, slot_b, offset_b),
-            1 => module.add_pair(func, slot_a, elt, offset_b),
+            0 => module.add_pair(elt, slot_b, offset_b),
+            1 => module.add_pair(slot_a, elt, offset_b),
             _ => panic!("pairs only support index 0 or 1"),
         }
     }
@@ -806,7 +806,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     ) -> Self::Value {
         let func_sig = &self.function_signatures.borrow()[func_sig];
 
-        self.tpde_module.borrow_mut()
+        self.module.borrow_mut()
             .add_call(
                 self.basic_block,
                 fn_val,
@@ -832,7 +832,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         let FullType::Single(dest_ty) = dest_ty else {
             todo!()
         };
-        self.tpde_module.borrow_mut().add_instruction_ret(
+        self.module.borrow_mut().add_instruction_ret(
             self.basic_block,
             InstructionKind::Zext,
             vec![val],
@@ -846,7 +846,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
 }
 
 fn generate_load_instr(
-    module: &mut ModuleTpde,
+    module: &mut Module,
     bb: BasicBlock,
     ptr: Slot,
     align: u32,

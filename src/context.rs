@@ -1,5 +1,5 @@
 use crate::builder::Builder;
-use crate::shared::ir::{Function, FunctionSignature, Global, ModuleTpde, Slot};
+use crate::shared::ir::{Function, FunctionSignature, Global, Module, Slot};
 use rustc_abi::TargetDataLayout;
 use rustc_codegen_ssa::traits::MiscCodegenMethods;
 use rustc_data_structures::fx::FxHashMap;
@@ -15,7 +15,7 @@ pub struct CodegenCx<'tpde, 'tcx> {
     pub tcx: TyCtxt<'tcx>,
     pub codegen_unit: &'tcx CodegenUnit<'tcx>,
 
-    pub tpde_module: &'tpde RefCell<ModuleTpde>,
+    pub module: &'tpde RefCell<Module>,
 
     pub functions: FxHashMap<Instance<'tcx>, Function>,
     pub function_signatures: RefCell<Vec<FunctionSignature>>,
@@ -31,7 +31,7 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
     pub fn new(
         tcx: TyCtxt<'tcx>,
         cgu: &'tcx CodegenUnit<'tcx>,
-        tpde_module: &'tpde RefCell<ModuleTpde>,
+        ir: &'tpde RefCell<Module>,
     ) -> Self {
         let sess = tcx.sess;
 
@@ -42,7 +42,7 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
         Self {
             tcx,
             codegen_unit: cgu,
-            tpde_module,
+            module: ir,
             functions: FxHashMap::default(),
             function_signatures: RefCell::new(vec![]),
             globals: FxHashMap::default(),

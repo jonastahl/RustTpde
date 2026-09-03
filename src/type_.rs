@@ -136,7 +136,7 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn val_ty(&self, v: Self::Value) -> Self::Type {
-        self.tpde_module.borrow().type_of_slot(v)
+        self.module.borrow().type_of_slot(v)
     }
 }
 

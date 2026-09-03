@@ -20,11 +20,11 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
 
     fn const_poison(&self, t: Self::Type) -> Self::Value {
         match t {
-            FullType::Single(t) => self.tpde_module.borrow_mut().add_const(t, 0),
+            FullType::Single(t) => self.module.borrow_mut().add_const(t, 0),
             FullType::Pair(ty_a, ty_b, o) => {
-                let module = &mut self.tpde_module.borrow_mut();
+                let module = &mut self.module.borrow_mut();
 
-                module.add_const_pair_values(ty_a, ty_b, o, 0, 0)
+                module.add_pair_consts(ty_a, ty_b, o, 0, 0)
             },
             FullType::Memory { .. } => todo!()
         }
@@ -71,17 +71,17 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn const_usize(&self, i: u64) -> Self::Value {
-        self.tpde_module.borrow_mut().add_const(Type::i64, i as u128)
+        self.module.borrow_mut().add_const(Type::i64, i as u128)
     }
 
     fn const_uint(&self, ty: Self::Type, i: u64) -> Self::Value {
         let FullType::Single(ty) = ty else { unreachable!() };
-        self.tpde_module.borrow_mut().add_const(ty, i as u128)
+        self.module.borrow_mut().add_const(ty, i as u128)
     }
 
     fn const_uint_big(&self, ty: Self::Type, u: u128) -> Self::Value {
         let FullType::Single(ty) = ty else { unreachable!() };
-        self.tpde_module.borrow_mut().add_const(ty, u)
+        self.module.borrow_mut().add_const(ty, u)
     }
 
     fn const_real(&self, t: Self::Type, val: f64) -> Self::Value {
@@ -105,11 +105,8 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn const_to_opt_u128(&self, v: Self::Value, sign_ext: bool) -> Option<u128> {
-        match v {
-            Slot::Const(i) =>
-                Some(self.tpde_module.borrow().consts.get(i as usize).unwrap().data()),
-            _ => None
-        }
+        // TODO sign_ext??
+        self.module.borrow().const_data(v)
     }
 
     fn scalar_to_backend_with_pac(&self, cv: Scalar, layout: rustc_abi::Scalar, ty: Self::Type, schema: Option<&PointerAuthSchema>) -> Self::Value {
@@ -124,7 +121,7 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
                     Type::ptr => return self.ptr_scalar_to_backend(cv, layout, schema),
                     _ => todo!()
                 };
-                self.tpde_module.borrow_mut().add_const(ty, data)
+                self.module.borrow_mut().add_const(ty, data)
             },
             FullType::Pair(ty_a, ty_b, offset_b) => {
                 todo!()
@@ -172,7 +169,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                         let offset = offset.bytes();
                         let alloc = alloc.inner();
 
-                        let mut module = self.tpde_module.borrow_mut();
+                        let mut module = self.module.borrow_mut();
 
                         let name = {
                             let hash = self.tcx.with_stable_hashing_context(|mut hcx| {

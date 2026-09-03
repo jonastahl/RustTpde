@@ -50,7 +50,7 @@ namespace tpde_rust {
     ModuleTpde *mod = nullptr;
     Function *cur_func = nullptr;
 
-    [[nodiscard]] Type type_of_single_ref(const IRValueRef value) const {
+    [[nodiscard]] Type type_of_ref(const IRValueRef value) const {
       if (operands::is_val(value))
         return cur_func->slots[operands::content(value)].ty;
       if (operands::is_const(value))
@@ -58,22 +58,6 @@ namespace tpde_rust {
       if (operands::is_ptr(value))
         return Type::ptr;
       assert(false && "invalid value ref");
-    }
-
-    [[nodiscard]] tpde::util::SmallVector<Type> type_of_ref(const IRValueRef value) const {
-      auto types = tpde::util::SmallVector<Type>{};
-      if (operands::is_pair(value)) {
-        auto& pair = cur_func->slot_pairs[operands::content(value)];
-        types.push_back(type_of_single_ref(pair.slot_a));
-        types.push_back(type_of_single_ref(pair.slot_b));
-      } else if (operands::is_cpair(value)) {
-        auto& pair = mod->const_pairs[operands::content(value)];
-        types.push_back(type_of_single_ref(pair.slot_a));
-        types.push_back(type_of_single_ref(pair.slot_b));
-      } else {
-        types.push_back(type_of_single_ref(value));
-      }
-      return types;
     }
 
     [[nodiscard]] BasicBlock &get_basic_block(const IRBlockRef block) const {
@@ -269,7 +253,7 @@ namespace tpde_rust {
       if (operands::is_ptr(val)) {
         return cur_func->allocas[operands::content(val)].size;
       }
-      return size_of_type(type_of_single_ref(val));
+      return size_of_type(type_of_ref(val));
     }
 
     [[nodiscard]] u32 val_alloca_align(IRValueRef val) const {

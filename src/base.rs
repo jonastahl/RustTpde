@@ -1,20 +1,20 @@
-use std::cell::RefCell;
 use crate::builder::Builder;
 use crate::context::CodegenCx;
-use crate::shared::ir::ModuleTpde;
+use crate::shared::ir::Module;
 use rustc_codegen_ssa::ModuleCodegen;
+use rustc_codegen_ssa::base::maybe_create_entry_wrapper;
 use rustc_codegen_ssa::mono_item::MonoItemExt;
 use rustc_middle::dep_graph;
 use rustc_middle::ty::TyCtxt;
 use rustc_span::Symbol;
+use std::cell::RefCell;
 use std::time::Instant;
-use rustc_codegen_ssa::base::maybe_create_entry_wrapper;
 
-pub fn compile_codegen_unit(tcx: TyCtxt<'_>, cgu_name: Symbol) -> (ModuleCodegen<ModuleTpde>, u64) {
+pub fn compile_codegen_unit(tcx: TyCtxt<'_>, cgu_name: Symbol) -> (ModuleCodegen<Module>, u64) {
     let start_time = Instant::now();
 
     let dep_node = tcx.codegen_unit(cgu_name).codegen_dep_node(tcx);
-    let (module, _) = tcx.dep_graph.with_task(
+    let (ir, _) = tcx.dep_graph.with_task(
         dep_node,
         tcx,
         || module_codegen(tcx, cgu_name),
@@ -26,12 +26,12 @@ pub fn compile_codegen_unit(tcx: TyCtxt<'_>, cgu_name: Symbol) -> (ModuleCodegen
     // the time we needed for codegenning it.
     let cost = time_to_codegen.as_nanos() as u64;
 
-    fn module_codegen(tcx: TyCtxt<'_>, cgu_name: Symbol) -> ModuleCodegen<ModuleTpde> {
+    fn module_codegen(tcx: TyCtxt<'_>, cgu_name: Symbol) -> ModuleCodegen<Module> {
         let cgu = tcx.codegen_unit(cgu_name);
 
-        let tpde_module = RefCell::new(ModuleTpde::new());
+        let ir = RefCell::new(Module::new());
         {
-            let mut cx = CodegenCx::new(tcx, cgu, &tpde_module);
+            let mut cx = CodegenCx::new(tcx, cgu, &ir);
 
             let mono_items = cgu.items_in_deterministic_order(tcx);
             for &(mono_item, data) in &mono_items {
@@ -65,8 +65,8 @@ pub fn compile_codegen_unit(tcx: TyCtxt<'_>, cgu_name: Symbol) -> (ModuleCodegen
             // also ignore debug infoo
         }
 
-        ModuleCodegen::new_regular(cgu_name.to_string(), tpde_module.into_inner())
+        ModuleCodegen::new_regular(cgu_name.to_string(), ir.into_inner())
     }
 
-    (module, cost)
+    (ir, cost)
 }
