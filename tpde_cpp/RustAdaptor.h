@@ -134,7 +134,7 @@ namespace tpde_rust {
 
     [[nodiscard]] auto cur_static_allocas() const {
       return std::ranges::views::iota(static_cast<IRValueRef>(0), cur_func->allocas.size())
-        | std::views::transform([](const IRValueRef idx) { return operands::MARKER_PTR | idx; });
+        | std::views::transform([](const IRValueRef idx) { return operands::MARKER_ALLOC | idx; });
     }
 
     [[nodiscard]] static auto cur_has_dynamic_alloca() {

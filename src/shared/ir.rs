@@ -517,7 +517,7 @@ pub const MARKER_BLOCK: Marker = 7_u32 << (u32::BITS - 3);
 pub const MARKER_VAL: Marker = 0_u32 << (u32::BITS - 3);
 pub const MARKER_CONST: Marker = 1_u32 << (u32::BITS - 3);
 pub const MARKER_RAW: Marker = 2_u32 << (u32::BITS - 3);
-pub const MARKER_PTR: Marker = 3_u32 << (u32::BITS - 3);
+pub const MARKER_ALLOC: Marker = 3_u32 << (u32::BITS - 3);
 pub const MARKER_FUNC: Marker = 4_u32 << (u32::BITS - 3);
 pub const MARKER_GLOBAL: Marker = 5_u32 << (u32::BITS - 3);
 pub const MARKER_GLOBAL_PTR: Marker = 6_u32 << (u32::BITS - 3);
@@ -554,7 +554,7 @@ impl Slot {
         match self {
             Self::Value(_, v) => *v,
             Self::Const(i) => *i | MARKER_CONST,
-            Self::Alloc(p) => *p | MARKER_PTR,
+            Self::Alloc(p) => *p | MARKER_ALLOC,
             Self::Raw(r) => *r | MARKER_RAW,
             Self::Func(f) => (f.0 as u32) | MARKER_FUNC,
             Self::Global(g) => g.0 as u32 | MARKER_GLOBAL,
@@ -579,7 +579,7 @@ impl Slot {
         if let Some(u) = Self::is(ffi, MARKER_CONST) {
             return Self::Const(u);
         }
-        if let Some(u) = Self::is(ffi, MARKER_PTR) {
+        if let Some(u) = Self::is(ffi, MARKER_ALLOC) {
             return Self::Alloc(u);
         }
         if let Some(u) = Self::is(ffi, MARKER_RAW) {
