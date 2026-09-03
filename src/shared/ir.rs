@@ -83,7 +83,6 @@ impl Module {
                 consts: vec![],
 
                 globals: vec![],
-                relocations: vec![],
                 global_ptrs: vec![]
             },
             pairs: vec![],
@@ -169,14 +168,11 @@ impl Module {
     pub fn global_add_reloc_chunk(
         &mut self,
         global: Global,
-        address_space: u32,
+        slot: Slot,
     ) {
-        self.tpde.relocations.push(ffi::Relocation {
-            address_space
-        });
         self.tpde.globals[global.0].chunks.push(ffi::Chunk {
             type_: ffi::ChunkType::Reloc,
-            data: self.tpde.relocations.len() as u32 - 1
+            data: slot.to_ffi()
         })
     }
 

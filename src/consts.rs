@@ -2,9 +2,10 @@ use crate::builder::Builder;
 use crate::context::CodegenCx;
 use crate::shared::ir::{Global, Module};
 use rustc_codegen_ssa::traits::{MiscCodegenMethods, StaticBuilderMethods, StaticCodegenMethods};
-use rustc_middle::mir::interpret::{Allocation, ConstAllocation, InitChunk, read_target_uint};
+use rustc_middle::mir::interpret::{read_target_uint, Allocation, ConstAllocation, InitChunk, Pointer};
 use rustc_span::def_id::DefId;
 use std::ops::Range;
+use rustc_abi::Size;
 
 impl<'tcx> StaticBuilderMethods for Builder<'_, '_, 'tcx> {
     fn get_static(&mut self, def_id: DefId) -> Self::Value {
@@ -86,9 +87,10 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                 } else {
                     None
                 };
-                // let pointer = Pointer::new(prov, Size::from_bytes(ptr_offset));
+                let ptr = Pointer::new(prov, Size::from_bytes(ptr_offset));
+                let ptr = self.ptr_to_backend(module, ptr);
 
-                module.global_add_reloc_chunk(g, address_space.0);
+                module.global_add_reloc_chunk(g, ptr);
             }
 
             // TODO push the pointer

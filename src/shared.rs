@@ -1,4 +1,4 @@
-use crate::shared::ffi::{Chunk, ChunkData, GlobalPtr, Relocation, Type};
+use crate::shared::ffi::{Chunk, ChunkData, GlobalPtr, Type};
 use crate::shared::ir::Slot;
 use core::fmt::{Debug, Formatter};
 #[allow(unused_imports)]
@@ -15,7 +15,6 @@ mod ffi {
         consts: Vec<Value>,
 
         globals: Vec<Global>,
-        relocations: Vec<Relocation>,
         global_ptrs: Vec<GlobalPtr>
     }
 
@@ -176,10 +175,6 @@ mod ffi {
     pub struct ChunkData {
         data: Vec<u8>,
     }
-
-    pub struct Relocation {
-        address_space: u32,
-    }
 }
 
 impl Debug for ffi::BasicBlock {
@@ -268,12 +263,6 @@ impl Debug for ChunkData {
             write!(f, "|")?;
         }
         Ok(())
-    }
-}
-
-impl Debug for Relocation {
-    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
-        write!(f, "[{:?}]", self.address_space)
     }
 }
 

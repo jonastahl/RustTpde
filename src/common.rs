@@ -1,13 +1,13 @@
+use crate::consts::IsInitOrFini;
 use crate::context::CodegenCx;
-use crate::shared::ir::{FullType, Slot, Type};
+use crate::shared::ir::{FullType, Module, Slot, Type};
 use rustc_abi::Size;
 use rustc_codegen_ssa::traits::ConstCodegenMethods;
 use rustc_data_structures::stable_hash::{StableHash, StableHasher};
-use rustc_hir::attrs::Linkage;
-use rustc_middle::mir::interpret::{GlobalAlloc, Scalar};
-use rustc_session::PointerAuthSchema;
-use crate::consts::IsInitOrFini;
 use rustc_hashes::Hash128;
+use rustc_hir::attrs::Linkage;
+use rustc_middle::mir::interpret::{CtfeProvenance, GlobalAlloc, Pointer, Scalar};
+use rustc_session::PointerAuthSchema;
 
 impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     fn const_null(&self, t: Self::Type) -> Self::Value {
@@ -25,8 +25,8 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
                 let module = &mut self.module.borrow_mut();
 
                 module.add_pair_consts(ty_a, ty_b, o, 0, 0)
-            },
-            FullType::Memory { .. } => todo!()
+            }
+            FullType::Memory { .. } => todo!(),
         }
     }
 
@@ -75,12 +75,16 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn const_uint(&self, ty: Self::Type, i: u64) -> Self::Value {
-        let FullType::Single(ty) = ty else { unreachable!() };
+        let FullType::Single(ty) = ty else {
+            unreachable!()
+        };
         self.module.borrow_mut().add_const(ty, i as u128)
     }
 
     fn const_uint_big(&self, ty: Self::Type, u: u128) -> Self::Value {
-        let FullType::Single(ty) = ty else { unreachable!() };
+        let FullType::Single(ty) = ty else {
+            unreachable!()
+        };
         self.module.borrow_mut().add_const(ty, u)
     }
 
@@ -109,7 +113,12 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
         self.module.borrow().const_data(v)
     }
 
-    fn scalar_to_backend(&self, cv: Scalar, layout: rustc_abi::Scalar, ty: Self::Type) -> Self::Value {
+    fn scalar_to_backend(
+        &self,
+        cv: Scalar,
+        layout: rustc_abi::Scalar,
+        ty: Self::Type,
+    ) -> Self::Value {
         match ty {
             FullType::Single(ty) => {
                 let data = match ty {
@@ -118,19 +127,32 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
                     Type::i32 => cv.to_i32().unwrap() as u128,
                     Type::i64 => cv.to_i64().unwrap() as u128,
                     Type::i128 => cv.to_i128().unwrap() as u128,
-                    Type::ptr => return self.ptr_scalar_to_backend(cv, layout),
-                    _ => todo!()
+                    Type::ptr => {
+                        return self.ptr_to_backend(
+                            &mut self.module.borrow_mut(),
+                            cv.to_pointer(&self.tcx.data_layout)
+                                .into_pointer_or_addr()
+                                .unwrap(),
+                        );
+                    }
+                    _ => todo!(),
                 };
                 self.module.borrow_mut().add_const(ty, data)
-            },
+            }
             FullType::Pair(ty_a, ty_b, offset_b) => {
                 todo!()
             }
-            _ => todo!()
+            _ => todo!(),
         }
     }
 
-    fn scalar_to_backend_with_pac(&self, cv: Scalar, layout: rustc_abi::Scalar, ty: Self::Type, schema: Option<&PointerAuthSchema>) -> Self::Value {
+    fn scalar_to_backend_with_pac(
+        &self,
+        cv: Scalar,
+        layout: rustc_abi::Scalar,
+        ty: Self::Type,
+        schema: Option<&PointerAuthSchema>,
+    ) -> Self::Value {
         todo!()
     }
 
@@ -140,76 +162,61 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
 }
 
 impl<'tcx> CodegenCx<'_, 'tcx> {
-    fn ptr_scalar_to_backend(
-        &self,
-        cv: Scalar,
-        layout: rustc_abi::Scalar,
-    ) -> Slot {
-        match cv {
-            Scalar::Int(int) => {
+    pub fn ptr_to_backend(&self, module: &mut Module, ptr: Pointer<CtfeProvenance>) -> Slot {
+        let (prov, offset) = ptr.prov_and_relative_offset();
+        let global_alloc = self.tcx.global_alloc(prov.alloc_id());
+        let base_addr_space = global_alloc.address_space(self);
+        match global_alloc {
+            GlobalAlloc::Static(def_id) => {
+                assert!(self.tcx.is_static(def_id));
+                assert!(!self.tcx.is_thread_local_static(def_id));
+                Slot::new_global(*self.globals.get(&def_id).expect("Global undeclared"))
+            }
+            GlobalAlloc::Memory(alloc) if alloc.inner().len() == 0 => {
                 todo!()
-                // let data = int.to_bits(layout.size(self));
+                // let val = alloc.inner().align.bytes().wrapping_add(offset.bytes());
+                // let data = self.tcx.truncate_to_target_usize(val) as u128;
                 // self.tpde_module.borrow_mut().add_const(Type::ptr, data)
             }
-            Scalar::Ptr(ptr, _size) => {
-                let (prov, offset) = ptr.prov_and_relative_offset();
-                let global_alloc = self.tcx.global_alloc(prov.alloc_id());
-                let base_addr_space = global_alloc.address_space(self);
-                match global_alloc {
-                    GlobalAlloc::Static(def_id) => {
-                        assert!(self.tcx.is_static(def_id));
-                        assert!(!self.tcx.is_thread_local_static(def_id));
-                        Slot::new_global(*self.globals.get(&def_id).expect("Global undeclared"))
-                    }
-                    GlobalAlloc::Memory(alloc) if alloc.inner().len() == 0 => {
-                        todo!()
-                        // let val = alloc.inner().align.bytes().wrapping_add(offset.bytes());
-                        // let data = self.tcx.truncate_to_target_usize(val) as u128;
-                        // self.tpde_module.borrow_mut().add_const(Type::ptr, data)
-                    }
-                    GlobalAlloc::Memory(alloc) => {
-                        let id = prov.alloc_id().0;
-                        let offset = offset.bytes();
-                        let alloc = alloc.inner();
+            GlobalAlloc::Memory(alloc) => {
+                let id = prov.alloc_id().0;
+                let offset = offset.bytes();
+                let alloc = alloc.inner();
 
-                        let mut module = self.module.borrow_mut();
+                let name = {
+                    let hash = self.tcx.with_stable_hashing_context(|mut hcx| {
+                        let mut hasher = StableHasher::new();
+                        alloc.stable_hash(&mut hcx, &mut hasher);
+                        hasher.finish::<Hash128>()
+                    });
+                    format!("alloc_{hash:032x}")
+                };
 
-                        let name = {
-                            let hash = self.tcx.with_stable_hashing_context(|mut hcx| {
-                                let mut hasher = StableHasher::new();
-                                alloc.stable_hash(&mut hcx, &mut hasher);
-                                hasher.finish::<Hash128>()
-                            });
-                            format!("alloc_{hash:032x}")
-                        };
+                let g = module.add_global(&name, Linkage::Internal);
+                self.const_alloc_to_tpde(module, g, &alloc, IsInitOrFini::No);
 
-                        let g = module.add_global(&name, Linkage::Internal);
-                        self.const_alloc_to_tpde(&mut module, g, &alloc, IsInitOrFini::No);
+                // TODO so far we ignore the address space
 
-                        // TODO so far we ignore the address space
-
-                        if offset != 0 {
-                            module.add_global_ptr(g, offset as u32)
-                        } else {
-                            Slot::new_global(g)
-                        }
-                    }
-                    // GlobalAlloc::Function { instance, .. } => {
-                    //     assert_eq!(offset.bytes(), 0, "offset into a function pointer");
-                    //     self.get_fn_addr(instance, schema)
-                    // }
-                    // // Drop the provenance, the offset contains the bytes of the hash
-                    // GlobalAlloc::TypeId { .. } => self
-                    //     .tpde_module
-                    //     .borrow_mut()
-                    //     .add_const(Type::ptr, offset.bytes() as u128),
-                    // GlobalAlloc::VTable(ty, dyn_ty) => {
-                    //     let global = self.global_for_vtable(ty, dyn_ty);
-                    //     self.global_addr(global, offset.bytes() as i64)
-                    // }
-                    _ => todo!(),
+                if offset != 0 {
+                    module.add_global_ptr(g, offset as u32)
+                } else {
+                    Slot::new_global(g)
                 }
             }
+            // GlobalAlloc::Function { instance, .. } => {
+            //     assert_eq!(offset.bytes(), 0, "offset into a function pointer");
+            //     self.get_fn_addr(instance, schema)
+            // }
+            // // Drop the provenance, the offset contains the bytes of the hash
+            // GlobalAlloc::TypeId { .. } => self
+            //     .tpde_module
+            //     .borrow_mut()
+            //     .add_const(Type::ptr, offset.bytes() as u128),
+            // GlobalAlloc::VTable(ty, dyn_ty) => {
+            //     let global = self.global_for_vtable(ty, dyn_ty);
+            //     self.global_addr(global, offset.bytes() as i64)
+            // }
+            _ => todo!(),
         }
     }
 }
