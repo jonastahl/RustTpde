@@ -188,7 +188,7 @@ impl Module {
         linkage: Linkage
     ) -> ffi::LinkerFlags {
         ffi::LinkerFlags {
-            extern_link: linkage == Linkage::AvailableExternally,
+            extern_link: linkage == Linkage::External,
             only_local: linkage == Linkage::Internal,
             weak_link: linkage == Linkage::WeakODR
                 || linkage == Linkage::WeakAny

@@ -3,7 +3,8 @@ use crate::shared::ir::{Function, FunctionSignature, Global, Module, Slot};
 use rustc_abi::TargetDataLayout;
 use rustc_codegen_ssa::traits::MiscCodegenMethods;
 use rustc_data_structures::fx::FxHashMap;
-use rustc_middle::mono::CodegenUnit;
+use rustc_hir::attrs::Linkage;
+use rustc_middle::mono::{CodegenUnit, Visibility};
 use rustc_middle::ty::layout::HasTyCtxt;
 use rustc_middle::ty::{ExistentialTraitRef, Instance, Ty, TyCtxt};
 use rustc_session::{PointerAuthSchema, Session};
@@ -17,7 +18,7 @@ pub struct CodegenCx<'tpde, 'tcx> {
 
     pub module: &'tpde RefCell<Module>,
 
-    pub functions: FxHashMap<Instance<'tcx>, Function>,
+    pub functions: RefCell<FxHashMap<Instance<'tcx>, Function>>,
     pub function_signatures: RefCell<Vec<FunctionSignature>>,
 
     pub globals: FxHashMap<DefId, Global>,
@@ -43,7 +44,7 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
             tcx,
             codegen_unit: cgu,
             module: ir,
-            functions: FxHashMap::default(),
+            functions: RefCell::new(FxHashMap::default()),
             function_signatures: RefCell::new(vec![]),
             globals: FxHashMap::default(),
             data_layout,
@@ -58,11 +59,17 @@ impl<'tcx> MiscCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     }
 
     fn get_fn(&self, instance: Instance<'tcx>) -> Self::Function {
-        if let Some(&i) = self.functions.get(&instance) {
+        if let Some(&i) = self.functions.borrow().get(&instance) {
             return i;
         };
 
-        unreachable!()
+        let name = self.tcx.symbol_name(instance).name;
+        self.declare_fn(
+            instance,
+            Linkage::External,
+            Visibility::Hidden, // TODO find exact visibility
+            name
+        )
     }
 
     fn get_fn_addr(&self, instance: Instance<'tcx>, pointer_auth_schema: Option<&PointerAuthSchema>) -> Self::Value {

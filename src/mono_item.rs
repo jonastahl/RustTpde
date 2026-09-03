@@ -7,6 +7,7 @@ use rustc_middle::ty::{Instance, Ty};
 use rustc_middle::ty::layout::FnAbiOf;
 use rustc_span::def_id::DefId;
 use rustc_target::callconv::FnAbi;
+use crate::shared::ir::Function;
 
 impl<'tcx> PreDefineCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     fn predefine_static(
@@ -28,10 +29,23 @@ impl<'tcx> PreDefineCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
         visibility: Visibility,
         symbol_name: &str,
     ) {
+        self.declare_fn(instance, linkage, visibility, symbol_name);
+    }
+}
+
+impl<'tcx> CodegenCx<'_, 'tcx> {
+    pub fn declare_fn(
+        &self,
+        instance: Instance<'tcx>,
+        linkage: Linkage,
+        visibility: Visibility,
+        symbol_name: &str
+    ) -> Function {
         let fn_abi: &FnAbi<'tcx, Ty<'tcx>> = self.fn_abi_of_instance(instance, ty::List::empty());
 
         let func = self.module.borrow_mut()
             .add_function(self, symbol_name, &self.create_function_signature(fn_abi), linkage);
-        self.functions.insert(instance, func);
+        self.functions.borrow_mut().insert(instance, func);
+        func
     }
 }
