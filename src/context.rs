@@ -1,5 +1,5 @@
 use crate::builder::Builder;
-use crate::shared::ir::{Function, FunctionSignature, Global, Module, Slot};
+use crate::shared::ir::{Binding, Function, FunctionSignature, Global, Module, Slot};
 use rustc_abi::TargetDataLayout;
 use rustc_codegen_ssa::traits::MiscCodegenMethods;
 use rustc_data_structures::fx::FxHashMap;
@@ -68,7 +68,8 @@ impl<'tcx> MiscCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
             instance,
             Linkage::External,
             Visibility::Hidden, // TODO find exact visibility
-            name
+            Binding::Declaration,
+            name,
         )
     }
 

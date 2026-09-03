@@ -55,10 +55,17 @@ pub fn size_of_type(ty: Type) -> u32 {
 pub use super::ffi::InstructionKind;
 pub use super::ffi::Type;
 
+
 pub struct Module {
     tpde: ModuleTpde,
 
     pairs: Vec<PairRef>,
+}
+
+#[derive(PartialEq)]
+pub enum Binding {
+    Declaration,
+    Definition
 }
 
 #[derive(Copy, Clone)]
@@ -97,13 +104,14 @@ impl Module {
         name: &str,
         fn_sign: &FunctionSignature,
         linkage: Linkage,
+        ty: Binding
     ) -> Function {
         self.tpde.functions.push(ffi::Function {
             name: name.to_string(),
             n_args: fn_sign.args.len(),
             has_ret: fn_sign.ret.is_some(),
             slots: fn_sign.args.iter().map(|ty| ffi::Slot { ty: *ty }).collect(),
-            flags: Self::create_linker_flags(linkage),
+            flags: Self::create_flags(linkage, ty),
             allocas: vec![],
             basic_blocks: vec![],
         });
@@ -119,7 +127,7 @@ impl Module {
             name: name.to_string(),
             size: 0,
             align: 0,
-            flags: Self::create_linker_flags(linkage),
+            flags: Self::create_flags(linkage, Binding::Definition),
             chunks: vec![],
             data: vec![],
         });
@@ -184,11 +192,13 @@ impl Module {
         Slot::GlobalPtr(self.tpde.global_ptrs.len() as u32 - 1)
     }
 
-    fn create_linker_flags(
-        linkage: Linkage
-    ) -> ffi::LinkerFlags {
-        ffi::LinkerFlags {
-            extern_link: linkage == Linkage::External,
+    fn create_flags(
+        linkage: Linkage,
+        ty: Binding
+    ) -> ffi::Flags {
+        ffi::Flags {
+            extern_link: ty == Binding::Declaration
+                || matches!(linkage, Linkage::AvailableExternally | Linkage::ExternalWeak),
             only_local: linkage == Linkage::Internal,
             weak_link: linkage == Linkage::WeakODR
                 || linkage == Linkage::WeakAny

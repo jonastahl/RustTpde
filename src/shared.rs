@@ -30,14 +30,14 @@ mod ffi {
         has_ret: bool,
         slots: Vec<Slot>,
 
-        flags: LinkerFlags,
+        flags: Flags,
 
         allocas: Vec<Alloca>,
         basic_blocks: Vec<BasicBlock>,
     }
 
     #[derive(Debug)]
-    pub struct LinkerFlags {
+    pub struct Flags {
         extern_link: bool,
         only_local: bool,
         weak_link: bool,
@@ -148,7 +148,7 @@ mod ffi {
         align: u32,
         // mutable: bool,
 
-        flags: LinkerFlags,
+        flags: Flags,
 
         size: u32,
         chunks: Vec<Chunk>,
