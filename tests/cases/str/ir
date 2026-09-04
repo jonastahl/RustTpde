@@ -52,7 +52,7 @@ ModuleTpde {
     ],
     globals: [
         HELLO_WORLD {
-            size: 8,
+            size: 16,
             align: 8,
             read_only: false,
             thread_loc: false,
@@ -72,8 +72,8 @@ ModuleTpde {
             ],
         },
         alloc_cff95699b23abcffc3a34d7d19816221 {
-            size: 0,
-            align: 0,
+            size: 12,
+            align: 1,
             read_only: true,
             thread_loc: false,
             flags: Flags {
@@ -87,8 +87,8 @@ ModuleTpde {
             relocations: [],
         },
         alloc_f7486cd712a27ca42f772f74632985be {
-            size: 0,
-            align: 0,
+            size: 11,
+            align: 1,
             read_only: true,
             thread_loc: false,
             flags: Flags {

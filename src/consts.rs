@@ -30,6 +30,8 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
         let dl = &self.tcx.data_layout;
         let pointer_size = dl.pointer_size().bytes() as usize;
 
+        module.global_set_align(g, alloc.align.bytes() as u32);
+
         fn append_chunks_of_bytes(
             cx: &CodegenCx,
             module: &mut Module,
@@ -94,17 +96,6 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                 module.global_add_reloc_chunk(g, offset as u32, ptr, pointer_size);
             }
 
-            // TODO push the pointer
-            // llvals.push(cx.scalar_to_backend_with_pac(
-            //     InterpScalar::from_pointer(Pointer::new(prov, Size::from_bytes(ptr_offset)), &cx.tcx),
-            //     Scalar::Initialized {
-            //         value: Primitive::Pointer(address_space),
-            //         valid_range: WrappingRange::full(pointer_size),
-            //     },
-            //     cx.type_ptr_ext(address_space),
-            //     schema,
-            // ));
-
             next_offset = offset + pointer_size;
         }
         if alloc.len() >= next_offset {
@@ -132,8 +123,6 @@ impl<'tcx> StaticCodegenMethods for CodegenCx<'_, 'tcx> {
         }.inner();
 
         // some weird renaming that we possibly don't need
-
-        module.global_set_align(g, alloc.align.bytes() as u32);
 
         if attrs.flags.contains(CodegenFnAttrFlags::THREAD_LOCAL) {
             module.global_set_thread_local(g);

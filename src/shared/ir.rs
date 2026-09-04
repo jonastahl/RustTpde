@@ -167,6 +167,7 @@ impl Module {
         }
 
         global.data.extend_from_slice(chunk);
+        global.size = global.data.len() as u32;
     }
 
     fn global_add_unit_intern(

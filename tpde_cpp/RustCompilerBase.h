@@ -200,28 +200,21 @@ namespace tpde_rust {
     }
 
     bool compile_int_binary_op(RustAdaptor::IRInstRef, const ValInfo &, u64);
-
     bool compile_ret(RustAdaptor::IRInstRef, const ValInfo &, u64);
-
     bool compile_br(RustAdaptor::IRInstRef, const ValInfo &, u64);
-
     bool compile_gep(RustAdaptor::IRInstRef, const ValInfo &, u64);
-
     bool compile_store(RustAdaptor::IRInstRef, const ValInfo &, u64);
-
     bool compile_store_generic(Instruction&, GenericValuePart &&);
-
     bool compile_load(RustAdaptor::IRInstRef, const ValInfo &, u64);
-
     bool compile_load_generic(Instruction&, GenericValuePart &&);
-
     bool compile_memcpy(RustAdaptor::IRInstRef, const ValInfo &, u64);
-
     bool compile_call(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
     ValueRef val_ref_local(const size_t local_idx) {
       return this->val_ref(this->adaptor->val_ref_of_slot(local_idx));
     }
+
+    bool hook_post_func_sym_init();
   };
 
   template<typename Adaptor, typename Derived, typename Config>
@@ -827,6 +820,81 @@ namespace tpde_rust {
           cb->add_ret(part, cca);
         }
       }
+    }
+
+    return true;
+  }
+
+  static tpde::Assembler::SymBinding convert_linkage(const Global& global) {
+    if (global.flags.only_local)
+      return tpde::Assembler::SymBinding::LOCAL;
+    if (global.flags.weak_link)
+      return tpde::Assembler::SymBinding::WEAK;
+    return tpde::Assembler::SymBinding::GLOBAL;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::hook_post_func_sym_init() {
+    std::vector<SymRef> symbols;
+    symbols.reserve(this->adaptor->mod->globals.size());
+    for (const Global& global : this->adaptor->mod->globals) {
+      std::string_view name(global.name.data(), global.name.size());
+
+      auto binding = convert_linkage(global);
+      SymRef ref;
+      if (global.thread_loc) {
+        ref = this->assembler.sym_predef_tls(name, binding);
+      } else if (global.flags.extern_link) {
+        ref = this->assembler.sym_predef_data(name, binding);
+      } else {
+        ref = this->assembler.sym_add_undef(name, binding);
+      }
+      symbols.push_back(ref);
+
+      // TODO declaration for linker
+      // TODO visibility
+    }
+
+    size_t i = 0;
+    for (Global global : this->adaptor->mod->globals) {
+      SymRef &sym = symbols[i];
+
+      tpde::SectionKind kind;
+      {
+        bool needs_relocs = !global.relocations.empty();
+        bool init_zero = !global.init;
+        bool read_only = global.read_only;
+        if (global.thread_loc) {
+          kind = init_zero ? tpde::SectionKind::ThreadBSS : tpde::SectionKind::ThreadData;
+        } else if (!read_only && init_zero) {
+          assert(!needs_relocs && "BSS section must not have relocations");
+          kind = tpde::SectionKind::BSS;
+        } else if (read_only) {
+          kind = needs_relocs ? tpde::SectionKind::DataRelRO : tpde::SectionKind::ReadOnly;
+        } else {
+          kind = tpde::SectionKind::Data;
+        }
+      }
+      SecRef sec = this->assembler.create_section(kind);
+
+      // TODO find sym
+
+      if (global.init) {
+        u32 off;
+        this->assembler.sym_def_predef_data(sec, sym, global.data, global.align, &off);
+        for (Relocation& reloc : global.relocations) {
+          assert(operands::is_global(reloc.slot));
+          SymRef& target = symbols[operands::content(reloc.slot)];
+
+          this->assembler.reloc_abs(sec, target, off + reloc.offset, 0);
+
+          // would be the code for absolut relocation
+          //   this->assembler.reloc_pc32(sec, target, off + inner_off, addend);
+        }
+      } else {
+        this->assembler.sym_def_predef_zero(sec, sym, global.size, global.align);
+      }
+      ++i;
     }
 
     return true;

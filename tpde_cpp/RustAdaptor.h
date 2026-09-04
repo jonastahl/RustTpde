@@ -107,7 +107,7 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] u32 cur_highest_val_idx() const {
-      return cur_func->allocas.size() + cur_func->slots.size();
+      return cur_func->allocas.size() + cur_func->slots.size() + mod->globals.size() + mod->global_ptrs.size();
     }
 
     [[nodiscard]] auto cur_args() const {
@@ -211,8 +211,20 @@ namespace tpde_rust {
     [[nodiscard]] tpde::ValLocalIdx val_local_idx(IRValueRef ir_value) {
       if (operands::is_alloc(ir_value))
         return static_cast<tpde::ValLocalIdx>(operands::content(ir_value));
+      size_t prev = cur_func->allocas.size();
+
       if (operands::is_val(ir_value))
-        return static_cast<tpde::ValLocalIdx>(operands::content(ir_value) + cur_func->allocas.size());
+        return static_cast<tpde::ValLocalIdx>(operands::content(ir_value) + prev);
+      prev += cur_func->slots.size();
+
+      if (operands::is_global(ir_value))
+        return static_cast<tpde::ValLocalIdx>(operands::content(ir_value) + prev);
+      prev += mod->globals.size();
+
+      if (operands::is_global_ptr(ir_value))
+        return static_cast<tpde::ValLocalIdx>(operands::content(ir_value) + prev);
+      prev += mod->global_ptrs.size();
+
       assert(false);
     }
 
