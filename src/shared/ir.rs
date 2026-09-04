@@ -3,6 +3,7 @@ pub use super::ffi::ModuleTpde;
 use crate::context::CodegenCx;
 use core::fmt::{Debug, Formatter};
 use rustc_hir::attrs::Linkage;
+use rustc_middle::mir::Mutability;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Function(usize);
@@ -120,15 +121,20 @@ impl Module {
     pub fn add_global(
         &mut self,
         name: &str,
-        linkage: Linkage
+        linkage: Linkage,
+        mutability: Mutability
     ) -> Global {
         self.tpde.globals.push(ffi::Global {
             name: name.to_string(),
             size: 0,
             align: 0,
+            thread_loc: false,
+            read_only: mutability != Mutability::Mut,
             flags: Self::create_flags(linkage, Binding::Definition),
-            chunks: vec![],
+
+            init: false,
             data: vec![],
+            relocations: vec![],
         });
         Global(self.tpde.globals.len() - 1)
     }
@@ -141,15 +147,11 @@ impl Module {
         self.tpde.globals[global.0].align = align;
     }
 
-    pub fn global_add_unit_chunk(
+    pub fn global_set_thread_local(
         &mut self,
-        global: Global,
-        size: u32
+        global: Global
     ) {
-        self.tpde.globals[global.0].chunks.push(ffi::Chunk {
-            type_: ffi::ChunkType::UnInit,
-            data: size
-        })
+        self.tpde.globals[global.0].thread_loc = true;
     }
 
     pub fn global_add_init_chunk(
@@ -158,22 +160,49 @@ impl Module {
         chunk: &[u8]
     ) {
         let global = &mut self.tpde.globals[global.0];
-        global.data.push(ffi::ChunkData { data: chunk.to_vec() });
-        global.chunks.push(ffi::Chunk {
-            type_: ffi::ChunkType::Init,
-            data: global.data.len() as u32 - 1
-        })
+
+        if !global.init {
+            global.init = true;
+            global.data.resize(global.size as usize, 0);
+        }
+
+        global.data.extend_from_slice(chunk);
+    }
+
+    fn global_add_unit_intern(
+        global: &mut ffi::Global,
+        size: usize
+    ) {
+        global.size += size as u32;
+
+        if global.init {
+            global.data.resize(size, 0);
+        }
+    }
+
+    pub fn global_add_unit_chunk(
+        &mut self,
+        global: Global,
+        size: usize
+    ) {
+        let global = &mut self.tpde.globals[global.0];
+        Module::global_add_unit_intern(global, size);
     }
 
     pub fn global_add_reloc_chunk(
         &mut self,
         global: Global,
+        offset: u32,
         slot: Slot,
+        pointer_size: usize
     ) {
-        self.tpde.globals[global.0].chunks.push(ffi::Chunk {
-            type_: ffi::ChunkType::Reloc,
-            data: slot.to_ffi()
-        })
+        let global = &mut self.tpde.globals[global.0];
+        Module::global_add_unit_intern(global, pointer_size);
+
+        global.relocations.push(ffi::Relocation {
+            offset,
+            slot: slot.to_ffi()
+        });
     }
 
     pub fn add_global_ptr(

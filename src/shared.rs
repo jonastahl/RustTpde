@@ -1,4 +1,4 @@
-use crate::shared::ffi::{Chunk, ChunkData, GlobalPtr, Type};
+use crate::shared::ffi::{GlobalPtr, Type};
 use crate::shared::ir::Slot;
 use core::fmt::{Debug, Formatter};
 #[allow(unused_imports)]
@@ -140,40 +140,32 @@ mod ffi {
         data2: u64,
     }
 
-    #[derive(Debug)]
     pub struct Global {
         name: String,
 
+        size: u32,
         align: u32,
-        // mutable: bool,
+
+        read_only: bool,
+        thread_loc: bool,
 
         flags: Flags,
 
-        size: u32,
-        chunks: Vec<Chunk>,
-        data: Vec<ChunkData>,
+        init: bool,
+        data: Vec<u8>,
+
+        relocations: Vec<Relocation>,
+    }
+
+    #[derive(Debug)]
+    pub struct Relocation {
+        offset: u32,
+        slot: u32,
     }
 
     pub struct GlobalPtr {
         global: u32,
         offset: u32,
-    }
-
-    #[derive(Debug)]
-    enum ChunkType {
-        Init,
-        UnInit,
-        Reloc,
-    }
-
-    pub struct Chunk {
-        type_: ChunkType,
-        // position for Init and Reloc, size for UnInit
-        data: u32,
-    }
-
-    pub struct ChunkData {
-        data: Vec<u8>,
     }
 }
 
@@ -236,33 +228,44 @@ impl Debug for ffi::Alloca {
     }
 }
 
-impl Debug for Chunk {
+impl Debug for ffi::Global {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
-        write!(f, "{:?}: {:?}", self.type_, self.data)
-    }
-}
+        struct HexDump<'a>(&'a [u8]);
 
-impl Debug for ChunkData {
-    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
-        write!(f, "ChunkData ({} bytes):", self.data.len())?;
+        impl<'a> std::fmt::Debug for HexDump<'a> {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                write!(f, "({} bytes)", self.0.len())?;
 
-        for (i, chunk) in self.data.chunks(16).enumerate() {
-            // Print offset
-            write!(f, "\n  {:04x}  ", i * 16)?;
+                for (i, chunk) in self.0.chunks(16).enumerate() {
+                    // Print offset
+                    write!(f, "\n  {:04x}  ", i * 16)?;
 
-            // Print hex values with padding for incomplete lines
-            for b in chunk { write!(f, "{:02x} ", b)?; }
-            for _ in 0..(16 - chunk.len()) { write!(f, "   ")?; }
+                    // Print hex values with padding for incomplete lines
+                    for b in chunk { write!(f, "{:02x} ", b)?; }
+                    for _ in 0..(16 - chunk.len()) { write!(f, "   ")?; }
 
-            // Print ASCII representation
-            write!(f, " |")?;
-            for &b in chunk {
-                let c = if b.is_ascii_graphic() || b == b' ' { b as char } else { '.' };
-                write!(f, "{}", c)?;
+                    // Print ASCII representation
+                    write!(f, " |")?;
+                    for &b in chunk {
+                        let c = if b.is_ascii_graphic() || b == b' ' { b as char } else { '.' };
+                        write!(f, "{}", c)?;
+                    }
+                    write!(f, "|")?;
+                }
+                Ok(())
             }
-            write!(f, "|")?;
         }
-        Ok(())
+
+        f.debug_struct(&self.name)
+            .field("size", &self.size)
+            .field("align", &self.align)
+            .field("read_only", &self.read_only)
+            .field("thread_loc", &self.thread_loc)
+            .field("flags", &self.flags)
+            .field("init", &self.init)
+            .field("data", &HexDump(&self.data))
+            .field("relocations", &self.relocations)
+            .finish()
     }
 }
 

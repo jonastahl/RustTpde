@@ -37,7 +37,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <Ret> ([global: 1], [const: 3]),
+                    <Ret> ([global: 2], [const: 3]),
                 ],
             ],
         },
@@ -51,44 +51,56 @@ ModuleTpde {
         [i64] (0 0) -> 0,
     ],
     globals: [
-        Global {
-            name: "HELLO_WORLD",
+        HELLO_WORLD {
+            size: 8,
             align: 8,
+            read_only: false,
+            thread_loc: false,
             flags: Flags {
                 extern_link: false,
                 only_local: false,
                 weak_link: false,
             },
-            size: 0,
-            chunks: [
-                Reloc: 0,
-                Init: 0,
-            ],
-            data: [
-                ChunkData (8 bytes):
-                  0000  0c 00 00 00 00 00 00 00                          |........|,
+            init: true,
+            data: (16 bytes)
+              0000  00 00 00 00 00 00 00 00 0c 00 00 00 00 00 00 00  |................|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354561,
+                },
             ],
         },
-        Global {
-            name: "alloc_f7486cd712a27ca42f772f74632985be",
+        alloc_cff95699b23abcffc3a34d7d19816221 {
+            size: 0,
             align: 0,
+            read_only: true,
+            thread_loc: false,
             flags: Flags {
                 extern_link: false,
                 only_local: true,
                 weak_link: false,
             },
-            size: 0,
-            chunks: [
-                Init: 0,
-            ],
-            data: [
-                ChunkData (11 bytes):
-                  0000  48 61 6c 6c 6f 20 57 65 6c 74 21                 |Hallo Welt!|,
-            ],
+            init: true,
+            data: (12 bytes)
+              0000  48 65 6c 6c 6f 20 77 6f 72 6c 64 21              |Hello world!|,
+            relocations: [],
         },
-    ],
-    relocations: [
-        [0],
+        alloc_f7486cd712a27ca42f772f74632985be {
+            size: 0,
+            align: 0,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (11 bytes)
+              0000  48 61 6c 6c 6f 20 57 65 6c 74 21                 |Hallo Welt!|,
+            relocations: [],
+        },
     ],
     global_ptrs: [],
 }

@@ -1,6 +1,7 @@
 use crate::context::CodegenCx;
 use rustc_codegen_ssa::traits::PreDefineCodegenMethods;
 use rustc_hir::attrs::Linkage;
+use rustc_middle::mir::Mutability;
 use rustc_middle::mono::Visibility;
 use rustc_middle::ty;
 use rustc_middle::ty::{Instance, Ty};
@@ -18,7 +19,7 @@ impl<'tcx> PreDefineCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
         symbol_name: &str,
     ) {
         let global = self.module.borrow_mut()
-            .add_global(symbol_name, linkage);
+            .add_global(symbol_name, linkage, Mutability::Mut);
         self.globals.insert(def_id, global);
     }
 

@@ -192,7 +192,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                     format!("alloc_{hash:032x}")
                 };
 
-                let g = module.add_global(&name, Linkage::Internal);
+                let g = module.add_global(&name, Linkage::Internal, alloc.mutability);
                 self.const_alloc_to_tpde(module, g, &alloc, IsInitOrFini::No);
 
                 // TODO so far we ignore the address space

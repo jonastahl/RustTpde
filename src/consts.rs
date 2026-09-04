@@ -6,6 +6,7 @@ use rustc_middle::mir::interpret::{read_target_uint, Allocation, ConstAllocation
 use rustc_span::def_id::DefId;
 use std::ops::Range;
 use rustc_abi::Size;
+use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
 
 impl<'tcx> StaticBuilderMethods for Builder<'_, '_, 'tcx> {
     fn get_static(&mut self, def_id: DefId) -> Self::Value {
@@ -50,8 +51,8 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                             module.global_add_init_chunk(global, bytes);
                         },
                         InitChunk::Uninit(range) => {
-                            let len = (range.end.bytes() - range.start.bytes()) as u32;
-                            module.global_add_unit_chunk(global, len);
+                            let len = range.end.bytes() - range.start.bytes();
+                            module.global_add_unit_chunk(global, len as usize);
                         }
                     };
                 }
@@ -90,7 +91,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                 let ptr = Pointer::new(prov, Size::from_bytes(ptr_offset));
                 let ptr = self.ptr_to_backend(module, ptr);
 
-                module.global_add_reloc_chunk(g, ptr);
+                module.global_add_reloc_chunk(g, offset as u32, ptr, pointer_size);
             }
 
             // TODO push the pointer
@@ -134,6 +135,9 @@ impl<'tcx> StaticCodegenMethods for CodegenCx<'_, 'tcx> {
 
         module.global_set_align(g, alloc.align.bytes() as u32);
 
+        if attrs.flags.contains(CodegenFnAttrFlags::THREAD_LOCAL) {
+            module.global_set_thread_local(g);
+        }
 
         let is_init_fini = attrs
             .link_section

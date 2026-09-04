@@ -81,24 +81,20 @@ ModuleTpde {
         [i64] (0 14) -> 0,
     ],
     globals: [
-        Global {
-            name: "alloc_3213114faf700a46436312d7d5d956d1",
-            align: 0,
+        alloc_3213114faf700a46436312d7d5d956d1 {
+            size:: 0,
+            align:: 0,
+            thread_loc:: false,
             flags: Flags {
                 extern_link: false,
                 only_local: true,
                 weak_link: false,
             },
-            size: 0,
-            chunks: [
-                Init: 0,
-            ],
-            data: [
-                ChunkData (14 bytes):
-                  0000  48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21 0a        |Hello, world!.|,
-            ],
+            init: true,
+            data: (14 bytes)
+              0000  48 65 6c 6c 6f 2c 20 77 6f 72 6c 64 21 0a        |Hello, world!.|,
+            relocations: [],
         },
     ],
-    relocations: [],
     global_ptrs: [],
 }
