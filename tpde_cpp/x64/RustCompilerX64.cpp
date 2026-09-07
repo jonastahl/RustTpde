@@ -5,6 +5,7 @@
 namespace tpde_rust::x64 {
 
   struct CompilerConfig : tpde::x64::PlatformConfig {
+    static constexpr bool DEFAULT_VAR_REF_HANDLING = false;
   };
 
   struct RustCompilerX64 :
@@ -62,6 +63,8 @@ namespace tpde_rust::x64 {
                         SymRef sym);
 
     std::optional<CallBuilder> create_call_builder();
+
+    void load_address_of_var_reference(tpde::x64::AsmReg dst, tpde::AssignmentPartRef ap);
   };
 
   std::unique_ptr<RustCompiler> create_compiler() {
@@ -181,5 +184,35 @@ namespace tpde_rust::x64 {
   RustCompilerX64::create_call_builder() {
     cc_assigners = tpde::x64::CCAssignerSysV(false);
     return CallBuilder{*this, std::get<tpde::x64::CCAssignerSysV>(cc_assigners)};
+  }
+
+  void RustCompilerX64::load_address_of_var_reference(tpde::x64::AsmReg dst, tpde::AssignmentPartRef ap) {
+    const uint32_t glob_ptr_start = this->adaptor->mod->globals.size();
+
+    uint32_t glob_id = ap.variable_ref_data();
+    uint32_t offset = 0;
+    if (glob_id >= glob_ptr_start) {
+      auto &[id, off] = this->adaptor->mod->global_ptrs[glob_id - glob_ptr_start];
+      glob_id = id;
+      offset = off;
+    }
+    assert(glob_id < this->adaptor->mod->globals.size());
+    assert(glob_id < this->global_symbols.size());
+    const Global& global = this->adaptor->mod->globals[glob_id];
+    const auto sym = this->global_symbols[glob_id];
+    assert(sym.valid());
+
+    if (global.flags.extern_link) {
+      // mov the ptr from the GOT
+      ASM(MOV64rm, dst, FE_MEM(FE_IP, 0, FE_NOREG, -1));
+      reloc_text(sym, tpde::elf::R_X86_64_GOTPCREL, text_writer.offset() - 4, - 4);
+      if (offset != 0) {
+        ASM(LEA64rm, dst, FE_MEM(dst, 0, FE_NOREG, static_cast<int32_t>(offset)));
+      }
+    } else {
+      // emit lea with relocation
+      ASM(LEA64rm, dst, FE_MEM(FE_IP, 0, FE_NOREG, -1));
+      reloc_text(sym, tpde::elf::R_X86_64_PC32, text_writer.offset() - 4, static_cast<int64_t>(offset) - 4);
+    }
   }
 }

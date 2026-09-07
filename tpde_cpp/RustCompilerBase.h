@@ -23,6 +23,8 @@ namespace tpde_rust {
 
     using AsmReg = Base::AsmReg;
 
+    std::vector<SymRef> global_symbols;
+
     using ValInfo = Adaptor::ValInfo;
     struct ValRefSpecial {
       enum MODE : uint8_t {
@@ -33,7 +35,7 @@ namespace tpde_rust {
       IRValueRef data;
 
     private:
-      ValRefSpecial(MODE mode, IRValueRef ref) : mode{mode}, data{ref} {}
+      ValRefSpecial(uint8_t mode, IRValueRef ref) : mode(mode), data{ref} {}
 
     public:
       static ValRefSpecial make_const(IRValueRef data) {
@@ -56,48 +58,72 @@ namespace tpde_rust {
 
     static bool try_force_fixed_assignment(IRValueRef) { return false; }
 
+    void setup_var_ref_assignments() {}
+
     RustAdaptor::ValueParts val_parts(IRValueRef val) const {
       return this->adaptor->val_parts(val);
     }
 
     std::optional<ValRefSpecial> val_ref_special(IRValueRef value) {
-      if (operands::is_const(value)) {
-        return ValRefSpecial::make_const(operands::content(value));
+      if (operands::is_const(value) || operands::is_global(value)
+          || operands::is_global_ptr(value)) {
+        return ValRefSpecial::make_const(value);
       }
       return std::nullopt;
     }
 
     ValuePart val_part_ref_special(ValRefSpecial &vrs, u32 part) {
-      switch (vrs.mode) {
-        case ValRefSpecial::CONST: {
-          Value& imm = this->adaptor->mod->consts[vrs.data];
+      if (operands::is_const(vrs.data)) {
+        Value& imm = this->adaptor->mod->consts[operands::content(vrs.data)];
 
-          switch (imm.ty) {
-            case Type::Bool:
-            case Type::i8:
-              return ValuePart(imm.data2, 1, tpde::RegBank{0});
-            case Type::i16:
-              return ValuePart(imm.data2, 2, tpde::RegBank{0});
-            case Type::i32:
-              return ValuePart(imm.data2, 4, tpde::RegBank{0});
-            case Type::i64:
-              return ValuePart(imm.data2, 8, tpde::RegBank{0});
-            case Type::i128:
-              switch (part) {
-                case 0:
-                  return ValuePart(imm.data2, 8, tpde::RegBank{0});
-                case 1:
-                  return ValuePart(imm.data1, 8, tpde::RegBank{0});
-                default:
-                  throw std::runtime_error("invalid part");
-              }
+        switch (imm.ty) {
+          case Type::Bool:
+          case Type::i8:
+            return ValuePart(imm.data2, 1, tpde::RegBank{0});
+          case Type::i16:
+            return ValuePart(imm.data2, 2, tpde::RegBank{0});
+          case Type::i32:
+            return ValuePart(imm.data2, 4, tpde::RegBank{0});
+          case Type::i64:
+            return ValuePart(imm.data2, 8, tpde::RegBank{0});
+          case Type::i128:
+            switch (part) {
+              case 0:
+                return ValuePart(imm.data2, 8, tpde::RegBank{0});
+              case 1:
+                return ValuePart(imm.data1, 8, tpde::RegBank{0});
+              default:
+                throw std::runtime_error("invalid part");
+            }
 
-            default:
-              throw std::runtime_error("not implemented");
-          }
+          default:
+            throw std::runtime_error("not implemented");
         }
-        default:
+      }
+
+      {
+        uint32_t glob_start = this->adaptor->cur_func->allocas.size()
+           + this->adaptor->cur_func->slots.size();
+        uint32_t glob_ptr_start = glob_start
+           + this->adaptor->mod->globals.size();
+
+        u32 gv_id = operands::content(vrs.data);
+        u32 loc_id;
+        if (operands::is_global(vrs.data)) {
+          loc_id = glob_start + gv_id;
+        } else if (operands::is_global_ptr(vrs.data)) {
+          loc_id = glob_ptr_start + gv_id;
+        } else {
           throw std::runtime_error("unknown special mode");
+        }
+        tpde::ValLocalIdx local_idx{loc_id};
+
+        auto *assignment = this->val_assignment(local_idx);
+        if (!assignment) {
+          this->init_variable_ref(local_idx, loc_id - glob_start);
+          assignment = this->val_assignment(local_idx);
+        }
+        return ValuePart{local_idx, assignment, 0, /*owned=*/false};
       }
     }
 
@@ -748,7 +774,8 @@ namespace tpde_rust {
       case Type::i8:
       case Type::i16:
       case Type::i32:
-      case Type::i64: {
+      case Type::i64:
+      case Type::ptr: {
         const auto num_bytes = size_of_type(ty);
         EncodeFnTy fn = int_fns[num_bytes - 1][sext];
 
@@ -756,7 +783,7 @@ namespace tpde_rust {
         return true;
       }
 
-      default: return false;
+      default: throw std::runtime_error("Unsupported type for loadi");
     }
   }
 
@@ -835,8 +862,9 @@ namespace tpde_rust {
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::hook_post_func_sym_init() {
-    std::vector<SymRef> symbols;
-    symbols.reserve(this->adaptor->mod->globals.size());
+    global_symbols.clear();
+
+    global_symbols.reserve(this->adaptor->mod->globals.size());
     for (const Global& global : this->adaptor->mod->globals) {
       std::string_view name(global.name.data(), global.name.size());
 
@@ -849,7 +877,7 @@ namespace tpde_rust {
       } else {
         ref = this->assembler.sym_add_undef(name, binding);
       }
-      symbols.push_back(ref);
+      global_symbols.push_back(ref);
 
       // TODO declaration for linker
       // TODO visibility
@@ -857,7 +885,7 @@ namespace tpde_rust {
 
     size_t i = 0;
     for (Global global : this->adaptor->mod->globals) {
-      SymRef &sym = symbols[i];
+      SymRef &sym = global_symbols[i];
 
       tpde::SectionKind kind;
       {
@@ -884,7 +912,7 @@ namespace tpde_rust {
         this->assembler.sym_def_predef_data(sec, sym, global.data, global.align, &off);
         for (Relocation& reloc : global.relocations) {
           assert(operands::is_global(reloc.slot));
-          SymRef& target = symbols[operands::content(reloc.slot)];
+          SymRef& target = global_symbols[operands::content(reloc.slot)];
 
           this->assembler.reloc_abs(sec, target, off + reloc.offset, 0);
 
