@@ -235,6 +235,8 @@ namespace tpde_rust {
     bool compile_load_generic(Instruction&, GenericValuePart &&);
     bool compile_memcpy(RustAdaptor::IRInstRef, const ValInfo &, u64);
     bool compile_call(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_cast(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_int_ext(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
     ValueRef val_ref_local(const size_t local_idx) {
       return this->val_ref(this->adaptor->val_ref_of_slot(local_idx));
@@ -294,6 +296,9 @@ namespace tpde_rust {
       set_fn(InstructionKind::Sub, &Derived::compile_int_binary_op, IntBinaryOp::sub);
       set_fn(InstructionKind::Mul, &Derived::compile_int_binary_op, IntBinaryOp::mul);
       set_fn(InstructionKind::Div, &Derived::compile_int_binary_op, IntBinaryOp::sdiv);
+      set_fn(InstructionKind::And, &Derived::compile_int_binary_op, IntBinaryOp::land);
+      set_fn(InstructionKind::Or, &Derived::compile_int_binary_op, IntBinaryOp::lor);
+      set_fn(InstructionKind::Shl, &Derived::compile_int_binary_op, IntBinaryOp::shl);
 
       set_fn(InstructionKind::Ret, &Derived::compile_ret);
 
@@ -316,6 +321,9 @@ namespace tpde_rust {
 
       set_fn(InstructionKind::CondBr, &Derived::compile_unknown);
       set_fn(InstructionKind::Br, &Derived::compile_br);
+
+      set_fn(InstructionKind::Cast, &Derived::compile_cast);
+      set_fn(InstructionKind::Zext, &Derived::compile_int_ext, /*sign=*/false);
 
       return res;
     }();
@@ -850,6 +858,88 @@ namespace tpde_rust {
     }
 
     return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_cast(RustAdaptor::IRInstRef instr, const ValInfo &val_info, u64) {
+    Instruction &casti = this->adaptor->get_instruction(instr);
+    assert(operands::is_val(casti.ops[0]));
+    assert(operands::is_val(casti.result));
+
+    IRValueRef src_ref = operands::content(casti.ops[0]);
+    IRValueRef res_ref = operands::content(casti.result);
+
+    const Type src_ty = this->adaptor->cur_func->slots[src_ref].ty;
+    const Type res_ty = this->adaptor->cur_func->slots[res_ref].ty;
+    assert(size_of_type(src_ty) == size_of_type(res_ty));
+
+    ValueRef src = this->val_ref(src_ref);
+    ValueRef res = this->result_ref(res_ref);
+
+    auto part_count = this->adaptor->val_parts(val_info).count();
+    for (u32 i = 0; i != part_count; ++i) {
+      res.part(i).set_value(src.part(i));
+    }
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_ext(RustAdaptor::IRInstRef instr, const ValInfo &, u64 sign) {
+    Instruction &exti = this->adaptor->get_instruction(instr);
+    const Type dst_ty = this->adaptor->cur_func->slots[exti.result].ty;
+
+    switch (dst_ty) {
+      case Type::i8:
+      case Type::i16:
+      case Type::i32:
+      case Type::i64:
+      case Type::i128:
+        break;
+      default:
+        return false;
+    }
+
+    auto src_val = exti.ops[0];
+    const Type src_ty = this->adaptor->cur_func->slots[src_val].ty;
+
+    unsigned src_width = size_of_type(src_ty);
+    unsigned dst_width = size_of_type(dst_ty);
+    assert(dst_width > src_width);
+
+    auto src_ref = this->val_ref(src_val);
+    auto res = this->result_ref(exti.result);
+
+    if (src_width <= 64) {
+      ValuePartRef low = src_ref.part(0);
+      if (src_width < 64) {
+        unsigned ext_width = dst_width <= 64 ? dst_width : 64;
+        low = std::move(low).into_extended(sign, src_width, ext_width);
+      }
+      if (dst_width > 64) {
+        auto res_ref_high = res.part(1);
+
+        if (sign) {
+          if (!low.has_reg()) {
+            low.load_to_reg();
+          }
+          this->derived()->encode_fill_with_sign64(low.get_unowned_ref(), res_ref_high);
+        } else {
+          res_ref_high.set_value(ValuePart{u64{0}, 8, res_ref_high.bank()});
+        }
+      }
+
+      res.part(0).set_value(std::move(low));
+      return true;
+    }
+
+    if (src_width < 128 && dst_width <= 128) {
+      res.part(0).set_value(src_ref.part(0));
+      res.part(1).set_value(
+          src_ref.part(1).into_extended(sign, src_width - 64, 64));
+      return true;
+    }
+
+    return false;
   }
 
   static tpde::Assembler::SymBinding convert_linkage(const Global& global) {

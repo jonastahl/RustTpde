@@ -1,11 +1,3 @@
-// Every add/sub the backend emits, at every width, signed and unsigned.
-//
-// Rather than hand-writing expected values, each generated function is checked
-// against Rust's own `wrapping_add`/`wrapping_sub` over the full cross product
-// of interesting operands: zero, one, both sides of the signed boundary
-// (0x7F.. / 0x80..), and the type's extremes. That is where a missing
-// truncation, a sign-extension that should have been a zero-extension, or an
-// operand swap shows up.
 
 extern "C" {
   fn add_i8(a: i8, b: i8) -> i8;
