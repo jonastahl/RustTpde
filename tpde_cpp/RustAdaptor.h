@@ -399,10 +399,6 @@ namespace tpde_rust {
     static ValueParts val_parts(const ValInfo &info) {
       return ValueParts{info.type};
     }
-
-    static IRValueRef val_ref_of_slot(const size_t local_idx) {
-      return local_idx;
-    }
   };
 
   static_assert(tpde::IRAdaptor<RustAdaptor>);

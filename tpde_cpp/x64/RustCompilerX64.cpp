@@ -55,6 +55,7 @@ namespace tpde_rust::x64 {
     }
 
     bool compile_cmp(RustAdaptor::IRInstRef inst, const ValInfo &, u64);
+    bool compile_condbr(RustAdaptor::IRInstRef, const ValInfo &, u64);
     bool compile_overflow_jump(Instruction&, InstructionKind, bool);
 
     static GenericValuePart create_addr_for_alloca(tpde::AssignmentPartRef ap);
@@ -94,19 +95,19 @@ namespace tpde_rust::x64 {
 
         assert(operands::is_val(left));
 
-        auto lhs = this->val_ref_local(left);
+        auto lhs = this->val_ref(left);
         auto lhs_op = lhs.part(0);
 
         const Type tyl = Base::adaptor->type_of_ref(left);
         const Type tyr = Base::adaptor->type_of_ref(right);
         assert(tyl == tyr);
 
-        const auto lhs_reg = lhs_op.has_reg() ? lhs_op.cur_reg() : lhs_op.load_to_reg();
+        const auto lhs_reg = lhs_op.cur_reg_or_load();
 
         if (operands::is_val(right)) {
-          auto rhs = this->val_ref_local(operands::content(right));
+          auto rhs = this->val_ref(operands::content(right));
           auto rhs_op = rhs.part(0);
-          const auto rhs_reg = rhs_op.has_reg() ? rhs_op.cur_reg() : rhs_op.load_to_reg();
+          const auto rhs_reg = rhs_op.cur_reg_or_load();
 
           switch (tyl) {
             case Type::i8: ASM(CMP8rr, lhs_reg, rhs_reg); break;
@@ -174,6 +175,19 @@ namespace tpde_rust::x64 {
 
     // Only support fusing cmp and condbr by now
     return false;
+  }
+
+  bool RustCompilerX64::compile_condbr(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {
+    Instruction& condbr = adaptor->get_instruction(instr);
+    assert(this->adaptor->type_of_ref(condbr.ops[0]) == Type::Bool);
+
+    ValueRef cond = this->val_ref(condbr.ops[0]);
+    ValuePartRef cond_op = cond.part(0);
+    const AsmReg cond_reg = cond_op.cur_reg_or_load();
+
+    ASM(TEST8ri, cond_reg, 1);
+    generate_cond_branch(Jump::jne, operands::content(condbr.ops[1]), operands::content(condbr.ops[2]));
+    return true;
   }
 
   bool RustCompilerX64::compile_overflow_jump(Instruction& jmpi, InstructionKind kind, bool is_signed) {

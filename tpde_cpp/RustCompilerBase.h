@@ -240,10 +240,6 @@ namespace tpde_rust {
     bool compile_cast(RustAdaptor::IRInstRef, const ValInfo &, u64);
     bool compile_int_ext(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
-    ValueRef val_ref_local(const size_t local_idx) {
-      return this->val_ref(this->adaptor->val_ref_of_slot(local_idx));
-    }
-
     bool hook_post_func_sym_init();
   };
 
@@ -321,7 +317,7 @@ namespace tpde_rust {
       set_fn(InstructionKind::MemCpy, &Derived::compile_memcpy);
       set_fn(InstructionKind::Call, &Derived::compile_call);
 
-      set_fn(InstructionKind::CondBr, &Derived::compile_unknown);
+      set_fn(InstructionKind::CondBr, &Derived::compile_condbr);
       set_fn(InstructionKind::Br, &Derived::compile_br);
 
       set_fn(InstructionKind::Cast, &Derived::compile_cast);
@@ -345,7 +341,7 @@ namespace tpde_rust {
     typename Base::RetBuilder rb{*this->derived(), *this->derived()->cur_cc_assigner()};
     if (!instr->ops.empty()) {
       for (auto op : instr->ops) {
-        rb.add(this->adaptor->val_ref_of_slot(op));
+        rb.add(op);
       }
     }
     rb.ret();
@@ -438,13 +434,11 @@ namespace tpde_rust {
       return {fns[op.index()][ty_idx], ty_idx < 3};
     };
 
-    IRValueRef ir_res = this->adaptor->val_ref_of_slot(instr->result);
-
-    unsigned int_width = size_of_type(Base::adaptor->type_of_ref(ir_res));
+    unsigned int_width = size_of_type(Base::adaptor->type_of_ref(instr->result));
     const auto &operands = instr->ops;
-    ValueRef lhs = this->val_ref_local(operands[0]);
-    ValueRef rhs = this->val_ref_local(operands[1]);
-    ValueRef res = this->result_ref(ir_res);
+    ValueRef lhs = this->val_ref(operands[0]);
+    ValueRef rhs = this->val_ref(operands[1]);
+    ValueRef res = this->result_ref(instr->result);
 
     auto handle_part = [this, int_width, op](EncodeFnTy encode_fn,
                                              bool is_scalar,
