@@ -166,6 +166,9 @@ namespace tpde_rust {
           offset = 1;
           count = 2;
           break;
+        case InstructionKind::Unreachable:
+          offset = count = 0;
+          break;
         default:
           throw std::runtime_error("Invalid branching instruction");
       }
@@ -296,8 +299,13 @@ namespace tpde_rust {
 
     [[nodiscard]] bool inst_fused(const IRInstRef inst) const {
       const auto& cur = get_instruction(inst);
-      if (cur.kind == InstructionKind::AddRet)
-        return true;
+      switch (cur.kind) {
+        case InstructionKind::AddRet:
+        case InstructionKind::OverflowCheck:
+        case InstructionKind::Unreachable:
+          return true;
+        default:
+      }
       if (inst.inst > 0) {
         Instruction& prev = get_instruction(inst.prev());
 
@@ -317,6 +325,7 @@ namespace tpde_rust {
             case InstructionKind::CMPsle:
             case InstructionKind::CMPsgt:
             case InstructionKind::CMPslt:
+            case InstructionKind::OverflowCheck:
               return prev.result == cur.ops[0];
             default:
               return false;

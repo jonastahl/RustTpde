@@ -28,6 +28,8 @@ fn main() {
 }
 
 fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
+    let overflow = !path.file_name().map_or_else(|| false, |s| s.to_str().unwrap().starts_with("nof_"));
+
     // 1. Resolve paths
     let source_path = path.join("source.rs");
     let expected_ir_path = path.join("ir");
@@ -51,7 +53,7 @@ fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
         .arg("-Z")
         .arg("codegen-backend=target/debug/librustc_codegen_tpde.so")
         .arg("-C")
-        .arg("overflow-checks=no")
+        .arg(format!("overflow-checks={}", if overflow { "yes" } else { "no" }))
         .arg(&source_path)
         .arg("-o")
         .arg(&actual_ir_path)
@@ -66,7 +68,7 @@ fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
         .arg("-Z")
         .arg("codegen-backend=target/debug/librustc_codegen_tpde.so")
         .arg("-C")
-        .arg("overflow-checks=no")
+        .arg(format!("overflow-checks={}", if overflow { "yes" } else { "no" }))
         .arg(&source_path)
         .arg("-o")
         .arg(&actual_obj_path)

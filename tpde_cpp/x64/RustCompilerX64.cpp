@@ -55,6 +55,7 @@ namespace tpde_rust::x64 {
     }
 
     bool compile_cmp(RustAdaptor::IRInstRef inst, const ValInfo &, u64);
+    bool compile_overflow_jump(Instruction&, InstructionKind, bool);
 
     static GenericValuePart create_addr_for_alloca(tpde::AssignmentPartRef ap);
 
@@ -65,6 +66,15 @@ namespace tpde_rust::x64 {
     std::optional<CallBuilder> create_call_builder();
 
     void load_address_of_var_reference(tpde::x64::AsmReg dst, tpde::AssignmentPartRef ap);
+
+    bool handle_overflow_intrin_128(OverflowOp op,
+                                GenericValuePart &&lhs_lo,
+                                GenericValuePart &&lhs_hi,
+                                GenericValuePart &&rhs_lo,
+                                GenericValuePart &&rhs_hi,
+                                ValuePart &&res_lo,
+                                ValuePart &&res_hi,
+                                ValuePart &&res_of);
   };
 
   std::unique_ptr<RustCompiler> create_compiler() {
@@ -166,6 +176,22 @@ namespace tpde_rust::x64 {
     return false;
   }
 
+  bool RustCompilerX64::compile_overflow_jump(Instruction& jmpi, InstructionKind kind, bool is_signed) {
+    Jump jump;
+    switch (kind) {
+      case InstructionKind::Add:
+      case InstructionKind::Sub:
+        jump = is_signed ? Jump::jo : Jump::jb;
+        break;
+      case InstructionKind::Mul:
+        jump = Jump::jo;
+        break;
+      default: TPDE_UNREACHABLE("Invalid op for overflow");
+    }
+    generate_cond_branch(jump, operands::content(jmpi.ops[1]), operands::content(jmpi.ops[2]));
+    return true;
+  }
+
   RustCompilerX64::GenericValuePart
     RustCompilerX64::create_addr_for_alloca(tpde::AssignmentPartRef ap) {
     return GenericValuePart::Expr{AsmReg::BP, ap.variable_stack_off()};
@@ -214,5 +240,47 @@ namespace tpde_rust::x64 {
       ASM(LEA64rm, dst, FE_MEM(FE_IP, 0, FE_NOREG, -1));
       reloc_text(sym, tpde::elf::R_X86_64_PC32, text_writer.offset() - 4, static_cast<int64_t>(offset) - 4);
     }
+  }
+
+  bool RustCompilerX64::handle_overflow_intrin_128(OverflowOp op, GenericValuePart &&lhs_lo, GenericValuePart &&lhs_hi,
+    GenericValuePart &&rhs_lo, GenericValuePart &&rhs_hi, ValuePart &&res_lo, ValuePart &&res_hi, ValuePart &&res_of) {
+
+    using EncodeFnTy = bool (RustCompilerX64::*)(GenericValuePart &&,
+                                                 GenericValuePart &&,
+                                                 GenericValuePart &&,
+                                                 GenericValuePart &&,
+                                                 ValuePart &,
+                                                 ValuePart &,
+                                                 ValuePart &);
+    EncodeFnTy encode_fn = nullptr;
+    switch (op) {
+      case OverflowOp::uadd:
+        encode_fn = &RustCompilerX64::encode_of_add_u128;
+        break;
+      case OverflowOp::sadd:
+        encode_fn = &RustCompilerX64::encode_of_add_i128;
+        break;
+      case OverflowOp::usub:
+        encode_fn = &RustCompilerX64::encode_of_sub_u128;
+        break;
+      case OverflowOp::ssub:
+        encode_fn = &RustCompilerX64::encode_of_sub_i128;
+        break;
+      case OverflowOp::umul:
+        encode_fn = &RustCompilerX64::encode_of_mul_u128;
+        break;
+      case OverflowOp::smul:
+        encode_fn = &RustCompilerX64::encode_of_mul_i128;
+        break;
+      default: TPDE_UNREACHABLE("invalid operation");
+    }
+
+    return (this->*encode_fn)(std::move(lhs_lo),
+                              std::move(lhs_hi),
+                              std::move(rhs_lo),
+                              std::move(rhs_hi),
+                              res_lo,
+                              res_hi,
+                              res_of);
   }
 }

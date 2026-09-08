@@ -91,20 +91,50 @@ Disassembly of section .text:
  130:	55                   	push   %rbp
  131:	48 89 e5             	mov    %rsp,%rbp
  134:	53                   	push   %rbx
- 135:	48 8b 06             	mov    (%rsi),%rax
- 138:	0f b6 4e 12          	movzbl 0x12(%rsi),%ecx
- 13c:	8d 49 01             	lea    0x1(%rcx),%ecx
- 13f:	0f b6 56 13          	movzbl 0x13(%rsi),%edx
- 143:	8d 52 02             	lea    0x2(%rdx),%edx
- 146:	0f b7 5e 10          	movzwl 0x10(%rsi),%ebx
- 14a:	83 eb 14             	sub    $0x14,%ebx
- 14d:	4c 8b 46 08          	mov    0x8(%rsi),%r8
- 151:	4d 8d 80 67 2b 00 00 	lea    0x2b67(%r8),%r8
- 158:	48 89 07             	mov    %rax,(%rdi)
- 15b:	88 4f 12             	mov    %cl,0x12(%rdi)
- 15e:	88 57 13             	mov    %dl,0x13(%rdi)
- 161:	66 89 5f 10          	mov    %bx,0x10(%rdi)
- 165:	4c 89 47 08          	mov    %r8,0x8(%rdi)
- 169:	5b                   	pop    %rbx
- 16a:	5d                   	pop    %rbp
- 16b:	c3                   	ret
+ 135:	41 54                	push   %r12
+ 137:	41 55                	push   %r13
+ 139:	41 56                	push   %r14
+ 13b:	41 57                	push   %r15
+ 13d:	48 83 ec 08          	sub    $0x8,%rsp
+ 141:	48 89 fb             	mov    %rdi,%rbx
+ 144:	49 89 f4             	mov    %rsi,%r12
+ 147:	4d 8b 2c 24          	mov    (%r12),%r13
+ 14b:	41 0f b6 44 24 12    	movzbl 0x12(%r12),%eax
+ 151:	44 8d 70 01          	lea    0x1(%rax),%r14d
+ 155:	41 38 c6             	cmp    %al,%r14b
+ 158:	0f 82 79 00 00 00    	jb     1d7 <increase_age+0xa7>
+ 15e:	41 0f b6 44 24 13    	movzbl 0x13(%r12),%eax
+ 164:	44 8d 78 02          	lea    0x2(%rax),%r15d
+ 168:	41 38 c7             	cmp    %al,%r15b
+ 16b:	0f 82 5a 00 00 00    	jb     1cb <increase_age+0x9b>
+ 171:	41 0f b7 44 24 10    	movzwl 0x10(%r12),%eax
+ 177:	31 c9                	xor    %ecx,%ecx
+ 179:	66 83 e8 14          	sub    $0x14,%ax
+ 17d:	0f 90 c1             	seto   %cl
+ 180:	0f 80 39 00 00 00    	jo     1bf <increase_age+0x8f>
+ 186:	49 8b 4c 24 08       	mov    0x8(%r12),%rcx
+ 18b:	4c 8d a1 67 2b 00 00 	lea    0x2b67(%rcx),%r12
+ 192:	49 39 cc             	cmp    %rcx,%r12
+ 195:	0f 82 18 00 00 00    	jb     1b3 <increase_age+0x83>
+ 19b:	4c 89 2b             	mov    %r13,(%rbx)
+ 19e:	44 88 73 12          	mov    %r14b,0x12(%rbx)
+ 1a2:	44 88 7b 13          	mov    %r15b,0x13(%rbx)
+ 1a6:	66 89 43 10          	mov    %ax,0x10(%rbx)
+ 1aa:	4c 89 63 08          	mov    %r12,0x8(%rbx)
+ 1ae:	e9 30 00 00 00       	jmp    1e3 <increase_age+0xb3>
+ 1b3:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 1b2 <increase_age+0x82>
+ 1ba:	e8 00 00 00 00       	call   1bf <increase_age+0x8f>
+ 1bf:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 1be <increase_age+0x8e>
+ 1c6:	e8 00 00 00 00       	call   1cb <increase_age+0x9b>
+ 1cb:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 1ca <increase_age+0x9a>
+ 1d2:	e8 00 00 00 00       	call   1d7 <increase_age+0xa7>
+ 1d7:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 1d6 <increase_age+0xa6>
+ 1de:	e8 00 00 00 00       	call   1e3 <increase_age+0xb3>
+ 1e3:	48 83 c4 08          	add    $0x8,%rsp
+ 1e7:	41 5f                	pop    %r15
+ 1e9:	41 5e                	pop    %r14
+ 1eb:	41 5d                	pop    %r13
+ 1ed:	41 5c                	pop    %r12
+ 1ef:	5b                   	pop    %rbx
+ 1f0:	5d                   	pop    %rbp
+ 1f1:	c3                   	ret

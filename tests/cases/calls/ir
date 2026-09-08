@@ -8,6 +8,7 @@ ModuleTpde {
                 i8,
                 i8,
                 i8,
+                Bool,
             ],
             flags: Flags {
                 extern_link: false,
@@ -18,7 +19,15 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <Add> ([val: 0], [const: 0]) -> [val: 2],
+                    <CMPult> ([val: 2], [val: 0]) -> [val: 3],
+                    <CondBr> ([val: 3], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
                     <Ret> ([val: 2], [val: 1]),
+                ],
+                "panic": [
+                    <Call> ([func: 3], [global: 0]),
+                    <Unreachable> (),
                 ],
             ],
         },
@@ -30,10 +39,13 @@ ModuleTpde {
                 i64,
                 Bool,
                 i64,
+                Bool,
                 i64,
                 i64,
+                Bool,
                 i64,
                 i64,
+                Bool,
                 i64,
             ],
             flags: Flags {
@@ -51,20 +63,44 @@ ModuleTpde {
                 ],
                 "bb2": [
                     <Sub> ([val: 0], [const: 4]) -> [val: 2],
-                    <Call> ([func: 1], [val: 2]) -> [val: 3],
-                    <Sub> ([val: 0], [const: 5]) -> [val: 4],
-                    <Call> ([func: 1], [val: 4]) -> [val: 5],
-                    <Add> ([val: 3], [val: 5]) -> [val: 6],
-                    <Store> ([val: 6], [alloc: 0], [raw: 8]),
-                    <Br> ([raw: 3]),
+                    <CMPult> ([val: 0], [const: 4]) -> [val: 3],
+                    <CondBr> ([val: 3], [raw: 4], [raw: 3]),
                 ],
                 "bb1": [
                     <Store> ([val: 0], [alloc: 0], [raw: 8]),
-                    <Br> ([raw: 3]),
+                    <Br> ([raw: 9]),
+                ],
+                "bb3": [
+                    <Call> ([func: 1], [val: 2]) -> [val: 4],
+                    <Sub> ([val: 0], [const: 5]) -> [val: 5],
+                    <CMPult> ([val: 0], [const: 5]) -> [val: 6],
+                    <CondBr> ([val: 6], [raw: 6], [raw: 5]),
+                ],
+                "panic": [
+                    <Call> ([func: 4], [global: 2]),
+                    <Unreachable> (),
                 ],
                 "bb5": [
-                    <Load> ([alloc: 0], [raw: 8]) -> [val: 7],
-                    <Ret> ([val: 7]),
+                    <Call> ([func: 1], [val: 5]) -> [val: 7],
+                    <Add> ([val: 4], [val: 7]) -> [val: 8],
+                    <CMPult> ([val: 8], [val: 4]) -> [val: 9],
+                    <CondBr> ([val: 9], [raw: 8], [raw: 7]),
+                ],
+                "panic": [
+                    <Call> ([func: 4], [global: 4]),
+                    <Unreachable> (),
+                ],
+                "bb7": [
+                    <Store> ([val: 8], [alloc: 0], [raw: 8]),
+                    <Br> ([raw: 9]),
+                ],
+                "panic": [
+                    <Call> ([func: 3], [global: 6]),
+                    <Unreachable> (),
+                ],
+                "bb8": [
+                    <Load> ([alloc: 0], [raw: 8]) -> [val: 10],
+                    <Ret> ([val: 10]),
                 ],
             ],
         },
@@ -90,6 +126,36 @@ ModuleTpde {
                 ],
             ],
         },
+        Function {
+            name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_add_overflow",
+            n_args: 1,
+            has_ret: false,
+            slots: [
+                ptr,
+            ],
+            flags: Flags {
+                extern_link: true,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [],
+        },
+        Function {
+            name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_sub_overflow",
+            n_args: 1,
+            has_ret: false,
+            slots: [
+                ptr,
+            ],
+            flags: Flags {
+                extern_link: true,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [],
+        },
     ],
     consts: [
         [i8] (0 1) -> 0,
@@ -103,6 +169,155 @@ ModuleTpde {
         [i8] (0 0) -> 0,
         [i8] (0 0) -> 0,
     ],
-    globals: [],
+    globals: [
+        alloc_6b64c208c07bd18928718fc0f7ad7247 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1b 00 00 00 00 00 00 00  |................|
+              0010  15 00 00 00 0d 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354561,
+                },
+            ],
+        },
+        alloc_ae757fab507dae40af74e37c0f85dd26 {
+            size: 28,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (28 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 63 61 6c 6c  |tests/cases/call|
+              0010  73 2f 73 6f 75 72 63 65 2e 72 73 00              |s/source.rs.|,
+            relocations: [],
+        },
+        alloc_fe581581944e1104be3d4c1860c98870 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1b 00 00 00 00 00 00 00  |................|
+              0010  09 00 00 00 09 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354563,
+                },
+            ],
+        },
+        alloc_ae757fab507dae40af74e37c0f85dd26 {
+            size: 28,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (28 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 63 61 6c 6c  |tests/cases/call|
+              0010  73 2f 73 6f 75 72 63 65 2e 72 73 00              |s/source.rs.|,
+            relocations: [],
+        },
+        alloc_d99970b4f79a13e3cf3e3b78df462234 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1b 00 00 00 00 00 00 00  |................|
+              0010  09 00 00 00 16 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354565,
+                },
+            ],
+        },
+        alloc_ae757fab507dae40af74e37c0f85dd26 {
+            size: 28,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (28 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 63 61 6c 6c  |tests/cases/call|
+              0010  73 2f 73 6f 75 72 63 65 2e 72 73 00              |s/source.rs.|,
+            relocations: [],
+        },
+        alloc_f67496450a71fc89aebea01ff97f28d9 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1b 00 00 00 00 00 00 00  |................|
+              0010  09 00 00 00 05 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354567,
+                },
+            ],
+        },
+        alloc_ae757fab507dae40af74e37c0f85dd26 {
+            size: 28,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (28 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 63 61 6c 6c  |tests/cases/call|
+              0010  73 2f 73 6f 75 72 63 65 2e 72 73 00              |s/source.rs.|,
+            relocations: [],
+        },
+    ],
     global_ptrs: [],
 }

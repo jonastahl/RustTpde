@@ -1,0 +1,467 @@
+ModuleTpde {
+    functions: [
+        Function {
+            name: "addi",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Add> ([val: 0], [val: 1]) -> [val: 2],
+                    <OverflowCheck> ([raw: 1]) -> [val: 3],
+                    <CondBr> ([val: 3], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Ret> ([val: 2]),
+                ],
+                "panic": [
+                    <Call> ([func: 6], [global: 0]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "addu",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Add> ([val: 0], [val: 1]) -> [val: 2],
+                    <CMPult> ([val: 2], [val: 0]) -> [val: 3],
+                    <CondBr> ([val: 3], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Ret> ([val: 2]),
+                ],
+                "panic": [
+                    <Call> ([func: 6], [global: 2]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "muli",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <OverflowCheck> ([raw: 1]) -> [val: 3],
+                    <CondBr> ([val: 3], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Ret> ([val: 2]),
+                ],
+                "panic": [
+                    <Call> ([func: 7], [global: 4]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "mulu",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <OverflowCheck> ([raw: 0]) -> [val: 3],
+                    <CondBr> ([val: 3], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Ret> ([val: 2]),
+                ],
+                "panic": [
+                    <Call> ([func: 7], [global: 6]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "subi",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Sub> ([val: 0], [val: 1]) -> [val: 2],
+                    <OverflowCheck> ([raw: 1]) -> [val: 3],
+                    <CondBr> ([val: 3], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Ret> ([val: 2]),
+                ],
+                "panic": [
+                    <Call> ([func: 8], [global: 8]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "subu",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Sub> ([val: 0], [val: 1]) -> [val: 2],
+                    <CMPult> ([val: 0], [val: 1]) -> [val: 3],
+                    <CondBr> ([val: 3], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Ret> ([val: 2]),
+                ],
+                "panic": [
+                    <Call> ([func: 8], [global: 10]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_add_overflow",
+            n_args: 1,
+            has_ret: false,
+            slots: [
+                ptr,
+            ],
+            flags: Flags {
+                extern_link: true,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [],
+        },
+        Function {
+            name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_mul_overflow",
+            n_args: 1,
+            has_ret: false,
+            slots: [
+                ptr,
+            ],
+            flags: Flags {
+                extern_link: true,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [],
+        },
+        Function {
+            name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_sub_overflow",
+            n_args: 1,
+            has_ret: false,
+            slots: [
+                ptr,
+            ],
+            flags: Flags {
+                extern_link: true,
+                only_local: false,
+                weak_link: false,
+            },
+            allocas: [],
+            basic_blocks: [],
+        },
+    ],
+    consts: [],
+    globals: [
+        alloc_6b33b0479b3b83e38773792573ff03d7 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0010  0a 00 00 00 05 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354561,
+                },
+            ],
+        },
+        alloc_35324de8d7157558a0658bfd0576198a {
+            size: 38,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (38 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
+              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
+              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            relocations: [],
+        },
+        alloc_b657107088e6d4eaeac20085cfd1d90a {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0010  05 00 00 00 05 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354563,
+                },
+            ],
+        },
+        alloc_35324de8d7157558a0658bfd0576198a {
+            size: 38,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (38 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
+              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
+              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            relocations: [],
+        },
+        alloc_c80ba1b480c8f774b06def817857cff7 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0010  1e 00 00 00 05 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354565,
+                },
+            ],
+        },
+        alloc_35324de8d7157558a0658bfd0576198a {
+            size: 38,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (38 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
+              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
+              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            relocations: [],
+        },
+        alloc_d5f7b8acec9794f7a0302bc80f58f354 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0010  19 00 00 00 05 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354567,
+                },
+            ],
+        },
+        alloc_35324de8d7157558a0658bfd0576198a {
+            size: 38,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (38 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
+              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
+              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            relocations: [],
+        },
+        alloc_6a4aca30ee476617deeefd98a846886f {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0010  14 00 00 00 05 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354569,
+                },
+            ],
+        },
+        alloc_35324de8d7157558a0658bfd0576198a {
+            size: 38,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (38 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
+              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
+              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            relocations: [],
+        },
+        alloc_f8e78ac94dfd2bdc5b9ceb63edc99ad4 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0010  0f 00 00 00 05 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354571,
+                },
+            ],
+        },
+        alloc_35324de8d7157558a0658bfd0576198a {
+            size: 38,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (38 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
+              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
+              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            relocations: [],
+        },
+    ],
+    global_ptrs: [],
+}

@@ -226,6 +226,8 @@ namespace tpde_rust {
     }
 
     bool compile_int_binary_op(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_overflowable(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_overflow(Instruction&, Instruction&);
     bool compile_ret(RustAdaptor::IRInstRef, const ValInfo &, u64);
     bool compile_br(RustAdaptor::IRInstRef, const ValInfo &, u64);
     bool compile_gep(RustAdaptor::IRInstRef, const ValInfo &, u64);
@@ -292,9 +294,9 @@ namespace tpde_rust {
         res[static_cast<std::size_t>(kind)] = {fn, val};
       };
 
-      set_fn(InstructionKind::Add, &Derived::compile_int_binary_op, IntBinaryOp::add);
-      set_fn(InstructionKind::Sub, &Derived::compile_int_binary_op, IntBinaryOp::sub);
-      set_fn(InstructionKind::Mul, &Derived::compile_int_binary_op, IntBinaryOp::mul);
+      set_fn(InstructionKind::Add, &Derived::compile_overflowable, IntBinaryOp::add);
+      set_fn(InstructionKind::Sub, &Derived::compile_overflowable, IntBinaryOp::sub);
+      set_fn(InstructionKind::Mul, &Derived::compile_overflowable, IntBinaryOp::mul);
       set_fn(InstructionKind::Div, &Derived::compile_int_binary_op, IntBinaryOp::sdiv);
       set_fn(InstructionKind::And, &Derived::compile_int_binary_op, IntBinaryOp::land);
       set_fn(InstructionKind::Or, &Derived::compile_int_binary_op, IntBinaryOp::lor);
@@ -514,6 +516,129 @@ namespace tpde_rust {
       //   this->derived()->insert_element(res, elem_idx, elem_ty, std::move(e_res));
       // }
     }
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_overflowable(RustAdaptor::IRInstRef instr, const ValInfo &info, u64 op) {
+    auto instr_size = this->adaptor->get_basic_block(instr.block).instructions.size();
+    if (instr_size > instr.inst) {
+      Instruction &pot_overflow = this->adaptor->get_instruction(instr.next());
+      if (pot_overflow.kind == InstructionKind::OverflowCheck) {
+        Instruction &inst = this->adaptor->get_instruction(instr);
+        if (!compile_overflow(inst, pot_overflow)) {
+          return false;
+        }
+
+        if (instr_size > instr.next().inst) {
+          Instruction &pot_condbr = this->adaptor->get_instruction(instr.next().next());
+          if (pot_condbr.kind == InstructionKind::CondBr && pot_overflow.result == pot_condbr.ops[0]) {
+            assert(this->analyzer.liveness_info(this->adaptor->val_local_idx(pot_overflow.result)).ref_count == 2);
+            // We can drop the register used for the overflow check
+            this->val_ref(pot_overflow.result).reset();
+
+            bool is_signed = operands::content(pot_overflow.ops[0]);
+            return this->derived()->compile_overflow_jump(pot_condbr, inst.kind, is_signed);
+          }
+        }
+        return true;
+      }
+    }
+
+    return this->compile_int_binary_op(instr, info, op);
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_overflow(Instruction& op_instr, Instruction& of_instr) {
+    ValueRef lhs = this->val_ref(op_instr.ops[0]);
+    ValueRef rhs = this->val_ref(op_instr.ops[1]);
+    ValueRef res = this->result_ref(op_instr.result);
+    ValueRef of_res = this->result_ref(of_instr.result);
+
+    OverflowOp op;
+    bool is_signed = operands::content(of_instr.ops[0]);
+    switch (op_instr.kind) {
+      case InstructionKind::Add:
+        op = is_signed ? OverflowOp::sadd : OverflowOp::uadd;
+        break;
+      case InstructionKind::Sub:
+        op = is_signed ? OverflowOp::ssub : OverflowOp::usub;
+        break;
+      case InstructionKind::Mul:
+        op = is_signed ? OverflowOp::smul : OverflowOp::umul;
+        break;
+      default:
+        assert(false && "Only support integer types");
+    }
+
+    const Type ty = this->adaptor->type_of_ref(op_instr.ops[0]);
+    switch (ty) {
+      case Type::i8:
+      case Type::i16:
+      case Type::i32:
+      case Type::i64:
+      case Type::i128:
+        break;
+      default:
+        assert(false && "Only support integer types");
+    }
+    const auto width = size_of_type(ty);
+
+    if (width == 16) {
+      if (!this->derived()->handle_overflow_intrin_128(op,
+                                                 lhs.part(0),
+                                                 lhs.part(1),
+                                                 rhs.part(0),
+                                                 rhs.part(1),
+                                                 res.part(0),
+                                                 res.part(1),
+                                                 of_res.part(0))) {
+        return false;
+      }
+      return true;
+    }
+
+    u32 width_idx = 0;
+    switch (width) {
+    case 1: width_idx = 0; break;
+    case 2: width_idx = 1; break;
+    case 4: width_idx = 2; break;
+    case 8: width_idx = 3; break;
+    default: return false;
+    }
+
+    using EncodeFnTy = bool (Derived::*)(
+        GenericValuePart &&, GenericValuePart &&, ValuePart &&, ValuePart &&);
+    std::array<std::array<EncodeFnTy, 4>, 6> encode_fns = {
+        {
+            {&Derived::encode_of_add_u8,
+             &Derived::encode_of_add_u16,
+             &Derived::encode_of_add_u32,
+             &Derived::encode_of_add_u64},
+            {&Derived::encode_of_add_i8,
+             &Derived::encode_of_add_i16,
+             &Derived::encode_of_add_i32,
+             &Derived::encode_of_add_i64},
+            {&Derived::encode_of_sub_u8,
+             &Derived::encode_of_sub_u16,
+             &Derived::encode_of_sub_u32,
+             &Derived::encode_of_sub_u64},
+            {&Derived::encode_of_sub_i8,
+             &Derived::encode_of_sub_i16,
+             &Derived::encode_of_sub_i32,
+             &Derived::encode_of_sub_i64},
+            {&Derived::encode_of_mul_u8,
+             &Derived::encode_of_mul_u16,
+             &Derived::encode_of_mul_u32,
+             &Derived::encode_of_mul_u64},
+            {&Derived::encode_of_mul_i8,
+             &Derived::encode_of_mul_i16,
+             &Derived::encode_of_mul_i32,
+             &Derived::encode_of_mul_i64},
+        }};
+
+    EncodeFnTy encode_fn = encode_fns[static_cast<u32>(op)][width_idx];
+    (this->derived()->*encode_fn)(lhs.part(0), rhs.part(0), res.part(0), of_res.part(0));
     return true;
   }
 
@@ -869,8 +994,8 @@ namespace tpde_rust {
     IRValueRef src_ref = operands::content(casti.ops[0]);
     IRValueRef res_ref = operands::content(casti.result);
 
-    const Type src_ty = this->adaptor->cur_func->slots[src_ref].ty;
-    const Type res_ty = this->adaptor->cur_func->slots[res_ref].ty;
+    const Type src_ty = this->adaptor->type_of_ref(src_ref);
+    const Type res_ty = this->adaptor->type_of_ref(res_ref);
     assert(size_of_type(src_ty) == size_of_type(res_ty));
 
     ValueRef src = this->val_ref(src_ref);
@@ -886,7 +1011,7 @@ namespace tpde_rust {
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_ext(RustAdaptor::IRInstRef instr, const ValInfo &, u64 sign) {
     Instruction &exti = this->adaptor->get_instruction(instr);
-    const Type dst_ty = this->adaptor->cur_func->slots[exti.result].ty;
+    const Type dst_ty = this->adaptor->type_of_ref(exti.result);
 
     switch (dst_ty) {
       case Type::i8:
@@ -900,7 +1025,7 @@ namespace tpde_rust {
     }
 
     auto src_val = exti.ops[0];
-    const Type src_ty = this->adaptor->cur_func->slots[src_val].ty;
+    const Type src_ty = this->adaptor->type_of_ref(src_val);
 
     unsigned src_width = size_of_type(src_ty);
     unsigned dst_width = size_of_type(dst_ty);

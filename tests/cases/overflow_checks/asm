@@ -1,0 +1,137 @@
+In archive tests/cases/overflow_checks/actual_obj:
+
+lib.rmeta:     file format elf64-x86-64
+
+
+lib.rmeta-link:     file format elf64-x86-64
+
+
+actual_obj.source.a5d34ad7a00a7042-cgu.0.rcgu.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <addi>:
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	53                   	push   %rbx
+   5:	48 83 ec 28          	sub    $0x28,%rsp
+   9:	31 c0                	xor    %eax,%eax
+   b:	89 fb                	mov    %edi,%ebx
+   d:	01 f3                	add    %esi,%ebx
+   f:	0f 90 c0             	seto   %al
+  12:	0f 80 07 00 00 00    	jo     1f <addi+0x1f>
+  18:	89 d8                	mov    %ebx,%eax
+  1a:	e9 0c 00 00 00       	jmp    2b <addi+0x2b>
+  1f:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 1e <addi+0x1e>
+  26:	e8 00 00 00 00       	call   2b <addi+0x2b>
+  2b:	48 83 c4 28          	add    $0x28,%rsp
+  2f:	5b                   	pop    %rbx
+  30:	5d                   	pop    %rbp
+  31:	c3                   	ret
+  32:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  39:	00 00 
+  3b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+0000000000000040 <addu>:
+  40:	55                   	push   %rbp
+  41:	48 89 e5             	mov    %rsp,%rbp
+  44:	53                   	push   %rbx
+  45:	48 83 ec 28          	sub    $0x28,%rsp
+  49:	8d 1c 37             	lea    (%rdi,%rsi,1),%ebx
+  4c:	39 fb                	cmp    %edi,%ebx
+  4e:	0f 82 07 00 00 00    	jb     5b <addu+0x1b>
+  54:	89 d8                	mov    %ebx,%eax
+  56:	e9 0c 00 00 00       	jmp    67 <addu+0x27>
+  5b:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 5a <addu+0x1a>
+  62:	e8 00 00 00 00       	call   67 <addu+0x27>
+  67:	48 83 c4 28          	add    $0x28,%rsp
+  6b:	5b                   	pop    %rbx
+  6c:	5d                   	pop    %rbp
+  6d:	c3                   	ret
+  6e:	66 90                	xchg   %ax,%ax
+
+0000000000000070 <muli>:
+  70:	55                   	push   %rbp
+  71:	48 89 e5             	mov    %rsp,%rbp
+  74:	53                   	push   %rbx
+  75:	48 83 ec 28          	sub    $0x28,%rsp
+  79:	31 c0                	xor    %eax,%eax
+  7b:	89 fb                	mov    %edi,%ebx
+  7d:	0f af de             	imul   %esi,%ebx
+  80:	0f 90 c0             	seto   %al
+  83:	0f 80 07 00 00 00    	jo     90 <muli+0x20>
+  89:	89 d8                	mov    %ebx,%eax
+  8b:	e9 0c 00 00 00       	jmp    9c <muli+0x2c>
+  90:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 8f <muli+0x1f>
+  97:	e8 00 00 00 00       	call   9c <muli+0x2c>
+  9c:	48 83 c4 28          	add    $0x28,%rsp
+  a0:	5b                   	pop    %rbx
+  a1:	5d                   	pop    %rbp
+  a2:	c3                   	ret
+  a3:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  aa:	00 00 
+  ac:	0f 1f 40 00          	nopl   0x0(%rax)
+
+00000000000000b0 <mulu>:
+  b0:	55                   	push   %rbp
+  b1:	48 89 e5             	mov    %rsp,%rbp
+  b4:	53                   	push   %rbx
+  b5:	48 83 ec 28          	sub    $0x28,%rsp
+  b9:	31 c9                	xor    %ecx,%ecx
+  bb:	89 f8                	mov    %edi,%eax
+  bd:	f7 e6                	mul    %esi
+  bf:	0f 90 c1             	seto   %cl
+  c2:	89 c3                	mov    %eax,%ebx
+  c4:	0f 80 07 00 00 00    	jo     d1 <mulu+0x21>
+  ca:	89 d8                	mov    %ebx,%eax
+  cc:	e9 0c 00 00 00       	jmp    dd <mulu+0x2d>
+  d1:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # d0 <mulu+0x20>
+  d8:	e8 00 00 00 00       	call   dd <mulu+0x2d>
+  dd:	48 83 c4 28          	add    $0x28,%rsp
+  e1:	5b                   	pop    %rbx
+  e2:	5d                   	pop    %rbp
+  e3:	c3                   	ret
+  e4:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+  eb:	00 00 
+  ed:	0f 1f 00             	nopl   (%rax)
+
+00000000000000f0 <subi>:
+  f0:	55                   	push   %rbp
+  f1:	48 89 e5             	mov    %rsp,%rbp
+  f4:	53                   	push   %rbx
+  f5:	48 83 ec 28          	sub    $0x28,%rsp
+  f9:	31 c0                	xor    %eax,%eax
+  fb:	89 fb                	mov    %edi,%ebx
+  fd:	29 f3                	sub    %esi,%ebx
+  ff:	0f 90 c0             	seto   %al
+ 102:	0f 80 07 00 00 00    	jo     10f <subi+0x1f>
+ 108:	89 d8                	mov    %ebx,%eax
+ 10a:	e9 0c 00 00 00       	jmp    11b <subi+0x2b>
+ 10f:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 10e <subi+0x1e>
+ 116:	e8 00 00 00 00       	call   11b <subi+0x2b>
+ 11b:	48 83 c4 28          	add    $0x28,%rsp
+ 11f:	5b                   	pop    %rbx
+ 120:	5d                   	pop    %rbp
+ 121:	c3                   	ret
+ 122:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+ 129:	00 00 
+ 12b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+0000000000000130 <subu>:
+ 130:	55                   	push   %rbp
+ 131:	48 89 e5             	mov    %rsp,%rbp
+ 134:	53                   	push   %rbx
+ 135:	48 83 ec 28          	sub    $0x28,%rsp
+ 139:	89 fb                	mov    %edi,%ebx
+ 13b:	29 f3                	sub    %esi,%ebx
+ 13d:	39 f7                	cmp    %esi,%edi
+ 13f:	0f 82 07 00 00 00    	jb     14c <subu+0x1c>
+ 145:	89 d8                	mov    %ebx,%eax
+ 147:	e9 0c 00 00 00       	jmp    158 <subu+0x28>
+ 14c:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 14b <subu+0x1b>
+ 153:	e8 00 00 00 00       	call   158 <subu+0x28>
+ 158:	48 83 c4 28          	add    $0x28,%rsp
+ 15c:	5b                   	pop    %rbx
+ 15d:	5d                   	pop    %rbp
+ 15e:	c3                   	ret

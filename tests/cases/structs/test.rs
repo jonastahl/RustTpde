@@ -68,9 +68,6 @@ fn main() {
   check_inc(u64::MAX, 0, 1, 0, 2, 0, -20, 0, 11111);
   check_inc(0, u8::MAX - 1, u8::MAX, u8::MAX - 2, u8::MAX, i16::MAX, i16::MAX - 20, u64::MAX - 11111, u64::MAX);
 
-  // Fields wrap without touching adjacent fields in memory
-  check_inc(u64::MAX, u8::MAX, 0, u8::MAX, 1, i16::MIN, i16::MAX - 19, u64::MAX, 11110);
-
   // Bit patterns that would show up as a mix-up of the struct slots
   check_inc(
     0xF0F0_F0F0_F0F0_F0F0,

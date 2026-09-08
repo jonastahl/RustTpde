@@ -91,11 +91,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn append_sibling_block(&mut self, name: &str) -> Self::BasicBlock {
-        todo!()
+        Self::append_block(self.cx, self.basic_block.function(), name)
     }
 
     fn switch_to_block(&mut self, llbb: Self::BasicBlock) {
-        todo!()
+        self.basic_block = llbb;
     }
 
     fn ret_void(&mut self) {
@@ -149,7 +149,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn unreachable(&mut self) {
-        todo!()
+        self.module.borrow_mut().add_instruction(self.basic_block, InstructionKind::Unreachable, vec![]);
     }
 
     fn add(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
@@ -193,7 +193,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn mul(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_first(
+            self.basic_block,
+            InstructionKind::Mul,
+            vec![lhs, rhs],
+        )
     }
 
     fn fmul(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
@@ -311,7 +315,40 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         lhs: Self::Value,
         rhs: Self::Value,
     ) -> (Self::Value, Self::Value) {
-        todo!()
+        let (size, signed) = ty.int_size_and_signed(self.tcx);
+        let width = size.bits();
+
+        let res = match oop {
+            OverflowOp::Sub => {
+                self.sub(lhs, rhs)
+            }
+            OverflowOp::Add => {
+                self.add(lhs, rhs)
+            }
+            OverflowOp::Mul => {
+                self.mul(lhs, rhs)
+            }
+        };
+
+        if !signed {
+            match oop {
+                OverflowOp::Sub => {
+                    let cmp = self.icmp(IntPredicate::IntULT, lhs, rhs);
+                    return (res, cmp);
+                }
+                OverflowOp::Add => {
+                    let cmp = self.icmp(IntPredicate::IntULT, res, lhs);
+                    return (res, cmp);
+                }
+                OverflowOp::Mul => {}
+            }
+        }
+        let of = self.module.borrow_mut()
+            .add_instruction_ret(self.basic_block,
+                                 InstructionKind::OverflowCheck,
+                                 vec![Slot::Raw(if signed { 1 } else { 0})],
+                                 Type::Bool);
+        (res, of)
     }
 
     fn from_immediate(&mut self, val: Self::Value) -> Self::Value {

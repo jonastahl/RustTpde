@@ -97,6 +97,8 @@ mod ffi {
         CMPult,
         CMPule,
 
+        OverflowCheck,
+
         // Storage operations
         Alloca,
         Store,
@@ -111,13 +113,13 @@ mod ffi {
 
         // Calls
         Call,
+        AddRet, // Pair return type, represents additional argument after call
 
         // Casts
         Cast,
         Zext,
 
-        // Pair return type
-        AddRet,
+        Unreachable,
 
         Last,
     }

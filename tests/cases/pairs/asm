@@ -58,7 +58,22 @@ Disassembly of section .text:
   9a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
 
 00000000000000a0 <increase_age>:
-  a0:	8d 76 01             	lea    0x1(%rsi),%esi
-  a3:	48 89 f8             	mov    %rdi,%rax
-  a6:	89 f2                	mov    %esi,%edx
-  a8:	c3                   	ret
+  a0:	55                   	push   %rbp
+  a1:	48 89 e5             	mov    %rsp,%rbp
+  a4:	53                   	push   %rbx
+  a5:	41 54                	push   %r12
+  a7:	48 83 ec 20          	sub    $0x20,%rsp
+  ab:	48 89 fb             	mov    %rdi,%rbx
+  ae:	44 8d 66 01          	lea    0x1(%rsi),%r12d
+  b2:	41 38 f4             	cmp    %sil,%r12b
+  b5:	0f 82 0b 00 00 00    	jb     c6 <increase_age+0x26>
+  bb:	48 89 d8             	mov    %rbx,%rax
+  be:	44 89 e2             	mov    %r12d,%edx
+  c1:	e9 0c 00 00 00       	jmp    d2 <increase_age+0x32>
+  c6:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # c5 <increase_age+0x25>
+  cd:	e8 00 00 00 00       	call   d2 <increase_age+0x32>
+  d2:	48 83 c4 20          	add    $0x20,%rsp
+  d6:	41 5c                	pop    %r12
+  d8:	5b                   	pop    %rbx
+  d9:	5d                   	pop    %rbp
+  da:	c3                   	ret
