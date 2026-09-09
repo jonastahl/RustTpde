@@ -61,23 +61,24 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn type_isize(&self) -> Self::Type {
-        todo!()
+        // TODO so far only support x64 backends
+        self.type_i64()
     }
 
     fn type_f16(&self) -> Self::Type {
-        todo!()
+        FullType::Single(Type::f16)
     }
 
     fn type_f32(&self) -> Self::Type {
-        todo!()
+        FullType::Single(Type::f32)
     }
 
     fn type_f64(&self) -> Self::Type {
-        todo!()
+        FullType::Single(Type::f64)
     }
 
     fn type_f128(&self) -> Self::Type {
-        todo!()
+        FullType::Single(Type::f128)
     }
 
     fn type_array(&self, ty: Self::Type, len: u64) -> Self::Type {
@@ -92,7 +93,8 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
         match ty {
             FullType::Single(ty) => match ty {
                 Type::Void => TypeKind::Void,
-                Type::Bool | Type::i8 |  Type::i16 | Type::i32 | Type::i64 => TypeKind::Integer,
+                Type::Bool | Type::i8 |  Type::i16 | Type::i32 | Type::i64 | Type::i128 => TypeKind::Integer,
+                Type::f16 | Type::f32 | Type::f64 | Type::f128 => TypeKind::Float,
                 Type::ptr => TypeKind::Pointer,
                 _ => todo!()
             },
@@ -118,7 +120,17 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn float_width(&self, ty: Self::Type) -> usize {
-        todo!()
+        match ty {
+            FullType::Single(ty) =>
+                match ty {
+                    Type::f16 => 2,
+                    Type::f32 => 4,
+                    Type::f64 => 8,
+                    Type::f128 => 16,
+                    _ => todo!()
+                }
+            _ => todo!()
+        }
     }
 
     fn int_width(&self, ty: Self::Type) -> u64 {
@@ -129,6 +141,7 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
                     Type::i16 => 2,
                     Type::i32 => 4,
                     Type::i64 => 8,
+                    Type::i128 => 16,
                     _ => todo!()
                 }
             _ => todo!()

@@ -31,6 +31,9 @@ mod ffi {
 
         flags: Flags,
 
+        has_personality: bool,
+        personality: u32,
+
         allocas: Vec<Alloca>,
         basic_blocks: Vec<BasicBlock>,
     }
@@ -70,22 +73,39 @@ mod ffi {
         i32,
         i64,
         i128,
+        f16,
+        f32,
+        f64,
+        f128,
         ptr
     }
 
     #[derive(Debug)]
     pub enum InstructionKind {
+        // Bitwise
+        And,
+        Or,
+        Xor,
+        Shl,
+        lShr,
+        aShr,
+        Not,
+
         // Math
         Add,
         Sub,
         Mul,
         Div,
+        Rem,
+        Neg,
+        fAdd,
+        fSub,
+        fMul,
+        fDiv,
+        fRem,
+        fNeg,
 
-        // Bitwise
-        And,
-        Or,
-        Shl,
-
+        // Comparators
         CMPeq,
         CMPne,
         CMPsgt,
@@ -96,6 +116,21 @@ mod ffi {
         CMPuge,
         CMPult,
         CMPule,
+        RealOEQ,
+        RealOGT,
+        RealOGE,
+        RealOLT,
+        RealOLE,
+        RealONE,
+        RealORD,
+        RealUNO,
+        RealUEQ,
+        RealUGT,
+        RealUGE,
+        RealULT,
+        RealULE,
+        RealUNE,
+
 
         OverflowCheck,
 
@@ -116,10 +151,22 @@ mod ffi {
         AddRet, // Pair return type, represents additional argument after call
 
         // Casts
+        zExt,
+        sExt,
+        Trunc,
+        fExt,
+        fTrunc,
+        sTof,
+        uTof,
+        fTos,
+        fTou,
+        fTos_sat,
+        fTou_sat,
+
         Cast,
-        Zext,
 
         Unreachable,
+        Abort,
 
         Last,
     }

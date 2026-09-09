@@ -30,7 +30,7 @@ impl<'tcx> PreDefineCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
         visibility: Visibility,
         symbol_name: &str,
     ) {
-        self.declare_fn(instance, linkage, visibility, Binding::Definition, symbol_name);
+        self.declare_fn(instance, symbol_name, linkage, visibility, Binding::Definition);
     }
 }
 
@@ -38,10 +38,10 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
     pub fn declare_fn(
         &self,
         instance: Instance<'tcx>,
+        symbol_name: &str,
         linkage: Linkage,
         visibility: Visibility,
         binding: Binding,
-        symbol_name: &str,
     ) -> Function {
         let fn_abi: &FnAbi<'tcx, Ty<'tcx>> = self.fn_abi_of_instance(instance, ty::List::empty());
 

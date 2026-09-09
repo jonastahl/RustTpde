@@ -54,7 +54,9 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
 }
 
 impl<'tcx> MiscCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
-    fn vtables(&self) -> &RefCell<FxHashMap<(Ty<'tcx>, Option<ExistentialTraitRef<'tcx>>), Self::Value>> {
+    fn vtables(
+        &self,
+    ) -> &RefCell<FxHashMap<(Ty<'tcx>, Option<ExistentialTraitRef<'tcx>>), Self::Value>> {
         todo!()
     }
 
@@ -66,19 +68,39 @@ impl<'tcx> MiscCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
         let name = self.tcx.symbol_name(instance).name;
         self.declare_fn(
             instance,
+            name,
             Linkage::External,
             Visibility::Hidden, // TODO find exact visibility
             Binding::Declaration,
-            name,
         )
     }
 
-    fn get_fn_addr(&self, instance: Instance<'tcx>, pointer_auth_schema: Option<&PointerAuthSchema>) -> Self::Value {
+    fn get_fn_addr(
+        &self,
+        instance: Instance<'tcx>,
+        pointer_auth_schema: Option<&PointerAuthSchema>,
+    ) -> Self::Value {
         Slot::new_func(self.get_fn(instance))
     }
 
     fn eh_personality(&self) -> Self::Function {
-        todo!()
+        let def_id = match self.tcx.lang_items().eh_personality() {
+            Some(id) => id,
+            None => {
+                panic!("eh_personality is required but not defined in lang_items");
+            }
+        };
+
+        let instance = Instance::mono(self.tcx, def_id);
+        let name = self.tcx.symbol_name(instance).name;
+
+        self.declare_fn(
+            instance,
+            name,
+            Linkage::External,
+            Visibility::Hidden,
+            Binding::Declaration,
+        )
     }
 
     fn sess(&self) -> &Session {

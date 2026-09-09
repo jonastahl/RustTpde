@@ -12,7 +12,7 @@ use rustc_codegen_ssa::common::{
 };
 use rustc_codegen_ssa::mir::operand::{OperandRef, OperandValue};
 use rustc_codegen_ssa::mir::place::PlaceRef;
-use rustc_codegen_ssa::traits::{BackendTypes, BuilderMethods, OverflowOp};
+use rustc_codegen_ssa::traits::{BackendTypes, BuilderMethods, ConstCodegenMethods, OverflowOp};
 use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrs;
 use rustc_middle::ty::layout::TyAndLayout;
 use rustc_middle::ty::{AtomicOrdering, Instance, Ty};
@@ -161,15 +161,19 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn fadd(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_first(
+            self.basic_block,
+            InstructionKind::fAdd,
+            vec![lhs, rhs],
+        )
     }
 
     fn fadd_fast(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.fadd(lhs, rhs)
     }
 
     fn fadd_algebraic(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.fadd(lhs, rhs)
     }
 
     fn sub(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
@@ -181,15 +185,19 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn fsub(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_first(
+            self.basic_block,
+            InstructionKind::fSub,
+            vec![lhs, rhs],
+        )
     }
 
     fn fsub_fast(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.fsub(lhs, rhs)
     }
 
     fn fsub_algebraic(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.fsub(lhs, rhs)
     }
 
     fn mul(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
@@ -201,63 +209,97 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn fmul(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_first(
+            self.basic_block,
+            InstructionKind::fMul,
+            vec![lhs, rhs],
+        )
     }
 
     fn fmul_fast(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.fmul(lhs, rhs)
     }
 
     fn fmul_algebraic(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.fmul(lhs, rhs)
     }
 
     fn udiv(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_x(
+            self.basic_block,
+            InstructionKind::Div,
+            vec![Slot::new_raw(0), lhs, rhs],
+            1
+        )
     }
 
     fn exactudiv(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.udiv(lhs, rhs)
     }
 
     fn sdiv(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_x(
+            self.basic_block,
+            InstructionKind::Div,
+            vec![Slot::new_raw(1), lhs, rhs],
+            1
+        )
     }
 
     fn exactsdiv(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.sdiv(lhs, rhs)
     }
 
     fn fdiv(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_x(
+            self.basic_block,
+            InstructionKind::fDiv,
+            vec![lhs, rhs],
+            1
+        )
     }
 
     fn fdiv_fast(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.fdiv(lhs, rhs)
     }
 
     fn fdiv_algebraic(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.fdiv(lhs, rhs)
     }
 
     fn urem(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_x(
+            self.basic_block,
+            InstructionKind::Rem,
+            vec![Slot::new_raw(0), lhs, rhs],
+            1
+        )
     }
 
     fn srem(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_x(
+            self.basic_block,
+            InstructionKind::Rem,
+            vec![Slot::new_raw(1), lhs, rhs],
+            1
+        )
     }
 
     fn frem(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_x(
+            self.basic_block,
+            InstructionKind::fRem,
+            vec![lhs, rhs],
+            1
+        )
     }
 
     fn frem_fast(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.frem(lhs, rhs)
     }
 
     fn frem_algebraic(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.frem(lhs, rhs)
     }
 
     fn shl(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
@@ -269,11 +311,21 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn lshr(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_x(
+            self.basic_block,
+            InstructionKind::lShr,
+            vec![lhs, rhs],
+            1
+        )
     }
 
     fn ashr(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_x(
+            self.basic_block,
+            InstructionKind::aShr,
+            vec![lhs, rhs],
+            1
+        )
     }
 
     fn and(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
@@ -293,19 +345,35 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn xor(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_first(
+            self.basic_block,
+            InstructionKind::Xor,
+            vec![lhs, rhs],
+        )
     }
 
     fn neg(&mut self, v: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_first(
+            self.basic_block,
+            InstructionKind::Neg,
+            vec![v],
+        )
     }
 
     fn fneg(&mut self, v: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_first(
+            self.basic_block,
+            InstructionKind::fNeg,
+            vec![v],
+        )
     }
 
     fn not(&mut self, v: Self::Value) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_first(
+            self.basic_block,
+            InstructionKind::Not,
+            vec![v],
+        )
     }
 
     fn checked_binop(
@@ -571,63 +639,59 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn trunc(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.unop(InstructionKind::Trunc, val, dest_ty)
+    }
+
+    fn zext(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
+        self.unop(InstructionKind::sExt, val, dest_ty)
     }
 
     fn sext(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.unop(InstructionKind::sExt, val, dest_ty)
     }
 
     fn fptoui_sat(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.unop(InstructionKind::fTou_sat, val, dest_ty)
     }
 
     fn fptosi_sat(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.unop(InstructionKind::fTos_sat, val, dest_ty)
     }
 
     fn fptoui(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.unop(InstructionKind::fTou, val, dest_ty)
     }
 
     fn fptosi(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.unop(InstructionKind::fTos, val, dest_ty)
     }
 
     fn uitofp(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.unop(InstructionKind::uTof, val, dest_ty)
     }
 
     fn sitofp(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.unop(InstructionKind::sTof, val, dest_ty)
     }
 
     fn fptrunc(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.unop(InstructionKind::fTrunc, val, dest_ty)
     }
 
     fn fpext(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.unop(InstructionKind::fExt, val, dest_ty)
     }
 
     fn ptrtoint(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.bitcast(val, dest_ty)
     }
 
     fn inttoptr(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        let FullType::Single(dest_ty) = dest_ty else {
-            todo!()
-        };
-        self.module.borrow_mut().add_instruction_ret(
-            self.basic_block,
-            InstructionKind::Cast,
-            vec![val],
-            dest_ty,
-        )
+        self.bitcast(val, dest_ty)
     }
 
     fn bitcast(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        todo!()
+        self.unop(InstructionKind::Cast, val, dest_ty)
     }
 
     fn intcast(&mut self, val: Self::Value, dest_ty: Self::Type, is_signed: bool) -> Self::Value {
@@ -635,15 +699,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn pointercast(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
-        let FullType::Single(dest_ty) = dest_ty else {
-            todo!()
-        };
-        self.module.borrow_mut().add_instruction_ret(
-            self.basic_block,
-            InstructionKind::Cast,
-            vec![val],
-            dest_ty,
-        )
+        self.bitcast(val, dest_ty)
     }
 
     fn icmp(&mut self, op: IntPredicate, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
@@ -669,7 +725,31 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn fcmp(&mut self, op: RealPredicate, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        todo!()
+        let instr = match op {
+            RealPredicate::RealPredicateFalse => return self.const_bool(false),
+            RealPredicate::RealOEQ => InstructionKind::RealOEQ,
+            RealPredicate::RealOGT => InstructionKind::RealOGT,
+            RealPredicate::RealOGE => InstructionKind::RealOGE,
+            RealPredicate::RealOLT => InstructionKind::RealOLT,
+            RealPredicate::RealOLE => InstructionKind::RealOLE,
+            RealPredicate::RealONE => InstructionKind::RealONE,
+            RealPredicate::RealORD => InstructionKind::RealORD,
+            RealPredicate::RealUNO => InstructionKind::RealUNO,
+            RealPredicate::RealUEQ => InstructionKind::RealUEQ,
+            RealPredicate::RealUGT => InstructionKind::RealUGT,
+            RealPredicate::RealUGE => InstructionKind::RealUGE,
+            RealPredicate::RealULT => InstructionKind::RealULT,
+            RealPredicate::RealULE => InstructionKind::RealULE,
+            RealPredicate::RealUNE => InstructionKind::RealUNE,
+            RealPredicate::RealPredicateTrue => return self.const_bool(true),
+        };
+
+        self.module.borrow_mut().add_instruction_ret(
+            self.basic_block,
+            instr,
+            vec![lhs, rhs],
+            Type::Bool,
+        )
     }
 
     fn memcpy(
@@ -766,15 +846,21 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn set_personality_fn(&mut self, personality: Self::Function) {
-        todo!()
+        self.module.borrow_mut().add_personality(self.basic_block.function(), personality);
     }
 
     fn cleanup_landing_pad(&mut self, pers_fn: Self::Function) -> (Self::Value, Self::Value) {
+        // self.abort();
+        //
+        // let dummy_ptr = self.const_u32(0);
+        // let dummy_i32 = self.const_i32(0);
+        // (dummy_ptr, dummy_i32)
         todo!()
     }
 
     fn filter_landing_pad(&mut self, pers_fn: Self::Function) {
         todo!()
+        // self.abort();
     }
 
     fn resume(&mut self, exn0: Self::Value, exn1: Self::Value) {
@@ -876,19 +962,21 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         todo!()
     }
 
-    fn zext(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
+    fn apply_attrs_to_cleanup_callsite(&mut self, llret: Self::Value) {
+        todo!()
+    }
+}
+
+impl<'a, 'tpde, 'tcx> Builder<'a, 'tpde, 'tcx> {
+    fn unop(&self, instr: InstructionKind, val: Slot, dest_ty: FullType) -> Slot {
         let FullType::Single(dest_ty) = dest_ty else {
             todo!()
         };
         self.module.borrow_mut().add_instruction_ret(
             self.basic_block,
-            InstructionKind::Zext,
+            instr,
             vec![val],
             dest_ty,
         )
-    }
-
-    fn apply_attrs_to_cleanup_callsite(&mut self, llret: Self::Value) {
-        todo!()
     }
 }

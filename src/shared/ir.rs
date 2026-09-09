@@ -110,12 +110,19 @@ impl Module {
             name: name.to_string(),
             n_args: fn_sign.args.len(),
             has_ret: fn_sign.ret.is_some(),
+            has_personality: false,
+            personality: 0,
             slots: fn_sign.args.iter().map(|ty| ffi::Slot { ty: *ty }).collect(),
             flags: Self::create_flags(linkage, ty),
             allocas: vec![],
             basic_blocks: vec![],
         });
         Function(self.tpde.functions.len() - 1)
+    }
+
+    pub fn add_personality(&mut self, func: Function, personality: Function) {
+        self.tpde.functions[func.0].has_personality = true;
+        self.tpde.functions[func.0].personality = personality.0 as u32;
     }
 
     pub fn add_global(
@@ -324,16 +331,17 @@ impl Module {
     }
 
     #[inline]
-    pub fn add_instruction_ret_first(
+    pub fn add_instruction_ret_x(
         &mut self,
         bb: BasicBlock,
         instr: InstructionKind,
         ops: Vec<Slot>,
+        ret: usize
     ) -> Slot {
         assert!(ops.len() >= 1);
 
         let func = self.get_function_mut(&bb.function());
-        let op = *ops.get(0).unwrap();
+        let op = *ops.get(ret).unwrap();
 
         // create new slot with type of first arg
         let ret = match op {
@@ -347,6 +355,16 @@ impl Module {
             _ => panic!("First operand of return instruction must be a value slot"),
         };
         self.add_instruction_raw_internal(bb, instr, ops.as_slice(), Some(FullType::Single(ret))).unwrap()
+    }
+
+    #[inline]
+    pub fn add_instruction_ret_first(
+        &mut self,
+        bb: BasicBlock,
+        instr: InstructionKind,
+        ops: Vec<Slot>,
+    ) -> Slot {
+        self.add_instruction_ret_x(bb, instr, ops, 0)
     }
 
     #[inline]

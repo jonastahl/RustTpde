@@ -321,7 +321,7 @@ namespace tpde_rust {
       set_fn(InstructionKind::Br, &Derived::compile_br);
 
       set_fn(InstructionKind::Cast, &Derived::compile_cast);
-      set_fn(InstructionKind::Zext, &Derived::compile_int_ext, /*sign=*/false);
+      set_fn(InstructionKind::zExt, &Derived::compile_int_ext, /*sign=*/false);
 
       return res;
     }();
