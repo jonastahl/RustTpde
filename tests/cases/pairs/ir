@@ -18,6 +18,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [
                 size: 16, align: 8,
             ],
@@ -62,6 +64,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [
                 size: 16, align: 8,
             ],
@@ -101,6 +105,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -129,6 +135,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [],
         },

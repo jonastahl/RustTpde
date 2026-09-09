@@ -19,12 +19,14 @@ ModuleTpde {
                 only_local: true,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
                     <Cast> ([val: 0]) -> [val: 2],
                     <And> ([const: 0], [const: 1]) -> [val: 3],
-                    <Zext> ([val: 3]) -> [val: 4],
+                    <zExt> ([val: 3]) -> [val: 4],
                     <Shl> ([val: 1], [val: 4]) -> [val: 5],
                     <Or> ([val: 5], [const: 2]) -> [val: 6],
                     <Cast> ([val: 6]) -> [val: 7],
@@ -45,6 +47,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -68,6 +72,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [],
         },
