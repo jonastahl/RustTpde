@@ -227,7 +227,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     fn udiv(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
         self.module.borrow_mut().add_instruction_ret_x(
             self.basic_block,
-            InstructionKind::Div,
+            InstructionKind::uDiv,
             vec![Slot::new_raw(0), lhs, rhs],
             1
         )
@@ -240,7 +240,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     fn sdiv(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
         self.module.borrow_mut().add_instruction_ret_x(
             self.basic_block,
-            InstructionKind::Div,
+            InstructionKind::sDiv,
             vec![Slot::new_raw(1), lhs, rhs],
             1
         )
@@ -270,7 +270,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     fn urem(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
         self.module.borrow_mut().add_instruction_ret_x(
             self.basic_block,
-            InstructionKind::Rem,
+            InstructionKind::uRem,
             vec![Slot::new_raw(0), lhs, rhs],
             1
         )
@@ -279,7 +279,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     fn srem(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
         self.module.borrow_mut().add_instruction_ret_x(
             self.basic_block,
-            InstructionKind::Rem,
+            InstructionKind::sRem,
             vec![Slot::new_raw(1), lhs, rhs],
             1
         )

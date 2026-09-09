@@ -136,12 +136,9 @@ namespace tpde_rust {
     }
 
     void define_func_idx(IRFuncRef func, const u32 idx) {
-      // TODO we could save the numbering of functions here?
+      // As they are worked through in the same order as in the IR they should be equal
+      assert(func - this->adaptor->mod->functions.data() == idx);
     }
-
-    // TODO can we use default var ref handling?
-    // void setup_var_ref_assignments() {}
-    // void load_address_of_var_reference(AsmReg dst, tpde::AssignmentPartRef ap);
 
     struct IntBinaryOp {
     private:
@@ -293,10 +290,15 @@ namespace tpde_rust {
       set_fn(InstructionKind::Add, &Derived::compile_overflowable, IntBinaryOp::add);
       set_fn(InstructionKind::Sub, &Derived::compile_overflowable, IntBinaryOp::sub);
       set_fn(InstructionKind::Mul, &Derived::compile_overflowable, IntBinaryOp::mul);
-      set_fn(InstructionKind::Div, &Derived::compile_int_binary_op, IntBinaryOp::sdiv);
+      set_fn(InstructionKind::uDiv, &Derived::compile_int_binary_op, IntBinaryOp::udiv);
+      set_fn(InstructionKind::sDiv, &Derived::compile_int_binary_op, IntBinaryOp::sdiv);
+      set_fn(InstructionKind::uRem, &Derived::compile_int_binary_op, IntBinaryOp::urem);
+      set_fn(InstructionKind::sRem, &Derived::compile_int_binary_op, IntBinaryOp::srem);
       set_fn(InstructionKind::And, &Derived::compile_int_binary_op, IntBinaryOp::land);
       set_fn(InstructionKind::Or, &Derived::compile_int_binary_op, IntBinaryOp::lor);
       set_fn(InstructionKind::Shl, &Derived::compile_int_binary_op, IntBinaryOp::shl);
+      set_fn(InstructionKind::lShr, &Derived::compile_int_binary_op, IntBinaryOp::shr);
+      set_fn(InstructionKind::aShr, &Derived::compile_int_binary_op, IntBinaryOp::ashr);
 
       set_fn(InstructionKind::Ret, &Derived::compile_ret);
 
