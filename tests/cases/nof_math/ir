@@ -16,6 +16,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -51,6 +53,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -79,6 +83,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -101,6 +107,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -123,6 +131,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -145,11 +155,40 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
                     <Add> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "add_mul_u32",
+            n_args: 3,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 1], [val: 2]) -> [val: 3],
+                    <Add> ([val: 0], [val: 3]) -> [val: 4],
+                    <Ret> ([val: 4]),
                 ],
             ],
         },
@@ -169,6 +208,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -195,6 +236,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -219,6 +262,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -241,6 +286,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -263,6 +310,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -285,11 +334,2180 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
                     <Add> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "and_u16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "and_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "and_u64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "and_u8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "clear_low_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 1]) -> [val: 2],
+                    <Shl> ([const: 0], [val: 2]) -> [val: 3],
+                    <Sub> ([val: 3], [const: 2]) -> [val: 4],
+                    <Not> ([val: 4]) -> [val: 5],
+                    <And> ([val: 0], [val: 5]) -> [val: 6],
+                    <Ret> ([val: 6]),
+                ],
+            ],
+        },
+        Function {
+            name: "de_morgan_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 0], [val: 1]) -> [val: 2],
+                    <Not> ([val: 2]) -> [val: 3],
+                    <Not> ([val: 0]) -> [val: 4],
+                    <Not> ([val: 1]) -> [val: 5],
+                    <Or> ([val: 4], [val: 5]) -> [val: 6],
+                    <Xor> ([val: 3], [val: 6]) -> [val: 7],
+                    <Ret> ([val: 7]),
+                ],
+            ],
+        },
+        Function {
+            name: "div_i16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 3]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 4]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 5]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 104], [global: 0]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <Div> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <Ret> ([val: 6]),
+                ],
+                "panic": [
+                    <Call> ([func: 105], [global: 2]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_i32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 6]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 7]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 8]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 104], [global: 4]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <Div> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <Ret> ([val: 6]),
+                ],
+                "panic": [
+                    <Call> ([func: 105], [global: 6]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_i64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 9]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 10]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 11]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 104], [global: 8]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <Div> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <Ret> ([val: 6]),
+                ],
+                "panic": [
+                    <Call> ([func: 105], [global: 10]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_i8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 12]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 13]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 14]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 104], [global: 12]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <Div> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <Ret> ([val: 6]),
+                ],
+                "panic": [
+                    <Call> ([func: 105], [global: 14]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_rem_i32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i32,
+                i32,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 15]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 16]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 17]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 104], [global: 16]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <Div> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <Mul> ([val: 6], [val: 1]) -> [val: 7],
+                    <CMPeq> ([val: 1], [const: 18]) -> [val: 8],
+                    <CondBr> ([val: 8], [raw: 6], [raw: 5]),
+                ],
+                "panic": [
+                    <Call> ([func: 105], [global: 18]),
+                    <Unreachable> (),
+                ],
+                "bb3": [
+                    <CMPeq> ([val: 1], [const: 19]) -> [val: 9],
+                    <CMPeq> ([val: 0], [const: 20]) -> [val: 10],
+                    <And> ([val: 9], [val: 10]) -> [val: 11],
+                    <CondBr> ([val: 11], [raw: 8], [raw: 7]),
+                ],
+                "panic": [
+                    <Call> ([func: 106], [global: 20]),
+                    <Unreachable> (),
+                ],
+                "bb4": [
+                    <Rem> ([raw: 1], [val: 0], [val: 1]) -> [val: 12],
+                    <Add> ([val: 7], [val: 12]) -> [val: 13],
+                    <Ret> ([val: 13]),
+                ],
+                "panic": [
+                    <Call> ([func: 107], [global: 22]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_rem_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                Bool,
+                i32,
+                i32,
+                Bool,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 21]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Div> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <Mul> ([val: 3], [val: 1]) -> [val: 4],
+                    <CMPeq> ([val: 1], [const: 22]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 104], [global: 24]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <Rem> ([raw: 0], [val: 0], [val: 1]) -> [val: 6],
+                    <Add> ([val: 4], [val: 6]) -> [val: 7],
+                    <Ret> ([val: 7]),
+                ],
+                "panic": [
+                    <Call> ([func: 106], [global: 26]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_u16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                Bool,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 23]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Div> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 104], [global: 28]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 24]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Div> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 104], [global: 30]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_u64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                Bool,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 25]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Div> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 104], [global: 32]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_u8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                Bool,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 26]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Div> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 104], [global: 34]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "keep_low_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 28]) -> [val: 2],
+                    <Shl> ([const: 27], [val: 2]) -> [val: 3],
+                    <Sub> ([val: 3], [const: 29]) -> [val: 4],
+                    <And> ([val: 0], [val: 4]) -> [val: 5],
+                    <Ret> ([val: 5]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_add_u32",
+            n_args: 3,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 3],
+                    <Add> ([val: 3], [val: 2]) -> [val: 4],
+                    <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_add_u8",
+            n_args: 3,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 3],
+                    <Add> ([val: 3], [val: 2]) -> [val: 4],
+                    <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_i16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_i32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_i64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_i8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_u16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_u64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_u8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "neg_i16",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Neg> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "neg_i32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Neg> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "neg_i64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Neg> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "neg_i8",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Neg> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "neg_via_not_i32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Add> ([val: 1], [const: 30]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "not_bool",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                Bool,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "not_i16",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "not_i32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "not_i64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "not_i8",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "not_u16",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "not_u32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "not_u64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "not_u8",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "or_u16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Or> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "or_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Or> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "or_u64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Or> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "or_u8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Or> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "rem_i16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 31]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 32]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 33]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 106], [global: 36]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <Rem> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <Ret> ([val: 6]),
+                ],
+                "panic": [
+                    <Call> ([func: 107], [global: 38]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "rem_i32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 34]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 35]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 36]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 106], [global: 40]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <Rem> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <Ret> ([val: 6]),
+                ],
+                "panic": [
+                    <Call> ([func: 107], [global: 42]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "rem_i64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 37]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 38]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 39]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 106], [global: 44]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <Rem> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <Ret> ([val: 6]),
+                ],
+                "panic": [
+                    <Call> ([func: 107], [global: 46]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "rem_i8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 40]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 41]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 42]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 106], [global: 48]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <Rem> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <Ret> ([val: 6]),
+                ],
+                "panic": [
+                    <Call> ([func: 107], [global: 50]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "rem_u16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                Bool,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 43]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Rem> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 106], [global: 52]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "rem_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 44]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Rem> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 106], [global: 54]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "rem_u64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                Bool,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 45]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Rem> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 106], [global: 56]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "rem_u8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                Bool,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 46]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <Rem> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 106], [global: 58]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "shl3_u32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([const: 47], [const: 48]) -> [val: 1],
+                    <Shl> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl_i16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 49]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl_i32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 50]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl_i64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 51]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl_i8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 52]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl_mul_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 53]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <And> ([val: 1], [const: 55]) -> [val: 4],
+                    <Shl> ([const: 54], [val: 4]) -> [val: 5],
+                    <Mul> ([val: 0], [val: 5]) -> [val: 6],
+                    <Sub> ([val: 3], [val: 6]) -> [val: 7],
+                    <Ret> ([val: 7]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl_u16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 56]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 57]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl_u64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 58]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl_u8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 59]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr3_i32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([const: 60], [const: 61]) -> [val: 1],
+                    <Shr> ([raw: 1], [val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr3_u32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([const: 62], [const: 63]) -> [val: 1],
+                    <Shr> ([raw: 0], [val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_i16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 64]) -> [val: 2],
+                    <Shr> ([raw: 1], [val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_i32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 65]) -> [val: 2],
+                    <Shr> ([raw: 1], [val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_i64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 66]) -> [val: 2],
+                    <Shr> ([raw: 1], [val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_i8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 67]) -> [val: 2],
+                    <Shr> ([raw: 1], [val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_shl_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 68]) -> [val: 2],
+                    <Shr> ([raw: 0], [val: 0], [val: 2]) -> [val: 3],
+                    <And> ([val: 1], [const: 69]) -> [val: 4],
+                    <Shl> ([val: 3], [val: 4]) -> [val: 5],
+                    <Ret> ([val: 5]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_u16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 70]) -> [val: 2],
+                    <Shr> ([raw: 0], [val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 71]) -> [val: 2],
+                    <Shr> ([raw: 0], [val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_u64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 72]) -> [val: 2],
+                    <Shr> ([raw: 0], [val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_u8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 73]) -> [val: 2],
+                    <Shr> ([raw: 0], [val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
                 ],
             ],
         },
@@ -307,6 +2525,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -329,6 +2549,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -351,6 +2573,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -373,6 +2597,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -395,6 +2621,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -417,6 +2645,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -439,6 +2669,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -461,6 +2693,8 @@ ModuleTpde {
                 only_local: false,
                 weak_link: false,
             },
+            has_personality: false,
+            personality: 0,
             allocas: [],
             basic_blocks: [
                 "start": [
@@ -469,8 +2703,1480 @@ ModuleTpde {
                 ],
             ],
         },
+        Function {
+            name: "xor_i16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Xor> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "xor_i32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Xor> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "xor_i64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Xor> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "xor_i8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Xor> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "xor_roundtrip_u8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Xor> ([val: 0], [val: 1]) -> [val: 2],
+                    <Xor> ([val: 2], [val: 1]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "xor_u16",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i16,
+                i16,
+                i16,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Xor> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "xor_u32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i32,
+                i32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Xor> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "xor_u64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i64,
+                i64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Xor> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "xor_u8",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i8,
+                i8,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Xor> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const23panic_const_div_by_zero",
+            n_args: 1,
+            has_ret: false,
+            slots: [
+                ptr,
+            ],
+            flags: Flags {
+                extern_link: true,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [],
+        },
+        Function {
+            name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_div_overflow",
+            n_args: 1,
+            has_ret: false,
+            slots: [
+                ptr,
+            ],
+            flags: Flags {
+                extern_link: true,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [],
+        },
+        Function {
+            name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const23panic_const_rem_by_zero",
+            n_args: 1,
+            has_ret: false,
+            slots: [
+                ptr,
+            ],
+            flags: Flags {
+                extern_link: true,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [],
+        },
+        Function {
+            name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_rem_overflow",
+            n_args: 1,
+            has_ret: false,
+            slots: [
+                ptr,
+            ],
+            flags: Flags {
+                extern_link: true,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [],
+        },
     ],
-    consts: [],
-    globals: [],
+    consts: [
+        [i32] (0 1) -> 0,
+        [i32] (0 3) -> 0,
+        [i32] (0 1) -> 0,
+        [i16] (0 0) -> 0,
+        [i16] (18446744073709551615 18446744073709551615) -> -1,
+        [i16] (18446744073709551615 18446744073709518848) -> -1,
+        [i32] (0 0) -> 0,
+        [i32] (18446744073709551615 18446744073709551615) -> -1,
+        [i32] (18446744073709551615 18446744071562067968) -> -1,
+        [i64] (0 0) -> 0,
+        [i64] (18446744073709551615 18446744073709551615) -> -1,
+        [i64] (18446744073709551615 9223372036854775808) -> -1,
+        [i8] (0 0) -> 0,
+        [i8] (18446744073709551615 18446744073709551615) -> -1,
+        [i8] (18446744073709551615 18446744073709551488) -> -1,
+        [i32] (0 0) -> 0,
+        [i32] (18446744073709551615 18446744073709551615) -> -1,
+        [i32] (18446744073709551615 18446744071562067968) -> -1,
+        [i32] (0 0) -> 0,
+        [i32] (18446744073709551615 18446744073709551615) -> -1,
+        [i32] (18446744073709551615 18446744071562067968) -> -1,
+        [i32] (0 0) -> 0,
+        [i32] (0 0) -> 0,
+        [i16] (0 0) -> 0,
+        [i32] (0 0) -> 0,
+        [i64] (0 0) -> 0,
+        [i8] (0 0) -> 0,
+        [i32] (0 1) -> 0,
+        [i32] (0 3) -> 0,
+        [i32] (0 1) -> 0,
+        [i32] (0 1) -> 0,
+        [i16] (0 0) -> 0,
+        [i16] (18446744073709551615 18446744073709551615) -> -1,
+        [i16] (18446744073709551615 18446744073709518848) -> -1,
+        [i32] (0 0) -> 0,
+        [i32] (18446744073709551615 18446744073709551615) -> -1,
+        [i32] (18446744073709551615 18446744071562067968) -> -1,
+        [i64] (0 0) -> 0,
+        [i64] (18446744073709551615 18446744073709551615) -> -1,
+        [i64] (18446744073709551615 9223372036854775808) -> -1,
+        [i8] (0 0) -> 0,
+        [i8] (18446744073709551615 18446744073709551615) -> -1,
+        [i8] (18446744073709551615 18446744073709551488) -> -1,
+        [i16] (0 0) -> 0,
+        [i32] (0 0) -> 0,
+        [i64] (0 0) -> 0,
+        [i8] (0 0) -> 0,
+        [i32] (0 3) -> 0,
+        [i32] (0 3) -> 0,
+        [i16] (0 1) -> 0,
+        [i32] (0 3) -> 0,
+        [i64] (0 7) -> 0,
+        [i8] (0 0) -> 0,
+        [i32] (0 3) -> 0,
+        [i32] (0 1) -> 0,
+        [i32] (0 3) -> 0,
+        [i16] (0 1) -> 0,
+        [i32] (0 3) -> 0,
+        [i64] (0 7) -> 0,
+        [i8] (0 0) -> 0,
+        [i32] (0 3) -> 0,
+        [i32] (0 3) -> 0,
+        [i32] (0 3) -> 0,
+        [i32] (0 3) -> 0,
+        [i16] (0 1) -> 0,
+        [i32] (0 3) -> 0,
+        [i64] (0 7) -> 0,
+        [i8] (0 0) -> 0,
+        [i32] (0 3) -> 0,
+        [i32] (0 3) -> 0,
+        [i16] (0 1) -> 0,
+        [i32] (0 3) -> 0,
+        [i64] (0 7) -> 0,
+        [i8] (0 0) -> 0,
+    ],
+    globals: [
+        alloc_1bb8417f347bd340ae028ccf93b381fa {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  28 01 00 00 05 00 00 00                          |(.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354561,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_1bb8417f347bd340ae028ccf93b381fa {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  28 01 00 00 05 00 00 00                          |(.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354563,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_48053bc1d6f7658198e448cfe9564944 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  2d 01 00 00 05 00 00 00                          |-.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354565,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_48053bc1d6f7658198e448cfe9564944 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  2d 01 00 00 05 00 00 00                          |-.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354567,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_4d625fac92379f800be8f249b8fedee7 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  32 01 00 00 05 00 00 00                          |2.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354569,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_4d625fac92379f800be8f249b8fedee7 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  32 01 00 00 05 00 00 00                          |2.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354571,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_9c00f0704a3ecb7fdeecf92b7f19000d {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  23 01 00 00 05 00 00 00                          |#.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354573,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_9c00f0704a3ecb7fdeecf92b7f19000d {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  23 01 00 00 05 00 00 00                          |#.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354575,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_7c67eea2367470b62981d6f1404a3f34 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  2a 02 00 00 05 00 00 00                          |*.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354577,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_7c67eea2367470b62981d6f1404a3f34 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  2a 02 00 00 05 00 00 00                          |*.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354579,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_36222fbf2df2cad17778617f7510d4f0 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  2a 02 00 00 13 00 00 00                          |*.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354581,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_36222fbf2df2cad17778617f7510d4f0 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  2a 02 00 00 13 00 00 00                          |*.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354583,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_b1e73aecd04d099f8a8ac2ef0051755e {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  25 02 00 00 05 00 00 00                          |%.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354585,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_eb7b998ae8378722a03c1d08ff0e730b {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  25 02 00 00 13 00 00 00                          |%.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354587,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_05dc8e49cf588d9f697eebc3455b0ea4 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  3c 01 00 00 05 00 00 00                          |<.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354589,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_b8323f99ed79dcbe4bc9e0ccfdc3a35a {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  41 01 00 00 05 00 00 00                          |A.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354591,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_1d9ec65c22115b785c8f6a2a90903d12 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  46 01 00 00 05 00 00 00                          |F.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354593,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_b32527210fa550acc50239f2bf0873d2 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  37 01 00 00 05 00 00 00                          |7.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354595,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_0b9da11dc713fa4c47ada1431d8ce2fc {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  50 01 00 00 05 00 00 00                          |P.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354597,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_0b9da11dc713fa4c47ada1431d8ce2fc {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  50 01 00 00 05 00 00 00                          |P.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354599,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_12439f6b2af6b8195a5c21a5dfe35b01 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  55 01 00 00 05 00 00 00                          |U.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354601,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_12439f6b2af6b8195a5c21a5dfe35b01 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  55 01 00 00 05 00 00 00                          |U.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354603,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_8da5d32fae8b547b54cff7ba578bbaab {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  5a 01 00 00 05 00 00 00                          |Z.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354605,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_8da5d32fae8b547b54cff7ba578bbaab {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  5a 01 00 00 05 00 00 00                          |Z.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354607,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_186bb594b01095ae0b248bbcb2488f3a {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  4b 01 00 00 05 00 00 00                          |K.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354609,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_186bb594b01095ae0b248bbcb2488f3a {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  4b 01 00 00 05 00 00 00                          |K.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354611,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_ed40fba274a10073548702b2cbcc7057 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  64 01 00 00 05 00 00 00                          |d.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354613,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_d917dec6a919b70866b3a8390f08e605 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  69 01 00 00 05 00 00 00                          |i.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354615,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_bfe1088191e32526d9bb9e11e8a9e622 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  6e 01 00 00 05 00 00 00                          |n.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354617,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_bc353cd3c04dc5a1949c9c307e9449a7 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  5f 01 00 00 05 00 00 00                          |_.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354619,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+    ],
     global_ptrs: [],
 }

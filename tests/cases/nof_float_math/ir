@@ -1,0 +1,1707 @@
+ModuleTpde {
+    functions: [
+        Function {
+            name: "add3_f64",
+            n_args: 3,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [val: 1]) -> [val: 3],
+                    <fAdd> ([val: 3], [val: 2]) -> [val: 4],
+                    <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
+            name: "add9_args_f64",
+            n_args: 9,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [val: 1]) -> [val: 9],
+                    <fAdd> ([val: 9], [val: 2]) -> [val: 10],
+                    <fAdd> ([val: 10], [val: 3]) -> [val: 11],
+                    <fAdd> ([val: 11], [val: 4]) -> [val: 12],
+                    <fAdd> ([val: 12], [val: 5]) -> [val: 13],
+                    <fAdd> ([val: 13], [val: 6]) -> [val: 14],
+                    <fAdd> ([val: 14], [val: 7]) -> [val: 15],
+                    <fAdd> ([val: 15], [val: 8]) -> [val: 16],
+                    <Ret> ([val: 16]),
+                ],
+            ],
+        },
+        Function {
+            name: "add_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "add_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "add_mul_f64",
+            n_args: 3,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fMul> ([val: 1], [val: 2]) -> [val: 3],
+                    <fAdd> ([val: 0], [val: 3]) -> [val: 4],
+                    <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
+            name: "add_sub_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [val: 1]) -> [val: 2],
+                    <fSub> ([val: 0], [val: 1]) -> [val: 3],
+                    <fSub> ([val: 2], [val: 3]) -> [val: 4],
+                    <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_eq_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealOEQ> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 0], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 1], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_eq_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealOEQ> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 2], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 3], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_ge_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealOGE> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 4], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 5], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_ge_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealOGE> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 6], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 7], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_gt_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealOGT> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 8], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 9], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_gt_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealOGT> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 10], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 11], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_le_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealOLE> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 12], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 13], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_le_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealOLE> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 14], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 15], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_lt_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealOLT> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 16], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 17], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_lt_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealOLT> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 18], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 19], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_ne_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealUNE> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 20], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 21], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_ne_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealUNE> ([val: 0], [val: 1]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 22], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 23], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_eq_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealOEQ> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_eq_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealOEQ> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_ge_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealOGE> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_ge_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealOGE> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_gt_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealOGT> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_gt_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealOGT> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_le_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealOLE> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_le_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealOLE> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_lt_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealOLT> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_lt_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealOLT> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_ne_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealUNE> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_ne_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealUNE> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "div_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fDiv> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "div_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fDiv> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "f32_to_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f32,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fExt> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "f32_to_i32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fTos_sat> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "f32_to_i64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f32,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fTos_sat> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "f32_to_u32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f32,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fTou_sat> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "f32_to_u64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f32,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fTou_sat> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "f64_to_f32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fTrunc> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "f64_to_i32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fTos_sat> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "f64_to_i64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fTos_sat> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "f64_to_u32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fTou_sat> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "f64_to_u64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fTou_sat> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "i32_to_f32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <sTof> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "i32_to_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <sTof> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "i64_to_f32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i64,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <sTof> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "i64_to_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <sTof> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "mixed_args",
+            n_args: 6,
+            has_ret: true,
+            slots: [
+                f64,
+                i64,
+                f64,
+                i64,
+                f64,
+                i64,
+                f64,
+                f64,
+                i64,
+                i64,
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [val: 2]) -> [val: 6],
+                    <fAdd> ([val: 6], [val: 4]) -> [val: 7],
+                    <Add> ([val: 1], [val: 3]) -> [val: 8],
+                    <Add> ([val: 8], [val: 5]) -> [val: 9],
+                    <uTof> ([val: 9]) -> [val: 10],
+                    <fMul> ([val: 7], [val: 10]) -> [val: 11],
+                    <Ret> ([val: 11]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_add_f32",
+            n_args: 3,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                f32,
+                f32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fMul> ([val: 0], [val: 1]) -> [val: 3],
+                    <fAdd> ([val: 3], [val: 2]) -> [val: 4],
+                    <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_add_f64",
+            n_args: 3,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                f64,
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fMul> ([val: 0], [val: 1]) -> [val: 3],
+                    <fAdd> ([val: 3], [val: 2]) -> [val: 4],
+                    <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fMul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fMul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "neg_f32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fNeg> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "neg_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fNeg> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "rem_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fRem> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "rem_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fRem> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "sub_f32",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fSub> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "sub_f64",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fSub> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "u32_to_f32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <uTof> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "u32_to_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i32,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <uTof> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "u64_to_f32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i64,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <uTof> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "u64_to_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <uTof> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+    ],
+    consts: [
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+        [i32] (0 20) -> 0,
+        [i32] (0 10) -> 0,
+    ],
+    globals: [],
+    global_ptrs: [],
+}

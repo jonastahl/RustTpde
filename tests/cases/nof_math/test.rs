@@ -1,5 +1,5 @@
 
-extern "C" {
+extern "Rust" {
   fn add_i8(a: i8, b: i8) -> i8;
   fn sub_i8(a: i8, b: i8) -> i8;
   fn add_i16(a: i16, b: i16) -> i16;
@@ -21,6 +21,101 @@ extern "C" {
   fn add_sub_u32(a: u32, b: u32) -> u32;
   fn add_sub_u8(a: u8, b: u8) -> u8;
   fn add8_args_u32(a: u32, b: u32, c: u32, d: u32, e: u32, f: u32, g: u32, h: u32) -> u32;
+
+  fn mul_i8(a: i8, b: i8) -> i8;
+  fn mul_i16(a: i16, b: i16) -> i16;
+  fn mul_i32(a: i32, b: i32) -> i32;
+  fn mul_i64(a: i64, b: i64) -> i64;
+  fn mul_u8(a: u8, b: u8) -> u8;
+  fn mul_u16(a: u16, b: u16) -> u16;
+  fn mul_u32(a: u32, b: u32) -> u32;
+  fn mul_u64(a: u64, b: u64) -> u64;
+
+  fn shl_i8(a: i8, b: i8) -> i8;
+  fn shl_i16(a: i16, b: i16) -> i16;
+  fn shl_i32(a: i32, b: i32) -> i32;
+  fn shl_i64(a: i64, b: i64) -> i64;
+  fn shl_u8(a: u8, b: u8) -> u8;
+  fn shl_u16(a: u16, b: u16) -> u16;
+  fn shl_u32(a: u32, b: u32) -> u32;
+  fn shl_u64(a: u64, b: u64) -> u64;
+
+  fn shl3_u32(a: u32) -> u32;
+  fn and_u8(a: u8, b: u8) -> u8;
+  fn and_u16(a: u16, b: u16) -> u16;
+  fn and_u32(a: u32, b: u32) -> u32;
+  fn and_u64(a: u64, b: u64) -> u64;
+  fn or_u8(a: u8, b: u8) -> u8;
+  fn or_u16(a: u16, b: u16) -> u16;
+  fn or_u32(a: u32, b: u32) -> u32;
+  fn or_u64(a: u64, b: u64) -> u64;
+
+  fn mul_add_u32(a: u32, b: u32, c: u32) -> u32;
+  fn add_mul_u32(a: u32, b: u32, c: u32) -> u32;
+  fn shl_mul_u32(a: u32, b: u32) -> u32;
+  fn keep_low_u32(a: u32, b: u32) -> u32;
+  fn mul_add_u8(a: u8, b: u8, c: u8) -> u8;
+
+  fn div_i8(a: i8, b: i8) -> i8;
+  fn div_i16(a: i16, b: i16) -> i16;
+  fn div_i32(a: i32, b: i32) -> i32;
+  fn div_i64(a: i64, b: i64) -> i64;
+  fn div_u8(a: u8, b: u8) -> u8;
+  fn div_u16(a: u16, b: u16) -> u16;
+  fn div_u32(a: u32, b: u32) -> u32;
+  fn div_u64(a: u64, b: u64) -> u64;
+
+  fn rem_i8(a: i8, b: i8) -> i8;
+  fn rem_i16(a: i16, b: i16) -> i16;
+  fn rem_i32(a: i32, b: i32) -> i32;
+  fn rem_i64(a: i64, b: i64) -> i64;
+  fn rem_u8(a: u8, b: u8) -> u8;
+  fn rem_u16(a: u16, b: u16) -> u16;
+  fn rem_u32(a: u32, b: u32) -> u32;
+  fn rem_u64(a: u64, b: u64) -> u64;
+
+  fn shr_i8(a: i8, b: i8) -> i8;
+  fn shr_i16(a: i16, b: i16) -> i16;
+  fn shr_i32(a: i32, b: i32) -> i32;
+  fn shr_i64(a: i64, b: i64) -> i64;
+  fn shr_u8(a: u8, b: u8) -> u8;
+  fn shr_u16(a: u16, b: u16) -> u16;
+  fn shr_u32(a: u32, b: u32) -> u32;
+  fn shr_u64(a: u64, b: u64) -> u64;
+
+  fn xor_i8(a: i8, b: i8) -> i8;
+  fn xor_i16(a: i16, b: i16) -> i16;
+  fn xor_i32(a: i32, b: i32) -> i32;
+  fn xor_i64(a: i64, b: i64) -> i64;
+  fn xor_u8(a: u8, b: u8) -> u8;
+  fn xor_u16(a: u16, b: u16) -> u16;
+  fn xor_u32(a: u32, b: u32) -> u32;
+  fn xor_u64(a: u64, b: u64) -> u64;
+
+  fn shr3_u32(a: u32) -> u32;
+  fn shr3_i32(a: i32) -> i32;
+
+  fn not_i8(a: i8) -> i8;
+  fn not_i16(a: i16) -> i16;
+  fn not_i32(a: i32) -> i32;
+  fn not_i64(a: i64) -> i64;
+  fn not_u8(a: u8) -> u8;
+  fn not_u16(a: u16) -> u16;
+  fn not_u32(a: u32) -> u32;
+  fn not_u64(a: u64) -> u64;
+  fn neg_i8(a: i8) -> i8;
+  fn neg_i16(a: i16) -> i16;
+  fn neg_i32(a: i32) -> i32;
+  fn neg_i64(a: i64) -> i64;
+  fn not_bool(a: bool) -> bool;
+
+  fn clear_low_u32(a: u32, b: u32) -> u32;
+  fn div_rem_u32(a: u32, b: u32) -> u32;
+  fn div_rem_i32(a: i32, b: i32) -> i32;
+  fn shr_shl_u32(a: u32, b: u32) -> u32;
+  fn de_morgan_u32(a: u32, b: u32) -> u32;
+  fn xor_roundtrip_u8(a: u8, b: u8) -> u8;
+  fn neg_via_not_i32(a: i32) -> i32;
 }
 
 /// Checks `add_$ty` and `sub_$ty` over every ordered pair drawn from `$vals`.
@@ -40,6 +135,127 @@ macro_rules! check_add_sub {
           concat!(stringify!($sub), "({}, {})"), a, b
         );
       }
+    }
+  }};
+}
+
+/// Checks `mul_$ty` over every ordered pair drawn from `$vals`.
+macro_rules! check_mul {
+  ($ty:ty, $mul:ident, $vals:expr) => {{
+    let vals: &[$ty] = &$vals;
+    for &a in vals {
+      for &b in vals {
+        assert_eq!(
+          unsafe { $mul(a, b) },
+          a.wrapping_mul(b),
+          concat!(stringify!($mul), "({}, {})"), a, b
+        );
+      }
+    }
+  }};
+}
+
+/// Checks `shl_$ty` for every operand in `$vals` and every in-range shift
+/// amount. Out-of-range amounts are left alone: the backend compiles an
+/// unchecked shift, so they have no defined result to compare against.
+macro_rules! check_shl {
+  ($ty:ty, $shl:ident, $vals:expr) => {{
+    let vals: &[$ty] = &$vals;
+    for &a in vals {
+      for b in 0..(<$ty>::BITS as $ty) {
+        assert_eq!(
+          unsafe { $shl(a, b) },
+          a.wrapping_shl(b as u32),
+          concat!(stringify!($shl), "({}, {})"), a, b
+        );
+      }
+    }
+  }};
+}
+
+/// Checks `and_$ty` and `or_$ty` over every ordered pair drawn from `$vals`.
+macro_rules! check_bitwise {
+  ($ty:ty, $and:ident, $or:ident, $vals:expr) => {{
+    let vals: &[$ty] = &$vals;
+    for &a in vals {
+      for &b in vals {
+        assert_eq!(unsafe { $and(a, b) }, a & b, concat!(stringify!($and), "({}, {})"), a, b);
+        assert_eq!(unsafe { $or(a, b) }, a | b, concat!(stringify!($or), "({}, {})"), a, b);
+      }
+    }
+  }};
+}
+
+/// Checks `div_$ty` and `rem_$ty` over every ordered pair drawn from `$vals`.
+/// Pairs that would trap are skipped: a zero divisor, and `MIN / -1`, whose
+/// quotient is not representable.
+macro_rules! check_div_rem {
+  ($ty:ty, $div:ident, $rem:ident, $vals:expr) => {{
+    let vals: &[$ty] = &$vals;
+    for &a in vals {
+      for &b in vals {
+        if b == 0 || a.checked_div(b).is_none() {
+          continue;
+        }
+        assert_eq!(
+          unsafe { $div(a, b) }, a / b,
+          concat!(stringify!($div), "({}, {})"), a, b
+        );
+        assert_eq!(
+          unsafe { $rem(a, b) }, a % b,
+          concat!(stringify!($rem), "({}, {})"), a, b
+        );
+      }
+    }
+  }};
+}
+
+/// Checks `shr_$ty` for every operand in `$vals` and every in-range shift
+/// amount. As with `shl`, out-of-range amounts have no defined result.
+macro_rules! check_shr {
+  ($ty:ty, $shr:ident, $vals:expr) => {{
+    let vals: &[$ty] = &$vals;
+    for &a in vals {
+      for b in 0..(<$ty>::BITS as $ty) {
+        assert_eq!(
+          unsafe { $shr(a, b) },
+          a.wrapping_shr(b as u32),
+          concat!(stringify!($shr), "({}, {})"), a, b
+        );
+      }
+    }
+  }};
+}
+
+/// Checks `xor_$ty` over every ordered pair drawn from `$vals`.
+macro_rules! check_xor {
+  ($ty:ty, $xor:ident, $vals:expr) => {{
+    let vals: &[$ty] = &$vals;
+    for &a in vals {
+      for &b in vals {
+        assert_eq!(unsafe { $xor(a, b) }, a ^ b, concat!(stringify!($xor), "({}, {})"), a, b);
+      }
+    }
+  }};
+}
+
+/// Checks `not_$ty` over every value in `$vals`.
+macro_rules! check_not {
+  ($ty:ty, $not:ident, $vals:expr) => {{
+    let vals: &[$ty] = &$vals;
+    for &a in vals {
+      assert_eq!(unsafe { $not(a) }, !a, concat!(stringify!($not), "({})"), a);
+    }
+  }};
+}
+
+/// Checks `neg_$ty` over every value in `$vals`, including `MIN`, which
+/// wraps to itself.
+macro_rules! check_neg {
+  ($ty:ty, $neg:ident, $vals:expr) => {{
+    let vals: &[$ty] = &$vals;
+    for &a in vals {
+      assert_eq!(unsafe { $neg(a) }, a.wrapping_neg(), concat!(stringify!($neg), "({})"), a);
     }
   }};
 }
@@ -77,4 +293,199 @@ fn main() {
   assert_eq!(unsafe { add8_args_u32(0, 0, 0, 0, 0, 0, u32::MAX, 0) }, u32::MAX);
   assert_eq!(unsafe { add8_args_u32(u32::MAX, 1, 0, 0, 0, 0, 0, 0) }, 0);
   assert_eq!(unsafe { add8_args_u32(1, 0, 0, 0, 0, 0, 0, u32::MAX) }, 0);
+
+  check_mul!(i8, mul_i8, [i8::MIN, i8::MIN + 1, -16, -3, -2, -1, 0, 1, 2, 3, 16, i8::MAX - 1, i8::MAX]);
+  check_mul!(i16, mul_i16, [i16::MIN, i16::MIN + 1, -256, -3, -2, -1, 0, 1, 2, 3, 256, i16::MAX - 1, i16::MAX]);
+  check_mul!(i32, mul_i32, [i32::MIN, i32::MIN + 1, -65536, -3, -2, -1, 0, 1, 2, 3, 65536, i32::MAX - 1, i32::MAX]);
+  check_mul!(i64, mul_i64, [i64::MIN, i64::MIN + 1, -(1 << 32), -3, -2, -1, 0, 1, 2, 3, 1 << 32, i64::MAX - 1, i64::MAX]);
+  check_mul!(u8, mul_u8, [0, 1, 2, 3, 0x10, 0x7F, 0x80, 0x81, 0xFE, 0xFF]);
+  check_mul!(u16, mul_u16, [0, 1, 2, 3, 0x100, 0x7FFF, 0x8000, 0x8001, 0xFFFE, 0xFFFF]);
+  check_mul!(u32, mul_u32, [0, 1, 2, 3, 0x1_0000, 0x7FFF_FFFF, 0x8000_0000, 0x8000_0001, 0xFFFF_FFFE, 0xFFFF_FFFF]);
+  check_mul!(u64, mul_u64, [0, 1, 2, 3, 1 << 32, 0x7FFF_FFFF_FFFF_FFFF, 0x8000_0000_0000_0000, 0x8000_0000_0000_0001, 0xFFFF_FFFF_FFFF_FFFE, 0xFFFF_FFFF_FFFF_FFFF]);
+
+  // Shifts by every amount the type allows. The signed cases only use
+  // non-negative amounts, since a negative shift is out of range.
+  check_shl!(i8, shl_i8, [i8::MIN, -1, 0, 1, 2, i8::MAX]);
+  check_shl!(i16, shl_i16, [i16::MIN, -1, 0, 1, 2, i16::MAX]);
+  check_shl!(i32, shl_i32, [i32::MIN, -1, 0, 1, 2, i32::MAX]);
+  check_shl!(i64, shl_i64, [i64::MIN, -1, 0, 1, 2, i64::MAX]);
+  check_shl!(u8, shl_u8, [0, 1, 2, 0x7F, 0x80, 0xFF]);
+  check_shl!(u16, shl_u16, [0, 1, 2, 0x7FFF, 0x8000, 0xFFFF]);
+  check_shl!(u32, shl_u32, [0, 1, 2, 0x7FFF_FFFF, 0x8000_0000, 0xFFFF_FFFF]);
+  check_shl!(u64, shl_u64, [0, 1, 2, 0x7FFF_FFFF_FFFF_FFFF, 0x8000_0000_0000_0000, 0xFFFF_FFFF_FFFF_FFFF]);
+
+  // A constant shift amount, which the backend can fold into the encoding.
+  for a in [0u32, 1, 3, 0x1FFF_FFFF, 0x2000_0000, 0x8000_0000, u32::MAX] {
+    assert_eq!(unsafe { shl3_u32(a) }, a.wrapping_shl(3), "shl3_u32({})", a);
+  }
+
+  check_bitwise!(u8, and_u8, or_u8, [0, 1, 2, 0x0F, 0xF0, 0x55, 0xAA, 0xFF]);
+  check_bitwise!(u16, and_u16, or_u16, [0, 1, 2, 0x00FF, 0xFF00, 0x5555, 0xAAAA, 0xFFFF]);
+  check_bitwise!(u32, and_u32, or_u32, [0, 1, 2, 0x0000_FFFF, 0xFFFF_0000, 0x5555_5555, 0xAAAA_AAAA, 0xFFFF_FFFF]);
+  check_bitwise!(u64, and_u64, or_u64, [0, 1, 2, 0x0000_0000_FFFF_FFFF, 0xFFFF_FFFF_0000_0000, 0x5555_5555_5555_5555, 0xAAAA_AAAA_AAAA_AAAA, 0xFFFF_FFFF_FFFF_FFFF]);
+
+  // Operator precedence and the width of each intermediate.
+  for a in [0u32, 1, 3, 0x1_0000, 0x8000_0000, u32::MAX] {
+    for b in [0u32, 1, 3, 0x1_0000, 0x8000_0000, u32::MAX] {
+      for c in [0u32, 1, 7, u32::MAX] {
+        assert_eq!(
+          unsafe { mul_add_u32(a, b, c) },
+          a.wrapping_mul(b).wrapping_add(c),
+          "mul_add_u32({}, {}, {})", a, b, c
+        );
+        assert_eq!(
+          unsafe { add_mul_u32(a, b, c) },
+          a.wrapping_add(b.wrapping_mul(c)),
+          "add_mul_u32({}, {}, {})", a, b, c
+        );
+      }
+    }
+  }
+  for a in [0u8, 1, 3, 0x10, 0x80, 0xFF] {
+    for b in [0u8, 1, 3, 0x10, 0x80, 0xFF] {
+      for c in [0u8, 1, 7, 0xFF] {
+        assert_eq!(
+          unsafe { mul_add_u8(a, b, c) },
+          a.wrapping_mul(b).wrapping_add(c),
+          "mul_add_u8({}, {}, {})", a, b, c
+        );
+      }
+    }
+  }
+
+  // `(a << b) - a * (1 << b)` is zero whenever both sides agree, which they
+  // must for every in-range shift amount.
+  for a in [0u32, 1, 3, 0x1_0000, 0x8000_0000, u32::MAX] {
+    for b in 0..32u32 {
+      assert_eq!(unsafe { shl_mul_u32(a, b) }, 0, "shl_mul_u32({}, {})", a, b);
+    }
+  }
+
+  // Masking off the high bits: `b` of 32 would overflow the `1 << b`, so it
+  // stops at 31.
+  for a in [0u32, 1, 3, 0x5555_5555, 0xAAAA_AAAA, u32::MAX] {
+    for b in 0..32u32 {
+      assert_eq!(
+        unsafe { keep_low_u32(a, b) },
+        a & (1u32.wrapping_shl(b).wrapping_sub(1)),
+        "keep_low_u32({}, {})", a, b
+      );
+    }
+  }
+
+  // Division and remainder, at every width. The value sets include `MIN` and
+  // `-1` so that the pair the macro has to skip is actually present.
+  check_div_rem!(i8, div_i8, rem_i8, [i8::MIN, i8::MIN + 1, -7, -2, -1, 0, 1, 2, 7, i8::MAX - 1, i8::MAX]);
+  check_div_rem!(i16, div_i16, rem_i16, [i16::MIN, i16::MIN + 1, -7, -2, -1, 0, 1, 2, 7, i16::MAX - 1, i16::MAX]);
+  check_div_rem!(i32, div_i32, rem_i32, [i32::MIN, i32::MIN + 1, -7, -2, -1, 0, 1, 2, 7, i32::MAX - 1, i32::MAX]);
+  check_div_rem!(i64, div_i64, rem_i64, [i64::MIN, i64::MIN + 1, -7, -2, -1, 0, 1, 2, 7, i64::MAX - 1, i64::MAX]);
+  check_div_rem!(u8, div_u8, rem_u8, [0, 1, 2, 7, 0x7F, 0x80, 0x81, 0xFE, 0xFF]);
+  check_div_rem!(u16, div_u16, rem_u16, [0, 1, 2, 7, 0x7FFF, 0x8000, 0x8001, 0xFFFE, 0xFFFF]);
+  check_div_rem!(u32, div_u32, rem_u32, [0, 1, 2, 7, 0x7FFF_FFFF, 0x8000_0000, 0x8000_0001, 0xFFFF_FFFE, 0xFFFF_FFFF]);
+  check_div_rem!(u64, div_u64, rem_u64, [0, 1, 2, 7, 0x7FFF_FFFF_FFFF_FFFF, 0x8000_0000_0000_0000, 0x8000_0000_0000_0001, 0xFFFF_FFFF_FFFF_FFFE, 0xFFFF_FFFF_FFFF_FFFF]);
+
+  // Right shifts. The signed cases include negative operands, where the sign
+  // bit must be replicated rather than zero-filled.
+  check_shr!(i8, shr_i8, [i8::MIN, -3, -1, 0, 1, 2, i8::MAX]);
+  check_shr!(i16, shr_i16, [i16::MIN, -3, -1, 0, 1, 2, i16::MAX]);
+  check_shr!(i32, shr_i32, [i32::MIN, -3, -1, 0, 1, 2, i32::MAX]);
+  check_shr!(i64, shr_i64, [i64::MIN, -3, -1, 0, 1, 2, i64::MAX]);
+  check_shr!(u8, shr_u8, [0, 1, 2, 0x7F, 0x80, 0xFF]);
+  check_shr!(u16, shr_u16, [0, 1, 2, 0x7FFF, 0x8000, 0xFFFF]);
+  check_shr!(u32, shr_u32, [0, 1, 2, 0x7FFF_FFFF, 0x8000_0000, 0xFFFF_FFFF]);
+  check_shr!(u64, shr_u64, [0, 1, 2, 0x7FFF_FFFF_FFFF_FFFF, 0x8000_0000_0000_0000, 0xFFFF_FFFF_FFFF_FFFF]);
+
+  // Constant shift amounts, logical and arithmetic.
+  for a in [0u32, 1, 8, 0x8000_0000, u32::MAX] {
+    assert_eq!(unsafe { shr3_u32(a) }, a >> 3, "shr3_u32({})", a);
+  }
+  for a in [i32::MIN, -8, -1, 0, 1, 8, i32::MAX] {
+    assert_eq!(unsafe { shr3_i32(a) }, a >> 3, "shr3_i32({})", a);
+  }
+
+  check_xor!(i8, xor_i8, [i8::MIN, -1, 0, 1, 0x55, 0x7F]);
+  check_xor!(i16, xor_i16, [i16::MIN, -1, 0, 1, 0x5555, i16::MAX]);
+  check_xor!(i32, xor_i32, [i32::MIN, -1, 0, 1, 0x5555_5555, i32::MAX]);
+  check_xor!(i64, xor_i64, [i64::MIN, -1, 0, 1, 0x5555_5555_5555_5555, i64::MAX]);
+  check_xor!(u8, xor_u8, [0, 1, 0x0F, 0xF0, 0x55, 0xAA, 0xFF]);
+  check_xor!(u16, xor_u16, [0, 1, 0x00FF, 0xFF00, 0x5555, 0xAAAA, 0xFFFF]);
+  check_xor!(u32, xor_u32, [0, 1, 0x0000_FFFF, 0xFFFF_0000, 0x5555_5555, 0xAAAA_AAAA, 0xFFFF_FFFF]);
+  check_xor!(u64, xor_u64, [0, 1, 0xFFFF_FFFF, 0xFFFF_FFFF_0000_0000, 0x5555_5555_5555_5555, 0xAAAA_AAAA_AAAA_AAAA, 0xFFFF_FFFF_FFFF_FFFF]);
+
+  // Bitwise not, which at the narrow widths must only invert the bits the
+  // type has.
+  check_not!(i8, not_i8, [i8::MIN, -1, 0, 1, 0x55, i8::MAX]);
+  check_not!(i16, not_i16, [i16::MIN, -1, 0, 1, 0x5555, i16::MAX]);
+  check_not!(i32, not_i32, [i32::MIN, -1, 0, 1, 0x5555_5555, i32::MAX]);
+  check_not!(i64, not_i64, [i64::MIN, -1, 0, 1, 0x5555_5555_5555_5555, i64::MAX]);
+  check_not!(u8, not_u8, [0, 1, 0x55, 0xAA, 0x7F, 0x80, 0xFF]);
+  check_not!(u16, not_u16, [0, 1, 0x5555, 0xAAAA, 0x7FFF, 0x8000, 0xFFFF]);
+  check_not!(u32, not_u32, [0, 1, 0x5555_5555, 0xAAAA_AAAA, 0x7FFF_FFFF, 0x8000_0000, 0xFFFF_FFFF]);
+  check_not!(u64, not_u64, [0, 1, 0x5555_5555_5555_5555, 0xAAAA_AAAA_AAAA_AAAA, 0x8000_0000_0000_0000, 0xFFFF_FFFF_FFFF_FFFF]);
+
+  // `not` on a bool is a logical negation of the low bit, not a bit flip of
+  // the whole byte.
+  assert_eq!(unsafe { not_bool(true) }, false, "not_bool(true)");
+  assert_eq!(unsafe { not_bool(false) }, true, "not_bool(false)");
+
+  // Wrapping negation, including `MIN`, which negates to itself.
+  check_neg!(i8, neg_i8, [i8::MIN, i8::MIN + 1, -1, 0, 1, i8::MAX]);
+  check_neg!(i16, neg_i16, [i16::MIN, i16::MIN + 1, -1, 0, 1, i16::MAX]);
+  check_neg!(i32, neg_i32, [i32::MIN, i32::MIN + 1, -1, 0, 1, i32::MAX]);
+  check_neg!(i64, neg_i64, [i64::MIN, i64::MIN + 1, -1, 0, 1, i64::MAX]);
+
+  // Clearing the low `b` bits. `b` stops at 31, since `1 << 32` would be an
+  // out-of-range shift.
+  for a in [0u32, 1, 3, 0x5555_5555, 0xAAAA_AAAA, u32::MAX] {
+    for b in 0..32u32 {
+      assert_eq!(
+        unsafe { clear_low_u32(a, b) },
+        a & !(1u32.wrapping_shl(b).wrapping_sub(1)),
+        "clear_low_u32({}, {})", a, b
+      );
+    }
+  }
+
+  // `(a / b) * b + (a % b)` reconstructs `a` exactly, whenever the division
+  // itself is well defined.
+  for a in [0u32, 1, 7, 0x1_0000, 0x8000_0000, u32::MAX] {
+    for b in [1u32, 2, 7, 0x1_0000, 0x8000_0000, u32::MAX] {
+      assert_eq!(unsafe { div_rem_u32(a, b) }, a, "div_rem_u32({}, {})", a, b);
+    }
+  }
+  for a in [i32::MIN + 1, -7, -1, 0, 1, 7, i32::MAX] {
+    for b in [-7i32, -2, -1, 1, 2, 7, i32::MAX] {
+      assert_eq!(unsafe { div_rem_i32(a, b) }, a, "div_rem_i32({}, {})", a, b);
+    }
+  }
+
+  // Shifting the low bits out and zeros back in.
+  for a in [0u32, 1, 3, 0x5555_5555, 0xAAAA_AAAA, u32::MAX] {
+    for b in 0..32u32 {
+      assert_eq!(
+        unsafe { shr_shl_u32(a, b) },
+        (a >> b) << b,
+        "shr_shl_u32({}, {})", a, b
+      );
+    }
+  }
+
+  // De Morgan's law: the two sides are equal, so their xor is zero.
+  for a in [0u32, 1, 0x0000_FFFF, 0x5555_5555, 0xAAAA_AAAA, u32::MAX] {
+    for b in [0u32, 1, 0xFFFF_0000, 0x5555_5555, 0xAAAA_AAAA, u32::MAX] {
+      assert_eq!(unsafe { de_morgan_u32(a, b) }, 0, "de_morgan_u32({}, {})", a, b);
+    }
+  }
+
+  // `a ^ b ^ b == a`.
+  for a in [0u8, 1, 0x0F, 0x55, 0xAA, 0xFF] {
+    for b in [0u8, 1, 0xF0, 0x55, 0xAA, 0xFF] {
+      assert_eq!(unsafe { xor_roundtrip_u8(a, b) }, a, "xor_roundtrip_u8({}, {})", a, b);
+    }
+  }
+
+  // Two's complement negation spelled out must match the `neg` instruction.
+  for a in [i32::MIN, i32::MIN + 1, -7, -1, 0, 1, 7, i32::MAX] {
+    assert_eq!(unsafe { neg_via_not_i32(a) }, a.wrapping_neg(), "neg_via_not_i32({})", a);
+  }
 }
