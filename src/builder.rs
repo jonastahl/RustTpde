@@ -228,7 +228,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         self.module.borrow_mut().add_instruction_ret_x(
             self.basic_block,
             InstructionKind::uDiv,
-            vec![Slot::new_raw(0), lhs, rhs],
+            vec![lhs, rhs],
             1
         )
     }
@@ -241,7 +241,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         self.module.borrow_mut().add_instruction_ret_x(
             self.basic_block,
             InstructionKind::sDiv,
-            vec![Slot::new_raw(1), lhs, rhs],
+            vec![lhs, rhs],
             1
         )
     }
@@ -271,7 +271,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         self.module.borrow_mut().add_instruction_ret_x(
             self.basic_block,
             InstructionKind::uRem,
-            vec![Slot::new_raw(0), lhs, rhs],
+            vec![lhs, rhs],
             1
         )
     }
@@ -280,7 +280,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         self.module.borrow_mut().add_instruction_ret_x(
             self.basic_block,
             InstructionKind::sRem,
-            vec![Slot::new_raw(1), lhs, rhs],
+            vec![lhs, rhs],
             1
         )
     }

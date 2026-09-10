@@ -174,7 +174,7 @@ namespace tpde_rust::x64 {
     }
 
     // Only support fusing cmp and condbr by now
-    return false;
+    throw new std::runtime_error{"Do not support cmp without following condbr"};
   }
 
   bool RustCompilerX64::compile_condbr(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {

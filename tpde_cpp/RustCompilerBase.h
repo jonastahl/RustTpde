@@ -236,6 +236,8 @@ namespace tpde_rust {
     bool compile_call(RustAdaptor::IRInstRef, const ValInfo &, u64);
     bool compile_cast(RustAdaptor::IRInstRef, const ValInfo &, u64);
     bool compile_int_ext(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_neg(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_not(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
     bool hook_post_func_sym_init();
   };
@@ -287,6 +289,7 @@ namespace tpde_rust {
         res[static_cast<std::size_t>(kind)] = {fn, val};
       };
 
+      // Int math
       set_fn(InstructionKind::Add, &Derived::compile_overflowable, IntBinaryOp::add);
       set_fn(InstructionKind::Sub, &Derived::compile_overflowable, IntBinaryOp::sub);
       set_fn(InstructionKind::Mul, &Derived::compile_overflowable, IntBinaryOp::mul);
@@ -294,11 +297,16 @@ namespace tpde_rust {
       set_fn(InstructionKind::sDiv, &Derived::compile_int_binary_op, IntBinaryOp::sdiv);
       set_fn(InstructionKind::uRem, &Derived::compile_int_binary_op, IntBinaryOp::urem);
       set_fn(InstructionKind::sRem, &Derived::compile_int_binary_op, IntBinaryOp::srem);
+      set_fn(InstructionKind::Neg, &Derived::compile_neg);
+
+      // Logic
       set_fn(InstructionKind::And, &Derived::compile_int_binary_op, IntBinaryOp::land);
       set_fn(InstructionKind::Or, &Derived::compile_int_binary_op, IntBinaryOp::lor);
       set_fn(InstructionKind::Shl, &Derived::compile_int_binary_op, IntBinaryOp::shl);
       set_fn(InstructionKind::lShr, &Derived::compile_int_binary_op, IntBinaryOp::shr);
       set_fn(InstructionKind::aShr, &Derived::compile_int_binary_op, IntBinaryOp::ashr);
+      set_fn(InstructionKind::Xor, &Derived::compile_int_binary_op, IntBinaryOp::lxor);
+      set_fn(InstructionKind::Not, &Derived::compile_not);
 
       set_fn(InstructionKind::Ret, &Derived::compile_ret);
 
@@ -337,7 +345,7 @@ namespace tpde_rust {
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_ret(
-    RustAdaptor::IRInstRef instr_ref, const ValInfo &info, u64 op_val) {
+    RustAdaptor::IRInstRef instr_ref, const ValInfo &, u64) {
     Instruction *instr = &this->adaptor->get_instruction(instr_ref);
 
     typename Base::RetBuilder rb{*this->derived(), *this->derived()->cur_cc_assigner()};
@@ -1061,6 +1069,44 @@ namespace tpde_rust {
     }
 
     return false;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_neg(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {
+    Instruction &negi = this->adaptor->get_instruction(instr);
+
+    ValueRef src = this->val_ref(negi.ops[0]);
+    ValueRef res = this->result_ref(negi.result);
+
+    const Type type = this->adaptor->type_of_ref(negi.ops[0]);
+    switch (type) {
+      case Type::i8: this->derived()->encode_negi32(src.part(0), res.part(0)); break;
+      case Type::i16: this->derived()->encode_negi32(src.part(0), res.part(0)); break;
+      case Type::i32: this->derived()->encode_negi32(src.part(0), res.part(0)); break;
+      case Type::i64: this->derived()->encode_negi64(src.part(0), res.part(0)); break;
+      case Type::i128: this->derived()->encode_negi128(src.part(0), src.part(1), res.part(0), res.part(1)); break;
+      default: return false;
+    }
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_not(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {
+    Instruction &noti= this->adaptor->get_instruction(instr);
+
+    ValueRef src = this->val_ref(noti.ops[0]);
+    ValueRef res = this->result_ref(noti.result);
+
+    const Type type = this->adaptor->type_of_ref(noti.ops[0]);
+    switch (type) {
+      case Type::i8: this->derived()->encode_not32(src.part(0), res.part(0)); break;
+      case Type::i16: this->derived()->encode_not32(src.part(0), res.part(0)); break;
+      case Type::i32: this->derived()->encode_not32(src.part(0), res.part(0)); break;
+      case Type::i64: this->derived()->encode_not64(src.part(0), res.part(0)); break;
+      case Type::i128: this->derived()->encode_not128(src.part(0), src.part(1), res.part(0), res.part(1)); break;
+      default: return false;
+    }
+    return true;
   }
 
   static tpde::Assembler::SymBinding convert_linkage(const Global& global) {
