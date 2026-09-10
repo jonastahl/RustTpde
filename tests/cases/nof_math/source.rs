@@ -578,3 +578,219 @@ pub fn neg_via_not_i32(a: i32) -> i32 {
     !a + 1
 }
 
+
+// The 128-bit types. These are wider than a register, so every operation
+// below is either an instruction pair over a low/high word -- where a carry
+// or borrow has to travel between the two -- or a call into the compiler
+// builtins. They are also passed and returned differently from the narrower
+// types: an argument occupies two registers, and the return value comes back
+// in a register pair.
+#[no_mangle]
+pub fn add_i128(a: i128, b: i128) -> i128 {
+    a + b
+}
+
+#[no_mangle]
+pub fn sub_i128(a: i128, b: i128) -> i128 {
+    a - b
+}
+
+#[no_mangle]
+pub fn add_u128(a: u128, b: u128) -> u128 {
+    a + b
+}
+
+#[no_mangle]
+pub fn sub_u128(a: u128, b: u128) -> u128 {
+    a - b
+}
+
+#[no_mangle]
+pub fn mul_i128(a: i128, b: i128) -> i128 {
+    a * b
+}
+
+#[no_mangle]
+pub fn mul_u128(a: u128, b: u128) -> u128 {
+    a * b
+}
+
+#[no_mangle]
+pub fn div_i128(a: i128, b: i128) -> i128 {
+    a / b
+}
+
+#[no_mangle]
+pub fn div_u128(a: u128, b: u128) -> u128 {
+    a / b
+}
+
+#[no_mangle]
+pub fn rem_i128(a: i128, b: i128) -> i128 {
+    a % b
+}
+
+#[no_mangle]
+pub fn rem_u128(a: u128, b: u128) -> u128 {
+    a % b
+}
+
+#[no_mangle]
+pub fn shl_i128(a: i128, b: i128) -> i128 {
+    a << b
+}
+
+#[no_mangle]
+pub fn shl_u128(a: u128, b: u128) -> u128 {
+    a << b
+}
+
+#[no_mangle]
+pub fn shr_i128(a: i128, b: i128) -> i128 {
+    a >> b
+}
+
+#[no_mangle]
+pub fn shr_u128(a: u128, b: u128) -> u128 {
+    a >> b
+}
+
+#[no_mangle]
+pub fn and_u128(a: u128, b: u128) -> u128 {
+    a & b
+}
+
+#[no_mangle]
+pub fn or_u128(a: u128, b: u128) -> u128 {
+    a | b
+}
+
+#[no_mangle]
+pub fn xor_i128(a: i128, b: i128) -> i128 {
+    a ^ b
+}
+
+#[no_mangle]
+pub fn xor_u128(a: u128, b: u128) -> u128 {
+    a ^ b
+}
+
+#[no_mangle]
+pub fn not_i128(a: i128) -> i128 {
+    !a
+}
+
+#[no_mangle]
+pub fn not_u128(a: u128) -> u128 {
+    !a
+}
+
+#[no_mangle]
+pub fn neg_i128(a: i128) -> i128 {
+    -a
+}
+
+// Shifts by a constant. 64 crosses the word boundary exactly, so the result
+// is a pure word swap plus a fill; 3 and 100 land on either side of it.
+#[no_mangle]
+pub fn shl3_u128(a: u128) -> u128 {
+    a << 3
+}
+
+#[no_mangle]
+pub fn shl64_u128(a: u128) -> u128 {
+    a << 64
+}
+
+#[no_mangle]
+pub fn shr64_u128(a: u128) -> u128 {
+    a >> 64
+}
+
+#[no_mangle]
+pub fn shr100_i128(a: i128) -> i128 {
+    a >> 100
+}
+
+// Chained arithmetic at 128 bits: the intermediate needs a slot of its own,
+// two registers wide.
+#[no_mangle]
+pub fn add3_u128(a: u128, b: u128, c: u128) -> u128 {
+    a + b + c
+}
+
+// (a + b) - (a - b) == 2 * b, where both the carry and the borrow have to
+// cross the word boundary correctly for the two to cancel.
+#[no_mangle]
+pub fn add_sub_u128(a: u128, b: u128) -> u128 {
+    (a + b) - (a - b)
+}
+
+// Four 128-bit arguments is eight registers' worth, more than the six the
+// SysV C ABI has, so the tail of this list arrives on the stack.
+#[no_mangle]
+pub fn add4_args_u128(a: u128, b: u128, c: u128, d: u128) -> u128 {
+    a + b + c + d
+}
+
+// A mixed-width signature: the 128-bit values must not disturb the placement
+// of the narrower ones around them.
+#[no_mangle]
+pub fn mixed_width_u128(a: u32, b: u128, c: u64, d: u128) -> u128 {
+    a as u128 + b + c as u128 + d
+}
+
+#[no_mangle]
+pub fn mul_add_u128(a: u128, b: u128, c: u128) -> u128 {
+    a * b + c
+}
+
+// Identities, each of which only holds if every operation is correct across
+// the full 128 bits rather than just the low word.
+#[no_mangle]
+pub fn div_rem_u128(a: u128, b: u128) -> u128 {
+    (a / b) * b + (a % b)
+}
+
+#[no_mangle]
+pub fn div_rem_i128(a: i128, b: i128) -> i128 {
+    (a / b) * b + (a % b)
+}
+
+#[no_mangle]
+pub fn shr_shl_u128(a: u128, b: u128) -> u128 {
+    (a >> b) << b
+}
+
+#[no_mangle]
+pub fn de_morgan_u128(a: u128, b: u128) -> u128 {
+    !(a & b) ^ (!a | !b)
+}
+
+#[no_mangle]
+pub fn neg_via_not_i128(a: i128) -> i128 {
+    !a + 1
+}
+
+// Widening and narrowing across the 64/128 boundary: sign extension has to
+// fill the whole high word, and a truncation has to drop it.
+#[no_mangle]
+pub fn zext_u64_u128(a: u64) -> u128 {
+    a as u128
+}
+
+#[no_mangle]
+pub fn sext_i64_i128(a: i64) -> i128 {
+    a as i128
+}
+
+#[no_mangle]
+pub fn trunc_u128_u64(a: u128) -> u64 {
+    a as u64
+}
+
+#[no_mangle]
+pub fn trunc_u128_u8(a: u128) -> u8 {
+    a as u8
+}
+

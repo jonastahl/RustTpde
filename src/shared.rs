@@ -73,10 +73,8 @@ mod ffi {
         i32,
         i64,
         i128,
-        f16,
         f32,
         f64,
-        f128,
         ptr,
 
         Last,
@@ -253,12 +251,14 @@ impl Debug for ffi::Instruction {
 impl Debug for ffi::Value {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         let val = match self.ty {
-            Type::i8 => format!("{}", self.data1 as i8),
-            Type::i16 => format!("{}", self.data1 as i16),
-            Type::i32 => format!("{}", self.data1 as i32),
-            Type::i64 => format!("{}", self.data1 as i64),
+            Type::i8 => format!("{}", self.data2 as i8),
+            Type::i16 => format!("{}", self.data2 as i16),
+            Type::i32 => format!("{}", self.data2 as i32),
+            Type::i64 => format!("{}", self.data2 as i64),
             Type::i128 => format!("{}", (self.data1 as i128) << 64 | (self.data1 as i128)),
-            Type::ptr => format!("[ptr: {}]", self.data1),
+            Type::ptr => format!("[ptr: {}]", self.data2),
+            Type::f32 => format!("{}", f32::from_bits(self.data2 as u32)),
+            Type::f64 => format!("{}", f64::from_bits(self.data2)),
             _ => todo!(),
         };
         write!(

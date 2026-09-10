@@ -116,6 +116,50 @@ extern "Rust" {
   fn de_morgan_u32(a: u32, b: u32) -> u32;
   fn xor_roundtrip_u8(a: u8, b: u8) -> u8;
   fn neg_via_not_i32(a: i32) -> i32;
+
+  fn add_i128(a: i128, b: i128) -> i128;
+  fn sub_i128(a: i128, b: i128) -> i128;
+  fn add_u128(a: u128, b: u128) -> u128;
+  fn sub_u128(a: u128, b: u128) -> u128;
+  fn mul_i128(a: i128, b: i128) -> i128;
+  fn mul_u128(a: u128, b: u128) -> u128;
+  fn div_i128(a: i128, b: i128) -> i128;
+  fn div_u128(a: u128, b: u128) -> u128;
+  fn rem_i128(a: i128, b: i128) -> i128;
+  fn rem_u128(a: u128, b: u128) -> u128;
+  fn shl_i128(a: i128, b: i128) -> i128;
+  fn shl_u128(a: u128, b: u128) -> u128;
+  fn shr_i128(a: i128, b: i128) -> i128;
+  fn shr_u128(a: u128, b: u128) -> u128;
+  fn and_u128(a: u128, b: u128) -> u128;
+  fn or_u128(a: u128, b: u128) -> u128;
+  fn xor_i128(a: i128, b: i128) -> i128;
+  fn xor_u128(a: u128, b: u128) -> u128;
+  fn not_i128(a: i128) -> i128;
+  fn not_u128(a: u128) -> u128;
+  fn neg_i128(a: i128) -> i128;
+
+  fn shl3_u128(a: u128) -> u128;
+  fn shl64_u128(a: u128) -> u128;
+  fn shr64_u128(a: u128) -> u128;
+  fn shr100_i128(a: i128) -> i128;
+
+  fn add3_u128(a: u128, b: u128, c: u128) -> u128;
+  fn add_sub_u128(a: u128, b: u128) -> u128;
+  fn add4_args_u128(a: u128, b: u128, c: u128, d: u128) -> u128;
+  fn mixed_width_u128(a: u32, b: u128, c: u64, d: u128) -> u128;
+  fn mul_add_u128(a: u128, b: u128, c: u128) -> u128;
+
+  fn div_rem_u128(a: u128, b: u128) -> u128;
+  fn div_rem_i128(a: i128, b: i128) -> i128;
+  fn shr_shl_u128(a: u128, b: u128) -> u128;
+  fn de_morgan_u128(a: u128, b: u128) -> u128;
+  fn neg_via_not_i128(a: i128) -> i128;
+
+  fn zext_u64_u128(a: u64) -> u128;
+  fn sext_i64_i128(a: i64) -> i128;
+  fn trunc_u128_u64(a: u128) -> u64;
+  fn trunc_u128_u8(a: u128) -> u8;
 }
 
 /// Checks `add_$ty` and `sub_$ty` over every ordered pair drawn from `$vals`.
@@ -487,5 +531,191 @@ fn main() {
   // Two's complement negation spelled out must match the `neg` instruction.
   for a in [i32::MIN, i32::MIN + 1, -7, -1, 0, 1, 7, i32::MAX] {
     assert_eq!(unsafe { neg_via_not_i32(a) }, a.wrapping_neg(), "neg_via_not_i32({})", a);
+  }
+
+  // The 128-bit types. Every value set below straddles the 64-bit word
+  // boundary in at least one place, so an operation that only touches the low
+  // word -- or that fails to carry into the high one -- produces a wrong
+  // answer rather than a merely unusual one.
+  check_add_sub!(i128, add_i128, sub_i128, [
+    i128::MIN, i128::MIN + 1, -(1i128 << 64), -(1i128 << 64) + 1, -2, -1, 0, 1, 2,
+    1i128 << 64, i128::MAX - 1, i128::MAX
+  ]);
+  check_add_sub!(u128, add_u128, sub_u128, [
+    0, 1, 2, 0xFFFF_FFFF_FFFF_FFFF, 0x1_0000_0000_0000_0000,
+    0x8000_0000_0000_0000_0000_0000_0000_0000, u128::MAX - 1, u128::MAX
+  ]);
+
+  check_mul!(i128, mul_i128, [
+    i128::MIN, i128::MIN + 1, -(1i128 << 64), -3, -2, -1, 0, 1, 2, 3,
+    1i128 << 64, 1i128 << 63, i128::MAX - 1, i128::MAX
+  ]);
+  check_mul!(u128, mul_u128, [
+    0, 1, 2, 3, 1u128 << 63, 1u128 << 64, 0xFFFF_FFFF_FFFF_FFFF,
+    0x8000_0000_0000_0000_0000_0000_0000_0000, u128::MAX - 1, u128::MAX
+  ]);
+
+  check_div_rem!(i128, div_i128, rem_i128, [
+    i128::MIN, i128::MIN + 1, -(1i128 << 64), -7, -2, -1, 0, 1, 2, 7,
+    1i128 << 64, i128::MAX - 1, i128::MAX
+  ]);
+  check_div_rem!(u128, div_u128, rem_u128, [
+    0, 1, 2, 7, 0xFFFF_FFFF_FFFF_FFFF, 0x1_0000_0000_0000_0000,
+    0x8000_0000_0000_0000_0000_0000_0000_0000, u128::MAX - 1, u128::MAX
+  ]);
+
+  // Shifts by every amount from 0 to 127, which includes the 64 that moves
+  // one word wholesale into the other.
+  check_shl!(i128, shl_i128, [i128::MIN, -1, 0, 1, 2, 1i128 << 64, i128::MAX]);
+  check_shl!(u128, shl_u128, [
+    0, 1, 2, 0xFFFF_FFFF_FFFF_FFFF, 0x8000_0000_0000_0000_0000_0000_0000_0000, u128::MAX
+  ]);
+  check_shr!(i128, shr_i128, [i128::MIN, -3, -1, 0, 1, 2, 1i128 << 64, i128::MAX]);
+  check_shr!(u128, shr_u128, [
+    0, 1, 2, 0xFFFF_FFFF_FFFF_FFFF, 0x8000_0000_0000_0000_0000_0000_0000_0000, u128::MAX
+  ]);
+
+  check_bitwise!(u128, and_u128, or_u128, [
+    0, 1, 2, 0xFFFF_FFFF_FFFF_FFFF, 0xFFFF_FFFF_FFFF_FFFF_0000_0000_0000_0000,
+    0x5555_5555_5555_5555_5555_5555_5555_5555,
+    0xAAAA_AAAA_AAAA_AAAA_AAAA_AAAA_AAAA_AAAA, u128::MAX
+  ]);
+  check_xor!(i128, xor_i128, [
+    i128::MIN, -1, 0, 1, 0x5555_5555_5555_5555, 1i128 << 64, i128::MAX
+  ]);
+  check_xor!(u128, xor_u128, [
+    0, 1, 0xFFFF_FFFF_FFFF_FFFF, 0xFFFF_FFFF_FFFF_FFFF_0000_0000_0000_0000,
+    0x5555_5555_5555_5555_5555_5555_5555_5555,
+    0xAAAA_AAAA_AAAA_AAAA_AAAA_AAAA_AAAA_AAAA, u128::MAX
+  ]);
+
+  check_not!(i128, not_i128, [
+    i128::MIN, -1, 0, 1, 0x5555_5555_5555_5555, 1i128 << 64, i128::MAX
+  ]);
+  check_not!(u128, not_u128, [
+    0, 1, 0x5555_5555_5555_5555_5555_5555_5555_5555,
+    0xAAAA_AAAA_AAAA_AAAA_AAAA_AAAA_AAAA_AAAA,
+    0x8000_0000_0000_0000_0000_0000_0000_0000, u128::MAX
+  ]);
+  check_neg!(i128, neg_i128, [
+    i128::MIN, i128::MIN + 1, -(1i128 << 64), -1, 0, 1, 1i128 << 64, i128::MAX
+  ]);
+
+  // Constant shift amounts, on both sides of the word boundary and exactly on
+  // it.
+  for a in [0u128, 1, 3, 1 << 63, 1 << 64, 0xFFFF_FFFF_FFFF_FFFF, u128::MAX] {
+    assert_eq!(unsafe { shl3_u128(a) }, a.wrapping_shl(3), "shl3_u128({})", a);
+    assert_eq!(unsafe { shl64_u128(a) }, a.wrapping_shl(64), "shl64_u128({})", a);
+    assert_eq!(unsafe { shr64_u128(a) }, a.wrapping_shr(64), "shr64_u128({})", a);
+  }
+  for a in [i128::MIN, -(1i128 << 64), -7, -1, 0, 1, 1i128 << 64, i128::MAX] {
+    assert_eq!(unsafe { shr100_i128(a) }, a >> 100, "shr100_i128({})", a);
+  }
+
+  // Chained arithmetic, with a carry that has to propagate out of the low
+  // word twice in a row.
+  assert_eq!(unsafe { add3_u128(1, 2, 3) }, 6);
+  assert_eq!(unsafe { add3_u128(u128::MAX, 1, 1) }, 1);
+  assert_eq!(unsafe { add3_u128(0xFFFF_FFFF_FFFF_FFFF, 1, 0) }, 1u128 << 64);
+  assert_eq!(
+    unsafe { add3_u128(1 << 127, 1 << 127, 7) },
+    7
+  );
+
+  // (a + b) - (a - b) == 2 * b, wrapping.
+  for a in [0u128, 1, 0xFFFF_FFFF_FFFF_FFFF, 1 << 64, 1 << 127, u128::MAX] {
+    for b in [0u128, 1, 0xFFFF_FFFF_FFFF_FFFF, 1 << 64, 1 << 127, u128::MAX] {
+      assert_eq!(
+        unsafe { add_sub_u128(a, b) },
+        b.wrapping_mul(2),
+        "add_sub_u128({}, {})", a, b
+      );
+    }
+  }
+
+  // Four 128-bit arguments overflow the argument registers, so the tail
+  // arrives on the stack and must not be dropped or swapped.
+  assert_eq!(unsafe { add4_args_u128(1, 2, 3, 4) }, 10);
+  assert_eq!(unsafe { add4_args_u128(0, 0, 0, u128::MAX) }, u128::MAX);
+  assert_eq!(unsafe { add4_args_u128(0, 0, u128::MAX, 0) }, u128::MAX);
+  assert_eq!(unsafe { add4_args_u128(u128::MAX, 1, 0, 0) }, 0);
+  assert_eq!(
+    unsafe { add4_args_u128(0xFFFF_FFFF_FFFF_FFFF, 1, 1 << 64, 0) },
+    1u128 << 65
+  );
+
+  // A 128-bit value next to narrower ones in the same signature.
+  assert_eq!(unsafe { mixed_width_u128(1, 2, 3, 4) }, 10);
+  assert_eq!(
+    unsafe { mixed_width_u128(u32::MAX, 0, u64::MAX, 0) },
+    u32::MAX as u128 + u64::MAX as u128
+  );
+  assert_eq!(
+    unsafe { mixed_width_u128(0, 1 << 127, 0, 1 << 127) },
+    0
+  );
+  assert_eq!(
+    unsafe { mixed_width_u128(1, u128::MAX, 0, 0) },
+    0
+  );
+
+  for a in [0u128, 1, 3, 1 << 64, 1 << 127, u128::MAX] {
+    for b in [0u128, 1, 3, 1 << 64, 1 << 127, u128::MAX] {
+      for c in [0u128, 1, 7, u128::MAX] {
+        assert_eq!(
+          unsafe { mul_add_u128(a, b, c) },
+          a.wrapping_mul(b).wrapping_add(c),
+          "mul_add_u128({}, {}, {})", a, b, c
+        );
+      }
+    }
+  }
+
+  // `(a / b) * b + (a % b)` reconstructs `a`.
+  for a in [0u128, 1, 7, 1 << 64, 1 << 127, 0xFFFF_FFFF_FFFF_FFFF, u128::MAX] {
+    for b in [1u128, 2, 7, 1 << 64, 0xFFFF_FFFF_FFFF_FFFF, u128::MAX] {
+      assert_eq!(unsafe { div_rem_u128(a, b) }, a, "div_rem_u128({}, {})", a, b);
+    }
+  }
+  for a in [i128::MIN + 1, -(1i128 << 64), -7, -1, 0, 1, 7, 1i128 << 64, i128::MAX] {
+    for b in [-(1i128 << 64), -7i128, -2, -1, 1, 2, 7, 1i128 << 64, i128::MAX] {
+      assert_eq!(unsafe { div_rem_i128(a, b) }, a, "div_rem_i128({}, {})", a, b);
+    }
+  }
+
+  // Shifting the low bits out and zeros back in, across the word boundary.
+  for a in [0u128, 1, 3, 0x5555_5555_5555_5555_5555_5555_5555_5555, 1 << 64, u128::MAX] {
+    for b in 0..128u128 {
+      assert_eq!(
+        unsafe { shr_shl_u128(a, b) },
+        (a >> b) << b,
+        "shr_shl_u128({}, {})", a, b
+      );
+    }
+  }
+
+  // De Morgan's law at 128 bits: the two sides agree, so their xor is zero.
+  for a in [0u128, 1, 0xFFFF_FFFF_FFFF_FFFF, 0x5555_5555_5555_5555_5555_5555_5555_5555, u128::MAX] {
+    for b in [0u128, 1, 1 << 64, 0xAAAA_AAAA_AAAA_AAAA_AAAA_AAAA_AAAA_AAAA, u128::MAX] {
+      assert_eq!(unsafe { de_morgan_u128(a, b) }, 0, "de_morgan_u128({}, {})", a, b);
+    }
+  }
+
+  // Two's complement negation spelled out, where the `+ 1` may carry all the
+  // way from the low word into the high one.
+  for a in [i128::MIN, i128::MIN + 1, -(1i128 << 64), -7, -1, 0, 1, 7, 1i128 << 64, i128::MAX] {
+    assert_eq!(unsafe { neg_via_not_i128(a) }, a.wrapping_neg(), "neg_via_not_i128({})", a);
+  }
+
+  // Widening into and truncating out of 128 bits.
+  for a in [0u64, 1, 0x7FFF_FFFF_FFFF_FFFF, 0x8000_0000_0000_0000, u64::MAX] {
+    assert_eq!(unsafe { zext_u64_u128(a) }, a as u128, "zext_u64_u128({})", a);
+  }
+  for a in [i64::MIN, i64::MIN + 1, -1, 0, 1, i64::MAX] {
+    assert_eq!(unsafe { sext_i64_i128(a) }, a as i128, "sext_i64_i128({})", a);
+  }
+  for a in [0u128, 1, 0xFFFF_FFFF_FFFF_FFFF, 1 << 64, 0x1234_5678_9ABC_DEF0_0FED_CBA9_8765_4321, u128::MAX] {
+    assert_eq!(unsafe { trunc_u128_u64(a) }, a as u64, "trunc_u128_u64({})", a);
+    assert_eq!(unsafe { trunc_u128_u8(a) }, a as u8, "trunc_u128_u8({})", a);
   }
 }

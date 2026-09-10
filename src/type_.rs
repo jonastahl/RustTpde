@@ -66,7 +66,7 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn type_f16(&self) -> Self::Type {
-        FullType::Single(Type::f16)
+        todo!()
     }
 
     fn type_f32(&self) -> Self::Type {
@@ -78,7 +78,7 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn type_f128(&self) -> Self::Type {
-        FullType::Single(Type::f128)
+        todo!()
     }
 
     fn type_array(&self, ty: Self::Type, len: u64) -> Self::Type {
@@ -94,7 +94,7 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
             FullType::Single(ty) => match ty {
                 Type::Void => TypeKind::Void,
                 Type::Bool | Type::i8 |  Type::i16 | Type::i32 | Type::i64 | Type::i128 => TypeKind::Integer,
-                Type::f16 | Type::f32 | Type::f64 | Type::f128 => TypeKind::Float,
+                Type::f32 | Type::f64 => TypeKind::Float,
                 Type::ptr => TypeKind::Pointer,
                 _ => todo!()
             },
@@ -123,10 +123,8 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
         match ty {
             FullType::Single(ty) =>
                 match ty {
-                    Type::f16 => 16,
                     Type::f32 => 32,
                     Type::f64 =>64,
-                    Type::f128 => 128,
                     _ => todo!()
                 }
             _ => todo!()

@@ -73,6 +73,75 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "add_big_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [const: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "add_const_f32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [const: 1]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "add_const_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [const: 2]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
             name: "add_f32",
             n_args: 2,
             has_ret: true,
@@ -121,6 +190,29 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "add_inf_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [const: 3]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
             name: "add_mul_f64",
             n_args: 3,
             has_ret: true,
@@ -144,6 +236,52 @@ ModuleTpde {
                     <fMul> ([val: 1], [val: 2]) -> [val: 3],
                     <fAdd> ([val: 0], [val: 3]) -> [val: 4],
                     <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
+            name: "add_neg_inf_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [const: 4]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "add_neg_zero_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [const: 5]) -> [val: 1],
+                    <Ret> ([val: 1]),
                 ],
             ],
         },
@@ -176,6 +314,67 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "add_zero_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fAdd> ([val: 0], [const: 6]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "branch_const_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                Bool,
+                i32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [
+                size: 4, align: 4,
+            ],
+            basic_blocks: [
+                "start": [
+                    <RealOLT> ([val: 0], [const: 7]) -> [val: 1],
+                    <CondBr> ([val: 1], [raw: 2], [raw: 1]),
+                ],
+                "bb2": [
+                    <Store> ([const: 8], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb1": [
+                    <Store> ([const: 9], [alloc: 0], [raw: 4]),
+                    <Br> ([raw: 3]),
+                ],
+                "bb3": [
+                    <Load> ([alloc: 0], [raw: 4]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
             name: "branch_eq_f32",
             n_args: 2,
             has_ret: true,
@@ -201,11 +400,11 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 0], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 10], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 1], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 11], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
@@ -240,11 +439,11 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 2], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 12], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 3], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 13], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
@@ -279,11 +478,11 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 4], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 14], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 5], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 15], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
@@ -318,11 +517,11 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 6], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 16], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 7], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 17], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
@@ -357,11 +556,11 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 8], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 18], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 9], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 19], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
@@ -396,11 +595,11 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 10], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 20], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 11], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 21], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
@@ -435,11 +634,11 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 12], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 22], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 13], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 23], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
@@ -474,11 +673,11 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 14], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 24], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 15], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 25], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
@@ -513,11 +712,11 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 16], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 26], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 17], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 27], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
@@ -552,11 +751,11 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 18], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 28], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 19], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 29], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
@@ -591,11 +790,11 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 20], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 30], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 21], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 31], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
@@ -630,16 +829,39 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb2": [
-                    <Store> ([const: 22], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 32], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb1": [
-                    <Store> ([const: 23], [alloc: 0], [raw: 4]),
+                    <Store> ([const: 33], [alloc: 0], [raw: 4]),
                     <Br> ([raw: 3]),
                 ],
                 "bb3": [
                     <Load> ([alloc: 0], [raw: 4]) -> [val: 3],
                     <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "cmp_const_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <RealOGT> ([val: 0], [const: 34]) -> [val: 1],
+                    <Ret> ([val: 1]),
                 ],
             ],
         },
@@ -928,6 +1150,98 @@ ModuleTpde {
                 "start": [
                     <RealUNE> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "const_div_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fDiv> ([const: 35], [val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "const_sub_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fSub> ([const: 36], [val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "div_const_f32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fDiv> ([val: 0], [const: 37]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "div_const_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fDiv> ([val: 0], [const: 38]) -> [val: 1],
+                    <Ret> ([val: 1]),
                 ],
             ],
         },
@@ -1394,6 +1708,52 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "mul_const_f32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fMul> ([val: 0], [const: 39]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_const_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fMul> ([val: 0], [const: 40]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
             name: "mul_f32",
             n_args: 2,
             has_ret: true,
@@ -1438,6 +1798,75 @@ ModuleTpde {
                 "start": [
                     <fMul> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_neg_one_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fMul> ([val: 0], [const: 41]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_one_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fMul> ([val: 0], [const: 42]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_pi_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fMul> ([val: 0], [const: 43]) -> [val: 1],
+                    <Ret> ([val: 1]),
                 ],
             ],
         },
@@ -1532,6 +1961,90 @@ ModuleTpde {
                 "start": [
                     <fRem> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "ret_const_f32",
+            n_args: 0,
+            has_ret: true,
+            slots: [],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Ret> ([const: 44]),
+                ],
+            ],
+        },
+        Function {
+            name: "ret_const_f64",
+            n_args: 0,
+            has_ret: true,
+            slots: [],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Ret> ([const: 45]),
+                ],
+            ],
+        },
+        Function {
+            name: "sub_const_f32",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f32,
+                f32,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fSub> ([val: 0], [const: 46]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "sub_const_f64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                f64,
+                f64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <fSub> ([val: 0], [const: 47]) -> [val: 1],
+                    <Ret> ([val: 1]),
                 ],
             ],
         },
@@ -1677,30 +2190,54 @@ ModuleTpde {
         },
     ],
     consts: [
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
-        [i32] (0 20) -> 0,
-        [i32] (0 10) -> 0,
+        [f64] (0 9218868437227405311) -> 179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
+        [f32] (0 1069547520) -> 1.5,
+        [f64] (0 4609434218613702656) -> 1.5,
+        [f64] (0 9218868437227405312) -> inf,
+        [f64] (0 18442240474082181120) -> -inf,
+        [f64] (0 9223372036854775808) -> -0,
+        [f64] (0 0) -> 0,
+        [f64] (0 13831680355561635840) -> -1.25,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [i32] (0 20) -> 20,
+        [i32] (0 10) -> 10,
+        [f64] (0 4602678819172646912) -> 0.5,
+        [f64] (0 4607182418800017408) -> 1,
+        [f64] (0 4612811918334230528) -> 2.5,
+        [f32] (0 1088421888) -> 7,
+        [f64] (0 4619567317775286272) -> 7,
+        [f32] (0 1077936128) -> 3,
+        [f64] (0 4613937818241073152) -> 3,
+        [f64] (0 13830554455654793216) -> -1,
+        [f64] (0 4607182418800017408) -> 1,
+        [f64] (0 4614256656552045848) -> 3.141592653589793,
+        [f32] (0 1042284544) -> 0.15625,
+        [f64] (0 13815242216921733530) -> -0.1,
+        [f32] (0 1036831949) -> 0.1,
+        [f64] (0 4591870180066957722) -> 0.1,
     ],
     globals: [],
     global_ptrs: [],

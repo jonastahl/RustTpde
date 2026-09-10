@@ -135,6 +135,8 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
                                 .unwrap(),
                         );
                     }
+                    Type::f32 => cv.to_bits(cv.size()).unwrap(),
+                    Type::f64 => cv.to_bits(cv.size()).unwrap(),
                     _ => todo!(),
                 };
                 self.module.borrow_mut().add_const(ty, data)

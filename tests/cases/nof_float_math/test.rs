@@ -69,6 +69,31 @@ extern "Rust" {
   fn add_sub_f64(a: f64, b: f64) -> f64;
   fn add9_args_f64(a: f64, b: f64, c: f64, d: f64, e: f64, f: f64, g: f64, h: f64, i: f64) -> f64;
   fn mixed_args(a: f64, b: u64, c: f64, d: u64, e: f64, f: u64) -> f64;
+
+  fn add_const_f32(a: f32) -> f32;
+  fn sub_const_f32(a: f32) -> f32;
+  fn mul_const_f32(a: f32) -> f32;
+  fn div_const_f32(a: f32) -> f32;
+  fn add_const_f64(a: f64) -> f64;
+  fn sub_const_f64(a: f64) -> f64;
+  fn mul_const_f64(a: f64) -> f64;
+  fn div_const_f64(a: f64) -> f64;
+
+  fn add_zero_f64(a: f64) -> f64;
+  fn add_neg_zero_f64(a: f64) -> f64;
+  fn mul_one_f64(a: f64) -> f64;
+  fn mul_neg_one_f64(a: f64) -> f64;
+  fn add_inf_f64(a: f64) -> f64;
+  fn add_neg_inf_f64(a: f64) -> f64;
+  fn mul_pi_f64(a: f64) -> f64;
+  fn add_big_f64(a: f64) -> f64;
+  fn const_sub_f64(a: f64) -> f64;
+  fn const_div_f64(a: f64) -> f64;
+
+  fn cmp_const_f64(a: f64) -> bool;
+  fn branch_const_f64(a: f64) -> i32;
+  fn ret_const_f32() -> f32;
+  fn ret_const_f64() -> f64;
 }
 
 /// Compares two floats bit for bit, so that `-0.0` and `0.0` are treated as
@@ -292,5 +317,51 @@ fn main() {
   // Floats and integers are assigned from separate register classes.
   assert_float_eq!(unsafe { mixed_args(1.0, 2, 3.0, 4, 5.0, 6) }, 9.0 * 12.0, "mixed_args");
   assert_float_eq!(unsafe { mixed_args(0.5, 1, 0.25, 0, 0.25, 0) }, 1.0, "mixed_args fractional");
+
+  // Constant operands, checked over the same value sets as the two-argument
+  // forms. Every expectation is the same expression evaluated by the host
+  // compiler, so a constant that was materialized with the wrong bit pattern
+  // shows up as a mismatch rather than as a plausible-looking answer.
+  for &a in &f32_vals {
+    assert_float_eq!(unsafe { add_const_f32(a) }, a + 1.5, "add_const_f32({:?})", a);
+    assert_float_eq!(unsafe { sub_const_f32(a) }, a - 0.1, "sub_const_f32({:?})", a);
+    assert_float_eq!(unsafe { mul_const_f32(a) }, a * 3.0, "mul_const_f32({:?})", a);
+    assert_float_eq!(unsafe { div_const_f32(a) }, a / 7.0, "div_const_f32({:?})", a);
+  }
+  for &a in &f64_vals {
+    assert_float_eq!(unsafe { add_const_f64(a) }, a + 1.5, "add_const_f64({:?})", a);
+    assert_float_eq!(unsafe { sub_const_f64(a) }, a - 0.1, "sub_const_f64({:?})", a);
+    assert_float_eq!(unsafe { mul_const_f64(a) }, a * 3.0, "mul_const_f64({:?})", a);
+    assert_float_eq!(unsafe { div_const_f64(a) }, a / 7.0, "div_const_f64({:?})", a);
+
+    // The constants that look like identities but are not: `+ 0.0` normalizes
+    // `-0.0`, and `* -1.0` flips the sign of the zeros and infinities too.
+    assert_float_eq!(unsafe { add_zero_f64(a) }, a + 0.0, "add_zero_f64({:?})", a);
+    assert_float_eq!(unsafe { add_neg_zero_f64(a) }, a + -0.0, "add_neg_zero_f64({:?})", a);
+    assert_float_eq!(unsafe { mul_one_f64(a) }, a * 1.0, "mul_one_f64({:?})", a);
+    assert_float_eq!(unsafe { mul_neg_one_f64(a) }, a * -1.0, "mul_neg_one_f64({:?})", a);
+
+    // Constants with awkward bit patterns.
+    assert_float_eq!(unsafe { add_inf_f64(a) }, a + f64::INFINITY, "add_inf_f64({:?})", a);
+    assert_float_eq!(unsafe { add_neg_inf_f64(a) }, a + f64::NEG_INFINITY, "add_neg_inf_f64({:?})", a);
+    assert_float_eq!(unsafe { mul_pi_f64(a) }, a * 3.141592653589793, "mul_pi_f64({:?})", a);
+    assert_float_eq!(unsafe { add_big_f64(a) }, a + 1.7976931348623157e308, "add_big_f64({:?})", a);
+
+    // The constant on the left of a non-commutative operator.
+    assert_float_eq!(unsafe { const_sub_f64(a) }, 2.5 - a, "const_sub_f64({:?})", a);
+    assert_float_eq!(unsafe { const_div_f64(a) }, 1.0 / a, "const_div_f64({:?})", a);
+
+    // Comparing against a constant, plain and fused with a branch.
+    assert_eq!(unsafe { cmp_const_f64(a) }, a > 0.5, "cmp_const_f64({:?})", a);
+    assert_eq!(
+      unsafe { branch_const_f64(a) },
+      if a < -1.25 { 10 } else { 20 },
+      "branch_const_f64({:?})", a
+    );
+  }
+
+  // A constant with no argument to hide behind.
+  assert_float_eq!(unsafe { ret_const_f32() }, 0.15625f32, "ret_const_f32");
+  assert_float_eq!(unsafe { ret_const_f64() }, -0.1f64, "ret_const_f64");
 }
 
