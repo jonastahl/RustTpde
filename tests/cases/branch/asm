@@ -854,27 +854,28 @@ Disassembly of section .text:
  a87:	89 fb                	mov    %edi,%ebx
  a89:	41 89 f4             	mov    %esi,%r12d
  a8c:	44 39 e3             	cmp    %r12d,%ebx
- a8f:	0f 8c 37 00 00 00    	jl     acc <cmp_nested_i32+0x4c>
+ a8f:	0f 8c 36 00 00 00    	jl     acb <cmp_nested_i32+0x4b>
  a95:	44 39 e3             	cmp    %r12d,%ebx
  a98:	0f 8f 0c 00 00 00    	jg     aaa <cmp_nested_i32+0x2a>
  a9e:	c7 45 d4 05 00 00 00 	movl   $0x5,-0x2c(%rbp)
- aa5:	e9 3e 00 00 00       	jmp    ae8 <cmp_nested_i32+0x68>
- aaa:	41 83 fc 00          	cmp    $0x0,%r12d
- aae:	0f 8c 0c 00 00 00    	jl     ac0 <cmp_nested_i32+0x40>
- ab4:	c7 45 d4 04 00 00 00 	movl   $0x4,-0x2c(%rbp)
- abb:	e9 28 00 00 00       	jmp    ae8 <cmp_nested_i32+0x68>
- ac0:	c7 45 d4 03 00 00 00 	movl   $0x3,-0x2c(%rbp)
- ac7:	e9 1c 00 00 00       	jmp    ae8 <cmp_nested_i32+0x68>
- acc:	83 fb 00             	cmp    $0x0,%ebx
- acf:	0f 8c 0c 00 00 00    	jl     ae1 <cmp_nested_i32+0x61>
- ad5:	c7 45 d4 02 00 00 00 	movl   $0x2,-0x2c(%rbp)
- adc:	e9 07 00 00 00       	jmp    ae8 <cmp_nested_i32+0x68>
- ae1:	c7 45 d4 01 00 00 00 	movl   $0x1,-0x2c(%rbp)
- ae8:	8b 45 d4             	mov    -0x2c(%rbp),%eax
- aeb:	41 5c                	pop    %r12
- aed:	5b                   	pop    %rbx
- aee:	5d                   	pop    %rbp
- aef:	c3                   	ret
+ aa5:	e9 3c 00 00 00       	jmp    ae6 <cmp_nested_i32+0x66>
+ aaa:	45 85 e4             	test   %r12d,%r12d
+ aad:	0f 8c 0c 00 00 00    	jl     abf <cmp_nested_i32+0x3f>
+ ab3:	c7 45 d4 04 00 00 00 	movl   $0x4,-0x2c(%rbp)
+ aba:	e9 27 00 00 00       	jmp    ae6 <cmp_nested_i32+0x66>
+ abf:	c7 45 d4 03 00 00 00 	movl   $0x3,-0x2c(%rbp)
+ ac6:	e9 1b 00 00 00       	jmp    ae6 <cmp_nested_i32+0x66>
+ acb:	85 db                	test   %ebx,%ebx
+ acd:	0f 8c 0c 00 00 00    	jl     adf <cmp_nested_i32+0x5f>
+ ad3:	c7 45 d4 02 00 00 00 	movl   $0x2,-0x2c(%rbp)
+ ada:	e9 07 00 00 00       	jmp    ae6 <cmp_nested_i32+0x66>
+ adf:	c7 45 d4 01 00 00 00 	movl   $0x1,-0x2c(%rbp)
+ ae6:	8b 45 d4             	mov    -0x2c(%rbp),%eax
+ ae9:	41 5c                	pop    %r12
+ aeb:	5b                   	pop    %rbx
+ aec:	5d                   	pop    %rbp
+ aed:	c3                   	ret
+ aee:	66 90                	xchg   %ax,%ax
 
 0000000000000af0 <simplebranch>:
  af0:	55                   	push   %rbp

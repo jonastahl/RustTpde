@@ -433,7 +433,8 @@ namespace tpde_rust {
     auto get_encode_fn =
         [op](Type bvt) -> std::pair<EncodeFnTy, bool> {
       static constexpr auto bvt_lut = []() consteval {
-        std::array<u8, unsigned(10)> res{};
+        std::array<u8, static_cast<unsigned>(Type::Last)> res{};
+        res[unsigned(Type::Bool)] = 1;
         res[unsigned(Type::i8)] = 1;
         res[unsigned(Type::i16)] = 1;
         res[unsigned(Type::i32)] = 1;
@@ -1080,8 +1081,9 @@ namespace tpde_rust {
 
     const Type type = this->adaptor->type_of_ref(negi.ops[0]);
     switch (type) {
-      case Type::i8: this->derived()->encode_negi32(src.part(0), res.part(0)); break;
-      case Type::i16: this->derived()->encode_negi32(src.part(0), res.part(0)); break;
+      case Type::Bool:
+      case Type::i8:
+      case Type::i16:
       case Type::i32: this->derived()->encode_negi32(src.part(0), res.part(0)); break;
       case Type::i64: this->derived()->encode_negi64(src.part(0), res.part(0)); break;
       case Type::i128: this->derived()->encode_negi128(src.part(0), src.part(1), res.part(0), res.part(1)); break;
@@ -1099,8 +1101,9 @@ namespace tpde_rust {
 
     const Type type = this->adaptor->type_of_ref(noti.ops[0]);
     switch (type) {
-      case Type::i8: this->derived()->encode_not32(src.part(0), res.part(0)); break;
-      case Type::i16: this->derived()->encode_not32(src.part(0), res.part(0)); break;
+      case Type::Bool:
+      case Type::i8:
+      case Type::i16:
       case Type::i32: this->derived()->encode_not32(src.part(0), res.part(0)); break;
       case Type::i64: this->derived()->encode_not64(src.part(0), res.part(0)); break;
       case Type::i128: this->derived()->encode_not128(src.part(0), src.part(1), res.part(0), res.part(1)); break;

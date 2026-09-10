@@ -77,7 +77,9 @@ mod ffi {
         f32,
         f64,
         f128,
-        ptr
+        ptr,
+
+        Last,
     }
 
     #[derive(Debug)]

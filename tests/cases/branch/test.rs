@@ -1,7 +1,7 @@
 const TAKEN: u32 = 0xF0F0F0F0;
 const NOT_TAKEN: u32 = 0x0F0F0F0F;
 
-extern "C" {
+extern "Rust" {
   fn simplebranch(a: u32) -> u32;
   fn cmp_eq_i8(a: i8, b: i8) -> u32;
   fn cmp_ne_i8(a: i8, b: i8) -> u32;

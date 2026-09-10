@@ -225,11 +225,10 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn udiv(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.module.borrow_mut().add_instruction_ret_x(
+        self.module.borrow_mut().add_instruction_ret_first(
             self.basic_block,
             InstructionKind::uDiv,
-            vec![lhs, rhs],
-            1
+            vec![lhs, rhs]
         )
     }
 
@@ -238,11 +237,10 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn sdiv(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.module.borrow_mut().add_instruction_ret_x(
+        self.module.borrow_mut().add_instruction_ret_first(
             self.basic_block,
             InstructionKind::sDiv,
-            vec![lhs, rhs],
-            1
+            vec![lhs, rhs]
         )
     }
 
@@ -251,11 +249,10 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn fdiv(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.module.borrow_mut().add_instruction_ret_x(
+        self.module.borrow_mut().add_instruction_ret_first(
             self.basic_block,
             InstructionKind::fDiv,
-            vec![lhs, rhs],
-            1
+            vec![lhs, rhs]
         )
     }
 
@@ -268,11 +265,10 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn urem(&mut self, lhs: Self::Value, rhs: Self::Value) -> Self::Value {
-        self.module.borrow_mut().add_instruction_ret_x(
+        self.module.borrow_mut().add_instruction_ret_first(
             self.basic_block,
             InstructionKind::uRem,
-            vec![lhs, rhs],
-            1
+            vec![lhs, rhs]
         )
     }
 

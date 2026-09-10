@@ -84,97 +84,175 @@ namespace tpde_rust::x64 {
   }
 
   bool RustCompilerX64::compile_cmp(const RustAdaptor::IRInstRef inst, const ValInfo &, u64) {
-    Instruction& cmpi = adaptor->get_instruction(inst);
+    const Instruction cmpi = this->adaptor->get_instruction(inst);
 
-    // check if we can fuse it
-    if (adaptor->get_basic_block(inst.block).instructions.size() > inst.inst) {
-      const auto jmpi = adaptor->get_instruction(inst.next());
-      if (jmpi.kind == InstructionKind::CondBr && cmpi.result == jmpi.ops[0]) {
-        const IRValueRef left = cmpi.ops[0];
-        const IRValueRef right = cmpi.ops[1];
+    Type type = this->adaptor->type_of_ref(cmpi.ops[0]);
+    u32 int_width = size_of_type(type) * 8;
 
-        assert(operands::is_val(left));
-
-        auto lhs = this->val_ref(left);
-        auto lhs_op = lhs.part(0);
-
-        const Type tyl = Base::adaptor->type_of_ref(left);
-        const Type tyr = Base::adaptor->type_of_ref(right);
-        assert(tyl == tyr);
-
-        const auto lhs_reg = lhs_op.cur_reg_or_load();
-
-        if (operands::is_val(right)) {
-          auto rhs = this->val_ref(operands::content(right));
-          auto rhs_op = rhs.part(0);
-          const auto rhs_reg = rhs_op.cur_reg_or_load();
-
-          switch (tyl) {
-            case Type::i8: ASM(CMP8rr, lhs_reg, rhs_reg); break;
-            case Type::i16: ASM(CMP16rr, lhs_reg, rhs_reg); break;
-            case Type::i32: ASM(CMP32rr, lhs_reg, rhs_reg); break;
-            case Type::i64: ASM(CMP64rr, lhs_reg, rhs_reg); break;
-            default:
-              TPDE_UNREACHABLE("Invalid type");
-          }
-        } else if (operands::is_const(right)) {
-          // TODO support has_assignment mi operations
-          uint64_t imm_h;
-          uint64_t imm_l;
-          {
-            const auto imm_ref = operands::content(right);
-
-            const auto& imm_info = this->adaptor->mod->consts[imm_ref];
-            imm_h = imm_info.data1;
-            imm_l = imm_info.data2;
-          }
-
-          switch (tyl) {
-            case Type::i8: ASM(CMP8ri, lhs_reg, static_cast<i8>(imm_l)); break;
-            case Type::i16: ASM(CMP16ri, lhs_reg, static_cast<i16>(imm_l)); break;
-            case Type::i32: ASM(CMP32ri, lhs_reg, static_cast<i32>(imm_l)); break;
-            case Type::i64: {
-              u64 val = static_cast<i64>(imm_l);
-              if (i32(val) == val) {
-                ASM(CMP64ri, lhs_reg, imm_l);
-              } else {
-                ScratchReg scratch{this};
-                AsmReg tmp_reg = scratch.alloc_gp();
-                materialize_constant(&imm_l, tpde::RegBank{0}, 8, tmp_reg);
-                ASM(CMP64rr, lhs_reg, tmp_reg);
-              }
-              break;
-            }
-            default:
-              TPDE_UNREACHABLE("Invalid type");
-          }
-        } else {
-          TPDE_UNREACHABLE("Invalid rhs");
-        }
-
-        Jump jump;
-        switch (cmpi.kind) {
-          case InstructionKind::CMPeq: jump = Jump::je; break;
-          case InstructionKind::CMPne: jump = Jump::jne; break;
-          case InstructionKind::CMPugt: jump = Jump::ja; break;
-          case InstructionKind::CMPuge: jump = Jump::jae; break;
-          case InstructionKind::CMPult: jump = Jump::jb; break;
-          case InstructionKind::CMPule: jump = Jump::jbe; break;
-          case InstructionKind::CMPsgt: jump = Jump::jg; break;
-          case InstructionKind::CMPsge: jump = Jump::jge; break;
-          case InstructionKind::CMPslt: jump = Jump::jl; break;
-          case InstructionKind::CMPsle: jump = Jump::jle; break;
-            // TODO add for all the unsigned things
-          default: TPDE_UNREACHABLE("invalid icmp predicate");
-        }
-        generate_cond_branch(jump, operands::content(jmpi.ops[1]), operands::content(jmpi.ops[2]));
-
-        return true;
-      }
+    Jump jump;
+    bool is_signed = false;
+    switch (cmpi.kind) {
+      case InstructionKind::CMPeq: jump = Jump::je; break;
+      case InstructionKind::CMPne: jump = Jump::jne; break;
+      case InstructionKind::CMPugt: jump = Jump::ja; break;
+      case InstructionKind::CMPuge: jump = Jump::jae; break;
+      case InstructionKind::CMPult: jump = Jump::jb; break;
+      case InstructionKind::CMPule: jump = Jump::jbe; break;
+      case InstructionKind::CMPsgt:
+        jump = Jump::jg;
+        is_signed = true;
+        break;
+      case InstructionKind::CMPsge:
+        jump = Jump::jge;
+        is_signed = true;
+        break;
+      case InstructionKind::CMPslt:
+        jump = Jump::jl;
+        is_signed = true;
+        break;
+      case InstructionKind::CMPsle:
+        jump = Jump::jle;
+        is_signed = true;
+        break;
+      default: TPDE_UNREACHABLE("invalid icmp predicate");
     }
 
-    // Only support fusing cmp and condbr by now
-    throw new std::runtime_error{"Do not support cmp without following condbr"};
+    const Instruction& jmp_instr = this->adaptor->get_instruction(inst.next());
+    bool fuse_br = jmp_instr.kind == InstructionKind::CondBr && jmp_instr.ops[0] == cmpi.result;
+
+    const auto local_idx = this->adaptor->val_local_idx(cmpi.result);
+    const bool single_use = this->analyzer.liveness_info(local_idx).ref_count == 2;
+
+    auto lhs = this->val_ref(cmpi.ops[0]);
+    auto rhs = this->val_ref(cmpi.ops[1]);
+
+    if (int_width > 64) {
+      assert(int_width <= 128);
+      // for 128 bit compares, we need to swap the operands sometimes
+      if ((jump == Jump::ja) || (jump == Jump::jbe) || (jump == Jump::jle) ||
+          (jump == Jump::jg)) {
+        std::swap(lhs, rhs);
+        jump = swap_jump(jump);
+      }
+
+      auto rhs_lo = rhs.part(0);
+      auto rhs_hi = rhs.part(1);
+      auto lhs_hi = lhs.part(1);
+      if (int_width < 128) {
+        lhs_hi = std::move(lhs_hi).into_extended(is_signed, int_width - 64, 64);
+        rhs_hi = std::move(rhs_hi).into_extended(is_signed, int_width - 64, 64);
+      }
+      lhs_hi = std::move(lhs_hi).into_temporary();
+      auto rhs_reg_lo = rhs_lo.load_to_reg();
+      auto rhs_reg_hi = rhs_hi.cur_reg_or_load();
+
+      // Compare the ints using carried subtraction
+      if ((jump == Jump::je) || (jump == Jump::jne)) {
+        // for eq,neq do something a bit quicker
+        auto lhs_lo = lhs.part(0).into_temporary();
+        ASM(XOR64rr, lhs_lo.cur_reg(), rhs_reg_lo);
+        ASM(XOR64rr, lhs_hi.cur_reg(), rhs_reg_hi);
+        ASM(OR64rr, lhs_lo.cur_reg(), lhs_hi.cur_reg());
+      } else {
+        auto lhs_lo = lhs.part(0);
+        auto lhs_reg_lo = lhs_lo.load_to_reg();
+        ASM(CMP64rr, lhs_reg_lo, rhs_reg_lo);
+        ASM(SBB64rr, lhs_hi.cur_reg(), rhs_reg_hi);
+      }
+    } else {
+      ValuePartRef lhs_op = lhs.part(0);
+      ValuePartRef rhs_op = rhs.part(0);
+
+      if (lhs_op.is_const() && !rhs_op.is_const()) {
+        std::swap(lhs_op, rhs_op);
+        jump = swap_jump(jump);
+      }
+
+      if (int_width < 8 || (int_width & (int_width - 1))) {
+        // We could handle comparisons of integers <32 bit against zero with
+        // TESTri. They occur very rarely and are not worth the effort.
+        unsigned ext_bits = tpde::util::align_up(int_width, 32);
+        lhs_op = std::move(lhs_op).into_extended(is_signed, int_width, ext_bits);
+        rhs_op = std::move(rhs_op).into_extended(is_signed, int_width, ext_bits);
+        int_width = ext_bits;
+      }
+
+      // We can do comparisons against small immediates more efficiently.
+      i64 rhs_val = rhs_op.is_const() ? rhs_op.const_data()[0] : 0;
+      if (rhs_op.is_const() && (int_width <= 32 || i32(rhs_val) == rhs_val)) {
+        // Comparison of 8/16/32/64-bit can use CMPmi. Only do so if the value
+        // doesn't reside in a register.
+        if (lhs_op.has_assignment()) {
+          tpde::AssignmentPartRef ap = lhs_op.assignment();
+          if (!ap.register_valid() && ap.stack_valid()) {
+            FeMem mem = FE_MEM(FE_BP, 0, FE_NOREG, ap.frame_off());
+            switch (int_width) {
+            case 8: ASM(CMP8mi, mem, i8(rhs_val)); goto done_compare;
+            case 16: ASM(CMP16mi, mem, i16(rhs_val)); goto done_compare;
+            case 32: ASM(CMP32mi, mem, i32(rhs_val)); goto done_compare;
+            case 64: ASM(CMP64mi, mem, rhs_val); goto done_compare;
+            default: TPDE_UNREACHABLE("impossible int bit width");
+            }
+          }
+        }
+
+        auto lhs_reg = lhs_op.has_reg() ? lhs_op.cur_reg() : lhs_op.load_to_reg();
+        if (rhs_val == 0) {
+          // Comparison of register with zero is TESTrr/TESTri.
+          switch (int_width) {
+          case 8: ASM(TEST8rr, lhs_reg, lhs_reg); break;
+          case 16: ASM(TEST16rr, lhs_reg, lhs_reg); break;
+          case 32: ASM(TEST32rr, lhs_reg, lhs_reg); break;
+          case 64: ASM(TEST64rr, lhs_reg, lhs_reg); break;
+          default: TPDE_UNREACHABLE("impossible int bit width");
+          }
+        } else {
+          // Comparison of 8/16/32/64-bit is CMPri.
+          switch (int_width) {
+          case 8: ASM(CMP8ri, lhs_reg, i8(rhs_val)); break;
+          case 16: ASM(CMP16ri, lhs_reg, i16(rhs_val)); break;
+          case 32: ASM(CMP32ri, lhs_reg, i32(rhs_val)); break;
+          case 64: ASM(CMP64ri, lhs_reg, rhs_val); break;
+          default: TPDE_UNREACHABLE("impossible int bit width");
+          }
+        }
+      } else {
+        auto lhs_reg = lhs_op.has_reg() ? lhs_op.cur_reg() : lhs_op.load_to_reg();
+        auto rhs_reg = rhs_op.has_reg() ? rhs_op.cur_reg() : rhs_op.load_to_reg();
+        switch (int_width) {
+        case 8: ASM(CMP8rr, lhs_reg, rhs_reg); break;
+        case 16: ASM(CMP16rr, lhs_reg, rhs_reg); break;
+        case 32: ASM(CMP32rr, lhs_reg, rhs_reg); break;
+        case 64: ASM(CMP64rr, lhs_reg, rhs_reg); break;
+        default: TPDE_UNREACHABLE("impossible int bit width");
+        }
+      }
+
+    done_compare:;
+    }
+
+    // No need for set_preserve_flags; we don't call helpers that could
+    // potentially clobber them.
+
+    // ref-count, otherwise phi assignment will think that value is still used
+    lhs.reset();
+    rhs.reset();
+
+    if (fuse_br) {
+      if (!single_use) {
+        (void)result_ref(cmpi.result); // ref-count for branch
+        generate_raw_set(
+            jump, result_ref(cmpi.result).part(0).alloc_reg(), /*zext=*/false);
+      }
+      assert(operands::is_raw(jmp_instr.ops[1]));
+      assert(operands::is_raw(jmp_instr.ops[2]));
+      generate_cond_branch(jump, operands::content(jmp_instr.ops[1]), operands::content(jmp_instr.ops[2]));
+    } else {
+      auto [_, res_ref] = result_ref_single(cmpi.result);
+      generate_raw_set(jump, res_ref.alloc_reg(), /*zext=*/false);
+    }
+
+    return true;
   }
 
   bool RustCompilerX64::compile_condbr(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {
