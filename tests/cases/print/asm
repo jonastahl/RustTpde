@@ -14,14 +14,14 @@ Disassembly of section .text:
 0000000000000000 <_RNvMs4_NtCs94NUNretDkj_4core3fmtNtB5_9Arguments8from_strCseeGrevWVrEI_6source>:
    0:	b8 01 00 00 00       	mov    $0x1,%eax
    5:	83 e0 3f             	and    $0x3f,%eax
-   8:	83 e0 0f             	and    $0xf,%eax
-   b:	89 c1                	mov    %eax,%ecx
-   d:	48 d3 e6             	shl    %cl,%rsi
-  10:	48 83 ce 01          	or     $0x1,%rsi
-  14:	48 89 f8             	mov    %rdi,%rax
-  17:	48 89 f2             	mov    %rsi,%rdx
-  1a:	c3                   	ret
-  1b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+   8:	89 c0                	mov    %eax,%eax
+   a:	89 c1                	mov    %eax,%ecx
+   c:	48 d3 e6             	shl    %cl,%rsi
+   f:	48 83 ce 01          	or     $0x1,%rsi
+  13:	48 89 f8             	mov    %rdi,%rax
+  16:	48 89 f2             	mov    %rsi,%rdx
+  19:	c3                   	ret
+  1a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
 
 0000000000000020 <print>:
   20:	55                   	push   %rbp
