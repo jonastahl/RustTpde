@@ -87,7 +87,7 @@ namespace tpde_rust::x64 {
     const Instruction cmpi = this->adaptor->get_instruction(inst);
 
     Type type = this->adaptor->type_of_ref(cmpi.ops[0]);
-    u32 int_width = size_of_type(type) * 8;
+    u32 int_width = size_of_type(type);
 
     Jump jump;
     bool is_signed = false;

@@ -31,12 +31,14 @@ uint32_t compile_to_file(ModuleTpde& module, const rust::Str path) {
 [[nodiscard]] tpde::u32 size_of_type(Type type) {
     switch (type) {
         case Type::Bool:
-        case Type::i8: return 1;
-        case Type::i16: return 2;
-        case Type::i32: return 4;
-        case Type::i64: return 8;
-        case Type::i128: return 16;
-        case Type::ptr: return 8;
+        case Type::i8: return 8;
+        case Type::i16: return 16;
+        case Type::i32: return 32;
+        case Type::i64: return 64;
+        case Type::i128: return 128;
+        case Type::ptr: return 64;
+        case Type::f32: return 32;
+        case Type::f64: return 64;
         default:
             throw std::runtime_error("size_of_type: unsupported type");
     }
@@ -51,6 +53,9 @@ uint32_t compile_to_file(ModuleTpde& module, const rust::Str path) {
         case Type::i64:
         case Type::ptr:
             return tpde::RegBank{0};
+        case Type::f32:
+        case Type::f64:
+            return tpde::RegBank{1};
         default:
             throw std::runtime_error("reg_bank_of_type: unsupported type");
     }

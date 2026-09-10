@@ -26,6 +26,7 @@ namespace tpde_rust {
     std::vector<SymRef> global_symbols;
 
     using ValInfo = Adaptor::ValInfo;
+
     struct ValRefSpecial {
       enum MODE : uint8_t {
         CONST = 4,
@@ -35,7 +36,8 @@ namespace tpde_rust {
       IRValueRef data;
 
     private:
-      ValRefSpecial(uint8_t mode, IRValueRef ref) : mode(mode), data{ref} {}
+      ValRefSpecial(uint8_t mode, IRValueRef ref) : mode(mode), data{ref} {
+      }
 
     public:
       static ValRefSpecial make_const(IRValueRef data) {
@@ -58,7 +60,8 @@ namespace tpde_rust {
 
     static bool try_force_fixed_assignment(IRValueRef) { return false; }
 
-    void setup_var_ref_assignments() {}
+    void setup_var_ref_assignments() {
+    }
 
     RustAdaptor::ValueParts val_parts(IRValueRef val) const {
       return this->adaptor->val_parts(val);
@@ -74,7 +77,7 @@ namespace tpde_rust {
 
     ValuePart val_part_ref_special(ValRefSpecial &vrs, u32 part) {
       if (operands::is_const(vrs.data)) {
-        Value& imm = this->adaptor->mod->consts[operands::content(vrs.data)];
+        Value &imm = this->adaptor->mod->consts[operands::content(vrs.data)];
 
         switch (imm.ty) {
           case Type::Bool:
@@ -95,17 +98,19 @@ namespace tpde_rust {
               default:
                 throw std::runtime_error("invalid part");
             }
+          case Type::f32:
+              return ValuePart(imm.data2, 4, tpde::RegBank{1});
+          case Type::f64:
+            return ValuePart(imm.data2, 8, tpde::RegBank{1});
 
           default:
             throw std::runtime_error("not implemented");
         }
-      }
-
-      {
+      } {
         uint32_t glob_start = this->adaptor->cur_func->allocas.size()
-           + this->adaptor->cur_func->slots.size();
+                              + this->adaptor->cur_func->slots.size();
         uint32_t glob_ptr_start = glob_start
-           + this->adaptor->mod->globals.size();
+                                  + this->adaptor->mod->globals.size();
 
         u32 gv_id = operands::content(vrs.data);
         u32 loc_id;
@@ -130,7 +135,7 @@ namespace tpde_rust {
     void prologue_assign_arg(tpde::CCAssigner *cc_assigner,
                              u32 arg_idx,
                              IRValueRef arg) {
-      u32 align = size_of_type(Base::adaptor->type_of_ref(arg));
+      u32 align = size_of_type(Base::adaptor->type_of_ref(arg)) / 8;
       bool allow_split = true; // TODO
       Base::prologue_assign_arg(cc_assigner, arg_idx, arg, align, allow_split);
     }
@@ -204,6 +209,25 @@ namespace tpde_rust {
       };
     };
 
+    struct FloatCmpOp {
+      enum {
+        OEQ,
+        OGT,
+        OGE,
+        OLT,
+        OLE,
+        ONE,
+        ORD,
+        UNO,
+        UEQ,
+        UGT,
+        UGE,
+        ULT,
+        ULE,
+        UNE,
+      };
+    };
+
     enum class OverflowOp {
       uadd,
       sadd,
@@ -212,6 +236,100 @@ namespace tpde_rust {
       umul,
       smul
     };
+
+    enum class LibFunc {
+      divti3,
+      udivti3,
+      modti3,
+      umodti3,
+      fmod,
+      fmodf,
+      fmodf16,
+      floorf,
+      floor,
+      ceilf,
+      ceil,
+      roundf,
+      round,
+      nearbyintf,
+      nearbyint,
+      rintf,
+      rint,
+      lround,
+      lroundf,
+      memcpy,
+      memset,
+      memmove,
+      resume,
+      powisf2,
+      powidf2,
+      trunc,
+      truncf,
+      fma,
+      fmaf,
+      pow,
+      powf,
+      sin,
+      sinf,
+      cos,
+      cosf,
+      tan,
+      tanf,
+      asin,
+      asinf,
+      acos,
+      acosf,
+      atan,
+      atanf,
+      atan2,
+      atan2f,
+      sinh,
+      sinhf,
+      cosh,
+      coshf,
+      tanh,
+      tanhf,
+      log,
+      logf,
+      logl,
+      logf128,
+      log2,
+      log2f,
+      log10,
+      log10f,
+      exp,
+      expf,
+      exp2,
+      exp2f,
+      modf,
+      modff,
+      frexp,
+      frexpf,
+      trunctfsf2,
+      trunctfdf2,
+      extendsftf2,
+      extenddftf2,
+      eqtf2,
+      netf2,
+      gttf2,
+      getf2,
+      lttf2,
+      letf2,
+      unordtf2,
+      floatsitf,
+      floatditf,
+      floatunditf,
+      floatunsitf,
+      fixtfdi,
+      fixunstfdi,
+      addtf3,
+      subtf3,
+      multf3,
+      divtf3,
+      MAX
+    };
+
+    std::array<SymRef, static_cast<size_t>(LibFunc::MAX)> libfunc_syms;
 
     bool compile(ModuleTpde &mod);
 
@@ -223,21 +341,43 @@ namespace tpde_rust {
     }
 
     bool compile_int_binary_op(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
+    bool compile_float_binary_op(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     bool compile_overflowable(RustAdaptor::IRInstRef, const ValInfo &, u64);
-    bool compile_overflow(Instruction&, Instruction&);
+
+    bool compile_overflow(Instruction &, Instruction &);
+
     bool compile_ret(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     bool compile_br(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     bool compile_gep(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     bool compile_store(RustAdaptor::IRInstRef, const ValInfo &, u64);
-    bool compile_store_generic(Instruction&, GenericValuePart &&);
+
+    bool compile_store_generic(Instruction &, GenericValuePart &&);
+
     bool compile_load(RustAdaptor::IRInstRef, const ValInfo &, u64);
-    bool compile_load_generic(Instruction&, GenericValuePart &&);
+
+    bool compile_load_generic(Instruction &, GenericValuePart &&);
+
     bool compile_memcpy(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     bool compile_call(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     bool compile_cast(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     bool compile_int_ext(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     bool compile_neg(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_fneg(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     bool compile_not(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
+    bool compile_fcmp(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
+    SymRef get_libfunc_sym(LibFunc func);
 
     bool hook_post_func_sym_init();
   };
@@ -299,6 +439,14 @@ namespace tpde_rust {
       set_fn(InstructionKind::sRem, &Derived::compile_int_binary_op, IntBinaryOp::srem);
       set_fn(InstructionKind::Neg, &Derived::compile_neg);
 
+      // Float math
+      set_fn(InstructionKind::fAdd, &Derived::compile_float_binary_op, FloatBinaryOp::add);
+      set_fn(InstructionKind::fSub, &Derived::compile_float_binary_op, FloatBinaryOp::sub);
+      set_fn(InstructionKind::fMul, &Derived::compile_float_binary_op, FloatBinaryOp::mul);
+      set_fn(InstructionKind::fDiv, &Derived::compile_float_binary_op, FloatBinaryOp::div);
+      set_fn(InstructionKind::fRem, &Derived::compile_float_binary_op, FloatBinaryOp::rem);
+      set_fn(InstructionKind::fNeg, &Derived::compile_fneg);
+
       // Logic
       set_fn(InstructionKind::And, &Derived::compile_int_binary_op, IntBinaryOp::land);
       set_fn(InstructionKind::Or, &Derived::compile_int_binary_op, IntBinaryOp::lor);
@@ -310,6 +458,8 @@ namespace tpde_rust {
 
       set_fn(InstructionKind::Ret, &Derived::compile_ret);
 
+
+      // Int cmp
       set_fn(InstructionKind::CMPeq, &Derived::compile_cmp);
       set_fn(InstructionKind::CMPne, &Derived::compile_cmp);
       set_fn(InstructionKind::CMPult, &Derived::compile_cmp);
@@ -320,6 +470,22 @@ namespace tpde_rust {
       set_fn(InstructionKind::CMPsle, &Derived::compile_cmp);
       set_fn(InstructionKind::CMPsgt, &Derived::compile_cmp);
       set_fn(InstructionKind::CMPsge, &Derived::compile_cmp);
+
+      // Float cmp
+      set_fn(InstructionKind::RealOEQ, &Derived::compile_fcmp, FloatCmpOp::OEQ);
+      set_fn(InstructionKind::RealOGT, &Derived::compile_fcmp, FloatCmpOp::OGT);
+      set_fn(InstructionKind::RealOGE, &Derived::compile_fcmp, FloatCmpOp::OGE);
+      set_fn(InstructionKind::RealOLT, &Derived::compile_fcmp, FloatCmpOp::OLT);
+      set_fn(InstructionKind::RealOLE, &Derived::compile_fcmp, FloatCmpOp::OLE);
+      set_fn(InstructionKind::RealONE, &Derived::compile_fcmp, FloatCmpOp::ONE);
+      set_fn(InstructionKind::RealORD, &Derived::compile_fcmp, FloatCmpOp::ORD);
+      set_fn(InstructionKind::RealUNO, &Derived::compile_fcmp, FloatCmpOp::UNO);
+      set_fn(InstructionKind::RealUEQ, &Derived::compile_fcmp, FloatCmpOp::UEQ);
+      set_fn(InstructionKind::RealUGT, &Derived::compile_fcmp, FloatCmpOp::UGT);
+      set_fn(InstructionKind::RealUGE, &Derived::compile_fcmp, FloatCmpOp::UGE);
+      set_fn(InstructionKind::RealULT, &Derived::compile_fcmp, FloatCmpOp::ULT);
+      set_fn(InstructionKind::RealULE, &Derived::compile_fcmp, FloatCmpOp::ULE);
+      set_fn(InstructionKind::RealUNE, &Derived::compile_fcmp, FloatCmpOp::UNE);
 
       set_fn(InstructionKind::GEP, &Derived::compile_gep);
       set_fn(InstructionKind::Store, &Derived::compile_store);
@@ -350,7 +516,7 @@ namespace tpde_rust {
 
     typename Base::RetBuilder rb{*this->derived(), *this->derived()->cur_cc_assigner()};
     if (!instr->ops.empty()) {
-      for (auto op : instr->ops) {
+      for (auto op: instr->ops) {
         rb.add(op);
       }
     }
@@ -445,7 +611,7 @@ namespace tpde_rust {
       return {fns[op.index()][ty_idx], ty_idx < 3};
     };
 
-    unsigned int_width = size_of_type(Base::adaptor->type_of_ref(instr->result)) * 8;
+    unsigned int_width = size_of_type(Base::adaptor->type_of_ref(instr->result));
     const auto &operands = instr->ops;
     ValueRef lhs = this->val_ref(operands[0]);
     ValueRef rhs = this->val_ref(operands[1]);
@@ -525,7 +691,72 @@ namespace tpde_rust {
   }
 
   template<typename Adaptor, typename Derived, typename Config>
-  bool RustCompilerBase<Adaptor, Derived, Config>::compile_overflowable(RustAdaptor::IRInstRef instr, const ValInfo &info, u64 op) {
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_float_binary_op(
+    RustAdaptor::IRInstRef inst, const ValInfo &val_info, u64 op) {
+    Instruction &finstr = this->adaptor->get_instruction(inst);
+
+    auto lhs = this->val_ref(finstr.ops[0]);
+    auto rhs = this->val_ref(finstr.ops[1]);
+    ValueRef res = this->result_ref(finstr.result);
+
+    if (op == FloatBinaryOp::rem) {
+      LibFunc lf;
+      switch (val_info.type) {
+        case Type::f32: lf = LibFunc::fmodf;
+          break;
+        case Type::f64: lf = LibFunc::fmod;
+          break;
+        default: return false;
+      }
+
+      auto cb = this->derived()->create_call_builder();
+      cb->add_arg(lhs.part(0), tpde::CCAssignment{});
+      cb->add_arg(rhs.part(0), tpde::CCAssignment{});
+      cb->call(get_libfunc_sym(lf));
+      cb->add_ret(res);
+      return true;
+    }
+
+    using EncodeFnTy =
+        bool (Derived::*)(GenericValuePart &&, GenericValuePart &&, ValuePart &&);
+    EncodeFnTy encode_fn = nullptr;
+
+    switch (val_info.type) {
+      case Type::f32:
+        switch (op) {
+          case FloatBinaryOp::add: encode_fn = &Derived::encode_addf32;
+            break;
+          case FloatBinaryOp::sub: encode_fn = &Derived::encode_subf32;
+            break;
+          case FloatBinaryOp::mul: encode_fn = &Derived::encode_mulf32;
+            break;
+          case FloatBinaryOp::div: encode_fn = &Derived::encode_divf32;
+            break;
+          default: TPDE_UNREACHABLE("invalid FloatBinaryOp");
+        }
+        break;
+      case Type::f64:
+        switch (op) {
+          case FloatBinaryOp::add: encode_fn = &Derived::encode_addf64;
+            break;
+          case FloatBinaryOp::sub: encode_fn = &Derived::encode_subf64;
+            break;
+          case FloatBinaryOp::mul: encode_fn = &Derived::encode_mulf64;
+            break;
+          case FloatBinaryOp::div: encode_fn = &Derived::encode_divf64;
+            break;
+          default: TPDE_UNREACHABLE("invalid FloatBinaryOp");
+        }
+        break;
+      default: return false;
+    }
+
+    return (this->derived()->*encode_fn)(lhs.part(0), rhs.part(0), res.part(0));
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_overflowable(RustAdaptor::IRInstRef instr,
+                                                                        const ValInfo &info, u64 op) {
     auto instr_size = this->adaptor->get_basic_block(instr.block).instructions.size();
     if (instr_size > instr.inst) {
       Instruction &pot_overflow = this->adaptor->get_instruction(instr.next());
@@ -554,7 +785,7 @@ namespace tpde_rust {
   }
 
   template<typename Adaptor, typename Derived, typename Config>
-  bool RustCompilerBase<Adaptor, Derived, Config>::compile_overflow(Instruction& op_instr, Instruction& of_instr) {
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_overflow(Instruction &op_instr, Instruction &of_instr) {
     ValueRef lhs = this->val_ref(op_instr.ops[0]);
     ValueRef rhs = this->val_ref(op_instr.ops[1]);
     ValueRef res = this->result_ref(op_instr.result);
@@ -589,15 +820,15 @@ namespace tpde_rust {
     }
     const auto width = size_of_type(ty);
 
-    if (width == 16) {
+    if (width == 128) {
       if (!this->derived()->handle_overflow_intrin_128(op,
-                                                 lhs.part(0),
-                                                 lhs.part(1),
-                                                 rhs.part(0),
-                                                 rhs.part(1),
-                                                 res.part(0),
-                                                 res.part(1),
-                                                 of_res.part(0))) {
+                                                       lhs.part(0),
+                                                       lhs.part(1),
+                                                       rhs.part(0),
+                                                       rhs.part(1),
+                                                       res.part(0),
+                                                       res.part(1),
+                                                       of_res.part(0))) {
         return false;
       }
       return true;
@@ -605,42 +836,59 @@ namespace tpde_rust {
 
     u32 width_idx = 0;
     switch (width) {
-    case 1: width_idx = 0; break;
-    case 2: width_idx = 1; break;
-    case 4: width_idx = 2; break;
-    case 8: width_idx = 3; break;
-    default: return false;
+      case 8: width_idx = 0;
+        break;
+      case 16: width_idx = 1;
+        break;
+      case 32: width_idx = 2;
+        break;
+      case 64: width_idx = 3;
+        break;
+      default: return false;
     }
 
     using EncodeFnTy = bool (Derived::*)(
-        GenericValuePart &&, GenericValuePart &&, ValuePart &&, ValuePart &&);
+      GenericValuePart &&, GenericValuePart &&, ValuePart &&, ValuePart &&);
     std::array<std::array<EncodeFnTy, 4>, 6> encode_fns = {
+      {
         {
-            {&Derived::encode_of_add_u8,
-             &Derived::encode_of_add_u16,
-             &Derived::encode_of_add_u32,
-             &Derived::encode_of_add_u64},
-            {&Derived::encode_of_add_i8,
-             &Derived::encode_of_add_i16,
-             &Derived::encode_of_add_i32,
-             &Derived::encode_of_add_i64},
-            {&Derived::encode_of_sub_u8,
-             &Derived::encode_of_sub_u16,
-             &Derived::encode_of_sub_u32,
-             &Derived::encode_of_sub_u64},
-            {&Derived::encode_of_sub_i8,
-             &Derived::encode_of_sub_i16,
-             &Derived::encode_of_sub_i32,
-             &Derived::encode_of_sub_i64},
-            {&Derived::encode_of_mul_u8,
-             &Derived::encode_of_mul_u16,
-             &Derived::encode_of_mul_u32,
-             &Derived::encode_of_mul_u64},
-            {&Derived::encode_of_mul_i8,
-             &Derived::encode_of_mul_i16,
-             &Derived::encode_of_mul_i32,
-             &Derived::encode_of_mul_i64},
-        }};
+          &Derived::encode_of_add_u8,
+          &Derived::encode_of_add_u16,
+          &Derived::encode_of_add_u32,
+          &Derived::encode_of_add_u64
+        },
+        {
+          &Derived::encode_of_add_i8,
+          &Derived::encode_of_add_i16,
+          &Derived::encode_of_add_i32,
+          &Derived::encode_of_add_i64
+        },
+        {
+          &Derived::encode_of_sub_u8,
+          &Derived::encode_of_sub_u16,
+          &Derived::encode_of_sub_u32,
+          &Derived::encode_of_sub_u64
+        },
+        {
+          &Derived::encode_of_sub_i8,
+          &Derived::encode_of_sub_i16,
+          &Derived::encode_of_sub_i32,
+          &Derived::encode_of_sub_i64
+        },
+        {
+          &Derived::encode_of_mul_u8,
+          &Derived::encode_of_mul_u16,
+          &Derived::encode_of_mul_u32,
+          &Derived::encode_of_mul_u64
+        },
+        {
+          &Derived::encode_of_mul_i8,
+          &Derived::encode_of_mul_i16,
+          &Derived::encode_of_mul_i32,
+          &Derived::encode_of_mul_i64
+        },
+      }
+    };
 
     EncodeFnTy encode_fn = encode_fns[static_cast<u32>(op)][width_idx];
     (this->derived()->*encode_fn)(lhs.part(0), rhs.part(0), res.part(0), of_res.part(0));
@@ -658,9 +906,7 @@ namespace tpde_rust {
     RustAdaptor::IRInstRef gep_ref = inst;
     Instruction *gep = &this->adaptor->get_instruction(inst);
 
-    GenericValuePart addr = typename GenericValuePart::Expr{};
-
-    {
+    GenericValuePart addr = typename GenericValuePart::Expr{}; {
       ValueRef index_vr{this};
       ValuePartRef index_vp{this};
       auto &expr = std::get<typename GenericValuePart::Expr>(addr.state);
@@ -722,8 +968,7 @@ namespace tpde_rust {
             expr.base = std::move(new_base);
           }
 
-          const unsigned idx_width =
-              8 * size_of_type(this->adaptor->type_of_ref(idx));
+          const unsigned idx_width = size_of_type(this->adaptor->type_of_ref(idx));
           index_vr = this->val_ref(idx);
           if (idx_width != 64) {
             index_vp = index_vr.part(0).into_extended(true, idx_width, 64);
@@ -760,7 +1005,7 @@ namespace tpde_rust {
         next_val = &this->adaptor->get_instruction(next_ref);
 
         if (true || // we don't merge multiple GEPs for now
-          next_val->kind != InstructionKind::GEP ||
+            next_val->kind != InstructionKind::GEP ||
             next_val->ops[0] != gep->result) {
           break;
         }
@@ -776,7 +1021,7 @@ namespace tpde_rust {
           // Create a new stack variable reference to avoid materializing this
           // simple addition.
           (void) this->result_ref_stack_slot(
-              gep->result, base.assignment(), displacement);
+            gep->result, base.assignment(), displacement);
           return true;
         }
 
@@ -827,15 +1072,14 @@ namespace tpde_rust {
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_store_generic(
-    Instruction& storei, GenericValuePart &&ptr_op) {
-
+    Instruction &storei, GenericValuePart &&ptr_op) {
     const auto op_val = storei.ops[0];
     auto op_ref = this->val_ref(op_val);
 
     Type ty = this->adaptor->type_of_ref(op_val);
 
     using EncodeFnTy =
-      bool (Derived::*)(GenericValuePart &&, GenericValuePart &&);
+        bool (Derived::*)(GenericValuePart &&, GenericValuePart &&);
     static constexpr auto int_fns = []() consteval {
       std::array<EncodeFnTy, 8> res{};
       res[0] = &Derived::encode_storei8;
@@ -855,7 +1099,7 @@ namespace tpde_rust {
       case Type::i16:
       case Type::i32:
       case Type::i64: {
-        const auto num_bytes = size_of_type(ty);
+        const auto num_bytes = size_of_type(ty) / 8;
         EncodeFnTy fn = int_fns[num_bytes - 1];
         (this->derived()->*fn)(std::move(ptr_op), op_ref.part(0));
         return true;
@@ -884,9 +1128,9 @@ namespace tpde_rust {
     return compile_load_generic(loadi, std::move(ptr_ref));
   }
 
-  template <typename Adaptor, typename Derived, typename Config>
+  template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_load_generic(
-  Instruction& loadi, GenericValuePart &&ptr_op) {
+    Instruction &loadi, GenericValuePart &&ptr_op) {
     Type ty = this->adaptor->type_of_ref(loadi.result);
 
     using EncodeFnTy = bool (Derived::*)(GenericValuePart &&, ValuePart &&);
@@ -914,7 +1158,7 @@ namespace tpde_rust {
       case Type::i32:
       case Type::i64:
       case Type::ptr: {
-        const auto num_bytes = size_of_type(ty);
+        const auto num_bytes = size_of_type(ty) / 8;
         EncodeFnTy fn = int_fns[num_bytes - 1][sext];
 
         (this->derived()->*fn)(std::move(ptr_op), this->result_ref(loadi.result).part(0));
@@ -935,8 +1179,7 @@ namespace tpde_rust {
 
     std::array<IRValueRef, 3> args{dst, src, len};
 
-    auto sym = this->assembler.sym_add_undef("memcpy", tpde::Assembler::SymBinding::GLOBAL);
-    this->derived()->create_helper_call(args, nullptr, sym);
+    this->derived()->create_helper_call(args, nullptr, get_libfunc_sym(LibFunc::memcpy));
     return true;
   }
 
@@ -948,16 +1191,14 @@ namespace tpde_rust {
     }
 
     Instruction &calli = this->adaptor->get_instruction(instr);
-    for (auto &op : calli.ops | std::ranges::views::drop(1)) {
+    for (auto &op: calli.ops | std::ranges::views::drop(1)) {
       using CallArg = typename Derived::CallArg;
 
       CallArg arg{op};
       // TODO need to set flags for arg
 
       cb->add_arg(arg);
-    }
-
-    {
+    } {
       const auto func = calli.ops[0];
       assert(operands::is_func(func));
       SymRef sym = this->func_syms[operands::content(func)];
@@ -965,9 +1206,7 @@ namespace tpde_rust {
     }
 
     if (calli.has_result) {
-      tpde::CCAssignment cca;
-
-      {
+      tpde::CCAssignment cca; {
         auto res = calli.result;
         assert(operands::is_val(res));
         ValueRef ref = this->result_ref(res);
@@ -991,7 +1230,8 @@ namespace tpde_rust {
   }
 
   template<typename Adaptor, typename Derived, typename Config>
-  bool RustCompilerBase<Adaptor, Derived, Config>::compile_cast(RustAdaptor::IRInstRef instr, const ValInfo &val_info, u64) {
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_cast(RustAdaptor::IRInstRef instr, const ValInfo &val_info,
+                                                                u64) {
     Instruction &casti = this->adaptor->get_instruction(instr);
     assert(operands::is_val(casti.ops[0]));
     assert(operands::is_val(casti.result));
@@ -1014,7 +1254,8 @@ namespace tpde_rust {
   }
 
   template<typename Adaptor, typename Derived, typename Config>
-  bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_ext(RustAdaptor::IRInstRef instr, const ValInfo &, u64 sign) {
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_ext(RustAdaptor::IRInstRef instr, const ValInfo &,
+                                                                   u64 sign) {
     Instruction &exti = this->adaptor->get_instruction(instr);
     const Type dst_ty = this->adaptor->type_of_ref(exti.result);
 
@@ -1065,7 +1306,7 @@ namespace tpde_rust {
     if (src_width < 128 && dst_width <= 128) {
       res.part(0).set_value(src_ref.part(0));
       res.part(1).set_value(
-          src_ref.part(1).into_extended(sign, src_width - 64, 64));
+        src_ref.part(1).into_extended(sign, src_width - 64, 64));
       return true;
     }
 
@@ -1084,9 +1325,25 @@ namespace tpde_rust {
       case Type::Bool:
       case Type::i8:
       case Type::i16:
-      case Type::i32: this->derived()->encode_negi32(src.part(0), res.part(0)); break;
-      case Type::i64: this->derived()->encode_negi64(src.part(0), res.part(0)); break;
-      case Type::i128: this->derived()->encode_negi128(src.part(0), src.part(1), res.part(0), res.part(1)); break;
+      case Type::i32: this->derived()->encode_negi32(src.part(0), res.part(0));
+        break;
+      case Type::i64: this->derived()->encode_negi64(src.part(0), res.part(0));
+        break;
+      case Type::i128: this->derived()->encode_negi128(src.part(0), src.part(1), res.part(0), res.part(1));
+        break;
+      default: return false;
+    }
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_fneg(RustAdaptor::IRInstRef inst, const ValInfo & val_info, u64) {
+    Instruction& fnegi = this->adaptor->get_instruction(inst);
+    ValueRef src = this->val_ref(fnegi.ops[0]);
+    ValueRef res = this->result_ref(fnegi.result);
+    switch (val_info.type) {
+      case Type::f32: this->derived()->encode_fnegf32(src.part(0), res.part(0)); break;
+      case Type::f64: this->derived()->encode_fnegf64(src.part(0), res.part(0)); break;
       default: return false;
     }
     return true;
@@ -1094,25 +1351,282 @@ namespace tpde_rust {
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_not(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {
-    Instruction &noti= this->adaptor->get_instruction(instr);
+    Instruction &noti = this->adaptor->get_instruction(instr);
 
     ValueRef src = this->val_ref(noti.ops[0]);
     ValueRef res = this->result_ref(noti.result);
 
     const Type type = this->adaptor->type_of_ref(noti.ops[0]);
     switch (type) {
-      case Type::Bool: this->derived()->encode_notbool(src.part(0), res.part(0)); break;
+      case Type::Bool: this->derived()->encode_notbool(src.part(0), res.part(0));
+        break;
       case Type::i8:
       case Type::i16:
-      case Type::i32: this->derived()->encode_not32(src.part(0), res.part(0)); break;
-      case Type::i64: this->derived()->encode_not64(src.part(0), res.part(0)); break;
-      case Type::i128: this->derived()->encode_not128(src.part(0), src.part(1), res.part(0), res.part(1)); break;
+      case Type::i32: this->derived()->encode_not32(src.part(0), res.part(0));
+        break;
+      case Type::i64: this->derived()->encode_not64(src.part(0), res.part(0));
+        break;
+      case Type::i128: this->derived()->encode_not128(src.part(0), src.part(1), res.part(0), res.part(1));
+        break;
       default: return false;
     }
     return true;
   }
 
-  static tpde::Assembler::SymBinding convert_linkage(const Global& global) {
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_fcmp(RustAdaptor::IRInstRef instr, const ValInfo &, u64 op) {
+    Instruction& fcmpi = this->adaptor->get_instruction(instr);
+    Type type = this->adaptor->type_of_ref(fcmpi.ops[0]);
+
+    ValueRef lhs = this->val_ref(fcmpi.ops[0]);
+    ValueRef rhs = this->val_ref(fcmpi.ops[1]);
+    ValueRef res = this->result_ref(fcmpi.result);
+
+    using EncodeFnTy =
+        bool (Derived::*)(GenericValuePart &&, GenericValuePart &&, ValuePart &&);
+    EncodeFnTy fn = nullptr;
+
+    switch (type) {
+      case Type::f32:
+        switch (op) {
+          case FloatCmpOp::OEQ: fn = &Derived::encode_fcmp_oeq_float; break;
+          case FloatCmpOp::OGT: fn = &Derived::encode_fcmp_ogt_float; break;
+          case FloatCmpOp::OGE: fn = &Derived::encode_fcmp_oge_float; break;
+          case FloatCmpOp::OLT: fn = &Derived::encode_fcmp_olt_float; break;
+          case FloatCmpOp::OLE: fn = &Derived::encode_fcmp_ole_float; break;
+          case FloatCmpOp::ONE: fn = &Derived::encode_fcmp_one_float; break;
+          case FloatCmpOp::ORD: fn = &Derived::encode_fcmp_ord_float; break;
+          case FloatCmpOp::UEQ: fn = &Derived::encode_fcmp_ueq_float; break;
+          case FloatCmpOp::UGT: fn = &Derived::encode_fcmp_ugt_float; break;
+          case FloatCmpOp::UGE: fn = &Derived::encode_fcmp_uge_float; break;
+          case FloatCmpOp::ULT: fn = &Derived::encode_fcmp_ult_float; break;
+          case FloatCmpOp::ULE: fn = &Derived::encode_fcmp_ule_float; break;
+          case FloatCmpOp::UNE: fn = &Derived::encode_fcmp_une_float; break;
+          case FloatCmpOp::UNO: fn = &Derived::encode_fcmp_uno_float; break;
+          default: TPDE_UNREACHABLE("invalid fcmp predicate");
+        }
+        break;
+      case Type::f64:
+        switch (op) {
+          case FloatCmpOp::OEQ: fn = &Derived::encode_fcmp_oeq_double; break;
+          case FloatCmpOp::OGT: fn = &Derived::encode_fcmp_ogt_double; break;
+          case FloatCmpOp::OGE: fn = &Derived::encode_fcmp_oge_double; break;
+          case FloatCmpOp::OLT: fn = &Derived::encode_fcmp_olt_double; break;
+          case FloatCmpOp::OLE: fn = &Derived::encode_fcmp_ole_double; break;
+          case FloatCmpOp::ONE: fn = &Derived::encode_fcmp_one_double; break;
+          case FloatCmpOp::ORD: fn = &Derived::encode_fcmp_ord_double; break;
+          case FloatCmpOp::UEQ: fn = &Derived::encode_fcmp_ueq_double; break;
+          case FloatCmpOp::UGT: fn = &Derived::encode_fcmp_ugt_double; break;
+          case FloatCmpOp::UGE: fn = &Derived::encode_fcmp_uge_double; break;
+          case FloatCmpOp::ULT: fn = &Derived::encode_fcmp_ult_double; break;
+          case FloatCmpOp::ULE: fn = &Derived::encode_fcmp_ule_double; break;
+          case FloatCmpOp::UNE: fn = &Derived::encode_fcmp_une_double; break;
+          case FloatCmpOp::UNO: fn = &Derived::encode_fcmp_uno_double; break;
+          default: TPDE_UNREACHABLE("invalid fcmp predicate");
+        }
+        break;
+      default: TPDE_UNREACHABLE("invalid fcmp type");
+    }
+
+    return (this->derived()->*fn)(lhs.part(0), rhs.part(0), res.part(0));
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  RustCompilerBase<Adaptor, Derived, Config>::SymRef
+  RustCompilerBase<Adaptor, Derived, Config>::get_libfunc_sym(LibFunc func) {
+    assert(func < LibFunc::MAX);
+    SymRef &sym = libfunc_syms[static_cast<size_t>(func)];
+    if (sym.valid()) [[likely]] {
+      return sym;
+    }
+
+    std::string_view name = "???";
+    switch (func) {
+      case LibFunc::divti3: name = "__divti3";
+        break;
+      case LibFunc::udivti3: name = "__udivti3";
+        break;
+      case LibFunc::modti3: name = "__modti3";
+        break;
+      case LibFunc::umodti3: name = "__umodti3";
+        break;
+      case LibFunc::fmod: name = "fmod";
+        break;
+      case LibFunc::fmodf: name = "fmodf";
+        break;
+      case LibFunc::fmodf16: name = "fmodf16";
+        break;
+      case LibFunc::floorf: name = "floorf";
+        break;
+      case LibFunc::floor: name = "floor";
+        break;
+      case LibFunc::ceilf: name = "ceilf";
+        break;
+      case LibFunc::ceil: name = "ceil";
+        break;
+      case LibFunc::roundf: name = "roundf";
+        break;
+      case LibFunc::round: name = "round";
+        break;
+      case LibFunc::nearbyintf: name = "nearbyintf";
+        break;
+      case LibFunc::nearbyint: name = "nearbyint";
+        break;
+      case LibFunc::rintf: name = "rintf";
+        break;
+      case LibFunc::rint: name = "rint";
+        break;
+      case LibFunc::lround: name = "lround";
+        break;
+      case LibFunc::lroundf: name = "lroundf";
+        break;
+      case LibFunc::memcpy: name = "memcpy";
+        break;
+      case LibFunc::memset: name = "memset";
+        break;
+      case LibFunc::memmove: name = "memmove";
+        break;
+      case LibFunc::resume: name = "_Unwind_Resume";
+        break;
+      case LibFunc::powisf2: name = "__powisf2";
+        break;
+      case LibFunc::powidf2: name = "__powidf2";
+        break;
+      case LibFunc::trunc: name = "trunc";
+        break;
+      case LibFunc::truncf: name = "truncf";
+        break;
+      case LibFunc::fma: name = "fma";
+        break;
+      case LibFunc::fmaf: name = "fmaf";
+        break;
+      case LibFunc::pow: name = "pow";
+        break;
+      case LibFunc::powf: name = "powf";
+        break;
+      case LibFunc::sin: name = "sin";
+        break;
+      case LibFunc::sinf: name = "sinf";
+        break;
+      case LibFunc::cos: name = "cos";
+        break;
+      case LibFunc::cosf: name = "cosf";
+        break;
+      case LibFunc::tan: name = "tan";
+        break;
+      case LibFunc::tanf: name = "tanf";
+        break;
+      case LibFunc::asin: name = "asin";
+        break;
+      case LibFunc::asinf: name = "asinf";
+        break;
+      case LibFunc::acos: name = "acos";
+        break;
+      case LibFunc::acosf: name = "acosf";
+        break;
+      case LibFunc::atan: name = "atan";
+        break;
+      case LibFunc::atanf: name = "atanf";
+        break;
+      case LibFunc::atan2: name = "atan2";
+        break;
+      case LibFunc::atan2f: name = "atan2f";
+        break;
+      case LibFunc::sinh: name = "sinh";
+        break;
+      case LibFunc::sinhf: name = "sinhf";
+        break;
+      case LibFunc::cosh: name = "cosh";
+        break;
+      case LibFunc::coshf: name = "coshf";
+        break;
+      case LibFunc::tanh: name = "tanh";
+        break;
+      case LibFunc::tanhf: name = "tanhf";
+        break;
+      case LibFunc::log: name = "log";
+        break;
+      case LibFunc::logf: name = "logf";
+        break;
+      case LibFunc::logl: name = "logl";
+        break;
+      case LibFunc::logf128: name = "logf128";
+        break;
+      case LibFunc::log2: name = "log2";
+        break;
+      case LibFunc::log2f: name = "log2f";
+        break;
+      case LibFunc::log10: name = "log10";
+        break;
+      case LibFunc::log10f: name = "log10f";
+        break;
+      case LibFunc::exp: name = "exp";
+        break;
+      case LibFunc::expf: name = "expf";
+        break;
+      case LibFunc::exp2: name = "exp2";
+        break;
+      case LibFunc::exp2f: name = "exp2f";
+        break;
+      case LibFunc::modf: name = "modf";
+        break;
+      case LibFunc::modff: name = "modff";
+        break;
+      case LibFunc::frexp: name = "frexp";
+        break;
+      case LibFunc::frexpf: name = "frexpf";
+        break;
+      case LibFunc::trunctfsf2: name = "__trunctfsf2";
+        break;
+      case LibFunc::trunctfdf2: name = "__trunctfdf2";
+        break;
+      case LibFunc::extendsftf2: name = "__extendsftf2";
+        break;
+      case LibFunc::extenddftf2: name = "__extenddftf2";
+        break;
+      case LibFunc::eqtf2: name = "__eqtf2";
+        break;
+      case LibFunc::netf2: name = "__netf2";
+        break;
+      case LibFunc::gttf2: name = "__gttf2";
+        break;
+      case LibFunc::getf2: name = "__getf2";
+        break;
+      case LibFunc::lttf2: name = "__lttf2";
+        break;
+      case LibFunc::letf2: name = "__letf2";
+        break;
+      case LibFunc::unordtf2: name = "__unordtf2";
+        break;
+      case LibFunc::floatsitf: name = "__floatsitf";
+        break;
+      case LibFunc::floatditf: name = "__floatditf";
+        break;
+      case LibFunc::floatunsitf: name = "__floatunsitf";
+        break;
+      case LibFunc::floatunditf: name = "__floatunditf";
+        break;
+      case LibFunc::fixtfdi: name = "__fixtfdi";
+        break;
+      case LibFunc::fixunstfdi: name = "__fixunstfdi";
+        break;
+      case LibFunc::addtf3: name = "__addtf3";
+        break;
+      case LibFunc::subtf3: name = "__subtf3";
+        break;
+      case LibFunc::multf3: name = "__multf3";
+        break;
+      case LibFunc::divtf3: name = "__divtf3";
+        break;
+      default: TPDE_UNREACHABLE("invalid libfunc");
+    }
+
+    sym =
+        this->assembler.sym_add_undef(name, tpde::Assembler::SymBinding::GLOBAL);
+    return sym;
+  }
+
+  static tpde::Assembler::SymBinding convert_linkage(const Global &global) {
     if (global.flags.only_local)
       return tpde::Assembler::SymBinding::LOCAL;
     if (global.flags.weak_link)
@@ -1125,7 +1639,7 @@ namespace tpde_rust {
     global_symbols.clear();
 
     global_symbols.reserve(this->adaptor->mod->globals.size());
-    for (const Global& global : this->adaptor->mod->globals) {
+    for (const Global &global: this->adaptor->mod->globals) {
       std::string_view name(global.name.data(), global.name.size());
 
       auto binding = convert_linkage(global);
@@ -1144,11 +1658,10 @@ namespace tpde_rust {
     }
 
     size_t i = 0;
-    for (Global global : this->adaptor->mod->globals) {
+    for (Global global: this->adaptor->mod->globals) {
       SymRef &sym = global_symbols[i];
 
-      tpde::SectionKind kind;
-      {
+      tpde::SectionKind kind; {
         bool needs_relocs = !global.relocations.empty();
         bool init_zero = !global.init;
         bool read_only = global.read_only;
@@ -1170,9 +1683,9 @@ namespace tpde_rust {
       if (global.init) {
         u32 off;
         this->assembler.sym_def_predef_data(sec, sym, global.data, global.align, &off);
-        for (Relocation& reloc : global.relocations) {
+        for (Relocation &reloc: global.relocations) {
           assert(operands::is_global(reloc.slot));
-          SymRef& target = global_symbols[operands::content(reloc.slot)];
+          SymRef &target = global_symbols[operands::content(reloc.slot)];
 
           this->assembler.reloc_abs(sec, target, off + reloc.offset, 0);
 

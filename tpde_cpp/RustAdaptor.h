@@ -120,11 +120,11 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] u32 cur_arg_byval_size(const u32 idx) const {
-      return size_of_type(cur_func->slots[idx].ty);
+      throw std::runtime_error("byval not supported");
     }
 
     [[nodiscard]] u32 cur_arg_byval_align(const u32 idx) const {
-      return size_of_type(cur_func->slots[idx].ty);
+      throw std::runtime_error("byval not supported");
     }
 
     [[nodiscard]] static u32 cur_arg_is_sret(const u32 idx) {
@@ -264,19 +264,17 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] u32 val_alloca_size(IRValueRef val) const {
-      // TODO
       if (operands::is_alloc(val)) {
         return cur_func->allocas[operands::content(val)].size;
       }
-      return size_of_type(type_of_ref(val));
+      throw std::runtime_error("not a alloc");
     }
 
     [[nodiscard]] u32 val_alloca_align(IRValueRef val) const {
-      // TODO
       if (operands::is_alloc(val)) {
         return cur_func->allocas[operands::content(val)].align;
       }
-      return val_alloca_size(val);
+      throw std::runtime_error("not a alloc");
     }
 
     [[nodiscard]] std::string value_fmt_ref(const IRValueRef val) const {
@@ -384,7 +382,7 @@ namespace tpde_rust {
       }
 
       [[nodiscard]] u32 size_bytes(u32 n) const {
-        return size_of_type(type(n));
+        return size_of_type(type(n)) / 8;
       }
 
       [[nodiscard]] tpde::RegBank reg_bank(u32 n) const {
