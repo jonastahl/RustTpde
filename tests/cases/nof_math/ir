@@ -543,7 +543,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
                 "bb2": [
-                    <Div> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <sDiv> ([val: 0], [val: 1]) -> [val: 6],
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
@@ -589,7 +589,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
                 "bb2": [
-                    <Div> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <sDiv> ([val: 0], [val: 1]) -> [val: 6],
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
@@ -635,7 +635,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
                 "bb2": [
-                    <Div> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <sDiv> ([val: 0], [val: 1]) -> [val: 6],
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
@@ -681,7 +681,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
                 "bb2": [
-                    <Div> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <sDiv> ([val: 0], [val: 1]) -> [val: 6],
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
@@ -734,7 +734,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
                 "bb2": [
-                    <Div> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <sDiv> ([val: 0], [val: 1]) -> [val: 6],
                     <Mul> ([val: 6], [val: 1]) -> [val: 7],
                     <CMPeq> ([val: 1], [const: 18]) -> [val: 8],
                     <CondBr> ([val: 8], [raw: 6], [raw: 5]),
@@ -754,7 +754,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
                 "bb4": [
-                    <Rem> ([raw: 1], [val: 0], [val: 1]) -> [val: 12],
+                    <sRem> ([val: 0], [val: 1]) -> [val: 12],
                     <Add> ([val: 7], [val: 12]) -> [val: 13],
                     <Ret> ([val: 13]),
                 ],
@@ -792,7 +792,7 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <Div> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <uDiv> ([val: 0], [val: 1]) -> [val: 3],
                     <Mul> ([val: 3], [val: 1]) -> [val: 4],
                     <CMPeq> ([val: 1], [const: 22]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 4], [raw: 3]),
@@ -802,7 +802,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
                 "bb2": [
-                    <Rem> ([raw: 0], [val: 0], [val: 1]) -> [val: 6],
+                    <uRem> ([val: 0], [val: 1]) -> [val: 6],
                     <Add> ([val: 4], [val: 6]) -> [val: 7],
                     <Ret> ([val: 7]),
                 ],
@@ -836,7 +836,7 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <Div> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <uDiv> ([val: 0], [val: 1]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
@@ -869,7 +869,7 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <Div> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <uDiv> ([val: 0], [val: 1]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
@@ -902,7 +902,7 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <Div> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <uDiv> ([val: 0], [val: 1]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
@@ -935,7 +935,7 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <Div> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <uDiv> ([val: 0], [val: 1]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
@@ -1677,7 +1677,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
                 "bb2": [
-                    <Rem> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <sRem> ([val: 0], [val: 1]) -> [val: 6],
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
@@ -1723,7 +1723,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
                 "bb2": [
-                    <Rem> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <sRem> ([val: 0], [val: 1]) -> [val: 6],
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
@@ -1769,7 +1769,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
                 "bb2": [
-                    <Rem> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <sRem> ([val: 0], [val: 1]) -> [val: 6],
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
@@ -1815,7 +1815,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
                 "bb2": [
-                    <Rem> ([raw: 1], [val: 0], [val: 1]) -> [val: 6],
+                    <sRem> ([val: 0], [val: 1]) -> [val: 6],
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
@@ -1848,7 +1848,7 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <Rem> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <uRem> ([val: 0], [val: 1]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
@@ -1881,7 +1881,7 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <Rem> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <uRem> ([val: 0], [val: 1]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
@@ -1914,7 +1914,7 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <Rem> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <uRem> ([val: 0], [val: 1]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
@@ -1947,7 +1947,7 @@ ModuleTpde {
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <Rem> ([raw: 0], [val: 0], [val: 1]) -> [val: 3],
+                    <uRem> ([val: 0], [val: 1]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
@@ -2243,7 +2243,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <And> ([const: 60], [const: 61]) -> [val: 1],
-                    <Shr> ([raw: 1], [val: 0], [val: 1]) -> [val: 2],
+                    <aShr> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -2268,7 +2268,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <And> ([const: 62], [const: 63]) -> [val: 1],
-                    <Shr> ([raw: 0], [val: 0], [val: 1]) -> [val: 2],
+                    <lShr> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -2294,7 +2294,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <And> ([val: 1], [const: 64]) -> [val: 2],
-                    <Shr> ([raw: 1], [val: 0], [val: 2]) -> [val: 3],
+                    <aShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -2320,7 +2320,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <And> ([val: 1], [const: 65]) -> [val: 2],
-                    <Shr> ([raw: 1], [val: 0], [val: 2]) -> [val: 3],
+                    <aShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -2346,7 +2346,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <And> ([val: 1], [const: 66]) -> [val: 2],
-                    <Shr> ([raw: 1], [val: 0], [val: 2]) -> [val: 3],
+                    <aShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -2372,7 +2372,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <And> ([val: 1], [const: 67]) -> [val: 2],
-                    <Shr> ([raw: 1], [val: 0], [val: 2]) -> [val: 3],
+                    <aShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -2400,7 +2400,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <And> ([val: 1], [const: 68]) -> [val: 2],
-                    <Shr> ([raw: 0], [val: 0], [val: 2]) -> [val: 3],
+                    <lShr> ([val: 0], [val: 2]) -> [val: 3],
                     <And> ([val: 1], [const: 69]) -> [val: 4],
                     <Shl> ([val: 3], [val: 4]) -> [val: 5],
                     <Ret> ([val: 5]),
@@ -2428,7 +2428,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <And> ([val: 1], [const: 70]) -> [val: 2],
-                    <Shr> ([raw: 0], [val: 0], [val: 2]) -> [val: 3],
+                    <lShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -2454,7 +2454,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <And> ([val: 1], [const: 71]) -> [val: 2],
-                    <Shr> ([raw: 0], [val: 0], [val: 2]) -> [val: 3],
+                    <lShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -2480,7 +2480,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <And> ([val: 1], [const: 72]) -> [val: 2],
-                    <Shr> ([raw: 0], [val: 0], [val: 2]) -> [val: 3],
+                    <lShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -2506,7 +2506,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <And> ([val: 1], [const: 73]) -> [val: 2],
-                    <Shr> ([raw: 0], [val: 0], [val: 2]) -> [val: 3],
+                    <lShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -2992,7 +2992,7 @@ ModuleTpde {
     ],
     consts: [
         [i32] (0 1) -> 0,
-        [i32] (0 3) -> 0,
+        [i32] (0 31) -> 0,
         [i32] (0 1) -> 0,
         [i16] (0 0) -> 0,
         [i16] (18446744073709551615 18446744073709551615) -> -1,
@@ -3019,7 +3019,7 @@ ModuleTpde {
         [i64] (0 0) -> 0,
         [i8] (0 0) -> 0,
         [i32] (0 1) -> 0,
-        [i32] (0 3) -> 0,
+        [i32] (0 31) -> 0,
         [i32] (0 1) -> 0,
         [i32] (0 1) -> 0,
         [i16] (0 0) -> 0,
@@ -3039,32 +3039,32 @@ ModuleTpde {
         [i64] (0 0) -> 0,
         [i8] (0 0) -> 0,
         [i32] (0 3) -> 0,
-        [i32] (0 3) -> 0,
-        [i16] (0 1) -> 0,
-        [i32] (0 3) -> 0,
-        [i64] (0 7) -> 0,
-        [i8] (0 0) -> 0,
-        [i32] (0 3) -> 0,
+        [i32] (0 31) -> 0,
+        [i16] (0 15) -> 0,
+        [i32] (0 31) -> 0,
+        [i64] (0 63) -> 0,
+        [i8] (0 7) -> 0,
+        [i32] (0 31) -> 0,
         [i32] (0 1) -> 0,
+        [i32] (0 31) -> 0,
+        [i16] (0 15) -> 0,
+        [i32] (0 31) -> 0,
+        [i64] (0 63) -> 0,
+        [i8] (0 7) -> 0,
         [i32] (0 3) -> 0,
-        [i16] (0 1) -> 0,
+        [i32] (0 31) -> 0,
         [i32] (0 3) -> 0,
-        [i64] (0 7) -> 0,
-        [i8] (0 0) -> 0,
-        [i32] (0 3) -> 0,
-        [i32] (0 3) -> 0,
-        [i32] (0 3) -> 0,
-        [i32] (0 3) -> 0,
-        [i16] (0 1) -> 0,
-        [i32] (0 3) -> 0,
-        [i64] (0 7) -> 0,
-        [i8] (0 0) -> 0,
-        [i32] (0 3) -> 0,
-        [i32] (0 3) -> 0,
-        [i16] (0 1) -> 0,
-        [i32] (0 3) -> 0,
-        [i64] (0 7) -> 0,
-        [i8] (0 0) -> 0,
+        [i32] (0 31) -> 0,
+        [i16] (0 15) -> 0,
+        [i32] (0 31) -> 0,
+        [i64] (0 63) -> 0,
+        [i8] (0 7) -> 0,
+        [i32] (0 31) -> 0,
+        [i32] (0 31) -> 0,
+        [i16] (0 15) -> 0,
+        [i32] (0 31) -> 0,
+        [i64] (0 63) -> 0,
+        [i8] (0 7) -> 0,
     ],
     globals: [
         alloc_1bb8417f347bd340ae028ccf93b381fa {

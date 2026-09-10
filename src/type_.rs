@@ -123,10 +123,10 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
         match ty {
             FullType::Single(ty) =>
                 match ty {
-                    Type::f16 => 2,
-                    Type::f32 => 4,
-                    Type::f64 => 8,
-                    Type::f128 => 16,
+                    Type::f16 => 16,
+                    Type::f32 => 32,
+                    Type::f64 =>64,
+                    Type::f128 => 128,
                     _ => todo!()
                 }
             _ => todo!()
@@ -137,11 +137,11 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
         match ty {
             FullType::Single(ty) =>
                 match ty {
-                    Type::i8 => 1,
-                    Type::i16 => 2,
-                    Type::i32 => 4,
-                    Type::i64 => 8,
-                    Type::i128 => 16,
+                    Type::i8 => 8,
+                    Type::i16 => 16,
+                    Type::i32 => 32,
+                    Type::i64 => 64,
+                    Type::i128 => 128,
                     _ => todo!()
                 }
             _ => todo!()

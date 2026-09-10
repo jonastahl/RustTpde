@@ -445,7 +445,7 @@ namespace tpde_rust {
       return {fns[op.index()][ty_idx], ty_idx < 3};
     };
 
-    unsigned int_width = size_of_type(Base::adaptor->type_of_ref(instr->result));
+    unsigned int_width = size_of_type(Base::adaptor->type_of_ref(instr->result)) * 8;
     const auto &operands = instr->ops;
     ValueRef lhs = this->val_ref(operands[0]);
     ValueRef rhs = this->val_ref(operands[1]);
@@ -1101,7 +1101,7 @@ namespace tpde_rust {
 
     const Type type = this->adaptor->type_of_ref(noti.ops[0]);
     switch (type) {
-      case Type::Bool:
+      case Type::Bool: this->derived()->encode_notbool(src.part(0), res.part(0)); break;
       case Type::i8:
       case Type::i16:
       case Type::i32: this->derived()->encode_not32(src.part(0), res.part(0)); break;

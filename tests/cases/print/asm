@@ -13,7 +13,7 @@ Disassembly of section .text:
 
 0000000000000000 <_RNvMs4_NtCs94NUNretDkj_4core3fmtNtB5_9Arguments8from_strCseeGrevWVrEI_6source>:
    0:	b8 01 00 00 00       	mov    $0x1,%eax
-   5:	83 e0 07             	and    $0x7,%eax
+   5:	83 e0 3f             	and    $0x3f,%eax
    8:	83 e0 0f             	and    $0xf,%eax
    b:	89 c1                	mov    %eax,%ecx
    d:	48 d3 e6             	shl    %cl,%rsi

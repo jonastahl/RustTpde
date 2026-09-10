@@ -135,6 +135,8 @@ void TARGET_V1 storev128(uint64x2_t *ptr, uint64x2_t value) { *ptr = value; }
 // integer arithmetic
 // --------------------------
 
+bool TARGET_V1 notbool(bool a) { return !a; }
+
 u32 TARGET_V1 addi32(u32 a, u32 b) { return (a + b); }
 u32 TARGET_V1 subi32(u32 a, u32 b) { return (a - b); }
 u32 TARGET_V1 muli32(u32 a, u32 b) { return (a * b); }
