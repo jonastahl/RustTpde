@@ -364,24 +364,30 @@ namespace tpde_rust {
     // things for compiler
 
     struct ValueParts {
-      tpde::util::SmallVector<Type> types;
+      Type ty;
 
       ValueParts() = delete;
-      ValueParts(tpde::util::SmallVector<Type>&& types) : types(std::move(types)) {
-      }
-      ValueParts(Type type) {
-        types.push_back(type);
-      }
+      ValueParts(const Type t) : ty(t) {}
 
       [[nodiscard]] u32 count() const {
-        return types.size();
+        switch (ty) {
+          case Type::i128:
+            return 2;
+          default:
+            return 1;
+        }
       }
 
       [[nodiscard]] Type type(u32 n) const {
-        return types[n];
+        switch (ty) {
+          case Type::i128:
+            return Type::i64;
+          default:
+            return ty;
+        }
       }
 
-      [[nodiscard]] u32 size_bytes(u32 n) const {
+      [[nodiscard]] u32 size_bytes(const u32 n) const {
         return size_of_type(type(n)) / 8;
       }
 

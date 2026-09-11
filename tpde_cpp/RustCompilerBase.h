@@ -308,6 +308,7 @@ namespace tpde_rust {
     }
 
     bool compile_int_binary_op(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_int_binary_op_i128(RustAdaptor::IRInstRef, const ValInfo &, IntBinaryOp);
 
     bool compile_float_binary_op(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
@@ -526,7 +527,9 @@ namespace tpde_rust {
     IntBinaryOp op = typename IntBinaryOp::Value(op_val);
     auto parts = this->adaptor->val_parts(info);
 
-    // TODO maybe have extra logic for i128
+    if (info.type == Type::i128) [[unlikely]] {
+      return compile_int_binary_op_i128(instr_ref, info, op);
+    }
 
     using EncodeFnTy =
         bool (Derived::*)(GenericValuePart &&, GenericValuePart &&, ValuePart &);
@@ -682,6 +685,176 @@ namespace tpde_rust {
       //   derived()->insert_element(res, elem_idx, elem_ty, std::move(e_res));
       // }
     }
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_binary_op_i128(RustAdaptor::IRInstRef ref, const ValInfo &,
+    IntBinaryOp op) {
+    const Instruction& inst = this->adaptor->get_instruction(ref);
+
+    const unsigned int_width = size_of_type(this->adaptor->type_of_ref(inst.result));
+    assert(int_width > 64 && int_width <= 128);
+    auto lhs_op = inst.ops[0];
+    auto rhs_op = inst.ops[1];
+
+    auto res = this->result_ref(inst.result);
+
+    if (op.is_div() || op.is_rem()) {
+      LibFunc lf;
+      if (op.is_div()) {
+        lf = op.is_signed() ? LibFunc::divti3 : LibFunc::udivti3;
+      } else {
+        lf = op.is_signed() ? LibFunc::modti3 : LibFunc::umodti3;
+      }
+
+      if (int_width != 128) {
+        return false; // TODO: extend parameters
+      }
+
+      std::array<IRValueRef, 2> args{lhs_op, rhs_op};
+      derived()->create_helper_call(args, &res, get_libfunc_sym(lf));
+      return true;
+    }
+
+    auto lhs = this->val_ref(lhs_op);
+    auto rhs = this->val_ref(rhs_op);
+
+    // Use has_assignment as proxy for not being a constant.
+    if (op.is_symmetric() && !lhs.has_assignment() && rhs.has_assignment()) {
+      // TODO(ts): this is a hack since the encoder can currently not do
+      // commutable operations so we reorder immediates manually here
+      std::swap(lhs, rhs);
+    }
+
+    if (op.is_shift()) {
+      ValuePartRef lhs_hi = lhs.part(1);
+      if (int_width != 128 && op.needs_lhs_ext()) {
+        bool sext = op.is_signed(); // Essentially just ashr.
+        lhs_hi = std::move(lhs_hi).into_extended(sext, int_width - 64, 64);
+      }
+
+      ValuePartRef shift_amt = rhs.part(0);
+      if (shift_amt.is_const()) {
+        u64 imm1 = shift_amt.const_data()[0] & 0b111'1111; // amt
+        if (imm1 < 64) {
+          u64 imm2 = (64 - imm1) & 0b11'1111; // iamt
+          if (op == IntBinaryOp::shl) {
+            derived()->encode_shli128_lt64(
+                lhs.part(0),
+                std::move(lhs_hi),
+                ValuePartRef(this, imm1, 1, Config::GP_BANK),
+                ValuePartRef(this, imm2, 1, Config::GP_BANK),
+                res.part(0),
+                res.part(1));
+          } else if (op == IntBinaryOp::shr) {
+            derived()->encode_shri128_lt64(
+                lhs.part(0),
+                std::move(lhs_hi),
+                ValuePartRef(this, imm1, 1, Config::GP_BANK),
+                ValuePartRef(this, imm2, 1, Config::GP_BANK),
+                res.part(0),
+                res.part(1));
+          } else {
+            assert(op == IntBinaryOp::ashr);
+            derived()->encode_ashri128_lt64(
+                lhs.part(0),
+                std::move(lhs_hi),
+                ValuePartRef(this, imm1, 1, Config::GP_BANK),
+                ValuePartRef(this, imm2, 1, Config::GP_BANK),
+                res.part(0),
+                res.part(1));
+          }
+        } else if (imm1 == 64) {
+          // For shifts by 64, we just need to move one part to another.
+          if (op == IntBinaryOp::shl) {
+            res.part(0).set_value(ValuePartRef(this, 0, 8, Config::GP_BANK));
+            res.part(1).set_value(lhs.part(0));
+          } else if (op == IntBinaryOp::shr) {
+            res.part(0).set_value(std::move(lhs_hi));
+            res.part(1).set_value(ValuePartRef(this, 0, 8, Config::GP_BANK));
+          } else {
+            assert(op == IntBinaryOp::ashr);
+            (void)lhs_hi.cur_reg_or_load(); // Force into reg for get_unowned_ref.
+            derived()->encode_fill_with_sign64(lhs_hi.get_unowned_ref(),
+                                               res.part(1));
+            res.part(0).set_value(std::move(lhs_hi));
+          }
+        } else {
+          imm1 -= 64;
+          if (op == IntBinaryOp::shl) {
+            derived()->encode_shli128_ge64(
+                lhs.part(0),
+                ValuePartRef(this, imm1, 1, Config::GP_BANK),
+                res.part(0),
+                res.part(1));
+          } else if (op == IntBinaryOp::shr) {
+            derived()->encode_shri128_ge64(
+                std::move(lhs_hi),
+                ValuePartRef(this, imm1, 1, Config::GP_BANK),
+                res.part(0),
+                res.part(1));
+          } else {
+            assert(op == IntBinaryOp::ashr);
+            derived()->encode_ashri128_ge64(
+                std::move(lhs_hi),
+                ValuePartRef(this, imm1, 1, Config::GP_BANK),
+                res.part(0),
+                res.part(1));
+          }
+        }
+      } else {
+        if (op == IntBinaryOp::shl) {
+          derived()->encode_shli128(lhs.part(0),
+                                    std::move(lhs_hi),
+                                    std::move(shift_amt),
+                                    res.part(0),
+                                    res.part(1));
+        } else if (op == IntBinaryOp::shr) {
+          derived()->encode_shri128(lhs.part(0),
+                                    std::move(lhs_hi),
+                                    std::move(shift_amt),
+                                    res.part(0),
+                                    res.part(1));
+        } else {
+          assert(op == IntBinaryOp::ashr);
+          derived()->encode_ashri128(lhs.part(0),
+                                     std::move(lhs_hi),
+                                     std::move(shift_amt),
+                                     res.part(0),
+                                     res.part(1));
+        }
+      }
+    } else {
+      using EncodeFnTy = bool (Derived::*)(GenericValuePart &&,
+                                           GenericValuePart &&,
+                                           GenericValuePart &&,
+                                           GenericValuePart &&,
+                                           ValuePart &&,
+                                           ValuePart &&);
+      static const std::array<EncodeFnTy, 10> encode_ptrs = {
+          {
+           &Derived::encode_addi128,
+           &Derived::encode_subi128,
+           &Derived::encode_muli128,
+           nullptr, // division/remainder is a libcall
+              nullptr, // division/remainder is a libcall
+              nullptr, // division/remainder is a libcall
+              nullptr, // division/remainder is a libcall
+              &Derived::encode_landi128,
+           &Derived::encode_lori128,
+           &Derived::encode_lxori128,
+           }
+      };
+
+      (derived()->*(encode_ptrs[op.index()]))(lhs.part(0),
+                                              lhs.part(1),
+                                              rhs.part(0),
+                                              rhs.part(1),
+                                              res.part(0),
+                                              res.part(1));
+    }
+
     return true;
   }
 
@@ -1308,14 +1481,14 @@ namespace tpde_rust {
   }
 
   template<typename Adaptor, typename Derived, typename Config>
-  bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_trunc(RustAdaptor::IRInstRef inst, const ValInfo &, u64) {
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_trunc(RustAdaptor::IRInstRef inst, const ValInfo &val_info, u64) {
     const Instruction& trunci = this->adaptor->get_instruction(inst);
     auto val = trunci.ops[0];
 
     ValueRef src_vr = this->val_ref(val);
     ValueRef res_vr = this->result_ref(trunci.result);
 
-    switch (this->adaptor->type_of_ref(val)) {
+    switch (val_info.type) {
       using enum Type;
       case i8:
       case i16:

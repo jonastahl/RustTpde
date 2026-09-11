@@ -11,1290 +11,2186 @@ actual_obj.source.a5d34ad7a00a7042-cgu.0.rcgu.o:     file format elf64-x86-64
 
 Disassembly of section .text:
 
-0000000000000000 <add3_u32>:
-   0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
-   3:	8d 3c 17             	lea    (%rdi,%rdx,1),%edi
-   6:	89 f8                	mov    %edi,%eax
-   8:	c3                   	ret
-   9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
-
-0000000000000010 <add8_args_u32>:
-  10:	55                   	push   %rbp
-  11:	48 89 e5             	mov    %rsp,%rbp
-  14:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
-  17:	8d 3c 17             	lea    (%rdi,%rdx,1),%edi
-  1a:	8d 3c 0f             	lea    (%rdi,%rcx,1),%edi
-  1d:	42 8d 3c 07          	lea    (%rdi,%r8,1),%edi
-  21:	42 8d 3c 0f          	lea    (%rdi,%r9,1),%edi
-  25:	8b 45 10             	mov    0x10(%rbp),%eax
-  28:	8d 3c 07             	lea    (%rdi,%rax,1),%edi
-  2b:	8b 45 18             	mov    0x18(%rbp),%eax
-  2e:	8d 3c 07             	lea    (%rdi,%rax,1),%edi
-  31:	89 f8                	mov    %edi,%eax
-  33:	5d                   	pop    %rbp
-  34:	c3                   	ret
-  35:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
-  3c:	00 00 
-  3e:	66 90                	xchg   %ax,%ax
-
-0000000000000040 <add_i16>:
-  40:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
-  43:	89 f8                	mov    %edi,%eax
-  45:	c3                   	ret
-  46:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
-  4d:	00 00 
-  4f:	90                   	nop
-
-0000000000000050 <add_i32>:
-  50:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
-  53:	89 f8                	mov    %edi,%eax
-  55:	c3                   	ret
-  56:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
-  5d:	00 00 
-  5f:	90                   	nop
-
-0000000000000060 <add_i64>:
-  60:	48 8d 3c 37          	lea    (%rdi,%rsi,1),%rdi
-  64:	48 89 f8             	mov    %rdi,%rax
-  67:	c3                   	ret
-  68:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
-  6f:	00 
-
-0000000000000070 <add_i8>:
-  70:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
-  73:	89 f8                	mov    %edi,%eax
-  75:	c3                   	ret
-  76:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
-  7d:	00 00 
-  7f:	90                   	nop
-
-0000000000000080 <add_mul_u32>:
-  80:	0f af f2             	imul   %edx,%esi
-  83:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
-  86:	89 f8                	mov    %edi,%eax
-  88:	c3                   	ret
-  89:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
-
-0000000000000090 <add_sub_u32>:
-  90:	8d 04 37             	lea    (%rdi,%rsi,1),%eax
-  93:	29 f7                	sub    %esi,%edi
-  95:	29 f8                	sub    %edi,%eax
-  97:	c3                   	ret
-  98:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
-  9f:	00 
-
-00000000000000a0 <add_sub_u8>:
-  a0:	8d 04 37             	lea    (%rdi,%rsi,1),%eax
-  a3:	29 f7                	sub    %esi,%edi
-  a5:	29 f8                	sub    %edi,%eax
-  a7:	c3                   	ret
-  a8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
-  af:	00 
-
-00000000000000b0 <add_u16>:
-  b0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
-  b3:	89 f8                	mov    %edi,%eax
-  b5:	c3                   	ret
-  b6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
-  bd:	00 00 
-  bf:	90                   	nop
-
-00000000000000c0 <add_u32>:
-  c0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
-  c3:	89 f8                	mov    %edi,%eax
-  c5:	c3                   	ret
-  c6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
-  cd:	00 00 
-  cf:	90                   	nop
-
-00000000000000d0 <add_u64>:
-  d0:	48 8d 3c 37          	lea    (%rdi,%rsi,1),%rdi
-  d4:	48 89 f8             	mov    %rdi,%rax
-  d7:	c3                   	ret
-  d8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
-  df:	00 
-
-00000000000000e0 <add_u8>:
-  e0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
-  e3:	89 f8                	mov    %edi,%eax
-  e5:	c3                   	ret
-  e6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
-  ed:	00 00 
-  ef:	90                   	nop
-
-00000000000000f0 <and_u16>:
-  f0:	21 f7                	and    %esi,%edi
-  f2:	89 f8                	mov    %edi,%eax
-  f4:	c3                   	ret
-  f5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
-  fc:	00 00 
-  fe:	66 90                	xchg   %ax,%ax
-
-0000000000000100 <and_u32>:
- 100:	21 f7                	and    %esi,%edi
- 102:	89 f8                	mov    %edi,%eax
- 104:	c3                   	ret
- 105:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 10c:	00 00 
- 10e:	66 90                	xchg   %ax,%ax
-
-0000000000000110 <and_u64>:
- 110:	48 21 f7             	and    %rsi,%rdi
- 113:	48 89 f8             	mov    %rdi,%rax
- 116:	c3                   	ret
- 117:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 11e:	00 00 
-
-0000000000000120 <and_u8>:
- 120:	21 f7                	and    %esi,%edi
- 122:	89 f8                	mov    %edi,%eax
- 124:	c3                   	ret
- 125:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 12c:	00 00 
- 12e:	66 90                	xchg   %ax,%ax
-
-0000000000000130 <clear_low_u32>:
- 130:	83 e6 1f             	and    $0x1f,%esi
- 133:	b8 01 00 00 00       	mov    $0x1,%eax
- 138:	89 f1                	mov    %esi,%ecx
- 13a:	d3 e0                	shl    %cl,%eax
- 13c:	83 e8 01             	sub    $0x1,%eax
- 13f:	f7 d0                	not    %eax
- 141:	21 c7                	and    %eax,%edi
- 143:	89 f8                	mov    %edi,%eax
- 145:	c3                   	ret
- 146:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 14d:	00 00 
- 14f:	90                   	nop
-
-0000000000000150 <de_morgan_u32>:
- 150:	89 f8                	mov    %edi,%eax
- 152:	21 f0                	and    %esi,%eax
- 154:	f7 d0                	not    %eax
- 156:	f7 d7                	not    %edi
- 158:	f7 d6                	not    %esi
- 15a:	09 f7                	or     %esi,%edi
- 15c:	31 f8                	xor    %edi,%eax
- 15e:	c3                   	ret
- 15f:	90                   	nop
-
-0000000000000160 <div_i16>:
- 160:	55                   	push   %rbp
- 161:	48 89 e5             	mov    %rsp,%rbp
- 164:	53                   	push   %rbx
- 165:	41 54                	push   %r12
- 167:	48 83 ec 20          	sub    $0x20,%rsp
- 16b:	89 fb                	mov    %edi,%ebx
- 16d:	41 89 f4             	mov    %esi,%r12d
- 170:	66 45 85 e4          	test   %r12w,%r12w
- 174:	0f 84 38 00 00 00    	je     1b2 <div_i16+0x52>
- 17a:	66 41 83 fc ff       	cmp    $0xffff,%r12w
- 17f:	0f 94 c0             	sete   %al
- 182:	66 81 fb 00 80       	cmp    $0x8000,%bx
- 187:	0f 94 c1             	sete   %cl
- 18a:	21 c8                	and    %ecx,%eax
- 18c:	a8 01                	test   $0x1,%al
- 18e:	0f 85 12 00 00 00    	jne    1a6 <div_i16+0x46>
- 194:	0f bf db             	movswl %bx,%ebx
- 197:	45 0f bf e4          	movswl %r12w,%r12d
- 19b:	89 d8                	mov    %ebx,%eax
- 19d:	99                   	cltd
- 19e:	41 f7 fc             	idiv   %r12d
- 1a1:	e9 18 00 00 00       	jmp    1be <div_i16+0x5e>
- 1a6:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 1a5 <div_i16+0x45>
- 1ad:	e8 00 00 00 00       	call   1b2 <div_i16+0x52>
- 1b2:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 1b1 <div_i16+0x51>
- 1b9:	e8 00 00 00 00       	call   1be <div_i16+0x5e>
- 1be:	48 83 c4 20          	add    $0x20,%rsp
- 1c2:	41 5c                	pop    %r12
- 1c4:	5b                   	pop    %rbx
- 1c5:	5d                   	pop    %rbp
- 1c6:	c3                   	ret
- 1c7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 1ce:	00 00 
-
-00000000000001d0 <div_i32>:
- 1d0:	55                   	push   %rbp
- 1d1:	48 89 e5             	mov    %rsp,%rbp
- 1d4:	53                   	push   %rbx
- 1d5:	41 54                	push   %r12
- 1d7:	48 83 ec 20          	sub    $0x20,%rsp
- 1db:	89 fb                	mov    %edi,%ebx
- 1dd:	41 89 f4             	mov    %esi,%r12d
- 1e0:	45 85 e4             	test   %r12d,%r12d
- 1e3:	0f 84 31 00 00 00    	je     21a <div_i32+0x4a>
- 1e9:	41 83 fc ff          	cmp    $0xffffffff,%r12d
- 1ed:	0f 94 c0             	sete   %al
- 1f0:	81 fb 00 00 00 80    	cmp    $0x80000000,%ebx
- 1f6:	0f 94 c1             	sete   %cl
- 1f9:	21 c8                	and    %ecx,%eax
- 1fb:	a8 01                	test   $0x1,%al
- 1fd:	0f 85 0b 00 00 00    	jne    20e <div_i32+0x3e>
- 203:	89 d8                	mov    %ebx,%eax
- 205:	99                   	cltd
- 206:	41 f7 fc             	idiv   %r12d
- 209:	e9 18 00 00 00       	jmp    226 <div_i32+0x56>
- 20e:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 20d <div_i32+0x3d>
- 215:	e8 00 00 00 00       	call   21a <div_i32+0x4a>
- 21a:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 219 <div_i32+0x49>
- 221:	e8 00 00 00 00       	call   226 <div_i32+0x56>
- 226:	48 83 c4 20          	add    $0x20,%rsp
- 22a:	41 5c                	pop    %r12
- 22c:	5b                   	pop    %rbx
- 22d:	5d                   	pop    %rbp
- 22e:	c3                   	ret
- 22f:	90                   	nop
-
-0000000000000230 <div_i64>:
- 230:	55                   	push   %rbp
- 231:	48 89 e5             	mov    %rsp,%rbp
- 234:	53                   	push   %rbx
- 235:	41 54                	push   %r12
- 237:	48 83 ec 20          	sub    $0x20,%rsp
- 23b:	48 89 fb             	mov    %rdi,%rbx
- 23e:	49 89 f4             	mov    %rsi,%r12
- 241:	4d 85 e4             	test   %r12,%r12
- 244:	0f 84 3a 00 00 00    	je     284 <div_i64+0x54>
- 24a:	49 83 fc ff          	cmp    $0xffffffffffffffff,%r12
- 24e:	0f 94 c0             	sete   %al
- 251:	48 b9 00 00 00 00 00 	movabs $0x8000000000000000,%rcx
- 258:	00 00 80 
- 25b:	48 39 cb             	cmp    %rcx,%rbx
- 25e:	0f 94 c1             	sete   %cl
- 261:	21 c8                	and    %ecx,%eax
- 263:	a8 01                	test   $0x1,%al
- 265:	0f 85 0d 00 00 00    	jne    278 <div_i64+0x48>
- 26b:	48 89 d8             	mov    %rbx,%rax
- 26e:	48 99                	cqto
- 270:	49 f7 fc             	idiv   %r12
- 273:	e9 18 00 00 00       	jmp    290 <div_i64+0x60>
- 278:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 277 <div_i64+0x47>
- 27f:	e8 00 00 00 00       	call   284 <div_i64+0x54>
- 284:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 283 <div_i64+0x53>
- 28b:	e8 00 00 00 00       	call   290 <div_i64+0x60>
- 290:	48 83 c4 20          	add    $0x20,%rsp
- 294:	41 5c                	pop    %r12
- 296:	5b                   	pop    %rbx
- 297:	5d                   	pop    %rbp
- 298:	c3                   	ret
- 299:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
-
-00000000000002a0 <div_i8>:
- 2a0:	55                   	push   %rbp
- 2a1:	48 89 e5             	mov    %rsp,%rbp
- 2a4:	53                   	push   %rbx
- 2a5:	41 54                	push   %r12
- 2a7:	48 83 ec 20          	sub    $0x20,%rsp
- 2ab:	89 fb                	mov    %edi,%ebx
- 2ad:	41 89 f4             	mov    %esi,%r12d
- 2b0:	45 84 e4             	test   %r12b,%r12b
- 2b3:	0f 84 35 00 00 00    	je     2ee <div_i8+0x4e>
- 2b9:	41 80 fc ff          	cmp    $0xff,%r12b
- 2bd:	0f 94 c0             	sete   %al
- 2c0:	80 fb 80             	cmp    $0x80,%bl
- 2c3:	0f 94 c1             	sete   %cl
- 2c6:	21 c8                	and    %ecx,%eax
- 2c8:	a8 01                	test   $0x1,%al
- 2ca:	0f 85 12 00 00 00    	jne    2e2 <div_i8+0x42>
- 2d0:	0f be db             	movsbl %bl,%ebx
- 2d3:	45 0f be e4          	movsbl %r12b,%r12d
- 2d7:	89 d8                	mov    %ebx,%eax
- 2d9:	99                   	cltd
- 2da:	41 f7 fc             	idiv   %r12d
- 2dd:	e9 18 00 00 00       	jmp    2fa <div_i8+0x5a>
- 2e2:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 2e1 <div_i8+0x41>
- 2e9:	e8 00 00 00 00       	call   2ee <div_i8+0x4e>
- 2ee:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 2ed <div_i8+0x4d>
- 2f5:	e8 00 00 00 00       	call   2fa <div_i8+0x5a>
- 2fa:	48 83 c4 20          	add    $0x20,%rsp
- 2fe:	41 5c                	pop    %r12
- 300:	5b                   	pop    %rbx
- 301:	5d                   	pop    %rbp
- 302:	c3                   	ret
- 303:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 30a:	00 00 
- 30c:	0f 1f 40 00          	nopl   0x0(%rax)
-
-0000000000000310 <div_rem_i32>:
- 310:	55                   	push   %rbp
- 311:	48 89 e5             	mov    %rsp,%rbp
- 314:	53                   	push   %rbx
- 315:	41 54                	push   %r12
- 317:	41 55                	push   %r13
- 319:	48 83 ec 18          	sub    $0x18,%rsp
- 31d:	89 fb                	mov    %edi,%ebx
- 31f:	41 89 f4             	mov    %esi,%r12d
- 322:	45 85 e4             	test   %r12d,%r12d
- 325:	0f 84 81 00 00 00    	je     3ac <div_rem_i32+0x9c>
- 32b:	41 83 fc ff          	cmp    $0xffffffff,%r12d
- 32f:	0f 94 c0             	sete   %al
- 332:	81 fb 00 00 00 80    	cmp    $0x80000000,%ebx
- 338:	0f 94 c1             	sete   %cl
- 33b:	21 c8                	and    %ecx,%eax
- 33d:	a8 01                	test   $0x1,%al
- 33f:	0f 85 5b 00 00 00    	jne    3a0 <div_rem_i32+0x90>
- 345:	89 d8                	mov    %ebx,%eax
- 347:	99                   	cltd
- 348:	41 f7 fc             	idiv   %r12d
- 34b:	41 89 c5             	mov    %eax,%r13d
- 34e:	45 0f af ec          	imul   %r12d,%r13d
- 352:	45 85 e4             	test   %r12d,%r12d
- 355:	0f 84 39 00 00 00    	je     394 <div_rem_i32+0x84>
- 35b:	41 83 fc ff          	cmp    $0xffffffff,%r12d
- 35f:	0f 94 c0             	sete   %al
- 362:	81 fb 00 00 00 80    	cmp    $0x80000000,%ebx
- 368:	0f 94 c1             	sete   %cl
- 36b:	21 c8                	and    %ecx,%eax
- 36d:	a8 01                	test   $0x1,%al
- 36f:	0f 85 13 00 00 00    	jne    388 <div_rem_i32+0x78>
- 375:	89 d8                	mov    %ebx,%eax
- 377:	99                   	cltd
- 378:	41 f7 fc             	idiv   %r12d
- 37b:	45 8d 6c 15 00       	lea    0x0(%r13,%rdx,1),%r13d
- 380:	44 89 e8             	mov    %r13d,%eax
- 383:	e9 30 00 00 00       	jmp    3b8 <div_rem_i32+0xa8>
- 388:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 387 <div_rem_i32+0x77>
- 38f:	e8 00 00 00 00       	call   394 <div_rem_i32+0x84>
- 394:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 393 <div_rem_i32+0x83>
- 39b:	e8 00 00 00 00       	call   3a0 <div_rem_i32+0x90>
- 3a0:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 39f <div_rem_i32+0x8f>
- 3a7:	e8 00 00 00 00       	call   3ac <div_rem_i32+0x9c>
- 3ac:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 3ab <div_rem_i32+0x9b>
- 3b3:	e8 00 00 00 00       	call   3b8 <div_rem_i32+0xa8>
- 3b8:	48 83 c4 18          	add    $0x18,%rsp
- 3bc:	41 5d                	pop    %r13
- 3be:	41 5c                	pop    %r12
- 3c0:	5b                   	pop    %rbx
- 3c1:	5d                   	pop    %rbp
- 3c2:	c3                   	ret
- 3c3:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 3ca:	00 00 
- 3cc:	0f 1f 40 00          	nopl   0x0(%rax)
-
-00000000000003d0 <div_rem_u32>:
- 3d0:	55                   	push   %rbp
- 3d1:	48 89 e5             	mov    %rsp,%rbp
- 3d4:	53                   	push   %rbx
- 3d5:	41 54                	push   %r12
- 3d7:	41 55                	push   %r13
- 3d9:	48 83 ec 18          	sub    $0x18,%rsp
- 3dd:	89 fb                	mov    %edi,%ebx
- 3df:	41 89 f4             	mov    %esi,%r12d
- 3e2:	45 85 e4             	test   %r12d,%r12d
- 3e5:	0f 84 37 00 00 00    	je     422 <div_rem_u32+0x52>
- 3eb:	31 d2                	xor    %edx,%edx
- 3ed:	89 d8                	mov    %ebx,%eax
- 3ef:	41 f7 f4             	div    %r12d
- 3f2:	41 89 c5             	mov    %eax,%r13d
- 3f5:	45 0f af ec          	imul   %r12d,%r13d
- 3f9:	45 85 e4             	test   %r12d,%r12d
- 3fc:	0f 84 14 00 00 00    	je     416 <div_rem_u32+0x46>
- 402:	31 d2                	xor    %edx,%edx
- 404:	89 d8                	mov    %ebx,%eax
- 406:	41 f7 f4             	div    %r12d
- 409:	45 8d 6c 15 00       	lea    0x0(%r13,%rdx,1),%r13d
- 40e:	44 89 e8             	mov    %r13d,%eax
- 411:	e9 18 00 00 00       	jmp    42e <div_rem_u32+0x5e>
- 416:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 415 <div_rem_u32+0x45>
- 41d:	e8 00 00 00 00       	call   422 <div_rem_u32+0x52>
- 422:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 421 <div_rem_u32+0x51>
- 429:	e8 00 00 00 00       	call   42e <div_rem_u32+0x5e>
- 42e:	48 83 c4 18          	add    $0x18,%rsp
- 432:	41 5d                	pop    %r13
- 434:	41 5c                	pop    %r12
- 436:	5b                   	pop    %rbx
- 437:	5d                   	pop    %rbp
- 438:	c3                   	ret
- 439:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
-
-0000000000000440 <div_u16>:
- 440:	55                   	push   %rbp
- 441:	48 89 e5             	mov    %rsp,%rbp
- 444:	53                   	push   %rbx
- 445:	41 54                	push   %r12
- 447:	48 83 ec 20          	sub    $0x20,%rsp
- 44b:	89 fb                	mov    %edi,%ebx
- 44d:	41 89 f4             	mov    %esi,%r12d
- 450:	66 45 85 e4          	test   %r12w,%r12w
- 454:	0f 84 13 00 00 00    	je     46d <div_u16+0x2d>
- 45a:	0f b7 db             	movzwl %bx,%ebx
- 45d:	45 0f b7 e4          	movzwl %r12w,%r12d
- 461:	31 d2                	xor    %edx,%edx
- 463:	89 d8                	mov    %ebx,%eax
- 465:	41 f7 f4             	div    %r12d
- 468:	e9 0c 00 00 00       	jmp    479 <div_u16+0x39>
- 46d:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 46c <div_u16+0x2c>
- 474:	e8 00 00 00 00       	call   479 <div_u16+0x39>
- 479:	48 83 c4 20          	add    $0x20,%rsp
- 47d:	41 5c                	pop    %r12
- 47f:	5b                   	pop    %rbx
- 480:	5d                   	pop    %rbp
- 481:	c3                   	ret
- 482:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 489:	00 00 
- 48b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
-
-0000000000000490 <div_u32>:
- 490:	55                   	push   %rbp
- 491:	48 89 e5             	mov    %rsp,%rbp
- 494:	53                   	push   %rbx
- 495:	41 54                	push   %r12
- 497:	48 83 ec 20          	sub    $0x20,%rsp
- 49b:	89 fb                	mov    %edi,%ebx
- 49d:	41 89 f4             	mov    %esi,%r12d
- 4a0:	45 85 e4             	test   %r12d,%r12d
- 4a3:	0f 84 0c 00 00 00    	je     4b5 <div_u32+0x25>
- 4a9:	31 d2                	xor    %edx,%edx
- 4ab:	89 d8                	mov    %ebx,%eax
- 4ad:	41 f7 f4             	div    %r12d
- 4b0:	e9 0c 00 00 00       	jmp    4c1 <div_u32+0x31>
- 4b5:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 4b4 <div_u32+0x24>
- 4bc:	e8 00 00 00 00       	call   4c1 <div_u32+0x31>
- 4c1:	48 83 c4 20          	add    $0x20,%rsp
- 4c5:	41 5c                	pop    %r12
- 4c7:	5b                   	pop    %rbx
- 4c8:	5d                   	pop    %rbp
- 4c9:	c3                   	ret
- 4ca:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-
-00000000000004d0 <div_u64>:
- 4d0:	55                   	push   %rbp
- 4d1:	48 89 e5             	mov    %rsp,%rbp
- 4d4:	53                   	push   %rbx
- 4d5:	41 54                	push   %r12
- 4d7:	48 83 ec 20          	sub    $0x20,%rsp
- 4db:	48 89 fb             	mov    %rdi,%rbx
- 4de:	49 89 f4             	mov    %rsi,%r12
- 4e1:	4d 85 e4             	test   %r12,%r12
- 4e4:	0f 84 0d 00 00 00    	je     4f7 <div_u64+0x27>
- 4ea:	31 d2                	xor    %edx,%edx
- 4ec:	48 89 d8             	mov    %rbx,%rax
- 4ef:	49 f7 f4             	div    %r12
- 4f2:	e9 0c 00 00 00       	jmp    503 <div_u64+0x33>
- 4f7:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 4f6 <div_u64+0x26>
- 4fe:	e8 00 00 00 00       	call   503 <div_u64+0x33>
- 503:	48 83 c4 20          	add    $0x20,%rsp
- 507:	41 5c                	pop    %r12
- 509:	5b                   	pop    %rbx
- 50a:	5d                   	pop    %rbp
- 50b:	c3                   	ret
- 50c:	0f 1f 40 00          	nopl   0x0(%rax)
-
-0000000000000510 <div_u8>:
- 510:	55                   	push   %rbp
- 511:	48 89 e5             	mov    %rsp,%rbp
- 514:	53                   	push   %rbx
- 515:	41 54                	push   %r12
- 517:	48 83 ec 20          	sub    $0x20,%rsp
- 51b:	89 fb                	mov    %edi,%ebx
- 51d:	41 89 f4             	mov    %esi,%r12d
- 520:	45 84 e4             	test   %r12b,%r12b
- 523:	0f 84 13 00 00 00    	je     53c <div_u8+0x2c>
- 529:	0f b6 db             	movzbl %bl,%ebx
- 52c:	45 0f b6 e4          	movzbl %r12b,%r12d
- 530:	31 d2                	xor    %edx,%edx
- 532:	89 d8                	mov    %ebx,%eax
- 534:	41 f7 f4             	div    %r12d
- 537:	e9 0c 00 00 00       	jmp    548 <div_u8+0x38>
- 53c:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 53b <div_u8+0x2b>
- 543:	e8 00 00 00 00       	call   548 <div_u8+0x38>
- 548:	48 83 c4 20          	add    $0x20,%rsp
- 54c:	41 5c                	pop    %r12
- 54e:	5b                   	pop    %rbx
- 54f:	5d                   	pop    %rbp
- 550:	c3                   	ret
- 551:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 558:	00 00 
- 55a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-
-0000000000000560 <keep_low_u32>:
- 560:	83 e6 1f             	and    $0x1f,%esi
- 563:	b8 01 00 00 00       	mov    $0x1,%eax
- 568:	89 f1                	mov    %esi,%ecx
- 56a:	d3 e0                	shl    %cl,%eax
- 56c:	83 e8 01             	sub    $0x1,%eax
- 56f:	21 c7                	and    %eax,%edi
- 571:	89 f8                	mov    %edi,%eax
- 573:	c3                   	ret
- 574:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 57b:	00 00 
- 57d:	0f 1f 00             	nopl   (%rax)
-
-0000000000000580 <mul_add_u32>:
- 580:	0f af fe             	imul   %esi,%edi
- 583:	8d 3c 17             	lea    (%rdi,%rdx,1),%edi
- 586:	89 f8                	mov    %edi,%eax
- 588:	c3                   	ret
- 589:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
-
-0000000000000590 <mul_add_u8>:
- 590:	0f af fe             	imul   %esi,%edi
- 593:	8d 3c 17             	lea    (%rdi,%rdx,1),%edi
- 596:	89 f8                	mov    %edi,%eax
- 598:	c3                   	ret
- 599:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
-
-00000000000005a0 <mul_i16>:
- 5a0:	0f af fe             	imul   %esi,%edi
- 5a3:	89 f8                	mov    %edi,%eax
- 5a5:	c3                   	ret
- 5a6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 5ad:	00 00 
- 5af:	90                   	nop
-
-00000000000005b0 <mul_i32>:
- 5b0:	0f af fe             	imul   %esi,%edi
- 5b3:	89 f8                	mov    %edi,%eax
- 5b5:	c3                   	ret
- 5b6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 5bd:	00 00 
- 5bf:	90                   	nop
-
-00000000000005c0 <mul_i64>:
- 5c0:	48 0f af fe          	imul   %rsi,%rdi
- 5c4:	48 89 f8             	mov    %rdi,%rax
- 5c7:	c3                   	ret
- 5c8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
- 5cf:	00 
-
-00000000000005d0 <mul_i8>:
- 5d0:	0f af fe             	imul   %esi,%edi
- 5d3:	89 f8                	mov    %edi,%eax
- 5d5:	c3                   	ret
- 5d6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 5dd:	00 00 
- 5df:	90                   	nop
-
-00000000000005e0 <mul_u16>:
- 5e0:	0f af fe             	imul   %esi,%edi
- 5e3:	89 f8                	mov    %edi,%eax
- 5e5:	c3                   	ret
- 5e6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 5ed:	00 00 
- 5ef:	90                   	nop
-
-00000000000005f0 <mul_u32>:
- 5f0:	0f af fe             	imul   %esi,%edi
- 5f3:	89 f8                	mov    %edi,%eax
- 5f5:	c3                   	ret
- 5f6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 5fd:	00 00 
- 5ff:	90                   	nop
-
-0000000000000600 <mul_u64>:
- 600:	48 0f af fe          	imul   %rsi,%rdi
- 604:	48 89 f8             	mov    %rdi,%rax
- 607:	c3                   	ret
- 608:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
- 60f:	00 
-
-0000000000000610 <mul_u8>:
- 610:	0f af fe             	imul   %esi,%edi
- 613:	89 f8                	mov    %edi,%eax
- 615:	c3                   	ret
- 616:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 61d:	00 00 
- 61f:	90                   	nop
-
-0000000000000620 <neg_i16>:
- 620:	f7 df                	neg    %edi
- 622:	89 f8                	mov    %edi,%eax
- 624:	c3                   	ret
- 625:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 62c:	00 00 
- 62e:	66 90                	xchg   %ax,%ax
-
-0000000000000630 <neg_i32>:
- 630:	f7 df                	neg    %edi
- 632:	89 f8                	mov    %edi,%eax
- 634:	c3                   	ret
- 635:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 63c:	00 00 
- 63e:	66 90                	xchg   %ax,%ax
-
-0000000000000640 <neg_i64>:
- 640:	48 f7 df             	neg    %rdi
- 643:	48 89 f8             	mov    %rdi,%rax
- 646:	c3                   	ret
- 647:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 64e:	00 00 
-
-0000000000000650 <neg_i8>:
- 650:	f7 df                	neg    %edi
- 652:	89 f8                	mov    %edi,%eax
- 654:	c3                   	ret
- 655:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 65c:	00 00 
- 65e:	66 90                	xchg   %ax,%ax
-
-0000000000000660 <neg_via_not_i32>:
- 660:	f7 d7                	not    %edi
- 662:	8d 7f 01             	lea    0x1(%rdi),%edi
- 665:	89 f8                	mov    %edi,%eax
- 667:	c3                   	ret
- 668:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
- 66f:	00 
-
-0000000000000670 <not_bool>:
- 670:	40 80 f7 01          	xor    $0x1,%dil
- 674:	89 f8                	mov    %edi,%eax
- 676:	c3                   	ret
- 677:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 67e:	00 00 
-
-0000000000000680 <not_i16>:
- 680:	f7 d7                	not    %edi
- 682:	89 f8                	mov    %edi,%eax
- 684:	c3                   	ret
- 685:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 68c:	00 00 
- 68e:	66 90                	xchg   %ax,%ax
-
-0000000000000690 <not_i32>:
- 690:	f7 d7                	not    %edi
- 692:	89 f8                	mov    %edi,%eax
- 694:	c3                   	ret
- 695:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 69c:	00 00 
- 69e:	66 90                	xchg   %ax,%ax
-
-00000000000006a0 <not_i64>:
- 6a0:	48 f7 d7             	not    %rdi
- 6a3:	48 89 f8             	mov    %rdi,%rax
- 6a6:	c3                   	ret
- 6a7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 6ae:	00 00 
-
-00000000000006b0 <not_i8>:
- 6b0:	f7 d7                	not    %edi
- 6b2:	89 f8                	mov    %edi,%eax
- 6b4:	c3                   	ret
- 6b5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 6bc:	00 00 
- 6be:	66 90                	xchg   %ax,%ax
-
-00000000000006c0 <not_u16>:
- 6c0:	f7 d7                	not    %edi
- 6c2:	89 f8                	mov    %edi,%eax
- 6c4:	c3                   	ret
- 6c5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 6cc:	00 00 
- 6ce:	66 90                	xchg   %ax,%ax
-
-00000000000006d0 <not_u32>:
- 6d0:	f7 d7                	not    %edi
- 6d2:	89 f8                	mov    %edi,%eax
- 6d4:	c3                   	ret
- 6d5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 6dc:	00 00 
- 6de:	66 90                	xchg   %ax,%ax
-
-00000000000006e0 <not_u64>:
- 6e0:	48 f7 d7             	not    %rdi
- 6e3:	48 89 f8             	mov    %rdi,%rax
- 6e6:	c3                   	ret
- 6e7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 6ee:	00 00 
-
-00000000000006f0 <not_u8>:
- 6f0:	f7 d7                	not    %edi
- 6f2:	89 f8                	mov    %edi,%eax
- 6f4:	c3                   	ret
- 6f5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 6fc:	00 00 
- 6fe:	66 90                	xchg   %ax,%ax
-
-0000000000000700 <or_u16>:
- 700:	09 f7                	or     %esi,%edi
- 702:	89 f8                	mov    %edi,%eax
- 704:	c3                   	ret
- 705:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 70c:	00 00 
- 70e:	66 90                	xchg   %ax,%ax
-
-0000000000000710 <or_u32>:
- 710:	09 f7                	or     %esi,%edi
- 712:	89 f8                	mov    %edi,%eax
- 714:	c3                   	ret
- 715:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 71c:	00 00 
- 71e:	66 90                	xchg   %ax,%ax
-
-0000000000000720 <or_u64>:
- 720:	48 09 f7             	or     %rsi,%rdi
- 723:	48 89 f8             	mov    %rdi,%rax
- 726:	c3                   	ret
- 727:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 72e:	00 00 
-
-0000000000000730 <or_u8>:
- 730:	09 f7                	or     %esi,%edi
- 732:	89 f8                	mov    %edi,%eax
- 734:	c3                   	ret
- 735:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 73c:	00 00 
- 73e:	66 90                	xchg   %ax,%ax
-
-0000000000000740 <rem_i16>:
- 740:	55                   	push   %rbp
- 741:	48 89 e5             	mov    %rsp,%rbp
- 744:	53                   	push   %rbx
- 745:	41 54                	push   %r12
- 747:	48 83 ec 20          	sub    $0x20,%rsp
- 74b:	89 fb                	mov    %edi,%ebx
- 74d:	41 89 f4             	mov    %esi,%r12d
- 750:	66 45 85 e4          	test   %r12w,%r12w
- 754:	0f 84 3a 00 00 00    	je     794 <rem_i16+0x54>
- 75a:	66 41 83 fc ff       	cmp    $0xffff,%r12w
- 75f:	0f 94 c0             	sete   %al
- 762:	66 81 fb 00 80       	cmp    $0x8000,%bx
- 767:	0f 94 c1             	sete   %cl
- 76a:	21 c8                	and    %ecx,%eax
- 76c:	a8 01                	test   $0x1,%al
- 76e:	0f 85 14 00 00 00    	jne    788 <rem_i16+0x48>
- 774:	0f bf db             	movswl %bx,%ebx
- 777:	45 0f bf e4          	movswl %r12w,%r12d
- 77b:	89 d8                	mov    %ebx,%eax
- 77d:	99                   	cltd
- 77e:	41 f7 fc             	idiv   %r12d
- 781:	89 d0                	mov    %edx,%eax
- 783:	e9 18 00 00 00       	jmp    7a0 <rem_i16+0x60>
- 788:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 787 <rem_i16+0x47>
- 78f:	e8 00 00 00 00       	call   794 <rem_i16+0x54>
- 794:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 793 <rem_i16+0x53>
- 79b:	e8 00 00 00 00       	call   7a0 <rem_i16+0x60>
- 7a0:	48 83 c4 20          	add    $0x20,%rsp
- 7a4:	41 5c                	pop    %r12
- 7a6:	5b                   	pop    %rbx
- 7a7:	5d                   	pop    %rbp
- 7a8:	c3                   	ret
- 7a9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
-
-00000000000007b0 <rem_i32>:
- 7b0:	55                   	push   %rbp
- 7b1:	48 89 e5             	mov    %rsp,%rbp
- 7b4:	53                   	push   %rbx
- 7b5:	41 54                	push   %r12
- 7b7:	48 83 ec 20          	sub    $0x20,%rsp
- 7bb:	89 fb                	mov    %edi,%ebx
- 7bd:	41 89 f4             	mov    %esi,%r12d
- 7c0:	45 85 e4             	test   %r12d,%r12d
- 7c3:	0f 84 33 00 00 00    	je     7fc <rem_i32+0x4c>
- 7c9:	41 83 fc ff          	cmp    $0xffffffff,%r12d
- 7cd:	0f 94 c0             	sete   %al
- 7d0:	81 fb 00 00 00 80    	cmp    $0x80000000,%ebx
- 7d6:	0f 94 c1             	sete   %cl
- 7d9:	21 c8                	and    %ecx,%eax
- 7db:	a8 01                	test   $0x1,%al
- 7dd:	0f 85 0d 00 00 00    	jne    7f0 <rem_i32+0x40>
- 7e3:	89 d8                	mov    %ebx,%eax
- 7e5:	99                   	cltd
- 7e6:	41 f7 fc             	idiv   %r12d
- 7e9:	89 d0                	mov    %edx,%eax
- 7eb:	e9 18 00 00 00       	jmp    808 <rem_i32+0x58>
- 7f0:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 7ef <rem_i32+0x3f>
- 7f7:	e8 00 00 00 00       	call   7fc <rem_i32+0x4c>
- 7fc:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 7fb <rem_i32+0x4b>
- 803:	e8 00 00 00 00       	call   808 <rem_i32+0x58>
- 808:	48 83 c4 20          	add    $0x20,%rsp
- 80c:	41 5c                	pop    %r12
- 80e:	5b                   	pop    %rbx
- 80f:	5d                   	pop    %rbp
- 810:	c3                   	ret
- 811:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 818:	00 00 
- 81a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-
-0000000000000820 <rem_i64>:
- 820:	55                   	push   %rbp
- 821:	48 89 e5             	mov    %rsp,%rbp
- 824:	53                   	push   %rbx
- 825:	41 54                	push   %r12
- 827:	48 83 ec 20          	sub    $0x20,%rsp
- 82b:	48 89 fb             	mov    %rdi,%rbx
- 82e:	49 89 f4             	mov    %rsi,%r12
- 831:	4d 85 e4             	test   %r12,%r12
- 834:	0f 84 3d 00 00 00    	je     877 <rem_i64+0x57>
- 83a:	49 83 fc ff          	cmp    $0xffffffffffffffff,%r12
- 83e:	0f 94 c0             	sete   %al
- 841:	48 b9 00 00 00 00 00 	movabs $0x8000000000000000,%rcx
- 848:	00 00 80 
- 84b:	48 39 cb             	cmp    %rcx,%rbx
- 84e:	0f 94 c1             	sete   %cl
- 851:	21 c8                	and    %ecx,%eax
- 853:	a8 01                	test   $0x1,%al
- 855:	0f 85 10 00 00 00    	jne    86b <rem_i64+0x4b>
- 85b:	48 89 d8             	mov    %rbx,%rax
- 85e:	48 99                	cqto
- 860:	49 f7 fc             	idiv   %r12
- 863:	48 89 d0             	mov    %rdx,%rax
- 866:	e9 18 00 00 00       	jmp    883 <rem_i64+0x63>
- 86b:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 86a <rem_i64+0x4a>
- 872:	e8 00 00 00 00       	call   877 <rem_i64+0x57>
- 877:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 876 <rem_i64+0x56>
- 87e:	e8 00 00 00 00       	call   883 <rem_i64+0x63>
- 883:	48 83 c4 20          	add    $0x20,%rsp
- 887:	41 5c                	pop    %r12
- 889:	5b                   	pop    %rbx
- 88a:	5d                   	pop    %rbp
- 88b:	c3                   	ret
- 88c:	0f 1f 40 00          	nopl   0x0(%rax)
-
-0000000000000890 <rem_i8>:
- 890:	55                   	push   %rbp
- 891:	48 89 e5             	mov    %rsp,%rbp
- 894:	53                   	push   %rbx
- 895:	41 54                	push   %r12
- 897:	48 83 ec 20          	sub    $0x20,%rsp
- 89b:	89 fb                	mov    %edi,%ebx
- 89d:	41 89 f4             	mov    %esi,%r12d
- 8a0:	45 84 e4             	test   %r12b,%r12b
- 8a3:	0f 84 37 00 00 00    	je     8e0 <rem_i8+0x50>
- 8a9:	41 80 fc ff          	cmp    $0xff,%r12b
- 8ad:	0f 94 c0             	sete   %al
- 8b0:	80 fb 80             	cmp    $0x80,%bl
- 8b3:	0f 94 c1             	sete   %cl
- 8b6:	21 c8                	and    %ecx,%eax
- 8b8:	a8 01                	test   $0x1,%al
- 8ba:	0f 85 14 00 00 00    	jne    8d4 <rem_i8+0x44>
- 8c0:	0f be db             	movsbl %bl,%ebx
- 8c3:	45 0f be e4          	movsbl %r12b,%r12d
- 8c7:	89 d8                	mov    %ebx,%eax
- 8c9:	99                   	cltd
- 8ca:	41 f7 fc             	idiv   %r12d
- 8cd:	89 d0                	mov    %edx,%eax
- 8cf:	e9 18 00 00 00       	jmp    8ec <rem_i8+0x5c>
- 8d4:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 8d3 <rem_i8+0x43>
- 8db:	e8 00 00 00 00       	call   8e0 <rem_i8+0x50>
- 8e0:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 8df <rem_i8+0x4f>
- 8e7:	e8 00 00 00 00       	call   8ec <rem_i8+0x5c>
- 8ec:	48 83 c4 20          	add    $0x20,%rsp
- 8f0:	41 5c                	pop    %r12
- 8f2:	5b                   	pop    %rbx
- 8f3:	5d                   	pop    %rbp
- 8f4:	c3                   	ret
- 8f5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 8fc:	00 00 
- 8fe:	66 90                	xchg   %ax,%ax
-
-0000000000000900 <rem_u16>:
- 900:	55                   	push   %rbp
- 901:	48 89 e5             	mov    %rsp,%rbp
- 904:	53                   	push   %rbx
- 905:	41 54                	push   %r12
- 907:	48 83 ec 20          	sub    $0x20,%rsp
- 90b:	89 fb                	mov    %edi,%ebx
- 90d:	41 89 f4             	mov    %esi,%r12d
- 910:	66 45 85 e4          	test   %r12w,%r12w
- 914:	0f 84 15 00 00 00    	je     92f <rem_u16+0x2f>
- 91a:	0f b7 db             	movzwl %bx,%ebx
- 91d:	45 0f b7 e4          	movzwl %r12w,%r12d
- 921:	31 d2                	xor    %edx,%edx
- 923:	89 d8                	mov    %ebx,%eax
- 925:	41 f7 f4             	div    %r12d
- 928:	89 d0                	mov    %edx,%eax
- 92a:	e9 0c 00 00 00       	jmp    93b <rem_u16+0x3b>
- 92f:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 92e <rem_u16+0x2e>
- 936:	e8 00 00 00 00       	call   93b <rem_u16+0x3b>
- 93b:	48 83 c4 20          	add    $0x20,%rsp
- 93f:	41 5c                	pop    %r12
- 941:	5b                   	pop    %rbx
- 942:	5d                   	pop    %rbp
- 943:	c3                   	ret
- 944:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- 94b:	00 00 
- 94d:	0f 1f 00             	nopl   (%rax)
-
-0000000000000950 <rem_u32>:
- 950:	55                   	push   %rbp
- 951:	48 89 e5             	mov    %rsp,%rbp
- 954:	53                   	push   %rbx
- 955:	41 54                	push   %r12
- 957:	48 83 ec 20          	sub    $0x20,%rsp
- 95b:	89 fb                	mov    %edi,%ebx
- 95d:	41 89 f4             	mov    %esi,%r12d
- 960:	45 85 e4             	test   %r12d,%r12d
- 963:	0f 84 0e 00 00 00    	je     977 <rem_u32+0x27>
- 969:	31 d2                	xor    %edx,%edx
- 96b:	89 d8                	mov    %ebx,%eax
- 96d:	41 f7 f4             	div    %r12d
- 970:	89 d0                	mov    %edx,%eax
- 972:	e9 0c 00 00 00       	jmp    983 <rem_u32+0x33>
- 977:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 976 <rem_u32+0x26>
- 97e:	e8 00 00 00 00       	call   983 <rem_u32+0x33>
- 983:	48 83 c4 20          	add    $0x20,%rsp
- 987:	41 5c                	pop    %r12
- 989:	5b                   	pop    %rbx
- 98a:	5d                   	pop    %rbp
- 98b:	c3                   	ret
- 98c:	0f 1f 40 00          	nopl   0x0(%rax)
-
-0000000000000990 <rem_u64>:
- 990:	55                   	push   %rbp
- 991:	48 89 e5             	mov    %rsp,%rbp
- 994:	53                   	push   %rbx
- 995:	41 54                	push   %r12
- 997:	48 83 ec 20          	sub    $0x20,%rsp
- 99b:	48 89 fb             	mov    %rdi,%rbx
- 99e:	49 89 f4             	mov    %rsi,%r12
- 9a1:	4d 85 e4             	test   %r12,%r12
- 9a4:	0f 84 10 00 00 00    	je     9ba <rem_u64+0x2a>
- 9aa:	31 d2                	xor    %edx,%edx
- 9ac:	48 89 d8             	mov    %rbx,%rax
- 9af:	49 f7 f4             	div    %r12
- 9b2:	48 89 d0             	mov    %rdx,%rax
- 9b5:	e9 0c 00 00 00       	jmp    9c6 <rem_u64+0x36>
- 9ba:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 9b9 <rem_u64+0x29>
- 9c1:	e8 00 00 00 00       	call   9c6 <rem_u64+0x36>
- 9c6:	48 83 c4 20          	add    $0x20,%rsp
- 9ca:	41 5c                	pop    %r12
- 9cc:	5b                   	pop    %rbx
- 9cd:	5d                   	pop    %rbp
- 9ce:	c3                   	ret
- 9cf:	90                   	nop
-
-00000000000009d0 <rem_u8>:
- 9d0:	55                   	push   %rbp
- 9d1:	48 89 e5             	mov    %rsp,%rbp
- 9d4:	53                   	push   %rbx
- 9d5:	41 54                	push   %r12
- 9d7:	48 83 ec 20          	sub    $0x20,%rsp
- 9db:	89 fb                	mov    %edi,%ebx
- 9dd:	41 89 f4             	mov    %esi,%r12d
- 9e0:	45 84 e4             	test   %r12b,%r12b
- 9e3:	0f 84 15 00 00 00    	je     9fe <rem_u8+0x2e>
- 9e9:	0f b6 db             	movzbl %bl,%ebx
- 9ec:	45 0f b6 e4          	movzbl %r12b,%r12d
- 9f0:	31 d2                	xor    %edx,%edx
- 9f2:	89 d8                	mov    %ebx,%eax
- 9f4:	41 f7 f4             	div    %r12d
- 9f7:	89 d0                	mov    %edx,%eax
- 9f9:	e9 0c 00 00 00       	jmp    a0a <rem_u8+0x3a>
- 9fe:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 9fd <rem_u8+0x2d>
- a05:	e8 00 00 00 00       	call   a0a <rem_u8+0x3a>
- a0a:	48 83 c4 20          	add    $0x20,%rsp
- a0e:	41 5c                	pop    %r12
- a10:	5b                   	pop    %rbx
- a11:	5d                   	pop    %rbp
- a12:	c3                   	ret
- a13:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- a1a:	00 00 
- a1c:	0f 1f 40 00          	nopl   0x0(%rax)
-
-0000000000000a20 <shl3_u32>:
- a20:	b8 03 00 00 00       	mov    $0x3,%eax
- a25:	83 e0 1f             	and    $0x1f,%eax
- a28:	89 c1                	mov    %eax,%ecx
- a2a:	d3 e7                	shl    %cl,%edi
- a2c:	89 f8                	mov    %edi,%eax
- a2e:	c3                   	ret
- a2f:	90                   	nop
-
-0000000000000a30 <shl_i16>:
- a30:	83 e6 0f             	and    $0xf,%esi
- a33:	89 f1                	mov    %esi,%ecx
- a35:	d3 e7                	shl    %cl,%edi
- a37:	89 f8                	mov    %edi,%eax
- a39:	c3                   	ret
- a3a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-
-0000000000000a40 <shl_i32>:
- a40:	83 e6 1f             	and    $0x1f,%esi
- a43:	89 f1                	mov    %esi,%ecx
- a45:	d3 e7                	shl    %cl,%edi
- a47:	89 f8                	mov    %edi,%eax
- a49:	c3                   	ret
- a4a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-
-0000000000000a50 <shl_i64>:
- a50:	48 83 e6 3f          	and    $0x3f,%rsi
- a54:	89 f1                	mov    %esi,%ecx
- a56:	48 d3 e7             	shl    %cl,%rdi
- a59:	48 89 f8             	mov    %rdi,%rax
- a5c:	c3                   	ret
- a5d:	0f 1f 00             	nopl   (%rax)
-
-0000000000000a60 <shl_i8>:
- a60:	83 e6 07             	and    $0x7,%esi
- a63:	89 f1                	mov    %esi,%ecx
- a65:	d3 e7                	shl    %cl,%edi
- a67:	89 f8                	mov    %edi,%eax
- a69:	c3                   	ret
- a6a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-
-0000000000000a70 <shl_mul_u32>:
- a70:	89 f0                	mov    %esi,%eax
- a72:	83 e0 1f             	and    $0x1f,%eax
- a75:	89 fa                	mov    %edi,%edx
- a77:	89 c1                	mov    %eax,%ecx
- a79:	d3 e2                	shl    %cl,%edx
- a7b:	83 e6 1f             	and    $0x1f,%esi
- a7e:	b8 01 00 00 00       	mov    $0x1,%eax
- a83:	89 f1                	mov    %esi,%ecx
- a85:	d3 e0                	shl    %cl,%eax
- a87:	0f af f8             	imul   %eax,%edi
- a8a:	29 fa                	sub    %edi,%edx
- a8c:	89 d0                	mov    %edx,%eax
- a8e:	c3                   	ret
- a8f:	90                   	nop
-
-0000000000000a90 <shl_u16>:
- a90:	83 e6 0f             	and    $0xf,%esi
- a93:	89 f1                	mov    %esi,%ecx
- a95:	d3 e7                	shl    %cl,%edi
- a97:	89 f8                	mov    %edi,%eax
- a99:	c3                   	ret
- a9a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-
-0000000000000aa0 <shl_u32>:
- aa0:	83 e6 1f             	and    $0x1f,%esi
- aa3:	89 f1                	mov    %esi,%ecx
- aa5:	d3 e7                	shl    %cl,%edi
- aa7:	89 f8                	mov    %edi,%eax
- aa9:	c3                   	ret
- aaa:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-
-0000000000000ab0 <shl_u64>:
- ab0:	48 83 e6 3f          	and    $0x3f,%rsi
- ab4:	89 f1                	mov    %esi,%ecx
- ab6:	48 d3 e7             	shl    %cl,%rdi
- ab9:	48 89 f8             	mov    %rdi,%rax
- abc:	c3                   	ret
- abd:	0f 1f 00             	nopl   (%rax)
-
-0000000000000ac0 <shl_u8>:
- ac0:	83 e6 07             	and    $0x7,%esi
- ac3:	89 f1                	mov    %esi,%ecx
- ac5:	d3 e7                	shl    %cl,%edi
- ac7:	89 f8                	mov    %edi,%eax
- ac9:	c3                   	ret
- aca:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-
-0000000000000ad0 <shr3_i32>:
- ad0:	b8 03 00 00 00       	mov    $0x3,%eax
- ad5:	83 e0 1f             	and    $0x1f,%eax
- ad8:	89 c1                	mov    %eax,%ecx
- ada:	d3 ff                	sar    %cl,%edi
- adc:	89 f8                	mov    %edi,%eax
- ade:	c3                   	ret
- adf:	90                   	nop
-
-0000000000000ae0 <shr3_u32>:
- ae0:	b8 03 00 00 00       	mov    $0x3,%eax
- ae5:	83 e0 1f             	and    $0x1f,%eax
- ae8:	89 c1                	mov    %eax,%ecx
- aea:	d3 ef                	shr    %cl,%edi
- aec:	89 f8                	mov    %edi,%eax
- aee:	c3                   	ret
- aef:	90                   	nop
-
-0000000000000af0 <shr_i16>:
- af0:	83 e6 0f             	and    $0xf,%esi
- af3:	0f bf ff             	movswl %di,%edi
- af6:	89 f1                	mov    %esi,%ecx
- af8:	d3 ff                	sar    %cl,%edi
- afa:	89 f8                	mov    %edi,%eax
- afc:	c3                   	ret
- afd:	0f 1f 00             	nopl   (%rax)
-
-0000000000000b00 <shr_i32>:
- b00:	83 e6 1f             	and    $0x1f,%esi
- b03:	89 f1                	mov    %esi,%ecx
- b05:	d3 ff                	sar    %cl,%edi
- b07:	89 f8                	mov    %edi,%eax
- b09:	c3                   	ret
- b0a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-
-0000000000000b10 <shr_i64>:
- b10:	48 83 e6 3f          	and    $0x3f,%rsi
- b14:	89 f1                	mov    %esi,%ecx
- b16:	48 d3 ff             	sar    %cl,%rdi
- b19:	48 89 f8             	mov    %rdi,%rax
- b1c:	c3                   	ret
- b1d:	0f 1f 00             	nopl   (%rax)
-
-0000000000000b20 <shr_i8>:
- b20:	83 e6 07             	and    $0x7,%esi
- b23:	40 0f be ff          	movsbl %dil,%edi
- b27:	89 f1                	mov    %esi,%ecx
- b29:	d3 ff                	sar    %cl,%edi
- b2b:	89 f8                	mov    %edi,%eax
- b2d:	c3                   	ret
- b2e:	66 90                	xchg   %ax,%ax
-
-0000000000000b30 <shr_shl_u32>:
- b30:	89 f0                	mov    %esi,%eax
- b32:	83 e0 1f             	and    $0x1f,%eax
- b35:	89 c1                	mov    %eax,%ecx
- b37:	d3 ef                	shr    %cl,%edi
- b39:	83 e6 1f             	and    $0x1f,%esi
- b3c:	89 f1                	mov    %esi,%ecx
- b3e:	d3 e7                	shl    %cl,%edi
- b40:	89 f8                	mov    %edi,%eax
- b42:	c3                   	ret
- b43:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- b4a:	00 00 
- b4c:	0f 1f 40 00          	nopl   0x0(%rax)
-
-0000000000000b50 <shr_u16>:
- b50:	83 e6 0f             	and    $0xf,%esi
- b53:	0f b7 ff             	movzwl %di,%edi
- b56:	89 f1                	mov    %esi,%ecx
- b58:	d3 ef                	shr    %cl,%edi
- b5a:	89 f8                	mov    %edi,%eax
- b5c:	c3                   	ret
- b5d:	0f 1f 00             	nopl   (%rax)
-
-0000000000000b60 <shr_u32>:
- b60:	83 e6 1f             	and    $0x1f,%esi
- b63:	89 f1                	mov    %esi,%ecx
- b65:	d3 ef                	shr    %cl,%edi
- b67:	89 f8                	mov    %edi,%eax
- b69:	c3                   	ret
- b6a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-
-0000000000000b70 <shr_u64>:
- b70:	48 83 e6 3f          	and    $0x3f,%rsi
- b74:	89 f1                	mov    %esi,%ecx
- b76:	48 d3 ef             	shr    %cl,%rdi
- b79:	48 89 f8             	mov    %rdi,%rax
- b7c:	c3                   	ret
- b7d:	0f 1f 00             	nopl   (%rax)
-
-0000000000000b80 <shr_u8>:
- b80:	83 e6 07             	and    $0x7,%esi
- b83:	40 0f b6 ff          	movzbl %dil,%edi
- b87:	89 f1                	mov    %esi,%ecx
- b89:	d3 ef                	shr    %cl,%edi
- b8b:	89 f8                	mov    %edi,%eax
- b8d:	c3                   	ret
- b8e:	66 90                	xchg   %ax,%ax
-
-0000000000000b90 <sub_i16>:
- b90:	29 f7                	sub    %esi,%edi
- b92:	89 f8                	mov    %edi,%eax
- b94:	c3                   	ret
- b95:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- b9c:	00 00 
- b9e:	66 90                	xchg   %ax,%ax
-
-0000000000000ba0 <sub_i32>:
- ba0:	29 f7                	sub    %esi,%edi
- ba2:	89 f8                	mov    %edi,%eax
- ba4:	c3                   	ret
- ba5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- bac:	00 00 
- bae:	66 90                	xchg   %ax,%ax
-
-0000000000000bb0 <sub_i64>:
- bb0:	48 29 f7             	sub    %rsi,%rdi
- bb3:	48 89 f8             	mov    %rdi,%rax
- bb6:	c3                   	ret
- bb7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- bbe:	00 00 
-
-0000000000000bc0 <sub_i8>:
- bc0:	29 f7                	sub    %esi,%edi
- bc2:	89 f8                	mov    %edi,%eax
- bc4:	c3                   	ret
- bc5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- bcc:	00 00 
- bce:	66 90                	xchg   %ax,%ax
-
-0000000000000bd0 <sub_u16>:
- bd0:	29 f7                	sub    %esi,%edi
- bd2:	89 f8                	mov    %edi,%eax
- bd4:	c3                   	ret
- bd5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- bdc:	00 00 
- bde:	66 90                	xchg   %ax,%ax
-
-0000000000000be0 <sub_u32>:
- be0:	29 f7                	sub    %esi,%edi
- be2:	89 f8                	mov    %edi,%eax
- be4:	c3                   	ret
- be5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- bec:	00 00 
- bee:	66 90                	xchg   %ax,%ax
-
-0000000000000bf0 <sub_u64>:
- bf0:	48 29 f7             	sub    %rsi,%rdi
- bf3:	48 89 f8             	mov    %rdi,%rax
- bf6:	c3                   	ret
- bf7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- bfe:	00 00 
-
-0000000000000c00 <sub_u8>:
- c00:	29 f7                	sub    %esi,%edi
- c02:	89 f8                	mov    %edi,%eax
- c04:	c3                   	ret
- c05:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- c0c:	00 00 
- c0e:	66 90                	xchg   %ax,%ax
-
-0000000000000c10 <xor_i16>:
- c10:	31 f7                	xor    %esi,%edi
- c12:	89 f8                	mov    %edi,%eax
- c14:	c3                   	ret
- c15:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- c1c:	00 00 
- c1e:	66 90                	xchg   %ax,%ax
-
-0000000000000c20 <xor_i32>:
- c20:	31 f7                	xor    %esi,%edi
- c22:	89 f8                	mov    %edi,%eax
- c24:	c3                   	ret
- c25:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- c2c:	00 00 
- c2e:	66 90                	xchg   %ax,%ax
-
-0000000000000c30 <xor_i64>:
- c30:	48 31 f7             	xor    %rsi,%rdi
- c33:	48 89 f8             	mov    %rdi,%rax
- c36:	c3                   	ret
- c37:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- c3e:	00 00 
-
-0000000000000c40 <xor_i8>:
- c40:	31 f7                	xor    %esi,%edi
- c42:	89 f8                	mov    %edi,%eax
- c44:	c3                   	ret
- c45:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- c4c:	00 00 
- c4e:	66 90                	xchg   %ax,%ax
-
-0000000000000c50 <xor_roundtrip_u8>:
- c50:	31 f7                	xor    %esi,%edi
- c52:	31 f7                	xor    %esi,%edi
- c54:	89 f8                	mov    %edi,%eax
- c56:	c3                   	ret
- c57:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- c5e:	00 00 
-
-0000000000000c60 <xor_u16>:
- c60:	31 f7                	xor    %esi,%edi
- c62:	89 f8                	mov    %edi,%eax
- c64:	c3                   	ret
- c65:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- c6c:	00 00 
- c6e:	66 90                	xchg   %ax,%ax
-
-0000000000000c70 <xor_u32>:
- c70:	31 f7                	xor    %esi,%edi
- c72:	89 f8                	mov    %edi,%eax
- c74:	c3                   	ret
- c75:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- c7c:	00 00 
- c7e:	66 90                	xchg   %ax,%ax
-
-0000000000000c80 <xor_u64>:
- c80:	48 31 f7             	xor    %rsi,%rdi
- c83:	48 89 f8             	mov    %rdi,%rax
- c86:	c3                   	ret
- c87:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
- c8e:	00 00 
-
-0000000000000c90 <xor_u8>:
- c90:	31 f7                	xor    %esi,%edi
- c92:	89 f8                	mov    %edi,%eax
- c94:	c3                   	ret
+0000000000000000 <add3_u128>:
+       0:	48 01 d7             	add    %rdx,%rdi
+       3:	48 11 ce             	adc    %rcx,%rsi
+       6:	4c 01 c7             	add    %r8,%rdi
+       9:	4c 11 ce             	adc    %r9,%rsi
+       c:	48 89 f8             	mov    %rdi,%rax
+       f:	48 89 f2             	mov    %rsi,%rdx
+      12:	c3                   	ret
+      13:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+      1a:	00 00 
+      1c:	0f 1f 40 00          	nopl   0x0(%rax)
+
+0000000000000020 <add3_u32>:
+      20:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+      23:	8d 3c 17             	lea    (%rdi,%rdx,1),%edi
+      26:	89 f8                	mov    %edi,%eax
+      28:	c3                   	ret
+      29:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+0000000000000030 <add4_args_u128>:
+      30:	55                   	push   %rbp
+      31:	48 89 e5             	mov    %rsp,%rbp
+      34:	53                   	push   %rbx
+      35:	48 8b 45 10          	mov    0x10(%rbp),%rax
+      39:	48 8b 5d 18          	mov    0x18(%rbp),%rbx
+      3d:	48 01 d7             	add    %rdx,%rdi
+      40:	48 11 ce             	adc    %rcx,%rsi
+      43:	4c 01 c7             	add    %r8,%rdi
+      46:	4c 11 ce             	adc    %r9,%rsi
+      49:	48 01 c7             	add    %rax,%rdi
+      4c:	48 11 de             	adc    %rbx,%rsi
+      4f:	48 89 f8             	mov    %rdi,%rax
+      52:	48 89 f2             	mov    %rsi,%rdx
+      55:	5b                   	pop    %rbx
+      56:	5d                   	pop    %rbp
+      57:	c3                   	ret
+      58:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+      5f:	00 
+
+0000000000000060 <add8_args_u32>:
+      60:	55                   	push   %rbp
+      61:	48 89 e5             	mov    %rsp,%rbp
+      64:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+      67:	8d 3c 17             	lea    (%rdi,%rdx,1),%edi
+      6a:	8d 3c 0f             	lea    (%rdi,%rcx,1),%edi
+      6d:	42 8d 3c 07          	lea    (%rdi,%r8,1),%edi
+      71:	42 8d 3c 0f          	lea    (%rdi,%r9,1),%edi
+      75:	8b 45 10             	mov    0x10(%rbp),%eax
+      78:	8d 3c 07             	lea    (%rdi,%rax,1),%edi
+      7b:	8b 45 18             	mov    0x18(%rbp),%eax
+      7e:	8d 3c 07             	lea    (%rdi,%rax,1),%edi
+      81:	89 f8                	mov    %edi,%eax
+      83:	5d                   	pop    %rbp
+      84:	c3                   	ret
+      85:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+      8c:	00 00 
+      8e:	66 90                	xchg   %ax,%ax
+
+0000000000000090 <add_i128>:
+      90:	48 01 d7             	add    %rdx,%rdi
+      93:	48 11 ce             	adc    %rcx,%rsi
+      96:	48 89 f8             	mov    %rdi,%rax
+      99:	48 89 f2             	mov    %rsi,%rdx
+      9c:	c3                   	ret
+      9d:	0f 1f 00             	nopl   (%rax)
+
+00000000000000a0 <add_i16>:
+      a0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+      a3:	89 f8                	mov    %edi,%eax
+      a5:	c3                   	ret
+      a6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+      ad:	00 00 
+      af:	90                   	nop
+
+00000000000000b0 <add_i32>:
+      b0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+      b3:	89 f8                	mov    %edi,%eax
+      b5:	c3                   	ret
+      b6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+      bd:	00 00 
+      bf:	90                   	nop
+
+00000000000000c0 <add_i64>:
+      c0:	48 8d 3c 37          	lea    (%rdi,%rsi,1),%rdi
+      c4:	48 89 f8             	mov    %rdi,%rax
+      c7:	c3                   	ret
+      c8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+      cf:	00 
+
+00000000000000d0 <add_i8>:
+      d0:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+      d3:	89 f8                	mov    %edi,%eax
+      d5:	c3                   	ret
+      d6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+      dd:	00 00 
+      df:	90                   	nop
+
+00000000000000e0 <add_mul_u32>:
+      e0:	0f af f2             	imul   %edx,%esi
+      e3:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+      e6:	89 f8                	mov    %edi,%eax
+      e8:	c3                   	ret
+      e9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+00000000000000f0 <add_sub_u128>:
+      f0:	55                   	push   %rbp
+      f1:	48 89 e5             	mov    %rsp,%rbp
+      f4:	53                   	push   %rbx
+      f5:	48 89 f8             	mov    %rdi,%rax
+      f8:	48 01 d0             	add    %rdx,%rax
+      fb:	48 89 f3             	mov    %rsi,%rbx
+      fe:	48 11 cb             	adc    %rcx,%rbx
+     101:	48 29 d7             	sub    %rdx,%rdi
+     104:	48 19 ce             	sbb    %rcx,%rsi
+     107:	48 29 f8             	sub    %rdi,%rax
+     10a:	48 19 f3             	sbb    %rsi,%rbx
+     10d:	48 89 da             	mov    %rbx,%rdx
+     110:	5b                   	pop    %rbx
+     111:	5d                   	pop    %rbp
+     112:	c3                   	ret
+     113:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     11a:	00 00 
+     11c:	0f 1f 40 00          	nopl   0x0(%rax)
+
+0000000000000120 <add_sub_u32>:
+     120:	8d 04 37             	lea    (%rdi,%rsi,1),%eax
+     123:	29 f7                	sub    %esi,%edi
+     125:	29 f8                	sub    %edi,%eax
+     127:	c3                   	ret
+     128:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+     12f:	00 
+
+0000000000000130 <add_sub_u8>:
+     130:	8d 04 37             	lea    (%rdi,%rsi,1),%eax
+     133:	29 f7                	sub    %esi,%edi
+     135:	29 f8                	sub    %edi,%eax
+     137:	c3                   	ret
+     138:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+     13f:	00 
+
+0000000000000140 <add_u128>:
+     140:	48 01 d7             	add    %rdx,%rdi
+     143:	48 11 ce             	adc    %rcx,%rsi
+     146:	48 89 f8             	mov    %rdi,%rax
+     149:	48 89 f2             	mov    %rsi,%rdx
+     14c:	c3                   	ret
+     14d:	0f 1f 00             	nopl   (%rax)
+
+0000000000000150 <add_u16>:
+     150:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+     153:	89 f8                	mov    %edi,%eax
+     155:	c3                   	ret
+     156:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     15d:	00 00 
+     15f:	90                   	nop
+
+0000000000000160 <add_u32>:
+     160:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+     163:	89 f8                	mov    %edi,%eax
+     165:	c3                   	ret
+     166:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     16d:	00 00 
+     16f:	90                   	nop
+
+0000000000000170 <add_u64>:
+     170:	48 8d 3c 37          	lea    (%rdi,%rsi,1),%rdi
+     174:	48 89 f8             	mov    %rdi,%rax
+     177:	c3                   	ret
+     178:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+     17f:	00 
+
+0000000000000180 <add_u8>:
+     180:	8d 3c 37             	lea    (%rdi,%rsi,1),%edi
+     183:	89 f8                	mov    %edi,%eax
+     185:	c3                   	ret
+     186:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     18d:	00 00 
+     18f:	90                   	nop
+
+0000000000000190 <and_u128>:
+     190:	48 21 d7             	and    %rdx,%rdi
+     193:	48 21 ce             	and    %rcx,%rsi
+     196:	48 89 f8             	mov    %rdi,%rax
+     199:	48 89 f2             	mov    %rsi,%rdx
+     19c:	c3                   	ret
+     19d:	0f 1f 00             	nopl   (%rax)
+
+00000000000001a0 <and_u16>:
+     1a0:	21 f7                	and    %esi,%edi
+     1a2:	89 f8                	mov    %edi,%eax
+     1a4:	c3                   	ret
+     1a5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     1ac:	00 00 
+     1ae:	66 90                	xchg   %ax,%ax
+
+00000000000001b0 <and_u32>:
+     1b0:	21 f7                	and    %esi,%edi
+     1b2:	89 f8                	mov    %edi,%eax
+     1b4:	c3                   	ret
+     1b5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     1bc:	00 00 
+     1be:	66 90                	xchg   %ax,%ax
+
+00000000000001c0 <and_u64>:
+     1c0:	48 21 f7             	and    %rsi,%rdi
+     1c3:	48 89 f8             	mov    %rdi,%rax
+     1c6:	c3                   	ret
+     1c7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     1ce:	00 00 
+
+00000000000001d0 <and_u8>:
+     1d0:	21 f7                	and    %esi,%edi
+     1d2:	89 f8                	mov    %edi,%eax
+     1d4:	c3                   	ret
+     1d5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     1dc:	00 00 
+     1de:	66 90                	xchg   %ax,%ax
+
+00000000000001e0 <clear_low_u32>:
+     1e0:	83 e6 1f             	and    $0x1f,%esi
+     1e3:	b8 01 00 00 00       	mov    $0x1,%eax
+     1e8:	89 f1                	mov    %esi,%ecx
+     1ea:	d3 e0                	shl    %cl,%eax
+     1ec:	83 e8 01             	sub    $0x1,%eax
+     1ef:	f7 d0                	not    %eax
+     1f1:	21 c7                	and    %eax,%edi
+     1f3:	89 f8                	mov    %edi,%eax
+     1f5:	c3                   	ret
+     1f6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     1fd:	00 00 
+     1ff:	90                   	nop
+
+0000000000000200 <de_morgan_u128>:
+     200:	55                   	push   %rbp
+     201:	48 89 e5             	mov    %rsp,%rbp
+     204:	53                   	push   %rbx
+     205:	48 89 f8             	mov    %rdi,%rax
+     208:	48 21 d0             	and    %rdx,%rax
+     20b:	48 89 f3             	mov    %rsi,%rbx
+     20e:	48 21 cb             	and    %rcx,%rbx
+     211:	48 f7 d0             	not    %rax
+     214:	48 f7 d3             	not    %rbx
+     217:	48 f7 d7             	not    %rdi
+     21a:	48 f7 d6             	not    %rsi
+     21d:	48 f7 d2             	not    %rdx
+     220:	48 f7 d1             	not    %rcx
+     223:	48 09 d7             	or     %rdx,%rdi
+     226:	48 09 ce             	or     %rcx,%rsi
+     229:	48 31 f8             	xor    %rdi,%rax
+     22c:	48 31 f3             	xor    %rsi,%rbx
+     22f:	48 89 da             	mov    %rbx,%rdx
+     232:	5b                   	pop    %rbx
+     233:	5d                   	pop    %rbp
+     234:	c3                   	ret
+     235:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     23c:	00 00 
+     23e:	66 90                	xchg   %ax,%ax
+
+0000000000000240 <de_morgan_u32>:
+     240:	89 f8                	mov    %edi,%eax
+     242:	21 f0                	and    %esi,%eax
+     244:	f7 d0                	not    %eax
+     246:	f7 d7                	not    %edi
+     248:	f7 d6                	not    %esi
+     24a:	09 f7                	or     %esi,%edi
+     24c:	31 f8                	xor    %edi,%eax
+     24e:	c3                   	ret
+     24f:	90                   	nop
+
+0000000000000250 <div_i128>:
+     250:	55                   	push   %rbp
+     251:	48 89 e5             	mov    %rsp,%rbp
+     254:	53                   	push   %rbx
+     255:	48 83 ec 28          	sub    $0x28,%rsp
+     259:	48 89 c8             	mov    %rcx,%rax
+     25c:	31 db                	xor    %ebx,%ebx
+     25e:	45 31 c0             	xor    %r8d,%r8d
+     261:	49 89 d1             	mov    %rdx,%r9
+     264:	49 31 d9             	xor    %rbx,%r9
+     267:	4c 31 c0             	xor    %r8,%rax
+     26a:	49 09 c1             	or     %rax,%r9
+     26d:	0f 84 5f 00 00 00    	je     2d2 <div_i128+0x82>
+     273:	48 89 c8             	mov    %rcx,%rax
+     276:	48 c7 c3 ff ff ff ff 	mov    $0xffffffffffffffff,%rbx
+     27d:	49 c7 c0 ff ff ff ff 	mov    $0xffffffffffffffff,%r8
+     284:	49 89 d1             	mov    %rdx,%r9
+     287:	49 31 d9             	xor    %rbx,%r9
+     28a:	4c 31 c0             	xor    %r8,%rax
+     28d:	49 09 c1             	or     %rax,%r9
+     290:	0f 94 c0             	sete   %al
+     293:	48 89 f3             	mov    %rsi,%rbx
+     296:	45 31 c0             	xor    %r8d,%r8d
+     299:	49 b9 00 00 00 00 00 	movabs $0x8000000000000000,%r9
+     2a0:	00 00 80 
+     2a3:	49 89 fa             	mov    %rdi,%r10
+     2a6:	4d 31 c2             	xor    %r8,%r10
+     2a9:	4c 31 cb             	xor    %r9,%rbx
+     2ac:	49 09 da             	or     %rbx,%r10
+     2af:	0f 94 c3             	sete   %bl
+     2b2:	21 d8                	and    %ebx,%eax
+     2b4:	a8 01                	test   $0x1,%al
+     2b6:	0f 85 0a 00 00 00    	jne    2c6 <div_i128+0x76>
+     2bc:	e8 00 00 00 00       	call   2c1 <div_i128+0x71>
+     2c1:	e9 18 00 00 00       	jmp    2de <div_i128+0x8e>
+     2c6:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 2c5 <div_i128+0x75>
+     2cd:	e8 00 00 00 00       	call   2d2 <div_i128+0x82>
+     2d2:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 2d1 <div_i128+0x81>
+     2d9:	e8 00 00 00 00       	call   2de <div_i128+0x8e>
+     2de:	48 83 c4 28          	add    $0x28,%rsp
+     2e2:	5b                   	pop    %rbx
+     2e3:	5d                   	pop    %rbp
+     2e4:	c3                   	ret
+     2e5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     2ec:	00 00 
+     2ee:	66 90                	xchg   %ax,%ax
+
+00000000000002f0 <div_i16>:
+     2f0:	55                   	push   %rbp
+     2f1:	48 89 e5             	mov    %rsp,%rbp
+     2f4:	53                   	push   %rbx
+     2f5:	41 54                	push   %r12
+     2f7:	48 83 ec 20          	sub    $0x20,%rsp
+     2fb:	89 fb                	mov    %edi,%ebx
+     2fd:	41 89 f4             	mov    %esi,%r12d
+     300:	66 45 85 e4          	test   %r12w,%r12w
+     304:	0f 84 38 00 00 00    	je     342 <div_i16+0x52>
+     30a:	66 41 83 fc ff       	cmp    $0xffff,%r12w
+     30f:	0f 94 c0             	sete   %al
+     312:	66 81 fb 00 80       	cmp    $0x8000,%bx
+     317:	0f 94 c1             	sete   %cl
+     31a:	21 c8                	and    %ecx,%eax
+     31c:	a8 01                	test   $0x1,%al
+     31e:	0f 85 12 00 00 00    	jne    336 <div_i16+0x46>
+     324:	0f bf db             	movswl %bx,%ebx
+     327:	45 0f bf e4          	movswl %r12w,%r12d
+     32b:	89 d8                	mov    %ebx,%eax
+     32d:	99                   	cltd
+     32e:	41 f7 fc             	idiv   %r12d
+     331:	e9 18 00 00 00       	jmp    34e <div_i16+0x5e>
+     336:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 335 <div_i16+0x45>
+     33d:	e8 00 00 00 00       	call   342 <div_i16+0x52>
+     342:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 341 <div_i16+0x51>
+     349:	e8 00 00 00 00       	call   34e <div_i16+0x5e>
+     34e:	48 83 c4 20          	add    $0x20,%rsp
+     352:	41 5c                	pop    %r12
+     354:	5b                   	pop    %rbx
+     355:	5d                   	pop    %rbp
+     356:	c3                   	ret
+     357:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     35e:	00 00 
+
+0000000000000360 <div_i32>:
+     360:	55                   	push   %rbp
+     361:	48 89 e5             	mov    %rsp,%rbp
+     364:	53                   	push   %rbx
+     365:	41 54                	push   %r12
+     367:	48 83 ec 20          	sub    $0x20,%rsp
+     36b:	89 fb                	mov    %edi,%ebx
+     36d:	41 89 f4             	mov    %esi,%r12d
+     370:	45 85 e4             	test   %r12d,%r12d
+     373:	0f 84 31 00 00 00    	je     3aa <div_i32+0x4a>
+     379:	41 83 fc ff          	cmp    $0xffffffff,%r12d
+     37d:	0f 94 c0             	sete   %al
+     380:	81 fb 00 00 00 80    	cmp    $0x80000000,%ebx
+     386:	0f 94 c1             	sete   %cl
+     389:	21 c8                	and    %ecx,%eax
+     38b:	a8 01                	test   $0x1,%al
+     38d:	0f 85 0b 00 00 00    	jne    39e <div_i32+0x3e>
+     393:	89 d8                	mov    %ebx,%eax
+     395:	99                   	cltd
+     396:	41 f7 fc             	idiv   %r12d
+     399:	e9 18 00 00 00       	jmp    3b6 <div_i32+0x56>
+     39e:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 39d <div_i32+0x3d>
+     3a5:	e8 00 00 00 00       	call   3aa <div_i32+0x4a>
+     3aa:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 3a9 <div_i32+0x49>
+     3b1:	e8 00 00 00 00       	call   3b6 <div_i32+0x56>
+     3b6:	48 83 c4 20          	add    $0x20,%rsp
+     3ba:	41 5c                	pop    %r12
+     3bc:	5b                   	pop    %rbx
+     3bd:	5d                   	pop    %rbp
+     3be:	c3                   	ret
+     3bf:	90                   	nop
+
+00000000000003c0 <div_i64>:
+     3c0:	55                   	push   %rbp
+     3c1:	48 89 e5             	mov    %rsp,%rbp
+     3c4:	53                   	push   %rbx
+     3c5:	41 54                	push   %r12
+     3c7:	48 83 ec 20          	sub    $0x20,%rsp
+     3cb:	48 89 fb             	mov    %rdi,%rbx
+     3ce:	49 89 f4             	mov    %rsi,%r12
+     3d1:	4d 85 e4             	test   %r12,%r12
+     3d4:	0f 84 3a 00 00 00    	je     414 <div_i64+0x54>
+     3da:	49 83 fc ff          	cmp    $0xffffffffffffffff,%r12
+     3de:	0f 94 c0             	sete   %al
+     3e1:	48 b9 00 00 00 00 00 	movabs $0x8000000000000000,%rcx
+     3e8:	00 00 80 
+     3eb:	48 39 cb             	cmp    %rcx,%rbx
+     3ee:	0f 94 c1             	sete   %cl
+     3f1:	21 c8                	and    %ecx,%eax
+     3f3:	a8 01                	test   $0x1,%al
+     3f5:	0f 85 0d 00 00 00    	jne    408 <div_i64+0x48>
+     3fb:	48 89 d8             	mov    %rbx,%rax
+     3fe:	48 99                	cqto
+     400:	49 f7 fc             	idiv   %r12
+     403:	e9 18 00 00 00       	jmp    420 <div_i64+0x60>
+     408:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 407 <div_i64+0x47>
+     40f:	e8 00 00 00 00       	call   414 <div_i64+0x54>
+     414:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 413 <div_i64+0x53>
+     41b:	e8 00 00 00 00       	call   420 <div_i64+0x60>
+     420:	48 83 c4 20          	add    $0x20,%rsp
+     424:	41 5c                	pop    %r12
+     426:	5b                   	pop    %rbx
+     427:	5d                   	pop    %rbp
+     428:	c3                   	ret
+     429:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+0000000000000430 <div_i8>:
+     430:	55                   	push   %rbp
+     431:	48 89 e5             	mov    %rsp,%rbp
+     434:	53                   	push   %rbx
+     435:	41 54                	push   %r12
+     437:	48 83 ec 20          	sub    $0x20,%rsp
+     43b:	89 fb                	mov    %edi,%ebx
+     43d:	41 89 f4             	mov    %esi,%r12d
+     440:	45 84 e4             	test   %r12b,%r12b
+     443:	0f 84 35 00 00 00    	je     47e <div_i8+0x4e>
+     449:	41 80 fc ff          	cmp    $0xff,%r12b
+     44d:	0f 94 c0             	sete   %al
+     450:	80 fb 80             	cmp    $0x80,%bl
+     453:	0f 94 c1             	sete   %cl
+     456:	21 c8                	and    %ecx,%eax
+     458:	a8 01                	test   $0x1,%al
+     45a:	0f 85 12 00 00 00    	jne    472 <div_i8+0x42>
+     460:	0f be db             	movsbl %bl,%ebx
+     463:	45 0f be e4          	movsbl %r12b,%r12d
+     467:	89 d8                	mov    %ebx,%eax
+     469:	99                   	cltd
+     46a:	41 f7 fc             	idiv   %r12d
+     46d:	e9 18 00 00 00       	jmp    48a <div_i8+0x5a>
+     472:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 471 <div_i8+0x41>
+     479:	e8 00 00 00 00       	call   47e <div_i8+0x4e>
+     47e:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 47d <div_i8+0x4d>
+     485:	e8 00 00 00 00       	call   48a <div_i8+0x5a>
+     48a:	48 83 c4 20          	add    $0x20,%rsp
+     48e:	41 5c                	pop    %r12
+     490:	5b                   	pop    %rbx
+     491:	5d                   	pop    %rbp
+     492:	c3                   	ret
+     493:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     49a:	00 00 
+     49c:	0f 1f 40 00          	nopl   0x0(%rax)
+
+00000000000004a0 <div_rem_i128>:
+     4a0:	55                   	push   %rbp
+     4a1:	48 89 e5             	mov    %rsp,%rbp
+     4a4:	53                   	push   %rbx
+     4a5:	48 83 ec 58          	sub    $0x58,%rsp
+     4a9:	48 89 c8             	mov    %rcx,%rax
+     4ac:	31 db                	xor    %ebx,%ebx
+     4ae:	45 31 c0             	xor    %r8d,%r8d
+     4b1:	49 89 d1             	mov    %rdx,%r9
+     4b4:	49 31 d9             	xor    %rbx,%r9
+     4b7:	4c 31 c0             	xor    %r8,%rax
+     4ba:	49 09 c1             	or     %rax,%r9
+     4bd:	0f 84 51 01 00 00    	je     614 <div_rem_i128+0x174>
+     4c3:	48 89 c8             	mov    %rcx,%rax
+     4c6:	48 c7 c3 ff ff ff ff 	mov    $0xffffffffffffffff,%rbx
+     4cd:	49 c7 c0 ff ff ff ff 	mov    $0xffffffffffffffff,%r8
+     4d4:	49 89 d1             	mov    %rdx,%r9
+     4d7:	49 31 d9             	xor    %rbx,%r9
+     4da:	4c 31 c0             	xor    %r8,%rax
+     4dd:	49 09 c1             	or     %rax,%r9
+     4e0:	0f 94 c0             	sete   %al
+     4e3:	48 89 f3             	mov    %rsi,%rbx
+     4e6:	45 31 c0             	xor    %r8d,%r8d
+     4e9:	49 b9 00 00 00 00 00 	movabs $0x8000000000000000,%r9
+     4f0:	00 00 80 
+     4f3:	49 89 fa             	mov    %rdi,%r10
+     4f6:	4d 31 c2             	xor    %r8,%r10
+     4f9:	4c 31 cb             	xor    %r9,%rbx
+     4fc:	49 09 da             	or     %rbx,%r10
+     4ff:	0f 94 c3             	sete   %bl
+     502:	21 d8                	and    %ebx,%eax
+     504:	a8 01                	test   $0x1,%al
+     506:	0f 85 fc 00 00 00    	jne    608 <div_rem_i128+0x168>
+     50c:	48 89 7d c0          	mov    %rdi,-0x40(%rbp)
+     510:	48 89 75 c8          	mov    %rsi,-0x38(%rbp)
+     514:	48 89 55 b0          	mov    %rdx,-0x50(%rbp)
+     518:	48 89 4d b8          	mov    %rcx,-0x48(%rbp)
+     51c:	e8 00 00 00 00       	call   521 <div_rem_i128+0x81>
+     521:	48 89 45 a0          	mov    %rax,-0x60(%rbp)
+     525:	48 89 55 a8          	mov    %rdx,-0x58(%rbp)
+     529:	48 8b 4d a8          	mov    -0x58(%rbp),%rcx
+     52d:	48 0f af 4d b0       	imul   -0x50(%rbp),%rcx
+     532:	48 8b 5d b0          	mov    -0x50(%rbp),%rbx
+     536:	48 89 d8             	mov    %rbx,%rax
+     539:	48 f7 65 a0          	mulq   -0x60(%rbp)
+     53d:	48 01 ca             	add    %rcx,%rdx
+     540:	48 8b 75 b8          	mov    -0x48(%rbp),%rsi
+     544:	48 89 f7             	mov    %rsi,%rdi
+     547:	48 0f af 7d a0       	imul   -0x60(%rbp),%rdi
+     54c:	48 01 fa             	add    %rdi,%rdx
+     54f:	48 89 f1             	mov    %rsi,%rcx
+     552:	31 ff                	xor    %edi,%edi
+     554:	45 31 c0             	xor    %r8d,%r8d
+     557:	49 89 d9             	mov    %rbx,%r9
+     55a:	49 31 f9             	xor    %rdi,%r9
+     55d:	4c 31 c1             	xor    %r8,%rcx
+     560:	49 09 c9             	or     %rcx,%r9
+     563:	0f 84 93 00 00 00    	je     5fc <div_rem_i128+0x15c>
+     569:	48 89 f1             	mov    %rsi,%rcx
+     56c:	48 c7 c7 ff ff ff ff 	mov    $0xffffffffffffffff,%rdi
+     573:	49 c7 c0 ff ff ff ff 	mov    $0xffffffffffffffff,%r8
+     57a:	49 89 d9             	mov    %rbx,%r9
+     57d:	49 31 f9             	xor    %rdi,%r9
+     580:	4c 31 c1             	xor    %r8,%rcx
+     583:	49 09 c9             	or     %rcx,%r9
+     586:	0f 94 c1             	sete   %cl
+     589:	48 8b 7d c8          	mov    -0x38(%rbp),%rdi
+     58d:	45 31 c0             	xor    %r8d,%r8d
+     590:	49 b9 00 00 00 00 00 	movabs $0x8000000000000000,%r9
+     597:	00 00 80 
+     59a:	4c 8b 55 c0          	mov    -0x40(%rbp),%r10
+     59e:	4d 31 c2             	xor    %r8,%r10
+     5a1:	4c 31 cf             	xor    %r9,%rdi
+     5a4:	49 09 fa             	or     %rdi,%r10
+     5a7:	40 0f 94 c7          	sete   %dil
+     5ab:	21 f9                	and    %edi,%ecx
+     5ad:	f6 c1 01             	test   $0x1,%cl
+     5b0:	0f 85 3a 00 00 00    	jne    5f0 <div_rem_i128+0x150>
+     5b6:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+     5ba:	48 8b 75 c8          	mov    -0x38(%rbp),%rsi
+     5be:	48 89 55 c8          	mov    %rdx,-0x38(%rbp)
+     5c2:	48 89 da             	mov    %rbx,%rdx
+     5c5:	48 8b 4d b8          	mov    -0x48(%rbp),%rcx
+     5c9:	48 89 45 c0          	mov    %rax,-0x40(%rbp)
+     5cd:	e8 00 00 00 00       	call   5d2 <div_rem_i128+0x132>
+     5d2:	48 8b 4d c0          	mov    -0x40(%rbp),%rcx
+     5d6:	48 01 c1             	add    %rax,%rcx
+     5d9:	48 8b 45 c8          	mov    -0x38(%rbp),%rax
+     5dd:	48 11 d0             	adc    %rdx,%rax
+     5e0:	48 89 45 c8          	mov    %rax,-0x38(%rbp)
+     5e4:	48 89 c8             	mov    %rcx,%rax
+     5e7:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+     5eb:	e9 30 00 00 00       	jmp    620 <div_rem_i128+0x180>
+     5f0:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 5ef <div_rem_i128+0x14f>
+     5f7:	e8 00 00 00 00       	call   5fc <div_rem_i128+0x15c>
+     5fc:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 5fb <div_rem_i128+0x15b>
+     603:	e8 00 00 00 00       	call   608 <div_rem_i128+0x168>
+     608:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 607 <div_rem_i128+0x167>
+     60f:	e8 00 00 00 00       	call   614 <div_rem_i128+0x174>
+     614:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 613 <div_rem_i128+0x173>
+     61b:	e8 00 00 00 00       	call   620 <div_rem_i128+0x180>
+     620:	48 83 c4 58          	add    $0x58,%rsp
+     624:	5b                   	pop    %rbx
+     625:	5d                   	pop    %rbp
+     626:	c3                   	ret
+     627:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     62e:	00 00 
+
+0000000000000630 <div_rem_i32>:
+     630:	55                   	push   %rbp
+     631:	48 89 e5             	mov    %rsp,%rbp
+     634:	53                   	push   %rbx
+     635:	41 54                	push   %r12
+     637:	41 55                	push   %r13
+     639:	48 83 ec 18          	sub    $0x18,%rsp
+     63d:	89 fb                	mov    %edi,%ebx
+     63f:	41 89 f4             	mov    %esi,%r12d
+     642:	45 85 e4             	test   %r12d,%r12d
+     645:	0f 84 81 00 00 00    	je     6cc <div_rem_i32+0x9c>
+     64b:	41 83 fc ff          	cmp    $0xffffffff,%r12d
+     64f:	0f 94 c0             	sete   %al
+     652:	81 fb 00 00 00 80    	cmp    $0x80000000,%ebx
+     658:	0f 94 c1             	sete   %cl
+     65b:	21 c8                	and    %ecx,%eax
+     65d:	a8 01                	test   $0x1,%al
+     65f:	0f 85 5b 00 00 00    	jne    6c0 <div_rem_i32+0x90>
+     665:	89 d8                	mov    %ebx,%eax
+     667:	99                   	cltd
+     668:	41 f7 fc             	idiv   %r12d
+     66b:	41 89 c5             	mov    %eax,%r13d
+     66e:	45 0f af ec          	imul   %r12d,%r13d
+     672:	45 85 e4             	test   %r12d,%r12d
+     675:	0f 84 39 00 00 00    	je     6b4 <div_rem_i32+0x84>
+     67b:	41 83 fc ff          	cmp    $0xffffffff,%r12d
+     67f:	0f 94 c0             	sete   %al
+     682:	81 fb 00 00 00 80    	cmp    $0x80000000,%ebx
+     688:	0f 94 c1             	sete   %cl
+     68b:	21 c8                	and    %ecx,%eax
+     68d:	a8 01                	test   $0x1,%al
+     68f:	0f 85 13 00 00 00    	jne    6a8 <div_rem_i32+0x78>
+     695:	89 d8                	mov    %ebx,%eax
+     697:	99                   	cltd
+     698:	41 f7 fc             	idiv   %r12d
+     69b:	45 8d 6c 15 00       	lea    0x0(%r13,%rdx,1),%r13d
+     6a0:	44 89 e8             	mov    %r13d,%eax
+     6a3:	e9 30 00 00 00       	jmp    6d8 <div_rem_i32+0xa8>
+     6a8:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 6a7 <div_rem_i32+0x77>
+     6af:	e8 00 00 00 00       	call   6b4 <div_rem_i32+0x84>
+     6b4:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 6b3 <div_rem_i32+0x83>
+     6bb:	e8 00 00 00 00       	call   6c0 <div_rem_i32+0x90>
+     6c0:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 6bf <div_rem_i32+0x8f>
+     6c7:	e8 00 00 00 00       	call   6cc <div_rem_i32+0x9c>
+     6cc:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 6cb <div_rem_i32+0x9b>
+     6d3:	e8 00 00 00 00       	call   6d8 <div_rem_i32+0xa8>
+     6d8:	48 83 c4 18          	add    $0x18,%rsp
+     6dc:	41 5d                	pop    %r13
+     6de:	41 5c                	pop    %r12
+     6e0:	5b                   	pop    %rbx
+     6e1:	5d                   	pop    %rbp
+     6e2:	c3                   	ret
+     6e3:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     6ea:	00 00 
+     6ec:	0f 1f 40 00          	nopl   0x0(%rax)
+
+00000000000006f0 <div_rem_u128>:
+     6f0:	55                   	push   %rbp
+     6f1:	48 89 e5             	mov    %rsp,%rbp
+     6f4:	53                   	push   %rbx
+     6f5:	48 83 ec 58          	sub    $0x58,%rsp
+     6f9:	48 89 c8             	mov    %rcx,%rax
+     6fc:	31 db                	xor    %ebx,%ebx
+     6fe:	45 31 c0             	xor    %r8d,%r8d
+     701:	49 89 d1             	mov    %rdx,%r9
+     704:	49 31 d9             	xor    %rbx,%r9
+     707:	4c 31 c0             	xor    %r8,%rax
+     70a:	49 09 c1             	or     %rax,%r9
+     70d:	0f 84 a3 00 00 00    	je     7b6 <div_rem_u128+0xc6>
+     713:	48 89 7d c0          	mov    %rdi,-0x40(%rbp)
+     717:	48 89 75 c8          	mov    %rsi,-0x38(%rbp)
+     71b:	48 89 55 b0          	mov    %rdx,-0x50(%rbp)
+     71f:	48 89 4d b8          	mov    %rcx,-0x48(%rbp)
+     723:	e8 00 00 00 00       	call   728 <div_rem_u128+0x38>
+     728:	48 89 45 a0          	mov    %rax,-0x60(%rbp)
+     72c:	48 89 55 a8          	mov    %rdx,-0x58(%rbp)
+     730:	48 8b 4d a8          	mov    -0x58(%rbp),%rcx
+     734:	48 0f af 4d b0       	imul   -0x50(%rbp),%rcx
+     739:	48 8b 5d b0          	mov    -0x50(%rbp),%rbx
+     73d:	48 89 d8             	mov    %rbx,%rax
+     740:	48 f7 65 a0          	mulq   -0x60(%rbp)
+     744:	48 01 ca             	add    %rcx,%rdx
+     747:	48 8b 75 b8          	mov    -0x48(%rbp),%rsi
+     74b:	48 89 f7             	mov    %rsi,%rdi
+     74e:	48 0f af 7d a0       	imul   -0x60(%rbp),%rdi
+     753:	48 01 fa             	add    %rdi,%rdx
+     756:	48 89 f1             	mov    %rsi,%rcx
+     759:	31 ff                	xor    %edi,%edi
+     75b:	45 31 c0             	xor    %r8d,%r8d
+     75e:	49 89 d9             	mov    %rbx,%r9
+     761:	49 31 f9             	xor    %rdi,%r9
+     764:	4c 31 c1             	xor    %r8,%rcx
+     767:	49 09 c9             	or     %rcx,%r9
+     76a:	0f 84 3a 00 00 00    	je     7aa <div_rem_u128+0xba>
+     770:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+     774:	48 8b 75 c8          	mov    -0x38(%rbp),%rsi
+     778:	48 89 55 c8          	mov    %rdx,-0x38(%rbp)
+     77c:	48 89 da             	mov    %rbx,%rdx
+     77f:	48 8b 4d b8          	mov    -0x48(%rbp),%rcx
+     783:	48 89 45 c0          	mov    %rax,-0x40(%rbp)
+     787:	e8 00 00 00 00       	call   78c <div_rem_u128+0x9c>
+     78c:	48 8b 4d c0          	mov    -0x40(%rbp),%rcx
+     790:	48 01 c1             	add    %rax,%rcx
+     793:	48 8b 45 c8          	mov    -0x38(%rbp),%rax
+     797:	48 11 d0             	adc    %rdx,%rax
+     79a:	48 89 45 c8          	mov    %rax,-0x38(%rbp)
+     79e:	48 89 c8             	mov    %rcx,%rax
+     7a1:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+     7a5:	e9 18 00 00 00       	jmp    7c2 <div_rem_u128+0xd2>
+     7aa:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 7a9 <div_rem_u128+0xb9>
+     7b1:	e8 00 00 00 00       	call   7b6 <div_rem_u128+0xc6>
+     7b6:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 7b5 <div_rem_u128+0xc5>
+     7bd:	e8 00 00 00 00       	call   7c2 <div_rem_u128+0xd2>
+     7c2:	48 83 c4 58          	add    $0x58,%rsp
+     7c6:	5b                   	pop    %rbx
+     7c7:	5d                   	pop    %rbp
+     7c8:	c3                   	ret
+     7c9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+00000000000007d0 <div_rem_u32>:
+     7d0:	55                   	push   %rbp
+     7d1:	48 89 e5             	mov    %rsp,%rbp
+     7d4:	53                   	push   %rbx
+     7d5:	41 54                	push   %r12
+     7d7:	41 55                	push   %r13
+     7d9:	48 83 ec 18          	sub    $0x18,%rsp
+     7dd:	89 fb                	mov    %edi,%ebx
+     7df:	41 89 f4             	mov    %esi,%r12d
+     7e2:	45 85 e4             	test   %r12d,%r12d
+     7e5:	0f 84 37 00 00 00    	je     822 <div_rem_u32+0x52>
+     7eb:	31 d2                	xor    %edx,%edx
+     7ed:	89 d8                	mov    %ebx,%eax
+     7ef:	41 f7 f4             	div    %r12d
+     7f2:	41 89 c5             	mov    %eax,%r13d
+     7f5:	45 0f af ec          	imul   %r12d,%r13d
+     7f9:	45 85 e4             	test   %r12d,%r12d
+     7fc:	0f 84 14 00 00 00    	je     816 <div_rem_u32+0x46>
+     802:	31 d2                	xor    %edx,%edx
+     804:	89 d8                	mov    %ebx,%eax
+     806:	41 f7 f4             	div    %r12d
+     809:	45 8d 6c 15 00       	lea    0x0(%r13,%rdx,1),%r13d
+     80e:	44 89 e8             	mov    %r13d,%eax
+     811:	e9 18 00 00 00       	jmp    82e <div_rem_u32+0x5e>
+     816:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 815 <div_rem_u32+0x45>
+     81d:	e8 00 00 00 00       	call   822 <div_rem_u32+0x52>
+     822:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 821 <div_rem_u32+0x51>
+     829:	e8 00 00 00 00       	call   82e <div_rem_u32+0x5e>
+     82e:	48 83 c4 18          	add    $0x18,%rsp
+     832:	41 5d                	pop    %r13
+     834:	41 5c                	pop    %r12
+     836:	5b                   	pop    %rbx
+     837:	5d                   	pop    %rbp
+     838:	c3                   	ret
+     839:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+0000000000000840 <div_u128>:
+     840:	55                   	push   %rbp
+     841:	48 89 e5             	mov    %rsp,%rbp
+     844:	53                   	push   %rbx
+     845:	48 83 ec 28          	sub    $0x28,%rsp
+     849:	48 89 c8             	mov    %rcx,%rax
+     84c:	31 db                	xor    %ebx,%ebx
+     84e:	45 31 c0             	xor    %r8d,%r8d
+     851:	49 89 d1             	mov    %rdx,%r9
+     854:	49 31 d9             	xor    %rbx,%r9
+     857:	4c 31 c0             	xor    %r8,%rax
+     85a:	49 09 c1             	or     %rax,%r9
+     85d:	0f 84 0a 00 00 00    	je     86d <div_u128+0x2d>
+     863:	e8 00 00 00 00       	call   868 <div_u128+0x28>
+     868:	e9 0c 00 00 00       	jmp    879 <div_u128+0x39>
+     86d:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 86c <div_u128+0x2c>
+     874:	e8 00 00 00 00       	call   879 <div_u128+0x39>
+     879:	48 83 c4 28          	add    $0x28,%rsp
+     87d:	5b                   	pop    %rbx
+     87e:	5d                   	pop    %rbp
+     87f:	c3                   	ret
+
+0000000000000880 <div_u16>:
+     880:	55                   	push   %rbp
+     881:	48 89 e5             	mov    %rsp,%rbp
+     884:	53                   	push   %rbx
+     885:	41 54                	push   %r12
+     887:	48 83 ec 20          	sub    $0x20,%rsp
+     88b:	89 fb                	mov    %edi,%ebx
+     88d:	41 89 f4             	mov    %esi,%r12d
+     890:	66 45 85 e4          	test   %r12w,%r12w
+     894:	0f 84 13 00 00 00    	je     8ad <div_u16+0x2d>
+     89a:	0f b7 db             	movzwl %bx,%ebx
+     89d:	45 0f b7 e4          	movzwl %r12w,%r12d
+     8a1:	31 d2                	xor    %edx,%edx
+     8a3:	89 d8                	mov    %ebx,%eax
+     8a5:	41 f7 f4             	div    %r12d
+     8a8:	e9 0c 00 00 00       	jmp    8b9 <div_u16+0x39>
+     8ad:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 8ac <div_u16+0x2c>
+     8b4:	e8 00 00 00 00       	call   8b9 <div_u16+0x39>
+     8b9:	48 83 c4 20          	add    $0x20,%rsp
+     8bd:	41 5c                	pop    %r12
+     8bf:	5b                   	pop    %rbx
+     8c0:	5d                   	pop    %rbp
+     8c1:	c3                   	ret
+     8c2:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     8c9:	00 00 
+     8cb:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+00000000000008d0 <div_u32>:
+     8d0:	55                   	push   %rbp
+     8d1:	48 89 e5             	mov    %rsp,%rbp
+     8d4:	53                   	push   %rbx
+     8d5:	41 54                	push   %r12
+     8d7:	48 83 ec 20          	sub    $0x20,%rsp
+     8db:	89 fb                	mov    %edi,%ebx
+     8dd:	41 89 f4             	mov    %esi,%r12d
+     8e0:	45 85 e4             	test   %r12d,%r12d
+     8e3:	0f 84 0c 00 00 00    	je     8f5 <div_u32+0x25>
+     8e9:	31 d2                	xor    %edx,%edx
+     8eb:	89 d8                	mov    %ebx,%eax
+     8ed:	41 f7 f4             	div    %r12d
+     8f0:	e9 0c 00 00 00       	jmp    901 <div_u32+0x31>
+     8f5:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 8f4 <div_u32+0x24>
+     8fc:	e8 00 00 00 00       	call   901 <div_u32+0x31>
+     901:	48 83 c4 20          	add    $0x20,%rsp
+     905:	41 5c                	pop    %r12
+     907:	5b                   	pop    %rbx
+     908:	5d                   	pop    %rbp
+     909:	c3                   	ret
+     90a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000000910 <div_u64>:
+     910:	55                   	push   %rbp
+     911:	48 89 e5             	mov    %rsp,%rbp
+     914:	53                   	push   %rbx
+     915:	41 54                	push   %r12
+     917:	48 83 ec 20          	sub    $0x20,%rsp
+     91b:	48 89 fb             	mov    %rdi,%rbx
+     91e:	49 89 f4             	mov    %rsi,%r12
+     921:	4d 85 e4             	test   %r12,%r12
+     924:	0f 84 0d 00 00 00    	je     937 <div_u64+0x27>
+     92a:	31 d2                	xor    %edx,%edx
+     92c:	48 89 d8             	mov    %rbx,%rax
+     92f:	49 f7 f4             	div    %r12
+     932:	e9 0c 00 00 00       	jmp    943 <div_u64+0x33>
+     937:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 936 <div_u64+0x26>
+     93e:	e8 00 00 00 00       	call   943 <div_u64+0x33>
+     943:	48 83 c4 20          	add    $0x20,%rsp
+     947:	41 5c                	pop    %r12
+     949:	5b                   	pop    %rbx
+     94a:	5d                   	pop    %rbp
+     94b:	c3                   	ret
+     94c:	0f 1f 40 00          	nopl   0x0(%rax)
+
+0000000000000950 <div_u8>:
+     950:	55                   	push   %rbp
+     951:	48 89 e5             	mov    %rsp,%rbp
+     954:	53                   	push   %rbx
+     955:	41 54                	push   %r12
+     957:	48 83 ec 20          	sub    $0x20,%rsp
+     95b:	89 fb                	mov    %edi,%ebx
+     95d:	41 89 f4             	mov    %esi,%r12d
+     960:	45 84 e4             	test   %r12b,%r12b
+     963:	0f 84 13 00 00 00    	je     97c <div_u8+0x2c>
+     969:	0f b6 db             	movzbl %bl,%ebx
+     96c:	45 0f b6 e4          	movzbl %r12b,%r12d
+     970:	31 d2                	xor    %edx,%edx
+     972:	89 d8                	mov    %ebx,%eax
+     974:	41 f7 f4             	div    %r12d
+     977:	e9 0c 00 00 00       	jmp    988 <div_u8+0x38>
+     97c:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 97b <div_u8+0x2b>
+     983:	e8 00 00 00 00       	call   988 <div_u8+0x38>
+     988:	48 83 c4 20          	add    $0x20,%rsp
+     98c:	41 5c                	pop    %r12
+     98e:	5b                   	pop    %rbx
+     98f:	5d                   	pop    %rbp
+     990:	c3                   	ret
+     991:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     998:	00 00 
+     99a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+00000000000009a0 <keep_low_u32>:
+     9a0:	83 e6 1f             	and    $0x1f,%esi
+     9a3:	b8 01 00 00 00       	mov    $0x1,%eax
+     9a8:	89 f1                	mov    %esi,%ecx
+     9aa:	d3 e0                	shl    %cl,%eax
+     9ac:	83 e8 01             	sub    $0x1,%eax
+     9af:	21 c7                	and    %eax,%edi
+     9b1:	89 f8                	mov    %edi,%eax
+     9b3:	c3                   	ret
+     9b4:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     9bb:	00 00 
+     9bd:	0f 1f 00             	nopl   (%rax)
+
+00000000000009c0 <mixed_width_u128>:
+     9c0:	55                   	push   %rbp
+     9c1:	48 89 e5             	mov    %rsp,%rbp
+     9c4:	89 ff                	mov    %edi,%edi
+     9c6:	31 c0                	xor    %eax,%eax
+     9c8:	48 01 f7             	add    %rsi,%rdi
+     9cb:	48 11 d0             	adc    %rdx,%rax
+     9ce:	31 d2                	xor    %edx,%edx
+     9d0:	48 01 cf             	add    %rcx,%rdi
+     9d3:	48 11 d0             	adc    %rdx,%rax
+     9d6:	4c 01 c7             	add    %r8,%rdi
+     9d9:	4c 11 c8             	adc    %r9,%rax
+     9dc:	48 89 45 c8          	mov    %rax,-0x38(%rbp)
+     9e0:	48 89 f8             	mov    %rdi,%rax
+     9e3:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+     9e7:	5d                   	pop    %rbp
+     9e8:	c3                   	ret
+     9e9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+00000000000009f0 <mul_add_u128>:
+     9f0:	55                   	push   %rbp
+     9f1:	48 89 e5             	mov    %rsp,%rbp
+     9f4:	53                   	push   %rbx
+     9f5:	48 89 55 c0          	mov    %rdx,-0x40(%rbp)
+     9f9:	48 0f af 75 c0       	imul   -0x40(%rbp),%rsi
+     9fe:	48 8b 5d c0          	mov    -0x40(%rbp),%rbx
+     a02:	48 89 d8             	mov    %rbx,%rax
+     a05:	48 f7 e7             	mul    %rdi
+     a08:	48 01 f2             	add    %rsi,%rdx
+     a0b:	48 0f af cf          	imul   %rdi,%rcx
+     a0f:	48 01 ca             	add    %rcx,%rdx
+     a12:	4c 01 c0             	add    %r8,%rax
+     a15:	4c 11 ca             	adc    %r9,%rdx
+     a18:	5b                   	pop    %rbx
+     a19:	5d                   	pop    %rbp
+     a1a:	c3                   	ret
+     a1b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+0000000000000a20 <mul_add_u32>:
+     a20:	0f af fe             	imul   %esi,%edi
+     a23:	8d 3c 17             	lea    (%rdi,%rdx,1),%edi
+     a26:	89 f8                	mov    %edi,%eax
+     a28:	c3                   	ret
+     a29:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+0000000000000a30 <mul_add_u8>:
+     a30:	0f af fe             	imul   %esi,%edi
+     a33:	8d 3c 17             	lea    (%rdi,%rdx,1),%edi
+     a36:	89 f8                	mov    %edi,%eax
+     a38:	c3                   	ret
+     a39:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+0000000000000a40 <mul_i128>:
+     a40:	55                   	push   %rbp
+     a41:	48 89 e5             	mov    %rsp,%rbp
+     a44:	53                   	push   %rbx
+     a45:	48 89 55 c0          	mov    %rdx,-0x40(%rbp)
+     a49:	48 0f af 75 c0       	imul   -0x40(%rbp),%rsi
+     a4e:	48 8b 5d c0          	mov    -0x40(%rbp),%rbx
+     a52:	48 89 d8             	mov    %rbx,%rax
+     a55:	48 f7 e7             	mul    %rdi
+     a58:	48 01 f2             	add    %rsi,%rdx
+     a5b:	48 0f af cf          	imul   %rdi,%rcx
+     a5f:	48 01 ca             	add    %rcx,%rdx
+     a62:	5b                   	pop    %rbx
+     a63:	5d                   	pop    %rbp
+     a64:	c3                   	ret
+     a65:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     a6c:	00 00 
+     a6e:	66 90                	xchg   %ax,%ax
+
+0000000000000a70 <mul_i16>:
+     a70:	0f af fe             	imul   %esi,%edi
+     a73:	89 f8                	mov    %edi,%eax
+     a75:	c3                   	ret
+     a76:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     a7d:	00 00 
+     a7f:	90                   	nop
+
+0000000000000a80 <mul_i32>:
+     a80:	0f af fe             	imul   %esi,%edi
+     a83:	89 f8                	mov    %edi,%eax
+     a85:	c3                   	ret
+     a86:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     a8d:	00 00 
+     a8f:	90                   	nop
+
+0000000000000a90 <mul_i64>:
+     a90:	48 0f af fe          	imul   %rsi,%rdi
+     a94:	48 89 f8             	mov    %rdi,%rax
+     a97:	c3                   	ret
+     a98:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+     a9f:	00 
+
+0000000000000aa0 <mul_i8>:
+     aa0:	0f af fe             	imul   %esi,%edi
+     aa3:	89 f8                	mov    %edi,%eax
+     aa5:	c3                   	ret
+     aa6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     aad:	00 00 
+     aaf:	90                   	nop
+
+0000000000000ab0 <mul_u128>:
+     ab0:	55                   	push   %rbp
+     ab1:	48 89 e5             	mov    %rsp,%rbp
+     ab4:	53                   	push   %rbx
+     ab5:	48 89 55 c0          	mov    %rdx,-0x40(%rbp)
+     ab9:	48 0f af 75 c0       	imul   -0x40(%rbp),%rsi
+     abe:	48 8b 5d c0          	mov    -0x40(%rbp),%rbx
+     ac2:	48 89 d8             	mov    %rbx,%rax
+     ac5:	48 f7 e7             	mul    %rdi
+     ac8:	48 01 f2             	add    %rsi,%rdx
+     acb:	48 0f af cf          	imul   %rdi,%rcx
+     acf:	48 01 ca             	add    %rcx,%rdx
+     ad2:	5b                   	pop    %rbx
+     ad3:	5d                   	pop    %rbp
+     ad4:	c3                   	ret
+     ad5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     adc:	00 00 
+     ade:	66 90                	xchg   %ax,%ax
+
+0000000000000ae0 <mul_u16>:
+     ae0:	0f af fe             	imul   %esi,%edi
+     ae3:	89 f8                	mov    %edi,%eax
+     ae5:	c3                   	ret
+     ae6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     aed:	00 00 
+     aef:	90                   	nop
+
+0000000000000af0 <mul_u32>:
+     af0:	0f af fe             	imul   %esi,%edi
+     af3:	89 f8                	mov    %edi,%eax
+     af5:	c3                   	ret
+     af6:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     afd:	00 00 
+     aff:	90                   	nop
+
+0000000000000b00 <mul_u64>:
+     b00:	48 0f af fe          	imul   %rsi,%rdi
+     b04:	48 89 f8             	mov    %rdi,%rax
+     b07:	c3                   	ret
+     b08:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+     b0f:	00 
+
+0000000000000b10 <mul_u8>:
+     b10:	0f af fe             	imul   %esi,%edi
+     b13:	89 f8                	mov    %edi,%eax
+     b15:	c3                   	ret
+     b16:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     b1d:	00 00 
+     b1f:	90                   	nop
+
+0000000000000b20 <neg_i128>:
+     b20:	55                   	push   %rbp
+     b21:	48 89 e5             	mov    %rsp,%rbp
+     b24:	31 c0                	xor    %eax,%eax
+     b26:	48 f7 df             	neg    %rdi
+     b29:	48 19 f0             	sbb    %rsi,%rax
+     b2c:	48 89 45 c8          	mov    %rax,-0x38(%rbp)
+     b30:	48 89 f8             	mov    %rdi,%rax
+     b33:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+     b37:	5d                   	pop    %rbp
+     b38:	c3                   	ret
+     b39:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+0000000000000b40 <neg_i16>:
+     b40:	f7 df                	neg    %edi
+     b42:	89 f8                	mov    %edi,%eax
+     b44:	c3                   	ret
+     b45:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     b4c:	00 00 
+     b4e:	66 90                	xchg   %ax,%ax
+
+0000000000000b50 <neg_i32>:
+     b50:	f7 df                	neg    %edi
+     b52:	89 f8                	mov    %edi,%eax
+     b54:	c3                   	ret
+     b55:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     b5c:	00 00 
+     b5e:	66 90                	xchg   %ax,%ax
+
+0000000000000b60 <neg_i64>:
+     b60:	48 f7 df             	neg    %rdi
+     b63:	48 89 f8             	mov    %rdi,%rax
+     b66:	c3                   	ret
+     b67:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     b6e:	00 00 
+
+0000000000000b70 <neg_i8>:
+     b70:	f7 df                	neg    %edi
+     b72:	89 f8                	mov    %edi,%eax
+     b74:	c3                   	ret
+     b75:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     b7c:	00 00 
+     b7e:	66 90                	xchg   %ax,%ax
+
+0000000000000b80 <neg_via_not_i128>:
+     b80:	48 f7 d7             	not    %rdi
+     b83:	48 f7 d6             	not    %rsi
+     b86:	48 83 c7 01          	add    $0x1,%rdi
+     b8a:	48 83 d6 00          	adc    $0x0,%rsi
+     b8e:	48 89 f8             	mov    %rdi,%rax
+     b91:	48 89 f2             	mov    %rsi,%rdx
+     b94:	c3                   	ret
+     b95:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     b9c:	00 00 
+     b9e:	66 90                	xchg   %ax,%ax
+
+0000000000000ba0 <neg_via_not_i32>:
+     ba0:	f7 d7                	not    %edi
+     ba2:	8d 7f 01             	lea    0x1(%rdi),%edi
+     ba5:	89 f8                	mov    %edi,%eax
+     ba7:	c3                   	ret
+     ba8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+     baf:	00 
+
+0000000000000bb0 <not_bool>:
+     bb0:	40 80 f7 01          	xor    $0x1,%dil
+     bb4:	89 f8                	mov    %edi,%eax
+     bb6:	c3                   	ret
+     bb7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     bbe:	00 00 
+
+0000000000000bc0 <not_i128>:
+     bc0:	48 f7 d7             	not    %rdi
+     bc3:	48 f7 d6             	not    %rsi
+     bc6:	48 89 f8             	mov    %rdi,%rax
+     bc9:	48 89 f2             	mov    %rsi,%rdx
+     bcc:	c3                   	ret
+     bcd:	0f 1f 00             	nopl   (%rax)
+
+0000000000000bd0 <not_i16>:
+     bd0:	f7 d7                	not    %edi
+     bd2:	89 f8                	mov    %edi,%eax
+     bd4:	c3                   	ret
+     bd5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     bdc:	00 00 
+     bde:	66 90                	xchg   %ax,%ax
+
+0000000000000be0 <not_i32>:
+     be0:	f7 d7                	not    %edi
+     be2:	89 f8                	mov    %edi,%eax
+     be4:	c3                   	ret
+     be5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     bec:	00 00 
+     bee:	66 90                	xchg   %ax,%ax
+
+0000000000000bf0 <not_i64>:
+     bf0:	48 f7 d7             	not    %rdi
+     bf3:	48 89 f8             	mov    %rdi,%rax
+     bf6:	c3                   	ret
+     bf7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     bfe:	00 00 
+
+0000000000000c00 <not_i8>:
+     c00:	f7 d7                	not    %edi
+     c02:	89 f8                	mov    %edi,%eax
+     c04:	c3                   	ret
+     c05:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     c0c:	00 00 
+     c0e:	66 90                	xchg   %ax,%ax
+
+0000000000000c10 <not_u128>:
+     c10:	48 f7 d7             	not    %rdi
+     c13:	48 f7 d6             	not    %rsi
+     c16:	48 89 f8             	mov    %rdi,%rax
+     c19:	48 89 f2             	mov    %rsi,%rdx
+     c1c:	c3                   	ret
+     c1d:	0f 1f 00             	nopl   (%rax)
+
+0000000000000c20 <not_u16>:
+     c20:	f7 d7                	not    %edi
+     c22:	89 f8                	mov    %edi,%eax
+     c24:	c3                   	ret
+     c25:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     c2c:	00 00 
+     c2e:	66 90                	xchg   %ax,%ax
+
+0000000000000c30 <not_u32>:
+     c30:	f7 d7                	not    %edi
+     c32:	89 f8                	mov    %edi,%eax
+     c34:	c3                   	ret
+     c35:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     c3c:	00 00 
+     c3e:	66 90                	xchg   %ax,%ax
+
+0000000000000c40 <not_u64>:
+     c40:	48 f7 d7             	not    %rdi
+     c43:	48 89 f8             	mov    %rdi,%rax
+     c46:	c3                   	ret
+     c47:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     c4e:	00 00 
+
+0000000000000c50 <not_u8>:
+     c50:	f7 d7                	not    %edi
+     c52:	89 f8                	mov    %edi,%eax
+     c54:	c3                   	ret
+     c55:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     c5c:	00 00 
+     c5e:	66 90                	xchg   %ax,%ax
+
+0000000000000c60 <or_u128>:
+     c60:	48 09 d7             	or     %rdx,%rdi
+     c63:	48 09 ce             	or     %rcx,%rsi
+     c66:	48 89 f8             	mov    %rdi,%rax
+     c69:	48 89 f2             	mov    %rsi,%rdx
+     c6c:	c3                   	ret
+     c6d:	0f 1f 00             	nopl   (%rax)
+
+0000000000000c70 <or_u16>:
+     c70:	09 f7                	or     %esi,%edi
+     c72:	89 f8                	mov    %edi,%eax
+     c74:	c3                   	ret
+     c75:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     c7c:	00 00 
+     c7e:	66 90                	xchg   %ax,%ax
+
+0000000000000c80 <or_u32>:
+     c80:	09 f7                	or     %esi,%edi
+     c82:	89 f8                	mov    %edi,%eax
+     c84:	c3                   	ret
+     c85:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     c8c:	00 00 
+     c8e:	66 90                	xchg   %ax,%ax
+
+0000000000000c90 <or_u64>:
+     c90:	48 09 f7             	or     %rsi,%rdi
+     c93:	48 89 f8             	mov    %rdi,%rax
+     c96:	c3                   	ret
+     c97:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     c9e:	00 00 
+
+0000000000000ca0 <or_u8>:
+     ca0:	09 f7                	or     %esi,%edi
+     ca2:	89 f8                	mov    %edi,%eax
+     ca4:	c3                   	ret
+     ca5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     cac:	00 00 
+     cae:	66 90                	xchg   %ax,%ax
+
+0000000000000cb0 <rem_i128>:
+     cb0:	55                   	push   %rbp
+     cb1:	48 89 e5             	mov    %rsp,%rbp
+     cb4:	53                   	push   %rbx
+     cb5:	48 83 ec 28          	sub    $0x28,%rsp
+     cb9:	48 89 c8             	mov    %rcx,%rax
+     cbc:	31 db                	xor    %ebx,%ebx
+     cbe:	45 31 c0             	xor    %r8d,%r8d
+     cc1:	49 89 d1             	mov    %rdx,%r9
+     cc4:	49 31 d9             	xor    %rbx,%r9
+     cc7:	4c 31 c0             	xor    %r8,%rax
+     cca:	49 09 c1             	or     %rax,%r9
+     ccd:	0f 84 5f 00 00 00    	je     d32 <rem_i128+0x82>
+     cd3:	48 89 c8             	mov    %rcx,%rax
+     cd6:	48 c7 c3 ff ff ff ff 	mov    $0xffffffffffffffff,%rbx
+     cdd:	49 c7 c0 ff ff ff ff 	mov    $0xffffffffffffffff,%r8
+     ce4:	49 89 d1             	mov    %rdx,%r9
+     ce7:	49 31 d9             	xor    %rbx,%r9
+     cea:	4c 31 c0             	xor    %r8,%rax
+     ced:	49 09 c1             	or     %rax,%r9
+     cf0:	0f 94 c0             	sete   %al
+     cf3:	48 89 f3             	mov    %rsi,%rbx
+     cf6:	45 31 c0             	xor    %r8d,%r8d
+     cf9:	49 b9 00 00 00 00 00 	movabs $0x8000000000000000,%r9
+     d00:	00 00 80 
+     d03:	49 89 fa             	mov    %rdi,%r10
+     d06:	4d 31 c2             	xor    %r8,%r10
+     d09:	4c 31 cb             	xor    %r9,%rbx
+     d0c:	49 09 da             	or     %rbx,%r10
+     d0f:	0f 94 c3             	sete   %bl
+     d12:	21 d8                	and    %ebx,%eax
+     d14:	a8 01                	test   $0x1,%al
+     d16:	0f 85 0a 00 00 00    	jne    d26 <rem_i128+0x76>
+     d1c:	e8 00 00 00 00       	call   d21 <rem_i128+0x71>
+     d21:	e9 18 00 00 00       	jmp    d3e <rem_i128+0x8e>
+     d26:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # d25 <rem_i128+0x75>
+     d2d:	e8 00 00 00 00       	call   d32 <rem_i128+0x82>
+     d32:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # d31 <rem_i128+0x81>
+     d39:	e8 00 00 00 00       	call   d3e <rem_i128+0x8e>
+     d3e:	48 83 c4 28          	add    $0x28,%rsp
+     d42:	5b                   	pop    %rbx
+     d43:	5d                   	pop    %rbp
+     d44:	c3                   	ret
+     d45:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     d4c:	00 00 
+     d4e:	66 90                	xchg   %ax,%ax
+
+0000000000000d50 <rem_i16>:
+     d50:	55                   	push   %rbp
+     d51:	48 89 e5             	mov    %rsp,%rbp
+     d54:	53                   	push   %rbx
+     d55:	41 54                	push   %r12
+     d57:	48 83 ec 20          	sub    $0x20,%rsp
+     d5b:	89 fb                	mov    %edi,%ebx
+     d5d:	41 89 f4             	mov    %esi,%r12d
+     d60:	66 45 85 e4          	test   %r12w,%r12w
+     d64:	0f 84 3a 00 00 00    	je     da4 <rem_i16+0x54>
+     d6a:	66 41 83 fc ff       	cmp    $0xffff,%r12w
+     d6f:	0f 94 c0             	sete   %al
+     d72:	66 81 fb 00 80       	cmp    $0x8000,%bx
+     d77:	0f 94 c1             	sete   %cl
+     d7a:	21 c8                	and    %ecx,%eax
+     d7c:	a8 01                	test   $0x1,%al
+     d7e:	0f 85 14 00 00 00    	jne    d98 <rem_i16+0x48>
+     d84:	0f bf db             	movswl %bx,%ebx
+     d87:	45 0f bf e4          	movswl %r12w,%r12d
+     d8b:	89 d8                	mov    %ebx,%eax
+     d8d:	99                   	cltd
+     d8e:	41 f7 fc             	idiv   %r12d
+     d91:	89 d0                	mov    %edx,%eax
+     d93:	e9 18 00 00 00       	jmp    db0 <rem_i16+0x60>
+     d98:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # d97 <rem_i16+0x47>
+     d9f:	e8 00 00 00 00       	call   da4 <rem_i16+0x54>
+     da4:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # da3 <rem_i16+0x53>
+     dab:	e8 00 00 00 00       	call   db0 <rem_i16+0x60>
+     db0:	48 83 c4 20          	add    $0x20,%rsp
+     db4:	41 5c                	pop    %r12
+     db6:	5b                   	pop    %rbx
+     db7:	5d                   	pop    %rbp
+     db8:	c3                   	ret
+     db9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+0000000000000dc0 <rem_i32>:
+     dc0:	55                   	push   %rbp
+     dc1:	48 89 e5             	mov    %rsp,%rbp
+     dc4:	53                   	push   %rbx
+     dc5:	41 54                	push   %r12
+     dc7:	48 83 ec 20          	sub    $0x20,%rsp
+     dcb:	89 fb                	mov    %edi,%ebx
+     dcd:	41 89 f4             	mov    %esi,%r12d
+     dd0:	45 85 e4             	test   %r12d,%r12d
+     dd3:	0f 84 33 00 00 00    	je     e0c <rem_i32+0x4c>
+     dd9:	41 83 fc ff          	cmp    $0xffffffff,%r12d
+     ddd:	0f 94 c0             	sete   %al
+     de0:	81 fb 00 00 00 80    	cmp    $0x80000000,%ebx
+     de6:	0f 94 c1             	sete   %cl
+     de9:	21 c8                	and    %ecx,%eax
+     deb:	a8 01                	test   $0x1,%al
+     ded:	0f 85 0d 00 00 00    	jne    e00 <rem_i32+0x40>
+     df3:	89 d8                	mov    %ebx,%eax
+     df5:	99                   	cltd
+     df6:	41 f7 fc             	idiv   %r12d
+     df9:	89 d0                	mov    %edx,%eax
+     dfb:	e9 18 00 00 00       	jmp    e18 <rem_i32+0x58>
+     e00:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # dff <rem_i32+0x3f>
+     e07:	e8 00 00 00 00       	call   e0c <rem_i32+0x4c>
+     e0c:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # e0b <rem_i32+0x4b>
+     e13:	e8 00 00 00 00       	call   e18 <rem_i32+0x58>
+     e18:	48 83 c4 20          	add    $0x20,%rsp
+     e1c:	41 5c                	pop    %r12
+     e1e:	5b                   	pop    %rbx
+     e1f:	5d                   	pop    %rbp
+     e20:	c3                   	ret
+     e21:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     e28:	00 00 
+     e2a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000000e30 <rem_i64>:
+     e30:	55                   	push   %rbp
+     e31:	48 89 e5             	mov    %rsp,%rbp
+     e34:	53                   	push   %rbx
+     e35:	41 54                	push   %r12
+     e37:	48 83 ec 20          	sub    $0x20,%rsp
+     e3b:	48 89 fb             	mov    %rdi,%rbx
+     e3e:	49 89 f4             	mov    %rsi,%r12
+     e41:	4d 85 e4             	test   %r12,%r12
+     e44:	0f 84 3d 00 00 00    	je     e87 <rem_i64+0x57>
+     e4a:	49 83 fc ff          	cmp    $0xffffffffffffffff,%r12
+     e4e:	0f 94 c0             	sete   %al
+     e51:	48 b9 00 00 00 00 00 	movabs $0x8000000000000000,%rcx
+     e58:	00 00 80 
+     e5b:	48 39 cb             	cmp    %rcx,%rbx
+     e5e:	0f 94 c1             	sete   %cl
+     e61:	21 c8                	and    %ecx,%eax
+     e63:	a8 01                	test   $0x1,%al
+     e65:	0f 85 10 00 00 00    	jne    e7b <rem_i64+0x4b>
+     e6b:	48 89 d8             	mov    %rbx,%rax
+     e6e:	48 99                	cqto
+     e70:	49 f7 fc             	idiv   %r12
+     e73:	48 89 d0             	mov    %rdx,%rax
+     e76:	e9 18 00 00 00       	jmp    e93 <rem_i64+0x63>
+     e7b:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # e7a <rem_i64+0x4a>
+     e82:	e8 00 00 00 00       	call   e87 <rem_i64+0x57>
+     e87:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # e86 <rem_i64+0x56>
+     e8e:	e8 00 00 00 00       	call   e93 <rem_i64+0x63>
+     e93:	48 83 c4 20          	add    $0x20,%rsp
+     e97:	41 5c                	pop    %r12
+     e99:	5b                   	pop    %rbx
+     e9a:	5d                   	pop    %rbp
+     e9b:	c3                   	ret
+     e9c:	0f 1f 40 00          	nopl   0x0(%rax)
+
+0000000000000ea0 <rem_i8>:
+     ea0:	55                   	push   %rbp
+     ea1:	48 89 e5             	mov    %rsp,%rbp
+     ea4:	53                   	push   %rbx
+     ea5:	41 54                	push   %r12
+     ea7:	48 83 ec 20          	sub    $0x20,%rsp
+     eab:	89 fb                	mov    %edi,%ebx
+     ead:	41 89 f4             	mov    %esi,%r12d
+     eb0:	45 84 e4             	test   %r12b,%r12b
+     eb3:	0f 84 37 00 00 00    	je     ef0 <rem_i8+0x50>
+     eb9:	41 80 fc ff          	cmp    $0xff,%r12b
+     ebd:	0f 94 c0             	sete   %al
+     ec0:	80 fb 80             	cmp    $0x80,%bl
+     ec3:	0f 94 c1             	sete   %cl
+     ec6:	21 c8                	and    %ecx,%eax
+     ec8:	a8 01                	test   $0x1,%al
+     eca:	0f 85 14 00 00 00    	jne    ee4 <rem_i8+0x44>
+     ed0:	0f be db             	movsbl %bl,%ebx
+     ed3:	45 0f be e4          	movsbl %r12b,%r12d
+     ed7:	89 d8                	mov    %ebx,%eax
+     ed9:	99                   	cltd
+     eda:	41 f7 fc             	idiv   %r12d
+     edd:	89 d0                	mov    %edx,%eax
+     edf:	e9 18 00 00 00       	jmp    efc <rem_i8+0x5c>
+     ee4:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # ee3 <rem_i8+0x43>
+     eeb:	e8 00 00 00 00       	call   ef0 <rem_i8+0x50>
+     ef0:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # eef <rem_i8+0x4f>
+     ef7:	e8 00 00 00 00       	call   efc <rem_i8+0x5c>
+     efc:	48 83 c4 20          	add    $0x20,%rsp
+     f00:	41 5c                	pop    %r12
+     f02:	5b                   	pop    %rbx
+     f03:	5d                   	pop    %rbp
+     f04:	c3                   	ret
+     f05:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     f0c:	00 00 
+     f0e:	66 90                	xchg   %ax,%ax
+
+0000000000000f10 <rem_u128>:
+     f10:	55                   	push   %rbp
+     f11:	48 89 e5             	mov    %rsp,%rbp
+     f14:	53                   	push   %rbx
+     f15:	48 83 ec 28          	sub    $0x28,%rsp
+     f19:	48 89 c8             	mov    %rcx,%rax
+     f1c:	31 db                	xor    %ebx,%ebx
+     f1e:	45 31 c0             	xor    %r8d,%r8d
+     f21:	49 89 d1             	mov    %rdx,%r9
+     f24:	49 31 d9             	xor    %rbx,%r9
+     f27:	4c 31 c0             	xor    %r8,%rax
+     f2a:	49 09 c1             	or     %rax,%r9
+     f2d:	0f 84 0a 00 00 00    	je     f3d <rem_u128+0x2d>
+     f33:	e8 00 00 00 00       	call   f38 <rem_u128+0x28>
+     f38:	e9 0c 00 00 00       	jmp    f49 <rem_u128+0x39>
+     f3d:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # f3c <rem_u128+0x2c>
+     f44:	e8 00 00 00 00       	call   f49 <rem_u128+0x39>
+     f49:	48 83 c4 28          	add    $0x28,%rsp
+     f4d:	5b                   	pop    %rbx
+     f4e:	5d                   	pop    %rbp
+     f4f:	c3                   	ret
+
+0000000000000f50 <rem_u16>:
+     f50:	55                   	push   %rbp
+     f51:	48 89 e5             	mov    %rsp,%rbp
+     f54:	53                   	push   %rbx
+     f55:	41 54                	push   %r12
+     f57:	48 83 ec 20          	sub    $0x20,%rsp
+     f5b:	89 fb                	mov    %edi,%ebx
+     f5d:	41 89 f4             	mov    %esi,%r12d
+     f60:	66 45 85 e4          	test   %r12w,%r12w
+     f64:	0f 84 15 00 00 00    	je     f7f <rem_u16+0x2f>
+     f6a:	0f b7 db             	movzwl %bx,%ebx
+     f6d:	45 0f b7 e4          	movzwl %r12w,%r12d
+     f71:	31 d2                	xor    %edx,%edx
+     f73:	89 d8                	mov    %ebx,%eax
+     f75:	41 f7 f4             	div    %r12d
+     f78:	89 d0                	mov    %edx,%eax
+     f7a:	e9 0c 00 00 00       	jmp    f8b <rem_u16+0x3b>
+     f7f:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # f7e <rem_u16+0x2e>
+     f86:	e8 00 00 00 00       	call   f8b <rem_u16+0x3b>
+     f8b:	48 83 c4 20          	add    $0x20,%rsp
+     f8f:	41 5c                	pop    %r12
+     f91:	5b                   	pop    %rbx
+     f92:	5d                   	pop    %rbp
+     f93:	c3                   	ret
+     f94:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+     f9b:	00 00 
+     f9d:	0f 1f 00             	nopl   (%rax)
+
+0000000000000fa0 <rem_u32>:
+     fa0:	55                   	push   %rbp
+     fa1:	48 89 e5             	mov    %rsp,%rbp
+     fa4:	53                   	push   %rbx
+     fa5:	41 54                	push   %r12
+     fa7:	48 83 ec 20          	sub    $0x20,%rsp
+     fab:	89 fb                	mov    %edi,%ebx
+     fad:	41 89 f4             	mov    %esi,%r12d
+     fb0:	45 85 e4             	test   %r12d,%r12d
+     fb3:	0f 84 0e 00 00 00    	je     fc7 <rem_u32+0x27>
+     fb9:	31 d2                	xor    %edx,%edx
+     fbb:	89 d8                	mov    %ebx,%eax
+     fbd:	41 f7 f4             	div    %r12d
+     fc0:	89 d0                	mov    %edx,%eax
+     fc2:	e9 0c 00 00 00       	jmp    fd3 <rem_u32+0x33>
+     fc7:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # fc6 <rem_u32+0x26>
+     fce:	e8 00 00 00 00       	call   fd3 <rem_u32+0x33>
+     fd3:	48 83 c4 20          	add    $0x20,%rsp
+     fd7:	41 5c                	pop    %r12
+     fd9:	5b                   	pop    %rbx
+     fda:	5d                   	pop    %rbp
+     fdb:	c3                   	ret
+     fdc:	0f 1f 40 00          	nopl   0x0(%rax)
+
+0000000000000fe0 <rem_u64>:
+     fe0:	55                   	push   %rbp
+     fe1:	48 89 e5             	mov    %rsp,%rbp
+     fe4:	53                   	push   %rbx
+     fe5:	41 54                	push   %r12
+     fe7:	48 83 ec 20          	sub    $0x20,%rsp
+     feb:	48 89 fb             	mov    %rdi,%rbx
+     fee:	49 89 f4             	mov    %rsi,%r12
+     ff1:	4d 85 e4             	test   %r12,%r12
+     ff4:	0f 84 10 00 00 00    	je     100a <rem_u64+0x2a>
+     ffa:	31 d2                	xor    %edx,%edx
+     ffc:	48 89 d8             	mov    %rbx,%rax
+     fff:	49 f7 f4             	div    %r12
+    1002:	48 89 d0             	mov    %rdx,%rax
+    1005:	e9 0c 00 00 00       	jmp    1016 <rem_u64+0x36>
+    100a:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 1009 <rem_u64+0x29>
+    1011:	e8 00 00 00 00       	call   1016 <rem_u64+0x36>
+    1016:	48 83 c4 20          	add    $0x20,%rsp
+    101a:	41 5c                	pop    %r12
+    101c:	5b                   	pop    %rbx
+    101d:	5d                   	pop    %rbp
+    101e:	c3                   	ret
+    101f:	90                   	nop
+
+0000000000001020 <rem_u8>:
+    1020:	55                   	push   %rbp
+    1021:	48 89 e5             	mov    %rsp,%rbp
+    1024:	53                   	push   %rbx
+    1025:	41 54                	push   %r12
+    1027:	48 83 ec 20          	sub    $0x20,%rsp
+    102b:	89 fb                	mov    %edi,%ebx
+    102d:	41 89 f4             	mov    %esi,%r12d
+    1030:	45 84 e4             	test   %r12b,%r12b
+    1033:	0f 84 15 00 00 00    	je     104e <rem_u8+0x2e>
+    1039:	0f b6 db             	movzbl %bl,%ebx
+    103c:	45 0f b6 e4          	movzbl %r12b,%r12d
+    1040:	31 d2                	xor    %edx,%edx
+    1042:	89 d8                	mov    %ebx,%eax
+    1044:	41 f7 f4             	div    %r12d
+    1047:	89 d0                	mov    %edx,%eax
+    1049:	e9 0c 00 00 00       	jmp    105a <rem_u8+0x3a>
+    104e:	48 8d 3d f8 ff ff ff 	lea    -0x8(%rip),%rdi        # 104d <rem_u8+0x2d>
+    1055:	e8 00 00 00 00       	call   105a <rem_u8+0x3a>
+    105a:	48 83 c4 20          	add    $0x20,%rsp
+    105e:	41 5c                	pop    %r12
+    1060:	5b                   	pop    %rbx
+    1061:	5d                   	pop    %rbp
+    1062:	c3                   	ret
+    1063:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    106a:	00 00 
+    106c:	0f 1f 40 00          	nopl   0x0(%rax)
+
+0000000000001070 <sext_i64_i128>:
+    1070:	55                   	push   %rbp
+    1071:	48 89 e5             	mov    %rsp,%rbp
+    1074:	48 89 f8             	mov    %rdi,%rax
+    1077:	48 c1 f8 3f          	sar    $0x3f,%rax
+    107b:	48 89 45 c8          	mov    %rax,-0x38(%rbp)
+    107f:	48 89 f8             	mov    %rdi,%rax
+    1082:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+    1086:	5d                   	pop    %rbp
+    1087:	c3                   	ret
+    1088:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    108f:	00 
+
+0000000000001090 <shl3_u128>:
+    1090:	55                   	push   %rbp
+    1091:	48 89 e5             	mov    %rsp,%rbp
+    1094:	53                   	push   %rbx
+    1095:	b8 03 00 00 00       	mov    $0x3,%eax
+    109a:	83 e0 7f             	and    $0x7f,%eax
+    109d:	89 c0                	mov    %eax,%eax
+    109f:	31 c9                	xor    %ecx,%ecx
+    10a1:	48 89 4d c8          	mov    %rcx,-0x38(%rbp)
+    10a5:	89 c1                	mov    %eax,%ecx
+    10a7:	48 d3 e6             	shl    %cl,%rsi
+    10aa:	48 89 fa             	mov    %rdi,%rdx
+    10ad:	48 d1 ea             	shr    $1,%rdx
+    10b0:	89 c1                	mov    %eax,%ecx
+    10b2:	f6 d1                	not    %cl
+    10b4:	48 d3 ea             	shr    %cl,%rdx
+    10b7:	48 09 f2             	or     %rsi,%rdx
+    10ba:	89 c1                	mov    %eax,%ecx
+    10bc:	48 d3 e7             	shl    %cl,%rdi
+    10bf:	31 db                	xor    %ebx,%ebx
+    10c1:	a8 40                	test   $0x40,%al
+    10c3:	48 0f 45 d7          	cmovne %rdi,%rdx
+    10c7:	48 0f 44 df          	cmove  %rdi,%rbx
+    10cb:	48 89 d8             	mov    %rbx,%rax
+    10ce:	5b                   	pop    %rbx
+    10cf:	5d                   	pop    %rbp
+    10d0:	c3                   	ret
+    10d1:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    10d8:	00 00 
+    10da:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+00000000000010e0 <shl3_u32>:
+    10e0:	b8 03 00 00 00       	mov    $0x3,%eax
+    10e5:	83 e0 1f             	and    $0x1f,%eax
+    10e8:	89 c1                	mov    %eax,%ecx
+    10ea:	d3 e7                	shl    %cl,%edi
+    10ec:	89 f8                	mov    %edi,%eax
+    10ee:	c3                   	ret
+    10ef:	90                   	nop
+
+00000000000010f0 <shl64_u128>:
+    10f0:	55                   	push   %rbp
+    10f1:	48 89 e5             	mov    %rsp,%rbp
+    10f4:	53                   	push   %rbx
+    10f5:	b8 40 00 00 00       	mov    $0x40,%eax
+    10fa:	83 e0 7f             	and    $0x7f,%eax
+    10fd:	89 c0                	mov    %eax,%eax
+    10ff:	31 c9                	xor    %ecx,%ecx
+    1101:	48 89 4d c8          	mov    %rcx,-0x38(%rbp)
+    1105:	89 c1                	mov    %eax,%ecx
+    1107:	48 d3 e6             	shl    %cl,%rsi
+    110a:	48 89 fa             	mov    %rdi,%rdx
+    110d:	48 d1 ea             	shr    $1,%rdx
+    1110:	89 c1                	mov    %eax,%ecx
+    1112:	f6 d1                	not    %cl
+    1114:	48 d3 ea             	shr    %cl,%rdx
+    1117:	48 09 f2             	or     %rsi,%rdx
+    111a:	89 c1                	mov    %eax,%ecx
+    111c:	48 d3 e7             	shl    %cl,%rdi
+    111f:	31 db                	xor    %ebx,%ebx
+    1121:	a8 40                	test   $0x40,%al
+    1123:	48 0f 45 d7          	cmovne %rdi,%rdx
+    1127:	48 0f 44 df          	cmove  %rdi,%rbx
+    112b:	48 89 d8             	mov    %rbx,%rax
+    112e:	5b                   	pop    %rbx
+    112f:	5d                   	pop    %rbp
+    1130:	c3                   	ret
+    1131:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    1138:	00 00 
+    113a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000001140 <shl_i128>:
+    1140:	55                   	push   %rbp
+    1141:	48 89 e5             	mov    %rsp,%rbp
+    1144:	53                   	push   %rbx
+    1145:	48 83 e2 7f          	and    $0x7f,%rdx
+    1149:	48 83 e1 00          	and    $0x0,%rcx
+    114d:	48 89 4d c8          	mov    %rcx,-0x38(%rbp)
+    1151:	89 d1                	mov    %edx,%ecx
+    1153:	48 d3 e6             	shl    %cl,%rsi
+    1156:	48 89 f8             	mov    %rdi,%rax
+    1159:	48 d1 e8             	shr    $1,%rax
+    115c:	89 d1                	mov    %edx,%ecx
+    115e:	f6 d1                	not    %cl
+    1160:	48 d3 e8             	shr    %cl,%rax
+    1163:	48 09 f0             	or     %rsi,%rax
+    1166:	89 d1                	mov    %edx,%ecx
+    1168:	48 d3 e7             	shl    %cl,%rdi
+    116b:	31 db                	xor    %ebx,%ebx
+    116d:	f6 c2 40             	test   $0x40,%dl
+    1170:	48 0f 45 c7          	cmovne %rdi,%rax
+    1174:	48 0f 44 df          	cmove  %rdi,%rbx
+    1178:	48 89 45 c8          	mov    %rax,-0x38(%rbp)
+    117c:	48 89 d8             	mov    %rbx,%rax
+    117f:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+    1183:	5b                   	pop    %rbx
+    1184:	5d                   	pop    %rbp
+    1185:	c3                   	ret
+    1186:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    118d:	00 00 
+    118f:	90                   	nop
+
+0000000000001190 <shl_i16>:
+    1190:	83 e6 0f             	and    $0xf,%esi
+    1193:	89 f1                	mov    %esi,%ecx
+    1195:	d3 e7                	shl    %cl,%edi
+    1197:	89 f8                	mov    %edi,%eax
+    1199:	c3                   	ret
+    119a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+00000000000011a0 <shl_i32>:
+    11a0:	83 e6 1f             	and    $0x1f,%esi
+    11a3:	89 f1                	mov    %esi,%ecx
+    11a5:	d3 e7                	shl    %cl,%edi
+    11a7:	89 f8                	mov    %edi,%eax
+    11a9:	c3                   	ret
+    11aa:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+00000000000011b0 <shl_i64>:
+    11b0:	48 83 e6 3f          	and    $0x3f,%rsi
+    11b4:	89 f1                	mov    %esi,%ecx
+    11b6:	48 d3 e7             	shl    %cl,%rdi
+    11b9:	48 89 f8             	mov    %rdi,%rax
+    11bc:	c3                   	ret
+    11bd:	0f 1f 00             	nopl   (%rax)
+
+00000000000011c0 <shl_i8>:
+    11c0:	83 e6 07             	and    $0x7,%esi
+    11c3:	89 f1                	mov    %esi,%ecx
+    11c5:	d3 e7                	shl    %cl,%edi
+    11c7:	89 f8                	mov    %edi,%eax
+    11c9:	c3                   	ret
+    11ca:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+00000000000011d0 <shl_mul_u32>:
+    11d0:	89 f0                	mov    %esi,%eax
+    11d2:	83 e0 1f             	and    $0x1f,%eax
+    11d5:	89 fa                	mov    %edi,%edx
+    11d7:	89 c1                	mov    %eax,%ecx
+    11d9:	d3 e2                	shl    %cl,%edx
+    11db:	83 e6 1f             	and    $0x1f,%esi
+    11de:	b8 01 00 00 00       	mov    $0x1,%eax
+    11e3:	89 f1                	mov    %esi,%ecx
+    11e5:	d3 e0                	shl    %cl,%eax
+    11e7:	0f af f8             	imul   %eax,%edi
+    11ea:	29 fa                	sub    %edi,%edx
+    11ec:	89 d0                	mov    %edx,%eax
+    11ee:	c3                   	ret
+    11ef:	90                   	nop
+
+00000000000011f0 <shl_u128>:
+    11f0:	55                   	push   %rbp
+    11f1:	48 89 e5             	mov    %rsp,%rbp
+    11f4:	53                   	push   %rbx
+    11f5:	48 83 e2 7f          	and    $0x7f,%rdx
+    11f9:	48 83 e1 00          	and    $0x0,%rcx
+    11fd:	48 89 4d c8          	mov    %rcx,-0x38(%rbp)
+    1201:	89 d1                	mov    %edx,%ecx
+    1203:	48 d3 e6             	shl    %cl,%rsi
+    1206:	48 89 f8             	mov    %rdi,%rax
+    1209:	48 d1 e8             	shr    $1,%rax
+    120c:	89 d1                	mov    %edx,%ecx
+    120e:	f6 d1                	not    %cl
+    1210:	48 d3 e8             	shr    %cl,%rax
+    1213:	48 09 f0             	or     %rsi,%rax
+    1216:	89 d1                	mov    %edx,%ecx
+    1218:	48 d3 e7             	shl    %cl,%rdi
+    121b:	31 db                	xor    %ebx,%ebx
+    121d:	f6 c2 40             	test   $0x40,%dl
+    1220:	48 0f 45 c7          	cmovne %rdi,%rax
+    1224:	48 0f 44 df          	cmove  %rdi,%rbx
+    1228:	48 89 45 c8          	mov    %rax,-0x38(%rbp)
+    122c:	48 89 d8             	mov    %rbx,%rax
+    122f:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+    1233:	5b                   	pop    %rbx
+    1234:	5d                   	pop    %rbp
+    1235:	c3                   	ret
+    1236:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    123d:	00 00 
+    123f:	90                   	nop
+
+0000000000001240 <shl_u16>:
+    1240:	83 e6 0f             	and    $0xf,%esi
+    1243:	89 f1                	mov    %esi,%ecx
+    1245:	d3 e7                	shl    %cl,%edi
+    1247:	89 f8                	mov    %edi,%eax
+    1249:	c3                   	ret
+    124a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000001250 <shl_u32>:
+    1250:	83 e6 1f             	and    $0x1f,%esi
+    1253:	89 f1                	mov    %esi,%ecx
+    1255:	d3 e7                	shl    %cl,%edi
+    1257:	89 f8                	mov    %edi,%eax
+    1259:	c3                   	ret
+    125a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000001260 <shl_u64>:
+    1260:	48 83 e6 3f          	and    $0x3f,%rsi
+    1264:	89 f1                	mov    %esi,%ecx
+    1266:	48 d3 e7             	shl    %cl,%rdi
+    1269:	48 89 f8             	mov    %rdi,%rax
+    126c:	c3                   	ret
+    126d:	0f 1f 00             	nopl   (%rax)
+
+0000000000001270 <shl_u8>:
+    1270:	83 e6 07             	and    $0x7,%esi
+    1273:	89 f1                	mov    %esi,%ecx
+    1275:	d3 e7                	shl    %cl,%edi
+    1277:	89 f8                	mov    %edi,%eax
+    1279:	c3                   	ret
+    127a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000001280 <shr100_i128>:
+    1280:	55                   	push   %rbp
+    1281:	48 89 e5             	mov    %rsp,%rbp
+    1284:	53                   	push   %rbx
+    1285:	b8 64 00 00 00       	mov    $0x64,%eax
+    128a:	83 e0 7f             	and    $0x7f,%eax
+    128d:	89 c0                	mov    %eax,%eax
+    128f:	31 c9                	xor    %ecx,%ecx
+    1291:	48 89 4d c8          	mov    %rcx,-0x38(%rbp)
+    1295:	89 c1                	mov    %eax,%ecx
+    1297:	48 d3 ef             	shr    %cl,%rdi
+    129a:	48 8d 14 36          	lea    (%rsi,%rsi,1),%rdx
+    129e:	89 c1                	mov    %eax,%ecx
+    12a0:	f6 d1                	not    %cl
+    12a2:	48 d3 e2             	shl    %cl,%rdx
+    12a5:	48 09 fa             	or     %rdi,%rdx
+    12a8:	48 89 f3             	mov    %rsi,%rbx
+    12ab:	89 c1                	mov    %eax,%ecx
+    12ad:	48 d3 fb             	sar    %cl,%rbx
+    12b0:	48 c1 fe 3f          	sar    $0x3f,%rsi
+    12b4:	a8 40                	test   $0x40,%al
+    12b6:	48 0f 45 d3          	cmovne %rbx,%rdx
+    12ba:	48 0f 45 de          	cmovne %rsi,%rbx
+    12be:	48 89 d0             	mov    %rdx,%rax
+    12c1:	48 89 da             	mov    %rbx,%rdx
+    12c4:	5b                   	pop    %rbx
+    12c5:	5d                   	pop    %rbp
+    12c6:	c3                   	ret
+    12c7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    12ce:	00 00 
+
+00000000000012d0 <shr3_i32>:
+    12d0:	b8 03 00 00 00       	mov    $0x3,%eax
+    12d5:	83 e0 1f             	and    $0x1f,%eax
+    12d8:	89 c1                	mov    %eax,%ecx
+    12da:	d3 ff                	sar    %cl,%edi
+    12dc:	89 f8                	mov    %edi,%eax
+    12de:	c3                   	ret
+    12df:	90                   	nop
+
+00000000000012e0 <shr3_u32>:
+    12e0:	b8 03 00 00 00       	mov    $0x3,%eax
+    12e5:	83 e0 1f             	and    $0x1f,%eax
+    12e8:	89 c1                	mov    %eax,%ecx
+    12ea:	d3 ef                	shr    %cl,%edi
+    12ec:	89 f8                	mov    %edi,%eax
+    12ee:	c3                   	ret
+    12ef:	90                   	nop
+
+00000000000012f0 <shr64_u128>:
+    12f0:	55                   	push   %rbp
+    12f1:	48 89 e5             	mov    %rsp,%rbp
+    12f4:	53                   	push   %rbx
+    12f5:	b8 40 00 00 00       	mov    $0x40,%eax
+    12fa:	83 e0 7f             	and    $0x7f,%eax
+    12fd:	89 c0                	mov    %eax,%eax
+    12ff:	31 c9                	xor    %ecx,%ecx
+    1301:	48 89 4d c8          	mov    %rcx,-0x38(%rbp)
+    1305:	89 c1                	mov    %eax,%ecx
+    1307:	48 d3 ef             	shr    %cl,%rdi
+    130a:	48 8d 14 36          	lea    (%rsi,%rsi,1),%rdx
+    130e:	89 c1                	mov    %eax,%ecx
+    1310:	f6 d1                	not    %cl
+    1312:	48 d3 e2             	shl    %cl,%rdx
+    1315:	48 09 fa             	or     %rdi,%rdx
+    1318:	89 c1                	mov    %eax,%ecx
+    131a:	48 d3 ee             	shr    %cl,%rsi
+    131d:	31 db                	xor    %ebx,%ebx
+    131f:	a8 40                	test   $0x40,%al
+    1321:	48 0f 45 d6          	cmovne %rsi,%rdx
+    1325:	48 0f 44 de          	cmove  %rsi,%rbx
+    1329:	48 89 d0             	mov    %rdx,%rax
+    132c:	48 89 da             	mov    %rbx,%rdx
+    132f:	5b                   	pop    %rbx
+    1330:	5d                   	pop    %rbp
+    1331:	c3                   	ret
+    1332:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    1339:	00 00 
+    133b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+
+0000000000001340 <shr_i128>:
+    1340:	55                   	push   %rbp
+    1341:	48 89 e5             	mov    %rsp,%rbp
+    1344:	53                   	push   %rbx
+    1345:	48 83 e2 7f          	and    $0x7f,%rdx
+    1349:	48 83 e1 00          	and    $0x0,%rcx
+    134d:	48 89 4d c8          	mov    %rcx,-0x38(%rbp)
+    1351:	89 d1                	mov    %edx,%ecx
+    1353:	48 d3 ef             	shr    %cl,%rdi
+    1356:	48 8d 04 36          	lea    (%rsi,%rsi,1),%rax
+    135a:	89 d1                	mov    %edx,%ecx
+    135c:	f6 d1                	not    %cl
+    135e:	48 d3 e0             	shl    %cl,%rax
+    1361:	48 09 f8             	or     %rdi,%rax
+    1364:	48 89 f3             	mov    %rsi,%rbx
+    1367:	89 d1                	mov    %edx,%ecx
+    1369:	48 d3 fb             	sar    %cl,%rbx
+    136c:	48 c1 fe 3f          	sar    $0x3f,%rsi
+    1370:	f6 c2 40             	test   $0x40,%dl
+    1373:	48 0f 45 c3          	cmovne %rbx,%rax
+    1377:	48 0f 45 de          	cmovne %rsi,%rbx
+    137b:	48 89 da             	mov    %rbx,%rdx
+    137e:	5b                   	pop    %rbx
+    137f:	5d                   	pop    %rbp
+    1380:	c3                   	ret
+    1381:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    1388:	00 00 
+    138a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000001390 <shr_i16>:
+    1390:	83 e6 0f             	and    $0xf,%esi
+    1393:	0f bf ff             	movswl %di,%edi
+    1396:	89 f1                	mov    %esi,%ecx
+    1398:	d3 ff                	sar    %cl,%edi
+    139a:	89 f8                	mov    %edi,%eax
+    139c:	c3                   	ret
+    139d:	0f 1f 00             	nopl   (%rax)
+
+00000000000013a0 <shr_i32>:
+    13a0:	83 e6 1f             	and    $0x1f,%esi
+    13a3:	89 f1                	mov    %esi,%ecx
+    13a5:	d3 ff                	sar    %cl,%edi
+    13a7:	89 f8                	mov    %edi,%eax
+    13a9:	c3                   	ret
+    13aa:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+00000000000013b0 <shr_i64>:
+    13b0:	48 83 e6 3f          	and    $0x3f,%rsi
+    13b4:	89 f1                	mov    %esi,%ecx
+    13b6:	48 d3 ff             	sar    %cl,%rdi
+    13b9:	48 89 f8             	mov    %rdi,%rax
+    13bc:	c3                   	ret
+    13bd:	0f 1f 00             	nopl   (%rax)
+
+00000000000013c0 <shr_i8>:
+    13c0:	83 e6 07             	and    $0x7,%esi
+    13c3:	40 0f be ff          	movsbl %dil,%edi
+    13c7:	89 f1                	mov    %esi,%ecx
+    13c9:	d3 ff                	sar    %cl,%edi
+    13cb:	89 f8                	mov    %edi,%eax
+    13cd:	c3                   	ret
+    13ce:	66 90                	xchg   %ax,%ax
+
+00000000000013d0 <shr_shl_u128>:
+    13d0:	55                   	push   %rbp
+    13d1:	48 89 e5             	mov    %rsp,%rbp
+    13d4:	53                   	push   %rbx
+    13d5:	48 89 d0             	mov    %rdx,%rax
+    13d8:	48 83 e0 7f          	and    $0x7f,%rax
+    13dc:	48 89 cb             	mov    %rcx,%rbx
+    13df:	48 83 e3 00          	and    $0x0,%rbx
+    13e3:	48 89 4d c8          	mov    %rcx,-0x38(%rbp)
+    13e7:	89 c1                	mov    %eax,%ecx
+    13e9:	48 d3 ef             	shr    %cl,%rdi
+    13ec:	4c 8d 04 36          	lea    (%rsi,%rsi,1),%r8
+    13f0:	89 c1                	mov    %eax,%ecx
+    13f2:	f6 d1                	not    %cl
+    13f4:	49 d3 e0             	shl    %cl,%r8
+    13f7:	49 09 f8             	or     %rdi,%r8
+    13fa:	89 c1                	mov    %eax,%ecx
+    13fc:	48 d3 ee             	shr    %cl,%rsi
+    13ff:	45 31 c9             	xor    %r9d,%r9d
+    1402:	a8 40                	test   $0x40,%al
+    1404:	4c 0f 45 c6          	cmovne %rsi,%r8
+    1408:	4c 0f 44 ce          	cmove  %rsi,%r9
+    140c:	48 83 e2 7f          	and    $0x7f,%rdx
+    1410:	48 8b 45 c8          	mov    -0x38(%rbp),%rax
+    1414:	48 83 e0 00          	and    $0x0,%rax
+    1418:	89 d1                	mov    %edx,%ecx
+    141a:	49 d3 e1             	shl    %cl,%r9
+    141d:	4c 89 c3             	mov    %r8,%rbx
+    1420:	48 d1 eb             	shr    $1,%rbx
+    1423:	89 d1                	mov    %edx,%ecx
+    1425:	f6 d1                	not    %cl
+    1427:	48 d3 eb             	shr    %cl,%rbx
+    142a:	4c 09 cb             	or     %r9,%rbx
+    142d:	89 d1                	mov    %edx,%ecx
+    142f:	49 d3 e0             	shl    %cl,%r8
+    1432:	31 f6                	xor    %esi,%esi
+    1434:	f6 c2 40             	test   $0x40,%dl
+    1437:	49 0f 45 d8          	cmovne %r8,%rbx
+    143b:	49 0f 44 f0          	cmove  %r8,%rsi
+    143f:	48 89 f0             	mov    %rsi,%rax
+    1442:	48 89 da             	mov    %rbx,%rdx
+    1445:	5b                   	pop    %rbx
+    1446:	5d                   	pop    %rbp
+    1447:	c3                   	ret
+    1448:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+    144f:	00 
+
+0000000000001450 <shr_shl_u32>:
+    1450:	89 f0                	mov    %esi,%eax
+    1452:	83 e0 1f             	and    $0x1f,%eax
+    1455:	89 c1                	mov    %eax,%ecx
+    1457:	d3 ef                	shr    %cl,%edi
+    1459:	83 e6 1f             	and    $0x1f,%esi
+    145c:	89 f1                	mov    %esi,%ecx
+    145e:	d3 e7                	shl    %cl,%edi
+    1460:	89 f8                	mov    %edi,%eax
+    1462:	c3                   	ret
+    1463:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    146a:	00 00 
+    146c:	0f 1f 40 00          	nopl   0x0(%rax)
+
+0000000000001470 <shr_u128>:
+    1470:	55                   	push   %rbp
+    1471:	48 89 e5             	mov    %rsp,%rbp
+    1474:	53                   	push   %rbx
+    1475:	48 83 e2 7f          	and    $0x7f,%rdx
+    1479:	48 83 e1 00          	and    $0x0,%rcx
+    147d:	48 89 4d c8          	mov    %rcx,-0x38(%rbp)
+    1481:	89 d1                	mov    %edx,%ecx
+    1483:	48 d3 ef             	shr    %cl,%rdi
+    1486:	48 8d 04 36          	lea    (%rsi,%rsi,1),%rax
+    148a:	89 d1                	mov    %edx,%ecx
+    148c:	f6 d1                	not    %cl
+    148e:	48 d3 e0             	shl    %cl,%rax
+    1491:	48 09 f8             	or     %rdi,%rax
+    1494:	89 d1                	mov    %edx,%ecx
+    1496:	48 d3 ee             	shr    %cl,%rsi
+    1499:	31 db                	xor    %ebx,%ebx
+    149b:	f6 c2 40             	test   $0x40,%dl
+    149e:	48 0f 45 c6          	cmovne %rsi,%rax
+    14a2:	48 0f 44 de          	cmove  %rsi,%rbx
+    14a6:	48 89 da             	mov    %rbx,%rdx
+    14a9:	5b                   	pop    %rbx
+    14aa:	5d                   	pop    %rbp
+    14ab:	c3                   	ret
+    14ac:	0f 1f 40 00          	nopl   0x0(%rax)
+
+00000000000014b0 <shr_u16>:
+    14b0:	83 e6 0f             	and    $0xf,%esi
+    14b3:	0f b7 ff             	movzwl %di,%edi
+    14b6:	89 f1                	mov    %esi,%ecx
+    14b8:	d3 ef                	shr    %cl,%edi
+    14ba:	89 f8                	mov    %edi,%eax
+    14bc:	c3                   	ret
+    14bd:	0f 1f 00             	nopl   (%rax)
+
+00000000000014c0 <shr_u32>:
+    14c0:	83 e6 1f             	and    $0x1f,%esi
+    14c3:	89 f1                	mov    %esi,%ecx
+    14c5:	d3 ef                	shr    %cl,%edi
+    14c7:	89 f8                	mov    %edi,%eax
+    14c9:	c3                   	ret
+    14ca:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+00000000000014d0 <shr_u64>:
+    14d0:	48 83 e6 3f          	and    $0x3f,%rsi
+    14d4:	89 f1                	mov    %esi,%ecx
+    14d6:	48 d3 ef             	shr    %cl,%rdi
+    14d9:	48 89 f8             	mov    %rdi,%rax
+    14dc:	c3                   	ret
+    14dd:	0f 1f 00             	nopl   (%rax)
+
+00000000000014e0 <shr_u8>:
+    14e0:	83 e6 07             	and    $0x7,%esi
+    14e3:	40 0f b6 ff          	movzbl %dil,%edi
+    14e7:	89 f1                	mov    %esi,%ecx
+    14e9:	d3 ef                	shr    %cl,%edi
+    14eb:	89 f8                	mov    %edi,%eax
+    14ed:	c3                   	ret
+    14ee:	66 90                	xchg   %ax,%ax
+
+00000000000014f0 <sub_i128>:
+    14f0:	48 29 d7             	sub    %rdx,%rdi
+    14f3:	48 19 ce             	sbb    %rcx,%rsi
+    14f6:	48 89 f8             	mov    %rdi,%rax
+    14f9:	48 89 f2             	mov    %rsi,%rdx
+    14fc:	c3                   	ret
+    14fd:	0f 1f 00             	nopl   (%rax)
+
+0000000000001500 <sub_i16>:
+    1500:	29 f7                	sub    %esi,%edi
+    1502:	89 f8                	mov    %edi,%eax
+    1504:	c3                   	ret
+    1505:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    150c:	00 00 
+    150e:	66 90                	xchg   %ax,%ax
+
+0000000000001510 <sub_i32>:
+    1510:	29 f7                	sub    %esi,%edi
+    1512:	89 f8                	mov    %edi,%eax
+    1514:	c3                   	ret
+    1515:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    151c:	00 00 
+    151e:	66 90                	xchg   %ax,%ax
+
+0000000000001520 <sub_i64>:
+    1520:	48 29 f7             	sub    %rsi,%rdi
+    1523:	48 89 f8             	mov    %rdi,%rax
+    1526:	c3                   	ret
+    1527:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    152e:	00 00 
+
+0000000000001530 <sub_i8>:
+    1530:	29 f7                	sub    %esi,%edi
+    1532:	89 f8                	mov    %edi,%eax
+    1534:	c3                   	ret
+    1535:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    153c:	00 00 
+    153e:	66 90                	xchg   %ax,%ax
+
+0000000000001540 <sub_u128>:
+    1540:	48 29 d7             	sub    %rdx,%rdi
+    1543:	48 19 ce             	sbb    %rcx,%rsi
+    1546:	48 89 f8             	mov    %rdi,%rax
+    1549:	48 89 f2             	mov    %rsi,%rdx
+    154c:	c3                   	ret
+    154d:	0f 1f 00             	nopl   (%rax)
+
+0000000000001550 <sub_u16>:
+    1550:	29 f7                	sub    %esi,%edi
+    1552:	89 f8                	mov    %edi,%eax
+    1554:	c3                   	ret
+    1555:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    155c:	00 00 
+    155e:	66 90                	xchg   %ax,%ax
+
+0000000000001560 <sub_u32>:
+    1560:	29 f7                	sub    %esi,%edi
+    1562:	89 f8                	mov    %edi,%eax
+    1564:	c3                   	ret
+    1565:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    156c:	00 00 
+    156e:	66 90                	xchg   %ax,%ax
+
+0000000000001570 <sub_u64>:
+    1570:	48 29 f7             	sub    %rsi,%rdi
+    1573:	48 89 f8             	mov    %rdi,%rax
+    1576:	c3                   	ret
+    1577:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    157e:	00 00 
+
+0000000000001580 <sub_u8>:
+    1580:	29 f7                	sub    %esi,%edi
+    1582:	89 f8                	mov    %edi,%eax
+    1584:	c3                   	ret
+    1585:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    158c:	00 00 
+    158e:	66 90                	xchg   %ax,%ax
+
+0000000000001590 <trunc_u128_u64>:
+    1590:	48 89 f8             	mov    %rdi,%rax
+    1593:	c3                   	ret
+    1594:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    159b:	00 00 
+    159d:	0f 1f 00             	nopl   (%rax)
+
+00000000000015a0 <trunc_u128_u8>:
+    15a0:	89 f8                	mov    %edi,%eax
+    15a2:	c3                   	ret
+    15a3:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    15aa:	00 00 
+    15ac:	0f 1f 40 00          	nopl   0x0(%rax)
+
+00000000000015b0 <xor_i128>:
+    15b0:	48 31 d7             	xor    %rdx,%rdi
+    15b3:	48 31 ce             	xor    %rcx,%rsi
+    15b6:	48 89 f8             	mov    %rdi,%rax
+    15b9:	48 89 f2             	mov    %rsi,%rdx
+    15bc:	c3                   	ret
+    15bd:	0f 1f 00             	nopl   (%rax)
+
+00000000000015c0 <xor_i16>:
+    15c0:	31 f7                	xor    %esi,%edi
+    15c2:	89 f8                	mov    %edi,%eax
+    15c4:	c3                   	ret
+    15c5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    15cc:	00 00 
+    15ce:	66 90                	xchg   %ax,%ax
+
+00000000000015d0 <xor_i32>:
+    15d0:	31 f7                	xor    %esi,%edi
+    15d2:	89 f8                	mov    %edi,%eax
+    15d4:	c3                   	ret
+    15d5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    15dc:	00 00 
+    15de:	66 90                	xchg   %ax,%ax
+
+00000000000015e0 <xor_i64>:
+    15e0:	48 31 f7             	xor    %rsi,%rdi
+    15e3:	48 89 f8             	mov    %rdi,%rax
+    15e6:	c3                   	ret
+    15e7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    15ee:	00 00 
+
+00000000000015f0 <xor_i8>:
+    15f0:	31 f7                	xor    %esi,%edi
+    15f2:	89 f8                	mov    %edi,%eax
+    15f4:	c3                   	ret
+    15f5:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    15fc:	00 00 
+    15fe:	66 90                	xchg   %ax,%ax
+
+0000000000001600 <xor_roundtrip_u8>:
+    1600:	31 f7                	xor    %esi,%edi
+    1602:	31 f7                	xor    %esi,%edi
+    1604:	89 f8                	mov    %edi,%eax
+    1606:	c3                   	ret
+    1607:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    160e:	00 00 
+
+0000000000001610 <xor_u128>:
+    1610:	48 31 d7             	xor    %rdx,%rdi
+    1613:	48 31 ce             	xor    %rcx,%rsi
+    1616:	48 89 f8             	mov    %rdi,%rax
+    1619:	48 89 f2             	mov    %rsi,%rdx
+    161c:	c3                   	ret
+    161d:	0f 1f 00             	nopl   (%rax)
+
+0000000000001620 <xor_u16>:
+    1620:	31 f7                	xor    %esi,%edi
+    1622:	89 f8                	mov    %edi,%eax
+    1624:	c3                   	ret
+    1625:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    162c:	00 00 
+    162e:	66 90                	xchg   %ax,%ax
+
+0000000000001630 <xor_u32>:
+    1630:	31 f7                	xor    %esi,%edi
+    1632:	89 f8                	mov    %edi,%eax
+    1634:	c3                   	ret
+    1635:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    163c:	00 00 
+    163e:	66 90                	xchg   %ax,%ax
+
+0000000000001640 <xor_u64>:
+    1640:	48 31 f7             	xor    %rsi,%rdi
+    1643:	48 89 f8             	mov    %rdi,%rax
+    1646:	c3                   	ret
+    1647:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    164e:	00 00 
+
+0000000000001650 <xor_u8>:
+    1650:	31 f7                	xor    %esi,%edi
+    1652:	89 f8                	mov    %edi,%eax
+    1654:	c3                   	ret
+    1655:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+    165c:	00 00 
+    165e:	66 90                	xchg   %ax,%ax
+
+0000000000001660 <zext_u64_u128>:
+    1660:	55                   	push   %rbp
+    1661:	48 89 e5             	mov    %rsp,%rbp
+    1664:	31 c0                	xor    %eax,%eax
+    1666:	48 89 45 c8          	mov    %rax,-0x38(%rbp)
+    166a:	48 89 f8             	mov    %rdi,%rax
+    166d:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+    1671:	5d                   	pop    %rbp
+    1672:	c3                   	ret

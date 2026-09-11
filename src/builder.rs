@@ -12,7 +12,7 @@ use rustc_codegen_ssa::common::{
 };
 use rustc_codegen_ssa::mir::operand::{OperandRef, OperandValue};
 use rustc_codegen_ssa::mir::place::PlaceRef;
-use rustc_codegen_ssa::traits::{BackendTypes, BuilderMethods, ConstCodegenMethods, OverflowOp};
+use rustc_codegen_ssa::traits::{BackendTypes, BaseTypeCodegenMethods, BuilderMethods, ConstCodegenMethods, OverflowOp};
 use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrs;
 use rustc_middle::ty::layout::TyAndLayout;
 use rustc_middle::ty::{AtomicOrdering, Instance, Ty};
@@ -691,7 +691,19 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn intcast(&mut self, val: Self::Value, dest_ty: Self::Type, is_signed: bool) -> Self::Value {
-        todo!()
+        let src_ty = self.val_ty(val);
+        let src_width = self.int_width(src_ty);
+        let dest_width = self.int_width(dest_ty);
+
+        if src_width == dest_width {
+            val
+        } else if src_width > dest_width {
+            self.trunc(val, dest_ty)
+        } else if is_signed {
+            self.sext(val, dest_ty)
+        } else {
+            self.zext(val, dest_ty)
+        }
     }
 
     fn pointercast(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {

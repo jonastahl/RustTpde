@@ -1,6 +1,33 @@
 ModuleTpde {
     functions: [
         Function {
+            name: "add3_u128",
+            n_args: 3,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Add> ([val: 0], [val: 1]) -> [val: 3],
+                    <Add> ([val: 3], [val: 2]) -> [val: 4],
+                    <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
             name: "add3_u32",
             n_args: 3,
             has_ret: true,
@@ -24,6 +51,36 @@ ModuleTpde {
                     <Add> ([val: 0], [val: 1]) -> [val: 3],
                     <Add> ([val: 3], [val: 2]) -> [val: 4],
                     <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
+            name: "add4_args_u128",
+            n_args: 4,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Add> ([val: 0], [val: 1]) -> [val: 4],
+                    <Add> ([val: 4], [val: 2]) -> [val: 5],
+                    <Add> ([val: 5], [val: 3]) -> [val: 6],
+                    <Ret> ([val: 6]),
                 ],
             ],
         },
@@ -66,6 +123,30 @@ ModuleTpde {
                     <Add> ([val: 12], [val: 6]) -> [val: 13],
                     <Add> ([val: 13], [val: 7]) -> [val: 14],
                     <Ret> ([val: 14]),
+                ],
+            ],
+        },
+        Function {
+            name: "add_i128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Add> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
                 ],
             ],
         },
@@ -193,6 +274,34 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "add_sub_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Add> ([val: 0], [val: 1]) -> [val: 2],
+                    <Sub> ([val: 0], [val: 1]) -> [val: 3],
+                    <Sub> ([val: 2], [val: 3]) -> [val: 4],
+                    <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
             name: "add_sub_u32",
             n_args: 2,
             has_ret: true,
@@ -245,6 +354,30 @@ ModuleTpde {
                     <Sub> ([val: 0], [val: 1]) -> [val: 3],
                     <Sub> ([val: 2], [val: 3]) -> [val: 4],
                     <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
+            name: "add_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Add> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
                 ],
             ],
         },
@@ -340,6 +473,30 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <Add> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "and_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -473,6 +630,40 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "de_morgan_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 0], [val: 1]) -> [val: 2],
+                    <Not> ([val: 2]) -> [val: 3],
+                    <Not> ([val: 0]) -> [val: 4],
+                    <Not> ([val: 1]) -> [val: 5],
+                    <Or> ([val: 4], [val: 5]) -> [val: 6],
+                    <Xor> ([val: 3], [val: 6]) -> [val: 7],
+                    <Ret> ([val: 7]),
+                ],
+            ],
+        },
+        Function {
             name: "de_morgan_u32",
             n_args: 2,
             has_ret: true,
@@ -507,6 +698,52 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "div_i128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 3]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 4]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 5]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 143], [global: 0]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <sDiv> ([val: 0], [val: 1]) -> [val: 6],
+                    <Ret> ([val: 6]),
+                ],
+                "panic": [
+                    <Call> ([func: 144], [global: 2]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
             name: "div_i16",
             n_args: 2,
             has_ret: true,
@@ -529,17 +766,17 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 3]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 6]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <CMPeq> ([val: 1], [const: 4]) -> [val: 3],
-                    <CMPeq> ([val: 0], [const: 5]) -> [val: 4],
+                    <CMPeq> ([val: 1], [const: 7]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 8]) -> [val: 4],
                     <And> ([val: 3], [val: 4]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 4], [raw: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 104], [global: 0]),
+                    <Call> ([func: 143], [global: 4]),
                     <Unreachable> (),
                 ],
                 "bb2": [
@@ -547,7 +784,7 @@ ModuleTpde {
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
-                    <Call> ([func: 105], [global: 2]),
+                    <Call> ([func: 144], [global: 6]),
                     <Unreachable> (),
                 ],
             ],
@@ -575,17 +812,17 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 6]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 9]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <CMPeq> ([val: 1], [const: 7]) -> [val: 3],
-                    <CMPeq> ([val: 0], [const: 8]) -> [val: 4],
+                    <CMPeq> ([val: 1], [const: 10]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 11]) -> [val: 4],
                     <And> ([val: 3], [val: 4]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 4], [raw: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 104], [global: 4]),
+                    <Call> ([func: 143], [global: 8]),
                     <Unreachable> (),
                 ],
                 "bb2": [
@@ -593,7 +830,7 @@ ModuleTpde {
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
-                    <Call> ([func: 105], [global: 6]),
+                    <Call> ([func: 144], [global: 10]),
                     <Unreachable> (),
                 ],
             ],
@@ -621,17 +858,17 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 9]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 12]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <CMPeq> ([val: 1], [const: 10]) -> [val: 3],
-                    <CMPeq> ([val: 0], [const: 11]) -> [val: 4],
+                    <CMPeq> ([val: 1], [const: 13]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 14]) -> [val: 4],
                     <And> ([val: 3], [val: 4]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 4], [raw: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 104], [global: 8]),
+                    <Call> ([func: 143], [global: 12]),
                     <Unreachable> (),
                 ],
                 "bb2": [
@@ -639,7 +876,7 @@ ModuleTpde {
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
-                    <Call> ([func: 105], [global: 10]),
+                    <Call> ([func: 144], [global: 14]),
                     <Unreachable> (),
                 ],
             ],
@@ -667,17 +904,17 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 12]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 15]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <CMPeq> ([val: 1], [const: 13]) -> [val: 3],
-                    <CMPeq> ([val: 0], [const: 14]) -> [val: 4],
+                    <CMPeq> ([val: 1], [const: 16]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 17]) -> [val: 4],
                     <And> ([val: 3], [val: 4]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 4], [raw: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 104], [global: 12]),
+                    <Call> ([func: 143], [global: 16]),
                     <Unreachable> (),
                 ],
                 "bb2": [
@@ -685,7 +922,81 @@ ModuleTpde {
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
-                    <Call> ([func: 105], [global: 14]),
+                    <Call> ([func: 144], [global: 18]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_rem_i128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i128,
+                i128,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 18]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 19]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 20]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 143], [global: 20]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <sDiv> ([val: 0], [val: 1]) -> [val: 6],
+                    <Mul> ([val: 6], [val: 1]) -> [val: 7],
+                    <CMPeq> ([val: 1], [const: 21]) -> [val: 8],
+                    <CondBr> ([val: 8], [raw: 6], [raw: 5]),
+                ],
+                "panic": [
+                    <Call> ([func: 144], [global: 22]),
+                    <Unreachable> (),
+                ],
+                "bb3": [
+                    <CMPeq> ([val: 1], [const: 22]) -> [val: 9],
+                    <CMPeq> ([val: 0], [const: 23]) -> [val: 10],
+                    <And> ([val: 9], [val: 10]) -> [val: 11],
+                    <CondBr> ([val: 11], [raw: 8], [raw: 7]),
+                ],
+                "panic": [
+                    <Call> ([func: 145], [global: 24]),
+                    <Unreachable> (),
+                ],
+                "bb4": [
+                    <sRem> ([val: 0], [val: 1]) -> [val: 12],
+                    <Add> ([val: 7], [val: 12]) -> [val: 13],
+                    <Ret> ([val: 13]),
+                ],
+                "panic": [
+                    <Call> ([func: 146], [global: 26]),
                     <Unreachable> (),
                 ],
             ],
@@ -720,37 +1031,37 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 15]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 24]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <CMPeq> ([val: 1], [const: 16]) -> [val: 3],
-                    <CMPeq> ([val: 0], [const: 17]) -> [val: 4],
+                    <CMPeq> ([val: 1], [const: 25]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 26]) -> [val: 4],
                     <And> ([val: 3], [val: 4]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 4], [raw: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 104], [global: 16]),
+                    <Call> ([func: 143], [global: 28]),
                     <Unreachable> (),
                 ],
                 "bb2": [
                     <sDiv> ([val: 0], [val: 1]) -> [val: 6],
                     <Mul> ([val: 6], [val: 1]) -> [val: 7],
-                    <CMPeq> ([val: 1], [const: 18]) -> [val: 8],
+                    <CMPeq> ([val: 1], [const: 27]) -> [val: 8],
                     <CondBr> ([val: 8], [raw: 6], [raw: 5]),
                 ],
                 "panic": [
-                    <Call> ([func: 105], [global: 18]),
+                    <Call> ([func: 144], [global: 30]),
                     <Unreachable> (),
                 ],
                 "bb3": [
-                    <CMPeq> ([val: 1], [const: 19]) -> [val: 9],
-                    <CMPeq> ([val: 0], [const: 20]) -> [val: 10],
+                    <CMPeq> ([val: 1], [const: 28]) -> [val: 9],
+                    <CMPeq> ([val: 0], [const: 29]) -> [val: 10],
                     <And> ([val: 9], [val: 10]) -> [val: 11],
                     <CondBr> ([val: 11], [raw: 8], [raw: 7]),
                 ],
                 "panic": [
-                    <Call> ([func: 106], [global: 20]),
+                    <Call> ([func: 145], [global: 32]),
                     <Unreachable> (),
                 ],
                 "bb4": [
@@ -759,7 +1070,55 @@ ModuleTpde {
                     <Ret> ([val: 13]),
                 ],
                 "panic": [
-                    <Call> ([func: 107], [global: 22]),
+                    <Call> ([func: 146], [global: 34]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_rem_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                Bool,
+                i128,
+                i128,
+                Bool,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 30]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <uDiv> ([val: 0], [val: 1]) -> [val: 3],
+                    <Mul> ([val: 3], [val: 1]) -> [val: 4],
+                    <CMPeq> ([val: 1], [const: 31]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 143], [global: 36]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <uRem> ([val: 0], [val: 1]) -> [val: 6],
+                    <Add> ([val: 4], [val: 6]) -> [val: 7],
+                    <Ret> ([val: 7]),
+                ],
+                "panic": [
+                    <Call> ([func: 145], [global: 38]),
                     <Unreachable> (),
                 ],
             ],
@@ -788,17 +1147,17 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 21]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 32]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
                     <uDiv> ([val: 0], [val: 1]) -> [val: 3],
                     <Mul> ([val: 3], [val: 1]) -> [val: 4],
-                    <CMPeq> ([val: 1], [const: 22]) -> [val: 5],
+                    <CMPeq> ([val: 1], [const: 33]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 4], [raw: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 104], [global: 24]),
+                    <Call> ([func: 143], [global: 40]),
                     <Unreachable> (),
                 ],
                 "bb2": [
@@ -807,7 +1166,40 @@ ModuleTpde {
                     <Ret> ([val: 7]),
                 ],
                 "panic": [
-                    <Call> ([func: 106], [global: 26]),
+                    <Call> ([func: 145], [global: 42]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "div_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                Bool,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 34]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <uDiv> ([val: 0], [val: 1]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 143], [global: 44]),
                     <Unreachable> (),
                 ],
             ],
@@ -832,7 +1224,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 23]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 35]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
@@ -840,7 +1232,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 104], [global: 28]),
+                    <Call> ([func: 143], [global: 46]),
                     <Unreachable> (),
                 ],
             ],
@@ -865,7 +1257,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 24]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 36]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
@@ -873,7 +1265,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 104], [global: 30]),
+                    <Call> ([func: 143], [global: 48]),
                     <Unreachable> (),
                 ],
             ],
@@ -898,7 +1290,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 25]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 37]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
@@ -906,7 +1298,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 104], [global: 32]),
+                    <Call> ([func: 143], [global: 50]),
                     <Unreachable> (),
                 ],
             ],
@@ -931,7 +1323,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 26]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 38]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
@@ -939,7 +1331,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 104], [global: 34]),
+                    <Call> ([func: 143], [global: 52]),
                     <Unreachable> (),
                 ],
             ],
@@ -966,11 +1358,72 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 28]) -> [val: 2],
-                    <Shl> ([const: 27], [val: 2]) -> [val: 3],
-                    <Sub> ([val: 3], [const: 29]) -> [val: 4],
+                    <And> ([val: 1], [const: 40]) -> [val: 2],
+                    <Shl> ([const: 39], [val: 2]) -> [val: 3],
+                    <Sub> ([val: 3], [const: 41]) -> [val: 4],
                     <And> ([val: 0], [val: 4]) -> [val: 5],
                     <Ret> ([val: 5]),
+                ],
+            ],
+        },
+        Function {
+            name: "mixed_width_u128",
+            n_args: 4,
+            has_ret: true,
+            slots: [
+                i32,
+                i128,
+                i64,
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <zExt> ([val: 0]) -> [val: 4],
+                    <Add> ([val: 4], [val: 1]) -> [val: 5],
+                    <zExt> ([val: 2]) -> [val: 6],
+                    <Add> ([val: 5], [val: 6]) -> [val: 7],
+                    <Add> ([val: 7], [val: 3]) -> [val: 8],
+                    <Ret> ([val: 8]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_add_u128",
+            n_args: 3,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 3],
+                    <Add> ([val: 3], [val: 2]) -> [val: 4],
+                    <Ret> ([val: 4]),
                 ],
             ],
         },
@@ -1025,6 +1478,30 @@ ModuleTpde {
                     <Mul> ([val: 0], [val: 1]) -> [val: 3],
                     <Add> ([val: 3], [val: 2]) -> [val: 4],
                     <Ret> ([val: 4]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_i128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
                 ],
             ],
         },
@@ -1108,6 +1585,30 @@ ModuleTpde {
                 i8,
                 i8,
                 i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Mul> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "mul_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
             ],
             flags: Flags {
                 extern_link: false,
@@ -1221,6 +1722,29 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "neg_i128",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Neg> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
             name: "neg_i16",
             n_args: 1,
             has_ret: true,
@@ -1313,6 +1837,31 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "neg_via_not_i128",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Add> ([val: 1], [const: 42]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
             name: "neg_via_not_i32",
             n_args: 1,
             has_ret: true,
@@ -1332,7 +1881,7 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <Not> ([val: 0]) -> [val: 1],
-                    <Add> ([val: 1], [const: 30]) -> [val: 2],
+                    <Add> ([val: 1], [const: 43]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -1344,6 +1893,29 @@ ModuleTpde {
             slots: [
                 Bool,
                 Bool,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "not_i128",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
             ],
             flags: Flags {
                 extern_link: false,
@@ -1453,6 +2025,29 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "not_u128",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Not> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
             name: "not_u16",
             n_args: 1,
             has_ret: true,
@@ -1541,6 +2136,30 @@ ModuleTpde {
                 "start": [
                     <Not> ([val: 0]) -> [val: 1],
                     <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "or_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Or> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
                 ],
             ],
         },
@@ -1641,6 +2260,52 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "rem_i128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                Bool,
+                Bool,
+                Bool,
+                Bool,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 44]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <CMPeq> ([val: 1], [const: 45]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 46]) -> [val: 4],
+                    <And> ([val: 3], [val: 4]) -> [val: 5],
+                    <CondBr> ([val: 5], [raw: 4], [raw: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 145], [global: 54]),
+                    <Unreachable> (),
+                ],
+                "bb2": [
+                    <sRem> ([val: 0], [val: 1]) -> [val: 6],
+                    <Ret> ([val: 6]),
+                ],
+                "panic": [
+                    <Call> ([func: 146], [global: 56]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
             name: "rem_i16",
             n_args: 2,
             has_ret: true,
@@ -1663,17 +2328,17 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 31]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 47]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <CMPeq> ([val: 1], [const: 32]) -> [val: 3],
-                    <CMPeq> ([val: 0], [const: 33]) -> [val: 4],
+                    <CMPeq> ([val: 1], [const: 48]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 49]) -> [val: 4],
                     <And> ([val: 3], [val: 4]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 4], [raw: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 106], [global: 36]),
+                    <Call> ([func: 145], [global: 58]),
                     <Unreachable> (),
                 ],
                 "bb2": [
@@ -1681,7 +2346,7 @@ ModuleTpde {
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
-                    <Call> ([func: 107], [global: 38]),
+                    <Call> ([func: 146], [global: 60]),
                     <Unreachable> (),
                 ],
             ],
@@ -1709,17 +2374,17 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 34]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 50]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <CMPeq> ([val: 1], [const: 35]) -> [val: 3],
-                    <CMPeq> ([val: 0], [const: 36]) -> [val: 4],
+                    <CMPeq> ([val: 1], [const: 51]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 52]) -> [val: 4],
                     <And> ([val: 3], [val: 4]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 4], [raw: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 106], [global: 40]),
+                    <Call> ([func: 145], [global: 62]),
                     <Unreachable> (),
                 ],
                 "bb2": [
@@ -1727,7 +2392,7 @@ ModuleTpde {
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
-                    <Call> ([func: 107], [global: 42]),
+                    <Call> ([func: 146], [global: 64]),
                     <Unreachable> (),
                 ],
             ],
@@ -1755,17 +2420,17 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 37]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 53]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <CMPeq> ([val: 1], [const: 38]) -> [val: 3],
-                    <CMPeq> ([val: 0], [const: 39]) -> [val: 4],
+                    <CMPeq> ([val: 1], [const: 54]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 55]) -> [val: 4],
                     <And> ([val: 3], [val: 4]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 4], [raw: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 106], [global: 44]),
+                    <Call> ([func: 145], [global: 66]),
                     <Unreachable> (),
                 ],
                 "bb2": [
@@ -1773,7 +2438,7 @@ ModuleTpde {
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
-                    <Call> ([func: 107], [global: 46]),
+                    <Call> ([func: 146], [global: 68]),
                     <Unreachable> (),
                 ],
             ],
@@ -1801,17 +2466,17 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 40]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 56]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
-                    <CMPeq> ([val: 1], [const: 41]) -> [val: 3],
-                    <CMPeq> ([val: 0], [const: 42]) -> [val: 4],
+                    <CMPeq> ([val: 1], [const: 57]) -> [val: 3],
+                    <CMPeq> ([val: 0], [const: 58]) -> [val: 4],
                     <And> ([val: 3], [val: 4]) -> [val: 5],
                     <CondBr> ([val: 5], [raw: 4], [raw: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 106], [global: 48]),
+                    <Call> ([func: 145], [global: 70]),
                     <Unreachable> (),
                 ],
                 "bb2": [
@@ -1819,7 +2484,40 @@ ModuleTpde {
                     <Ret> ([val: 6]),
                 ],
                 "panic": [
-                    <Call> ([func: 107], [global: 50]),
+                    <Call> ([func: 146], [global: 72]),
+                    <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "rem_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                Bool,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <CMPeq> ([val: 1], [const: 59]) -> [val: 2],
+                    <CondBr> ([val: 2], [raw: 2], [raw: 1]),
+                ],
+                "bb1": [
+                    <uRem> ([val: 0], [val: 1]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+                "panic": [
+                    <Call> ([func: 145], [global: 74]),
                     <Unreachable> (),
                 ],
             ],
@@ -1844,7 +2542,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 43]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 60]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
@@ -1852,7 +2550,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 106], [global: 52]),
+                    <Call> ([func: 145], [global: 76]),
                     <Unreachable> (),
                 ],
             ],
@@ -1877,7 +2575,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 44]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 61]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
@@ -1885,7 +2583,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 106], [global: 54]),
+                    <Call> ([func: 145], [global: 78]),
                     <Unreachable> (),
                 ],
             ],
@@ -1910,7 +2608,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 45]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 62]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
@@ -1918,7 +2616,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 106], [global: 56]),
+                    <Call> ([func: 145], [global: 80]),
                     <Unreachable> (),
                 ],
             ],
@@ -1943,7 +2641,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <CMPeq> ([val: 1], [const: 46]) -> [val: 2],
+                    <CMPeq> ([val: 1], [const: 63]) -> [val: 2],
                     <CondBr> ([val: 2], [raw: 2], [raw: 1]),
                 ],
                 "bb1": [
@@ -1951,8 +2649,58 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
                 "panic": [
-                    <Call> ([func: 106], [global: 58]),
+                    <Call> ([func: 145], [global: 82]),
                     <Unreachable> (),
+                ],
+            ],
+        },
+        Function {
+            name: "sext_i64_i128",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i64,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <sExt> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl3_u128",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i128,
+                i32,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([const: 64], [const: 65]) -> [val: 1],
+                    <zExt> ([val: 1]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
                 ],
             ],
         },
@@ -1975,9 +2723,62 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([const: 47], [const: 48]) -> [val: 1],
+                    <And> ([const: 66], [const: 67]) -> [val: 1],
                     <Shl> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl64_u128",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i128,
+                i32,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([const: 68], [const: 69]) -> [val: 1],
+                    <zExt> ([val: 1]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl_i128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 70]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
                 ],
             ],
         },
@@ -2001,7 +2802,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 49]) -> [val: 2],
+                    <And> ([val: 1], [const: 71]) -> [val: 2],
                     <Shl> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2027,7 +2828,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 50]) -> [val: 2],
+                    <And> ([val: 1], [const: 72]) -> [val: 2],
                     <Shl> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2053,7 +2854,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 51]) -> [val: 2],
+                    <And> ([val: 1], [const: 73]) -> [val: 2],
                     <Shl> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2079,7 +2880,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 52]) -> [val: 2],
+                    <And> ([val: 1], [const: 74]) -> [val: 2],
                     <Shl> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2109,13 +2910,39 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 53]) -> [val: 2],
+                    <And> ([val: 1], [const: 75]) -> [val: 2],
                     <Shl> ([val: 0], [val: 2]) -> [val: 3],
-                    <And> ([val: 1], [const: 55]) -> [val: 4],
-                    <Shl> ([const: 54], [val: 4]) -> [val: 5],
+                    <And> ([val: 1], [const: 77]) -> [val: 4],
+                    <Shl> ([const: 76], [val: 4]) -> [val: 5],
                     <Mul> ([val: 0], [val: 5]) -> [val: 6],
                     <Sub> ([val: 3], [val: 6]) -> [val: 7],
                     <Ret> ([val: 7]),
+                ],
+            ],
+        },
+        Function {
+            name: "shl_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 78]) -> [val: 2],
+                    <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
                 ],
             ],
         },
@@ -2139,7 +2966,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 56]) -> [val: 2],
+                    <And> ([val: 1], [const: 79]) -> [val: 2],
                     <Shl> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2165,7 +2992,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 57]) -> [val: 2],
+                    <And> ([val: 1], [const: 80]) -> [val: 2],
                     <Shl> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2191,7 +3018,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 58]) -> [val: 2],
+                    <And> ([val: 1], [const: 81]) -> [val: 2],
                     <Shl> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2217,8 +3044,35 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 59]) -> [val: 2],
+                    <And> ([val: 1], [const: 82]) -> [val: 2],
                     <Shl> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr100_i128",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i128,
+                i32,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([const: 83], [const: 84]) -> [val: 1],
+                    <zExt> ([val: 1]) -> [val: 2],
+                    <aShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
             ],
@@ -2242,7 +3096,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([const: 60], [const: 61]) -> [val: 1],
+                    <And> ([const: 85], [const: 86]) -> [val: 1],
                     <aShr> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
@@ -2267,9 +3121,62 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([const: 62], [const: 63]) -> [val: 1],
+                    <And> ([const: 87], [const: 88]) -> [val: 1],
                     <lShr> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr64_u128",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i128,
+                i32,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([const: 89], [const: 90]) -> [val: 1],
+                    <zExt> ([val: 1]) -> [val: 2],
+                    <lShr> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_i128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 91]) -> [val: 2],
+                    <aShr> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
                 ],
             ],
         },
@@ -2293,7 +3200,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 64]) -> [val: 2],
+                    <And> ([val: 1], [const: 92]) -> [val: 2],
                     <aShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2319,7 +3226,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 65]) -> [val: 2],
+                    <And> ([val: 1], [const: 93]) -> [val: 2],
                     <aShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2345,7 +3252,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 66]) -> [val: 2],
+                    <And> ([val: 1], [const: 94]) -> [val: 2],
                     <aShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2371,9 +3278,39 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 67]) -> [val: 2],
+                    <And> ([val: 1], [const: 95]) -> [val: 2],
                     <aShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_shl_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 96]) -> [val: 2],
+                    <lShr> ([val: 0], [val: 2]) -> [val: 3],
+                    <And> ([val: 1], [const: 97]) -> [val: 4],
+                    <Shl> ([val: 3], [val: 4]) -> [val: 5],
+                    <Ret> ([val: 5]),
                 ],
             ],
         },
@@ -2399,11 +3336,37 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 68]) -> [val: 2],
+                    <And> ([val: 1], [const: 98]) -> [val: 2],
                     <lShr> ([val: 0], [val: 2]) -> [val: 3],
-                    <And> ([val: 1], [const: 69]) -> [val: 4],
+                    <And> ([val: 1], [const: 99]) -> [val: 4],
                     <Shl> ([val: 3], [val: 4]) -> [val: 5],
                     <Ret> ([val: 5]),
+                ],
+            ],
+        },
+        Function {
+            name: "shr_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <And> ([val: 1], [const: 100]) -> [val: 2],
+                    <lShr> ([val: 0], [val: 2]) -> [val: 3],
+                    <Ret> ([val: 3]),
                 ],
             ],
         },
@@ -2427,7 +3390,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 70]) -> [val: 2],
+                    <And> ([val: 1], [const: 101]) -> [val: 2],
                     <lShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2453,7 +3416,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 71]) -> [val: 2],
+                    <And> ([val: 1], [const: 102]) -> [val: 2],
                     <lShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2479,7 +3442,7 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 72]) -> [val: 2],
+                    <And> ([val: 1], [const: 103]) -> [val: 2],
                     <lShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
                 ],
@@ -2505,9 +3468,33 @@ ModuleTpde {
             allocas: [],
             basic_blocks: [
                 "start": [
-                    <And> ([val: 1], [const: 73]) -> [val: 2],
+                    <And> ([val: 1], [const: 104]) -> [val: 2],
                     <lShr> ([val: 0], [val: 2]) -> [val: 3],
                     <Ret> ([val: 3]),
+                ],
+            ],
+        },
+        Function {
+            name: "sub_i128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Sub> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
                 ],
             ],
         },
@@ -2591,6 +3578,30 @@ ModuleTpde {
                 i8,
                 i8,
                 i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Sub> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "sub_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
             ],
             flags: Flags {
                 extern_link: false,
@@ -2699,6 +3710,76 @@ ModuleTpde {
             basic_blocks: [
                 "start": [
                     <Sub> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
+            name: "trunc_u128_u64",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i128,
+                i64,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Trunc> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "trunc_u128_u8",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i128,
+                i8,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Trunc> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
+            name: "xor_i128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Xor> ([val: 0], [val: 1]) -> [val: 2],
                     <Ret> ([val: 2]),
                 ],
             ],
@@ -2826,6 +3907,30 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "xor_u128",
+            n_args: 2,
+            has_ret: true,
+            slots: [
+                i128,
+                i128,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <Xor> ([val: 0], [val: 1]) -> [val: 2],
+                    <Ret> ([val: 2]),
+                ],
+            ],
+        },
+        Function {
             name: "xor_u16",
             n_args: 2,
             has_ret: true,
@@ -2922,6 +4027,29 @@ ModuleTpde {
             ],
         },
         Function {
+            name: "zext_u64_u128",
+            n_args: 1,
+            has_ret: true,
+            slots: [
+                i64,
+                i128,
+            ],
+            flags: Flags {
+                extern_link: false,
+                only_local: false,
+                weak_link: false,
+            },
+            has_personality: false,
+            personality: 0,
+            allocas: [],
+            basic_blocks: [
+                "start": [
+                    <zExt> ([val: 0]) -> [val: 1],
+                    <Ret> ([val: 1]),
+                ],
+            ],
+        },
+        Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const23panic_const_div_by_zero",
             n_args: 1,
             has_ret: false,
@@ -2991,83 +4119,114 @@ ModuleTpde {
         },
     ],
     consts: [
-        [i32] (0 1) -> 0,
-        [i32] (0 31) -> 0,
-        [i32] (0 1) -> 0,
+        [i32] (0 1) -> 1,
+        [i32] (0 31) -> 31,
+        [i32] (0 1) -> 1,
+        [i128] (0 0) -> 0,
+        [i128] (18446744073709551615 18446744073709551615) -> -1,
+        [i128] (9223372036854775808 0) -> -170141183460469231722463931679029329920,
         [i16] (0 0) -> 0,
         [i16] (18446744073709551615 18446744073709551615) -> -1,
-        [i16] (18446744073709551615 18446744073709518848) -> -1,
+        [i16] (18446744073709551615 18446744073709518848) -> -32768,
         [i32] (0 0) -> 0,
         [i32] (18446744073709551615 18446744073709551615) -> -1,
-        [i32] (18446744073709551615 18446744071562067968) -> -1,
+        [i32] (18446744073709551615 18446744071562067968) -> -2147483648,
         [i64] (0 0) -> 0,
         [i64] (18446744073709551615 18446744073709551615) -> -1,
-        [i64] (18446744073709551615 9223372036854775808) -> -1,
+        [i64] (18446744073709551615 9223372036854775808) -> -9223372036854775808,
         [i8] (0 0) -> 0,
         [i8] (18446744073709551615 18446744073709551615) -> -1,
-        [i8] (18446744073709551615 18446744073709551488) -> -1,
+        [i8] (18446744073709551615 18446744073709551488) -> -128,
+        [i128] (0 0) -> 0,
+        [i128] (18446744073709551615 18446744073709551615) -> -1,
+        [i128] (9223372036854775808 0) -> -170141183460469231722463931679029329920,
+        [i128] (0 0) -> 0,
+        [i128] (18446744073709551615 18446744073709551615) -> -1,
+        [i128] (9223372036854775808 0) -> -170141183460469231722463931679029329920,
         [i32] (0 0) -> 0,
         [i32] (18446744073709551615 18446744073709551615) -> -1,
-        [i32] (18446744073709551615 18446744071562067968) -> -1,
+        [i32] (18446744073709551615 18446744071562067968) -> -2147483648,
         [i32] (0 0) -> 0,
         [i32] (18446744073709551615 18446744073709551615) -> -1,
-        [i32] (18446744073709551615 18446744071562067968) -> -1,
+        [i32] (18446744073709551615 18446744071562067968) -> -2147483648,
+        [i128] (0 0) -> 0,
+        [i128] (0 0) -> 0,
         [i32] (0 0) -> 0,
         [i32] (0 0) -> 0,
+        [i128] (0 0) -> 0,
         [i16] (0 0) -> 0,
         [i32] (0 0) -> 0,
         [i64] (0 0) -> 0,
         [i8] (0 0) -> 0,
-        [i32] (0 1) -> 0,
-        [i32] (0 31) -> 0,
-        [i32] (0 1) -> 0,
-        [i32] (0 1) -> 0,
+        [i32] (0 1) -> 1,
+        [i32] (0 31) -> 31,
+        [i32] (0 1) -> 1,
+        [i128] (0 1) -> 0,
+        [i32] (0 1) -> 1,
+        [i128] (0 0) -> 0,
+        [i128] (18446744073709551615 18446744073709551615) -> -1,
+        [i128] (9223372036854775808 0) -> -170141183460469231722463931679029329920,
         [i16] (0 0) -> 0,
         [i16] (18446744073709551615 18446744073709551615) -> -1,
-        [i16] (18446744073709551615 18446744073709518848) -> -1,
+        [i16] (18446744073709551615 18446744073709518848) -> -32768,
         [i32] (0 0) -> 0,
         [i32] (18446744073709551615 18446744073709551615) -> -1,
-        [i32] (18446744073709551615 18446744071562067968) -> -1,
+        [i32] (18446744073709551615 18446744071562067968) -> -2147483648,
         [i64] (0 0) -> 0,
         [i64] (18446744073709551615 18446744073709551615) -> -1,
-        [i64] (18446744073709551615 9223372036854775808) -> -1,
+        [i64] (18446744073709551615 9223372036854775808) -> -9223372036854775808,
         [i8] (0 0) -> 0,
         [i8] (18446744073709551615 18446744073709551615) -> -1,
-        [i8] (18446744073709551615 18446744073709551488) -> -1,
+        [i8] (18446744073709551615 18446744073709551488) -> -128,
+        [i128] (0 0) -> 0,
         [i16] (0 0) -> 0,
         [i32] (0 0) -> 0,
         [i64] (0 0) -> 0,
         [i8] (0 0) -> 0,
-        [i32] (0 3) -> 0,
-        [i32] (0 31) -> 0,
-        [i16] (0 15) -> 0,
-        [i32] (0 31) -> 0,
-        [i64] (0 63) -> 0,
-        [i8] (0 7) -> 0,
-        [i32] (0 31) -> 0,
-        [i32] (0 1) -> 0,
-        [i32] (0 31) -> 0,
-        [i16] (0 15) -> 0,
-        [i32] (0 31) -> 0,
-        [i64] (0 63) -> 0,
-        [i8] (0 7) -> 0,
-        [i32] (0 3) -> 0,
-        [i32] (0 31) -> 0,
-        [i32] (0 3) -> 0,
-        [i32] (0 31) -> 0,
-        [i16] (0 15) -> 0,
-        [i32] (0 31) -> 0,
-        [i64] (0 63) -> 0,
-        [i8] (0 7) -> 0,
-        [i32] (0 31) -> 0,
-        [i32] (0 31) -> 0,
-        [i16] (0 15) -> 0,
-        [i32] (0 31) -> 0,
-        [i64] (0 63) -> 0,
-        [i8] (0 7) -> 0,
+        [i32] (0 3) -> 3,
+        [i32] (0 127) -> 127,
+        [i32] (0 3) -> 3,
+        [i32] (0 31) -> 31,
+        [i32] (0 64) -> 64,
+        [i32] (0 127) -> 127,
+        [i128] (0 127) -> 0,
+        [i16] (0 15) -> 15,
+        [i32] (0 31) -> 31,
+        [i64] (0 63) -> 63,
+        [i8] (0 7) -> 7,
+        [i32] (0 31) -> 31,
+        [i32] (0 1) -> 1,
+        [i32] (0 31) -> 31,
+        [i128] (0 127) -> 0,
+        [i16] (0 15) -> 15,
+        [i32] (0 31) -> 31,
+        [i64] (0 63) -> 63,
+        [i8] (0 7) -> 7,
+        [i32] (0 100) -> 100,
+        [i32] (0 127) -> 127,
+        [i32] (0 3) -> 3,
+        [i32] (0 31) -> 31,
+        [i32] (0 3) -> 3,
+        [i32] (0 31) -> 31,
+        [i32] (0 64) -> 64,
+        [i32] (0 127) -> 127,
+        [i128] (0 127) -> 0,
+        [i16] (0 15) -> 15,
+        [i32] (0 31) -> 31,
+        [i64] (0 63) -> 63,
+        [i8] (0 7) -> 7,
+        [i128] (0 127) -> 0,
+        [i128] (0 127) -> 0,
+        [i32] (0 31) -> 31,
+        [i32] (0 31) -> 31,
+        [i128] (0 127) -> 0,
+        [i16] (0 15) -> 15,
+        [i32] (0 31) -> 31,
+        [i64] (0 63) -> 63,
+        [i8] (0 7) -> 7,
     ],
     globals: [
-        alloc_1bb8417f347bd340ae028ccf93b381fa {
+        alloc_763f607f1d3d0aa80d66d4031c5f7cdd {
             size: 24,
             align: 8,
             read_only: true,
@@ -3080,7 +4239,7 @@ ModuleTpde {
             init: true,
             data: (24 bytes)
               0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
-              0010  28 01 00 00 05 00 00 00                          |(.......|,
+              0010  6c 02 00 00 05 00 00 00                          |l.......|,
             relocations: [
                 Relocation {
                     offset: 0,
@@ -3104,7 +4263,7 @@ ModuleTpde {
               0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
             relocations: [],
         },
-        alloc_1bb8417f347bd340ae028ccf93b381fa {
+        alloc_763f607f1d3d0aa80d66d4031c5f7cdd {
             size: 24,
             align: 8,
             read_only: true,
@@ -3117,7 +4276,7 @@ ModuleTpde {
             init: true,
             data: (24 bytes)
               0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
-              0010  28 01 00 00 05 00 00 00                          |(.......|,
+              0010  6c 02 00 00 05 00 00 00                          |l.......|,
             relocations: [
                 Relocation {
                     offset: 0,
@@ -3141,7 +4300,7 @@ ModuleTpde {
               0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
             relocations: [],
         },
-        alloc_48053bc1d6f7658198e448cfe9564944 {
+        alloc_1bb8417f347bd340ae028ccf93b381fa {
             size: 24,
             align: 8,
             read_only: true,
@@ -3154,7 +4313,7 @@ ModuleTpde {
             init: true,
             data: (24 bytes)
               0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
-              0010  2d 01 00 00 05 00 00 00                          |-.......|,
+              0010  28 01 00 00 05 00 00 00                          |(.......|,
             relocations: [
                 Relocation {
                     offset: 0,
@@ -3178,7 +4337,7 @@ ModuleTpde {
               0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
             relocations: [],
         },
-        alloc_48053bc1d6f7658198e448cfe9564944 {
+        alloc_1bb8417f347bd340ae028ccf93b381fa {
             size: 24,
             align: 8,
             read_only: true,
@@ -3191,7 +4350,7 @@ ModuleTpde {
             init: true,
             data: (24 bytes)
               0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
-              0010  2d 01 00 00 05 00 00 00                          |-.......|,
+              0010  28 01 00 00 05 00 00 00                          |(.......|,
             relocations: [
                 Relocation {
                     offset: 0,
@@ -3215,7 +4374,7 @@ ModuleTpde {
               0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
             relocations: [],
         },
-        alloc_4d625fac92379f800be8f249b8fedee7 {
+        alloc_48053bc1d6f7658198e448cfe9564944 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3228,7 +4387,7 @@ ModuleTpde {
             init: true,
             data: (24 bytes)
               0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
-              0010  32 01 00 00 05 00 00 00                          |2.......|,
+              0010  2d 01 00 00 05 00 00 00                          |-.......|,
             relocations: [
                 Relocation {
                     offset: 0,
@@ -3252,7 +4411,7 @@ ModuleTpde {
               0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
             relocations: [],
         },
-        alloc_4d625fac92379f800be8f249b8fedee7 {
+        alloc_48053bc1d6f7658198e448cfe9564944 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3265,7 +4424,7 @@ ModuleTpde {
             init: true,
             data: (24 bytes)
               0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
-              0010  32 01 00 00 05 00 00 00                          |2.......|,
+              0010  2d 01 00 00 05 00 00 00                          |-.......|,
             relocations: [
                 Relocation {
                     offset: 0,
@@ -3289,7 +4448,7 @@ ModuleTpde {
               0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
             relocations: [],
         },
-        alloc_9c00f0704a3ecb7fdeecf92b7f19000d {
+        alloc_4d625fac92379f800be8f249b8fedee7 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3302,7 +4461,7 @@ ModuleTpde {
             init: true,
             data: (24 bytes)
               0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
-              0010  23 01 00 00 05 00 00 00                          |#.......|,
+              0010  32 01 00 00 05 00 00 00                          |2.......|,
             relocations: [
                 Relocation {
                     offset: 0,
@@ -3326,7 +4485,7 @@ ModuleTpde {
               0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
             relocations: [],
         },
-        alloc_9c00f0704a3ecb7fdeecf92b7f19000d {
+        alloc_4d625fac92379f800be8f249b8fedee7 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3339,7 +4498,7 @@ ModuleTpde {
             init: true,
             data: (24 bytes)
               0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
-              0010  23 01 00 00 05 00 00 00                          |#.......|,
+              0010  32 01 00 00 05 00 00 00                          |2.......|,
             relocations: [
                 Relocation {
                     offset: 0,
@@ -3363,7 +4522,7 @@ ModuleTpde {
               0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
             relocations: [],
         },
-        alloc_7c67eea2367470b62981d6f1404a3f34 {
+        alloc_9c00f0704a3ecb7fdeecf92b7f19000d {
             size: 24,
             align: 8,
             read_only: true,
@@ -3376,7 +4535,7 @@ ModuleTpde {
             init: true,
             data: (24 bytes)
               0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
-              0010  2a 02 00 00 05 00 00 00                          |*.......|,
+              0010  23 01 00 00 05 00 00 00                          |#.......|,
             relocations: [
                 Relocation {
                     offset: 0,
@@ -3400,7 +4559,7 @@ ModuleTpde {
               0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
             relocations: [],
         },
-        alloc_7c67eea2367470b62981d6f1404a3f34 {
+        alloc_9c00f0704a3ecb7fdeecf92b7f19000d {
             size: 24,
             align: 8,
             read_only: true,
@@ -3413,7 +4572,7 @@ ModuleTpde {
             init: true,
             data: (24 bytes)
               0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
-              0010  2a 02 00 00 05 00 00 00                          |*.......|,
+              0010  23 01 00 00 05 00 00 00                          |#.......|,
             relocations: [
                 Relocation {
                     offset: 0,
@@ -3437,7 +4596,7 @@ ModuleTpde {
               0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
             relocations: [],
         },
-        alloc_36222fbf2df2cad17778617f7510d4f0 {
+        alloc_d1e31373e64a830d4cf440eef65bbedf {
             size: 24,
             align: 8,
             read_only: true,
@@ -3450,11 +4609,196 @@ ModuleTpde {
             init: true,
             data: (24 bytes)
               0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
-              0010  2a 02 00 00 13 00 00 00                          |*.......|,
+              0010  f5 02 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
                     offset: 0,
                     slot: 2684354581,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_d1e31373e64a830d4cf440eef65bbedf {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  f5 02 00 00 05 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354583,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_29bcda1eabd70364df77eb5c3eced4a7 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  f5 02 00 00 13 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354585,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_29bcda1eabd70364df77eb5c3eced4a7 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  f5 02 00 00 13 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354587,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_7c67eea2367470b62981d6f1404a3f34 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  2a 02 00 00 05 00 00 00                          |*.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354589,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_7c67eea2367470b62981d6f1404a3f34 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  2a 02 00 00 05 00 00 00                          |*.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354591,
                 },
             ],
         },
@@ -3491,7 +4835,118 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354583,
+                    slot: 2684354593,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_36222fbf2df2cad17778617f7510d4f0 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  2a 02 00 00 13 00 00 00                          |*.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354595,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_aea838368ba234aa0ecc8d95360b673e {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  f0 02 00 00 05 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354597,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_7a2909e6ea175316007f6df0bd6f35ca {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  f0 02 00 00 13 00 00 00                          |........|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354599,
                 },
             ],
         },
@@ -3528,7 +4983,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354585,
+                    slot: 2684354601,
                 },
             ],
         },
@@ -3565,7 +5020,44 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354587,
+                    slot: 2684354603,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_613fc5a490f3aa071c63b492d3026600 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  71 02 00 00 05 00 00 00                          |q.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354605,
                 },
             ],
         },
@@ -3602,7 +5094,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354589,
+                    slot: 2684354607,
                 },
             ],
         },
@@ -3639,7 +5131,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354591,
+                    slot: 2684354609,
                 },
             ],
         },
@@ -3676,7 +5168,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354593,
+                    slot: 2684354611,
                 },
             ],
         },
@@ -3713,7 +5205,81 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354595,
+                    slot: 2684354613,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_7335446931484c18c346f310c3777d39 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  76 02 00 00 05 00 00 00                          |v.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354615,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_7335446931484c18c346f310c3777d39 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  76 02 00 00 05 00 00 00                          |v.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354617,
                 },
             ],
         },
@@ -3750,7 +5316,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354597,
+                    slot: 2684354619,
                 },
             ],
         },
@@ -3787,7 +5353,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354599,
+                    slot: 2684354621,
                 },
             ],
         },
@@ -3824,7 +5390,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354601,
+                    slot: 2684354623,
                 },
             ],
         },
@@ -3861,7 +5427,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354603,
+                    slot: 2684354625,
                 },
             ],
         },
@@ -3898,7 +5464,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354605,
+                    slot: 2684354627,
                 },
             ],
         },
@@ -3935,7 +5501,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354607,
+                    slot: 2684354629,
                 },
             ],
         },
@@ -3972,7 +5538,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354609,
+                    slot: 2684354631,
                 },
             ],
         },
@@ -4009,7 +5575,44 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354611,
+                    slot: 2684354633,
+                },
+            ],
+        },
+        alloc_311b891e42d869ec24f7c583ee676db0 {
+            size: 31,
+            align: 1,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (31 bytes)
+              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
+              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            relocations: [],
+        },
+        alloc_2b55ad42422cc3d8f9f5caffe5bd00a2 {
+            size: 24,
+            align: 8,
+            read_only: true,
+            thread_loc: false,
+            flags: Flags {
+                extern_link: false,
+                only_local: true,
+                weak_link: false,
+            },
+            init: true,
+            data: (24 bytes)
+              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0010  7b 02 00 00 05 00 00 00                          |{.......|,
+            relocations: [
+                Relocation {
+                    offset: 0,
+                    slot: 2684354635,
                 },
             ],
         },
@@ -4046,7 +5649,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354613,
+                    slot: 2684354637,
                 },
             ],
         },
@@ -4083,7 +5686,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354615,
+                    slot: 2684354639,
                 },
             ],
         },
@@ -4120,7 +5723,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354617,
+                    slot: 2684354641,
                 },
             ],
         },
@@ -4157,7 +5760,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354619,
+                    slot: 2684354643,
                 },
             ],
         },
