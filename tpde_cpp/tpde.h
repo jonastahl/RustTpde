@@ -10,6 +10,8 @@ uint32_t compile_to_file(ModuleTpde& module, rust::Str path);
 
 tpde::u32 size_of_type(Type type);
 tpde::RegBank reg_bank_of_type(Type type);
+bool is_integer(Type type);
+bool is_float(Type type);
 
 namespace operands {
   inline constexpr uint32_t MARKER_BLOCK = size_t{7} << (std::numeric_limits<std::uint32_t>::digits - 3);

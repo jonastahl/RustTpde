@@ -60,3 +60,26 @@ uint32_t compile_to_file(ModuleTpde& module, const rust::Str path) {
             throw std::runtime_error("reg_bank_of_type: unsupported type");
     }
 }
+
+bool is_integer(Type type) {
+    switch (type) {
+        case Type::i8:
+        case Type::i16:
+        case Type::i32:
+        case Type::i64:
+        case Type::i128:
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool is_float(Type type) {
+    switch (type) {
+        case Type::f32:
+        case Type::f64:
+            return true;
+        default:
+            return false;
+    }
+}

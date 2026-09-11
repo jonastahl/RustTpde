@@ -346,22 +346,23 @@ namespace tpde_rust::x64 {
                                                  ValuePart &);
     EncodeFnTy encode_fn = nullptr;
     switch (op) {
-      case OverflowOp::uadd:
+      using enum OverflowOp::Value;
+      case uadd:
         encode_fn = &RustCompilerX64::encode_of_add_u128;
         break;
-      case OverflowOp::sadd:
+      case sadd:
         encode_fn = &RustCompilerX64::encode_of_add_i128;
         break;
-      case OverflowOp::usub:
+      case usub:
         encode_fn = &RustCompilerX64::encode_of_sub_u128;
         break;
-      case OverflowOp::ssub:
+      case ssub:
         encode_fn = &RustCompilerX64::encode_of_sub_i128;
         break;
-      case OverflowOp::umul:
+      case umul:
         encode_fn = &RustCompilerX64::encode_of_mul_u128;
         break;
-      case OverflowOp::smul:
+      case smul:
         encode_fn = &RustCompilerX64::encode_of_mul_i128;
         break;
       default: TPDE_UNREACHABLE("invalid operation");

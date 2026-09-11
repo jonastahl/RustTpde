@@ -4,6 +4,98 @@
 #include "../deps/tpde/tpde/include/tpde/CompilerBase.hpp"
 
 namespace tpde_rust {
+  enum class LibFunc {
+    divti3,
+    udivti3,
+    modti3,
+    umodti3,
+    fmod,
+    fmodf,
+    fmodf16,
+    floorf,
+    floor,
+    ceilf,
+    ceil,
+    roundf,
+    round,
+    nearbyintf,
+    nearbyint,
+    rintf,
+    rint,
+    lround,
+    lroundf,
+    memcpy,
+    memset,
+    memmove,
+    resume,
+    powisf2,
+    powidf2,
+    trunc,
+    truncf,
+    fma,
+    fmaf,
+    pow,
+    powf,
+    sin,
+    sinf,
+    cos,
+    cosf,
+    tan,
+    tanf,
+    asin,
+    asinf,
+    acos,
+    acosf,
+    atan,
+    atanf,
+    atan2,
+    atan2f,
+    sinh,
+    sinhf,
+    cosh,
+    coshf,
+    tanh,
+    tanhf,
+    log,
+    logf,
+    logl,
+    logf128,
+    log2,
+    log2f,
+    log10,
+    log10f,
+    exp,
+    expf,
+    exp2,
+    exp2f,
+    modf,
+    modff,
+    frexp,
+    frexpf,
+    trunctfsf2,
+    trunctfdf2,
+    extendsftf2,
+    extenddftf2,
+    eqtf2,
+    netf2,
+    gttf2,
+    getf2,
+    lttf2,
+    letf2,
+    unordtf2,
+    floatsitf,
+    floatditf,
+    floatunditf,
+    floatunsitf,
+    fixtfdi,
+    fixunstfdi,
+    addtf3,
+    subtf3,
+    multf3,
+    divtf3,
+    MAX
+  };
+
   template<typename Adaptor, typename Derived, typename Config>
   struct RustCompilerBase : RustCompiler, tpde::CompilerBase<Adaptor, Derived, Config> {
     using Base = tpde::CompilerBase<Adaptor, Derived, Config>;
@@ -52,6 +144,10 @@ namespace tpde_rust {
       static_assert(std::is_same_v<Adaptor, RustAdaptor>);
     }
 
+    Derived *derived() { return static_cast<Derived *>(this); }
+
+    const Derived *derived() const { return static_cast<Derived *>(this); }
+
     bool compile_to_elf(ModuleTpde &mod, std::vector<uint8_t> &buf) override;
 
     static bool cur_func_may_emit_calls() { return true; }
@@ -80,16 +176,17 @@ namespace tpde_rust {
         Value &imm = this->adaptor->mod->consts[operands::content(vrs.data)];
 
         switch (imm.ty) {
-          case Type::Bool:
-          case Type::i8:
+          using enum Type;
+          case Bool:
+          case i8:
             return ValuePart(imm.data2, 1, tpde::RegBank{0});
-          case Type::i16:
+          case i16:
             return ValuePart(imm.data2, 2, tpde::RegBank{0});
-          case Type::i32:
+          case i32:
             return ValuePart(imm.data2, 4, tpde::RegBank{0});
-          case Type::i64:
+          case i64:
             return ValuePart(imm.data2, 8, tpde::RegBank{0});
-          case Type::i128:
+          case i128:
             switch (part) {
               case 0:
                 return ValuePart(imm.data2, 8, tpde::RegBank{0});
@@ -98,9 +195,9 @@ namespace tpde_rust {
               default:
                 throw std::runtime_error("invalid part");
             }
-          case Type::f32:
+          case f32:
               return ValuePart(imm.data2, 4, tpde::RegBank{1});
-          case Type::f64:
+          case f64:
             return ValuePart(imm.data2, 8, tpde::RegBank{1});
 
           default:
@@ -199,136 +296,6 @@ namespace tpde_rust {
       bool operator==(const IntBinaryOp &o) const { return op == o.op; }
     };
 
-    struct FloatBinaryOp {
-      enum {
-        add,
-        sub,
-        mul,
-        div,
-        rem
-      };
-    };
-
-    struct FloatCmpOp {
-      enum {
-        OEQ,
-        OGT,
-        OGE,
-        OLT,
-        OLE,
-        ONE,
-        ORD,
-        UNO,
-        UEQ,
-        UGT,
-        UGE,
-        ULT,
-        ULE,
-        UNE,
-      };
-    };
-
-    enum class OverflowOp {
-      uadd,
-      sadd,
-      usub,
-      ssub,
-      umul,
-      smul
-    };
-
-    enum class LibFunc {
-      divti3,
-      udivti3,
-      modti3,
-      umodti3,
-      fmod,
-      fmodf,
-      fmodf16,
-      floorf,
-      floor,
-      ceilf,
-      ceil,
-      roundf,
-      round,
-      nearbyintf,
-      nearbyint,
-      rintf,
-      rint,
-      lround,
-      lroundf,
-      memcpy,
-      memset,
-      memmove,
-      resume,
-      powisf2,
-      powidf2,
-      trunc,
-      truncf,
-      fma,
-      fmaf,
-      pow,
-      powf,
-      sin,
-      sinf,
-      cos,
-      cosf,
-      tan,
-      tanf,
-      asin,
-      asinf,
-      acos,
-      acosf,
-      atan,
-      atanf,
-      atan2,
-      atan2f,
-      sinh,
-      sinhf,
-      cosh,
-      coshf,
-      tanh,
-      tanhf,
-      log,
-      logf,
-      logl,
-      logf128,
-      log2,
-      log2f,
-      log10,
-      log10f,
-      exp,
-      expf,
-      exp2,
-      exp2f,
-      modf,
-      modff,
-      frexp,
-      frexpf,
-      trunctfsf2,
-      trunctfdf2,
-      extendsftf2,
-      extenddftf2,
-      eqtf2,
-      netf2,
-      gttf2,
-      getf2,
-      lttf2,
-      letf2,
-      unordtf2,
-      floatsitf,
-      floatditf,
-      floatunditf,
-      floatunsitf,
-      fixtfdi,
-      fixunstfdi,
-      addtf3,
-      subtf3,
-      multf3,
-      divtf3,
-      MAX
-    };
-
     std::array<SymRef, static_cast<size_t>(LibFunc::MAX)> libfunc_syms;
 
     bool compile(ModuleTpde &mod);
@@ -369,6 +336,10 @@ namespace tpde_rust {
     bool compile_cast(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
     bool compile_int_ext(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_int_trunc(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_float_ext_trunc(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_float_to_int(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_int_to_float(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
     bool compile_neg(RustAdaptor::IRInstRef, const ValInfo &, u64);
     bool compile_fneg(RustAdaptor::IRInstRef, const ValInfo &, u64);
@@ -381,6 +352,19 @@ namespace tpde_rust {
 
     bool hook_post_func_sym_init();
   };
+
+  #define DEFINE_U64_ENUM(Name, ...) \
+    struct Name { \
+        enum Value : u64 { __VA_ARGS__ }; \
+        Value v = static_cast<Value>(0); \
+        constexpr Name() = default; \
+        constexpr Name(Value val) : v(val) {} \
+        constexpr operator Value() const { return v; } \
+    };
+
+  DEFINE_U64_ENUM(FloatBinaryOp, add, sub, mul, div, rem)
+  DEFINE_U64_ENUM(FloatCmpOp, OEQ, OGT, OGE, OLT, OLE, ONE, ORD, UNO, UEQ, UGT, UGE, ULT, ULE, UNE)
+  DEFINE_U64_ENUM(OverflowOp, uadd, sadd, usub, ssub, umul, smul)
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_to_elf(
@@ -497,7 +481,17 @@ namespace tpde_rust {
       set_fn(InstructionKind::Br, &Derived::compile_br);
 
       set_fn(InstructionKind::Cast, &Derived::compile_cast);
+      set_fn(InstructionKind::Trunc, &Derived::compile_int_trunc);
       set_fn(InstructionKind::zExt, &Derived::compile_int_ext, /*sign=*/false);
+      set_fn(InstructionKind::sExt, &Derived::compile_int_ext, /*sign=*/true);
+      set_fn(InstructionKind::fTrunc, &Derived::compile_float_ext_trunc);
+      set_fn(InstructionKind::fExt, &Derived::compile_float_ext_trunc);
+      set_fn(InstructionKind::fTou, &Derived::compile_float_to_int, /*flags=sign,!sat*/0);
+      set_fn(InstructionKind::fTos, &Derived::compile_float_to_int, /*flags=!sign,!sat*/1);
+      set_fn(InstructionKind::fTou_sat, &Derived::compile_float_to_int, /*flags=!sign|sat*/0b10);
+      set_fn(InstructionKind::fTos_sat, &Derived::compile_float_to_int, /*flags=sign|sat*/0b11);
+      set_fn(InstructionKind::uTof, &Derived::compile_int_to_float, /*sign=*/false);
+      set_fn(InstructionKind::sTof, &Derived::compile_int_to_float, /*sign=*/true);
 
       return res;
     }();
@@ -506,7 +500,7 @@ namespace tpde_rust {
     const ValInfo val_info = this->adaptor->val_info(i);
     assert(static_cast<size_t>(i->kind) < fns.size());
     const auto [compile_fn, arg] = fns[static_cast<std::size_t>(i->kind)];
-    return (Base::derived()->*compile_fn)(instr, val_info, arg);
+    return (derived()->*compile_fn)(instr, val_info, arg);
   }
 
   template<typename Adaptor, typename Derived, typename Config>
@@ -514,7 +508,7 @@ namespace tpde_rust {
     RustAdaptor::IRInstRef instr_ref, const ValInfo &, u64) {
     Instruction *instr = &this->adaptor->get_instruction(instr_ref);
 
-    typename Base::RetBuilder rb{*this->derived(), *this->derived()->cur_cc_assigner()};
+    typename Base::RetBuilder rb{*derived(), *derived()->cur_cc_assigner()};
     if (!instr->ops.empty()) {
       for (auto op: instr->ops) {
         rb.add(op);
@@ -599,12 +593,13 @@ namespace tpde_rust {
     auto get_encode_fn =
         [op](Type bvt) -> std::pair<EncodeFnTy, bool> {
       static constexpr auto bvt_lut = []() consteval {
-        std::array<u8, static_cast<unsigned>(Type::Last)> res{};
-        res[unsigned(Type::Bool)] = 1;
-        res[unsigned(Type::i8)] = 1;
-        res[unsigned(Type::i16)] = 1;
-        res[unsigned(Type::i32)] = 1;
-        res[unsigned(Type::i64)] = 2;
+        using enum Type;
+        std::array<u8, static_cast<unsigned>(Last)> res{};
+        res[unsigned(Bool)] = 1;
+        res[unsigned(i8)] = 1;
+        res[unsigned(i16)] = 1;
+        res[unsigned(i32)] = 1;
+        res[unsigned(i64)] = 2;
         return res;
       }();
       unsigned ty_idx = bvt_lut[unsigned(bvt)];
@@ -642,7 +637,7 @@ namespace tpde_rust {
         }
       }
 
-      (this->derived()->*encode_fn)(std::move(lhs_op), std::move(rhs_op), res_op);
+      (derived()->*encode_fn)(std::move(lhs_op), std::move(rhs_op), res_op);
     };
 
     for (u32 i = 0, n = parts.count(); i != n; ++i) {
@@ -680,11 +675,11 @@ namespace tpde_rust {
       //   // fallback only, so don't bother optimizing.
       //   ValueRef lhs_unowned = lhs.disowned();
       //   ValueRef rhs_unowned = rhs.disowned();
-      //   this->derived()->extract_element(lhs_unowned, elem_idx, elem_ty, e_lhs);
-      //   this->derived()->extract_element(rhs_unowned, elem_idx, elem_ty, e_rhs);
+      //   derived()->extract_element(lhs_unowned, elem_idx, elem_ty, e_lhs);
+      //   derived()->extract_element(rhs_unowned, elem_idx, elem_ty, e_rhs);
       //   handle_part(encode_fn, true, std::move(e_lhs), std::move(e_rhs), e_res);
       //   // insert_element always treats res as unowned.
-      //   this->derived()->insert_element(res, elem_idx, elem_ty, std::move(e_res));
+      //   derived()->insert_element(res, elem_idx, elem_ty, std::move(e_res));
       // }
     }
     return true;
@@ -702,14 +697,15 @@ namespace tpde_rust {
     if (op == FloatBinaryOp::rem) {
       LibFunc lf;
       switch (val_info.type) {
-        case Type::f32: lf = LibFunc::fmodf;
+        using enum Type;
+        case f32: lf = LibFunc::fmodf;
           break;
-        case Type::f64: lf = LibFunc::fmod;
+        case f64: lf = LibFunc::fmod;
           break;
         default: return false;
       }
 
-      auto cb = this->derived()->create_call_builder();
+      auto cb = derived()->create_call_builder();
       cb->add_arg(lhs.part(0), tpde::CCAssignment{});
       cb->add_arg(rhs.part(0), tpde::CCAssignment{});
       cb->call(get_libfunc_sym(lf));
@@ -722,28 +718,31 @@ namespace tpde_rust {
     EncodeFnTy encode_fn = nullptr;
 
     switch (val_info.type) {
-      case Type::f32:
+      using enum Type;
+      case f32:
         switch (op) {
-          case FloatBinaryOp::add: encode_fn = &Derived::encode_addf32;
+          using enum FloatBinaryOp::Value;
+          case add: encode_fn = &Derived::encode_addf32;
             break;
-          case FloatBinaryOp::sub: encode_fn = &Derived::encode_subf32;
+          case sub: encode_fn = &Derived::encode_subf32;
             break;
-          case FloatBinaryOp::mul: encode_fn = &Derived::encode_mulf32;
+          case mul: encode_fn = &Derived::encode_mulf32;
             break;
-          case FloatBinaryOp::div: encode_fn = &Derived::encode_divf32;
+          case div: encode_fn = &Derived::encode_divf32;
             break;
           default: TPDE_UNREACHABLE("invalid FloatBinaryOp");
         }
         break;
-      case Type::f64:
+      case f64:
         switch (op) {
-          case FloatBinaryOp::add: encode_fn = &Derived::encode_addf64;
+          using enum FloatBinaryOp::Value;
+          case add: encode_fn = &Derived::encode_addf64;
             break;
-          case FloatBinaryOp::sub: encode_fn = &Derived::encode_subf64;
+          case sub: encode_fn = &Derived::encode_subf64;
             break;
-          case FloatBinaryOp::mul: encode_fn = &Derived::encode_mulf64;
+          case mul: encode_fn = &Derived::encode_mulf64;
             break;
-          case FloatBinaryOp::div: encode_fn = &Derived::encode_divf64;
+          case div: encode_fn = &Derived::encode_divf64;
             break;
           default: TPDE_UNREACHABLE("invalid FloatBinaryOp");
         }
@@ -751,7 +750,7 @@ namespace tpde_rust {
       default: return false;
     }
 
-    return (this->derived()->*encode_fn)(lhs.part(0), rhs.part(0), res.part(0));
+    return (derived()->*encode_fn)(lhs.part(0), rhs.part(0), res.part(0));
   }
 
   template<typename Adaptor, typename Derived, typename Config>
@@ -774,7 +773,7 @@ namespace tpde_rust {
             this->val_ref(pot_overflow.result).reset();
 
             bool is_signed = operands::content(pot_overflow.ops[0]);
-            return this->derived()->compile_overflow_jump(pot_condbr, inst.kind, is_signed);
+            return derived()->compile_overflow_jump(pot_condbr, inst.kind, is_signed);
           }
         }
         return true;
@@ -809,11 +808,12 @@ namespace tpde_rust {
 
     const Type ty = this->adaptor->type_of_ref(op_instr.ops[0]);
     switch (ty) {
-      case Type::i8:
-      case Type::i16:
-      case Type::i32:
-      case Type::i64:
-      case Type::i128:
+      using enum Type;
+      case i8:
+      case i16:
+      case i32:
+      case i64:
+      case i128:
         break;
       default:
         assert(false && "Only support integer types");
@@ -821,7 +821,7 @@ namespace tpde_rust {
     const auto width = size_of_type(ty);
 
     if (width == 128) {
-      if (!this->derived()->handle_overflow_intrin_128(op,
+      if (!derived()->handle_overflow_intrin_128(op,
                                                        lhs.part(0),
                                                        lhs.part(1),
                                                        rhs.part(0),
@@ -890,8 +890,8 @@ namespace tpde_rust {
       }
     };
 
-    EncodeFnTy encode_fn = encode_fns[static_cast<u32>(op)][width_idx];
-    (this->derived()->*encode_fn)(lhs.part(0), rhs.part(0), res.part(0), of_res.part(0));
+    EncodeFnTy encode_fn = encode_fns[op][width_idx];
+    (derived()->*encode_fn)(lhs.part(0), rhs.part(0), res.part(0), of_res.part(0));
     return true;
   }
 
@@ -947,7 +947,7 @@ namespace tpde_rust {
           (void) this->val_ref(idx);
         } else {
           if (base_is_stack_var) {
-            addr = this->derived()->create_addr_for_alloca(base.assignment());
+            addr = derived()->create_addr_for_alloca(base.assignment());
             assert(addr.is_expr());
             displacement += expr.disp;
             expr.disp = 0;
@@ -957,7 +957,7 @@ namespace tpde_rust {
           if (expr.scale) {
             // We already have an index; materialize the current address
             // expression into a register and use it as the new base.
-            this->derived()->gval_expr_as_reg(addr);
+            derived()->gval_expr_as_reg(addr);
             index_vp.reset();
             index_vr.reset();
             base.reset();
@@ -1025,7 +1025,7 @@ namespace tpde_rust {
           return true;
         }
 
-        addr = this->derived()->create_addr_for_alloca(base.assignment());
+        addr = derived()->create_addr_for_alloca(base.assignment());
         expr.disp += displacement;
       } else {
         expr.disp = displacement;
@@ -1045,11 +1045,11 @@ namespace tpde_rust {
 
     auto [res_vr, res_ref] = this->result_ref_single(gep->result);
 
-    AsmReg res_reg = this->derived()->gval_expr_as_reg(addr);
+    AsmReg res_reg = derived()->gval_expr_as_reg(addr);
     if (auto *op_reg = std::get_if<ScratchReg>(&addr.state)) {
       res_ref.set_value(std::move(*op_reg));
     } else {
-      this->derived()->mov(res_ref.alloc_reg(), res_reg, 8);
+      derived()->mov(res_ref.alloc_reg(), res_reg, 8);
     }
 
     return true;
@@ -1063,7 +1063,7 @@ namespace tpde_rust {
     auto [_, ptr_ref] = this->val_ref_single(storei.ops[1]);
     if (ptr_ref.has_assignment() && ptr_ref.assignment().is_stack_variable()) {
       GenericValuePart addr =
-          this->derived()->create_addr_for_alloca(ptr_ref.assignment());
+          derived()->create_addr_for_alloca(ptr_ref.assignment());
 
       return compile_store_generic(storei, std::move(addr));
     }
@@ -1094,18 +1094,19 @@ namespace tpde_rust {
     }();
 
     switch (ty) {
-      case Type::Bool:
-      case Type::i8:
-      case Type::i16:
-      case Type::i32:
-      case Type::i64: {
+      using enum Type;
+      case Bool:
+      case i8:
+      case i16:
+      case i32:
+      case i64: {
         const auto num_bytes = size_of_type(ty) / 8;
         EncodeFnTy fn = int_fns[num_bytes - 1];
-        (this->derived()->*fn)(std::move(ptr_op), op_ref.part(0));
+        (derived()->*fn)(std::move(ptr_op), op_ref.part(0));
         return true;
       }
-      case Type::i128: {
-        this->derived()->encode_storei128(std::move(ptr_op), op_ref.part(0), op_ref.part(1));
+      case i128: {
+        derived()->encode_storei128(std::move(ptr_op), op_ref.part(0), op_ref.part(1));
         return true;
       }
 
@@ -1121,7 +1122,7 @@ namespace tpde_rust {
     auto [_, ptr_ref] = this->val_ref_single(loadi.ops[0]);
     if (ptr_ref.has_assignment() && ptr_ref.assignment().is_stack_variable()) {
       GenericValuePart addr =
-          this->derived()->create_addr_for_alloca(ptr_ref.assignment());
+          derived()->create_addr_for_alloca(ptr_ref.assignment());
 
       return compile_load_generic(loadi, std::move(addr));
     }
@@ -1152,16 +1153,17 @@ namespace tpde_rust {
 
     bool sext = false;
     switch (ty) {
-      case Type::Bool:
-      case Type::i8:
-      case Type::i16:
-      case Type::i32:
-      case Type::i64:
-      case Type::ptr: {
+      using enum Type;
+      case Bool:
+      case i8:
+      case i16:
+      case i32:
+      case i64:
+      case ptr: {
         const auto num_bytes = size_of_type(ty) / 8;
         EncodeFnTy fn = int_fns[num_bytes - 1][sext];
 
-        (this->derived()->*fn)(std::move(ptr_op), this->result_ref(loadi.result).part(0));
+        (derived()->*fn)(std::move(ptr_op), this->result_ref(loadi.result).part(0));
         return true;
       }
 
@@ -1179,13 +1181,13 @@ namespace tpde_rust {
 
     std::array<IRValueRef, 3> args{dst, src, len};
 
-    this->derived()->create_helper_call(args, nullptr, get_libfunc_sym(LibFunc::memcpy));
+    derived()->create_helper_call(args, nullptr, get_libfunc_sym(LibFunc::memcpy));
     return true;
   }
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_call(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {
-    auto cb = this->derived()->create_call_builder();
+    auto cb = derived()->create_call_builder();
     if (!cb) {
       return false;
     }
@@ -1259,16 +1261,8 @@ namespace tpde_rust {
     Instruction &exti = this->adaptor->get_instruction(instr);
     const Type dst_ty = this->adaptor->type_of_ref(exti.result);
 
-    switch (dst_ty) {
-      case Type::i8:
-      case Type::i16:
-      case Type::i32:
-      case Type::i64:
-      case Type::i128:
-        break;
-      default:
-        return false;
-    }
+    if (!is_integer(dst_ty))
+      return false;
 
     auto src_val = exti.ops[0];
     const Type src_ty = this->adaptor->type_of_ref(src_val);
@@ -1293,7 +1287,7 @@ namespace tpde_rust {
           if (!low.has_reg()) {
             low.load_to_reg();
           }
-          this->derived()->encode_fill_with_sign64(low.get_unowned_ref(), res_ref_high);
+          derived()->encode_fill_with_sign64(low.get_unowned_ref(), res_ref_high);
         } else {
           res_ref_high.set_value(ValuePart{u64{0}, 8, res_ref_high.bank()});
         }
@@ -1314,6 +1308,160 @@ namespace tpde_rust {
   }
 
   template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_trunc(RustAdaptor::IRInstRef inst, const ValInfo &, u64) {
+    const Instruction& trunci = this->adaptor->get_instruction(inst);
+    auto val = trunci.ops[0];
+
+    ValueRef src_vr = this->val_ref(val);
+    ValueRef res_vr = this->result_ref(trunci.result);
+
+    switch (this->adaptor->type_of_ref(val)) {
+      using enum Type;
+      case i8:
+      case i16:
+      case i32:
+      case i64:
+        // no-op, users will extend anyways. When truncating an i128, the first part
+        // contains the lowest bits.
+        res_vr.part(0).set_value(src_vr.part(0));
+        return true;
+      case i128:
+        res_vr.part(0).set_value(src_vr.part(0));
+        res_vr.part(1).set_value(src_vr.part(1));
+        return true;
+      default: return false;
+    }
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::
+  compile_float_ext_trunc(RustAdaptor::IRInstRef instref, const ValInfo &, u64) {
+    const Instruction& inst = this->adaptor->get_instruction(instref);
+
+    auto src_val = inst.ops[0];
+    const Type src_ty = this->adaptor->type_of_ref(src_val);
+    const Type dst_ty = this->adaptor->type_of_ref(inst.result);
+
+    auto res_vr = this->result_ref(inst.result);
+
+    if (src_ty == Type::f64 && dst_ty == Type::f32) {
+      auto src_ref = this->val_ref(src_val);
+      derived()->encode_f64tof32(src_ref.part(0), res_vr.part(0));
+    } else if (src_ty == Type::f32 && dst_ty == Type::f64) {
+      auto src_ref = this->val_ref(src_val);
+      derived()->encode_f32tof64(src_ref.part(0), res_vr.part(0));
+    } else {
+      return false;
+    }
+
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_float_to_int(RustAdaptor::IRInstRef instref, const ValInfo &, u64 flags) {
+    const Instruction& inst = this->adaptor->get_instruction(instref);
+
+    bool sign = flags & 0b01;
+    bool saturate = flags & 0b10;
+
+    auto src_val = inst.ops[0];
+    const Type src_ty = this->adaptor->type_of_ref(src_val);
+
+    const auto bit_width = size_of_type(this->adaptor->type_of_ref(inst.result));
+
+    if (bit_width > 64) {
+      return false;
+    }
+
+    unsigned ty_idx;
+    switch (src_ty) {
+      using enum Type;
+      case f32: ty_idx = 0; break;
+      case f64: ty_idx = 1; break;
+      default: return false;
+    }
+
+    using EncodeFnTy = bool (Derived::*)(GenericValuePart &&, ValuePart &&);
+    static constexpr auto fns = []() {
+      // fns[is_double][dst64][sign][sat]
+      std::array<EncodeFnTy[2][2][2], 2> fns{};
+      fns[0][0][0][0] = &Derived::encode_f32tou32;
+      fns[0][0][0][1] = &Derived::encode_f32tou32_sat;
+      fns[0][0][1][0] = &Derived::encode_f32toi32;
+      fns[0][0][1][1] = &Derived::encode_f32toi32_sat;
+      fns[0][1][0][0] = &Derived::encode_f32tou64;
+      fns[0][1][0][1] = &Derived::encode_f32tou64_sat;
+      fns[0][1][1][0] = &Derived::encode_f32toi64;
+      fns[0][1][1][1] = &Derived::encode_f32toi64_sat;
+      fns[1][0][0][0] = &Derived::encode_f64tou32;
+      fns[1][0][0][1] = &Derived::encode_f64tou32_sat;
+      fns[1][0][1][0] = &Derived::encode_f64toi32;
+      fns[1][0][1][1] = &Derived::encode_f64toi32_sat;
+      fns[1][1][0][0] = &Derived::encode_f64tou64;
+      fns[1][1][0][1] = &Derived::encode_f64tou64_sat;
+      fns[1][1][1][0] = &Derived::encode_f64toi64;
+      fns[1][1][1][1] = &Derived::encode_f64toi64_sat;
+      return fns;
+    }();
+    EncodeFnTy fn = fns[ty_idx][bit_width > 32][sign][saturate];
+
+    if (saturate && bit_width % 32 != 0) {
+      // TODO: clamp result to smaller integer bounds
+      return false;
+    }
+
+    auto src_ref = this->val_ref(src_val);
+    auto res_ref = this->result_ref(inst.result);
+    return (derived()->*fn)(src_ref.part(0), res_ref.part(0));
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_int_to_float(RustAdaptor::IRInstRef instref, const ValInfo &val_info, u64 sign) {
+    const Instruction& inst = this->adaptor->get_instruction(instref);
+    const auto src_val = inst.ops[0];
+    const Type dst_ty = this->adaptor->type_of_ref(inst.result);
+
+    auto bit_width = size_of_type(this->adaptor->type_of_ref(src_val));
+    if (bit_width > 64) {
+      return false;
+    }
+
+    ValueRef src_ref = this->val_ref(src_val);
+    ValuePartRef src_op = src_ref.part(0);
+    ValueRef res = this->result_ref(inst.result);
+
+    if (bit_width != 32 && bit_width != 64) {
+      unsigned ext = tpde::util::align_up(bit_width, 32);
+      src_op = std::move(src_op).into_extended(sign, bit_width, ext);
+    }
+
+    unsigned ty_idx;
+    switch (val_info.type) {
+      using enum Type;
+      case f32: ty_idx = 0; break;
+      case f64: ty_idx = 1; break;
+      default: return false;
+    }
+
+    using EncodeFnTy = bool (Derived::*)(GenericValuePart &&, ValuePart &&);
+    static constexpr auto encode_fns = []() consteval {
+      std::array<EncodeFnTy[2][2], 2> res;
+      res[0][0][0] = &Derived::encode_i32tof32;
+      res[0][0][1] = &Derived::encode_i32tof64;
+      res[0][1][0] = &Derived::encode_i64tof32;
+      res[0][1][1] = &Derived::encode_i64tof64;
+      res[1][0][0] = &Derived::encode_u32tof32;
+      res[1][0][1] = &Derived::encode_u32tof64;
+      res[1][1][0] = &Derived::encode_u64tof32;
+      res[1][1][1] = &Derived::encode_u64tof64;
+      return res;
+    }();
+    EncodeFnTy fn = encode_fns[!sign][bit_width > 32][ty_idx];
+    (derived()->*fn)(std::move(src_op), res.part(0));
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_neg(RustAdaptor::IRInstRef instr, const ValInfo &, u64) {
     Instruction &negi = this->adaptor->get_instruction(instr);
 
@@ -1322,14 +1470,15 @@ namespace tpde_rust {
 
     const Type type = this->adaptor->type_of_ref(negi.ops[0]);
     switch (type) {
-      case Type::Bool:
-      case Type::i8:
-      case Type::i16:
-      case Type::i32: this->derived()->encode_negi32(src.part(0), res.part(0));
+      using enum Type;
+      case Bool:
+      case i8:
+      case i16:
+      case i32: derived()->encode_negi32(src.part(0), res.part(0));
         break;
-      case Type::i64: this->derived()->encode_negi64(src.part(0), res.part(0));
+      case i64: derived()->encode_negi64(src.part(0), res.part(0));
         break;
-      case Type::i128: this->derived()->encode_negi128(src.part(0), src.part(1), res.part(0), res.part(1));
+      case i128: derived()->encode_negi128(src.part(0), src.part(1), res.part(0), res.part(1));
         break;
       default: return false;
     }
@@ -1342,8 +1491,9 @@ namespace tpde_rust {
     ValueRef src = this->val_ref(fnegi.ops[0]);
     ValueRef res = this->result_ref(fnegi.result);
     switch (val_info.type) {
-      case Type::f32: this->derived()->encode_fnegf32(src.part(0), res.part(0)); break;
-      case Type::f64: this->derived()->encode_fnegf64(src.part(0), res.part(0)); break;
+      using enum Type;
+      case f32: derived()->encode_fnegf32(src.part(0), res.part(0)); break;
+      case f64: derived()->encode_fnegf64(src.part(0), res.part(0)); break;
       default: return false;
     }
     return true;
@@ -1358,15 +1508,16 @@ namespace tpde_rust {
 
     const Type type = this->adaptor->type_of_ref(noti.ops[0]);
     switch (type) {
-      case Type::Bool: this->derived()->encode_notbool(src.part(0), res.part(0));
+      using enum Type;
+      case Bool: derived()->encode_notbool(src.part(0), res.part(0));
         break;
-      case Type::i8:
-      case Type::i16:
-      case Type::i32: this->derived()->encode_not32(src.part(0), res.part(0));
+      case i8:
+      case i16:
+      case i32: derived()->encode_not32(src.part(0), res.part(0));
         break;
-      case Type::i64: this->derived()->encode_not64(src.part(0), res.part(0));
+      case i64: derived()->encode_not64(src.part(0), res.part(0));
         break;
-      case Type::i128: this->derived()->encode_not128(src.part(0), src.part(1), res.part(0), res.part(1));
+      case i128: derived()->encode_not128(src.part(0), src.part(1), res.part(0), res.part(1));
         break;
       default: return false;
     }
@@ -1387,48 +1538,50 @@ namespace tpde_rust {
     EncodeFnTy fn = nullptr;
 
     switch (type) {
-      case Type::f32:
+      using enum Type;
+      using enum FloatCmpOp::Value;
+      case f32:
         switch (op) {
-          case FloatCmpOp::OEQ: fn = &Derived::encode_fcmp_oeq_float; break;
-          case FloatCmpOp::OGT: fn = &Derived::encode_fcmp_ogt_float; break;
-          case FloatCmpOp::OGE: fn = &Derived::encode_fcmp_oge_float; break;
-          case FloatCmpOp::OLT: fn = &Derived::encode_fcmp_olt_float; break;
-          case FloatCmpOp::OLE: fn = &Derived::encode_fcmp_ole_float; break;
-          case FloatCmpOp::ONE: fn = &Derived::encode_fcmp_one_float; break;
-          case FloatCmpOp::ORD: fn = &Derived::encode_fcmp_ord_float; break;
-          case FloatCmpOp::UEQ: fn = &Derived::encode_fcmp_ueq_float; break;
-          case FloatCmpOp::UGT: fn = &Derived::encode_fcmp_ugt_float; break;
-          case FloatCmpOp::UGE: fn = &Derived::encode_fcmp_uge_float; break;
-          case FloatCmpOp::ULT: fn = &Derived::encode_fcmp_ult_float; break;
-          case FloatCmpOp::ULE: fn = &Derived::encode_fcmp_ule_float; break;
-          case FloatCmpOp::UNE: fn = &Derived::encode_fcmp_une_float; break;
-          case FloatCmpOp::UNO: fn = &Derived::encode_fcmp_uno_float; break;
+          case OEQ: fn = &Derived::encode_fcmp_oeq_float; break;
+          case OGT: fn = &Derived::encode_fcmp_ogt_float; break;
+          case OGE: fn = &Derived::encode_fcmp_oge_float; break;
+          case OLT: fn = &Derived::encode_fcmp_olt_float; break;
+          case OLE: fn = &Derived::encode_fcmp_ole_float; break;
+          case ONE: fn = &Derived::encode_fcmp_one_float; break;
+          case ORD: fn = &Derived::encode_fcmp_ord_float; break;
+          case UEQ: fn = &Derived::encode_fcmp_ueq_float; break;
+          case UGT: fn = &Derived::encode_fcmp_ugt_float; break;
+          case UGE: fn = &Derived::encode_fcmp_uge_float; break;
+          case ULT: fn = &Derived::encode_fcmp_ult_float; break;
+          case ULE: fn = &Derived::encode_fcmp_ule_float; break;
+          case UNE: fn = &Derived::encode_fcmp_une_float; break;
+          case UNO: fn = &Derived::encode_fcmp_uno_float; break;
           default: TPDE_UNREACHABLE("invalid fcmp predicate");
         }
         break;
-      case Type::f64:
+      case f64:
         switch (op) {
-          case FloatCmpOp::OEQ: fn = &Derived::encode_fcmp_oeq_double; break;
-          case FloatCmpOp::OGT: fn = &Derived::encode_fcmp_ogt_double; break;
-          case FloatCmpOp::OGE: fn = &Derived::encode_fcmp_oge_double; break;
-          case FloatCmpOp::OLT: fn = &Derived::encode_fcmp_olt_double; break;
-          case FloatCmpOp::OLE: fn = &Derived::encode_fcmp_ole_double; break;
-          case FloatCmpOp::ONE: fn = &Derived::encode_fcmp_one_double; break;
-          case FloatCmpOp::ORD: fn = &Derived::encode_fcmp_ord_double; break;
-          case FloatCmpOp::UEQ: fn = &Derived::encode_fcmp_ueq_double; break;
-          case FloatCmpOp::UGT: fn = &Derived::encode_fcmp_ugt_double; break;
-          case FloatCmpOp::UGE: fn = &Derived::encode_fcmp_uge_double; break;
-          case FloatCmpOp::ULT: fn = &Derived::encode_fcmp_ult_double; break;
-          case FloatCmpOp::ULE: fn = &Derived::encode_fcmp_ule_double; break;
-          case FloatCmpOp::UNE: fn = &Derived::encode_fcmp_une_double; break;
-          case FloatCmpOp::UNO: fn = &Derived::encode_fcmp_uno_double; break;
+          case OEQ: fn = &Derived::encode_fcmp_oeq_double; break;
+          case OGT: fn = &Derived::encode_fcmp_ogt_double; break;
+          case OGE: fn = &Derived::encode_fcmp_oge_double; break;
+          case OLT: fn = &Derived::encode_fcmp_olt_double; break;
+          case OLE: fn = &Derived::encode_fcmp_ole_double; break;
+          case ONE: fn = &Derived::encode_fcmp_one_double; break;
+          case ORD: fn = &Derived::encode_fcmp_ord_double; break;
+          case UEQ: fn = &Derived::encode_fcmp_ueq_double; break;
+          case UGT: fn = &Derived::encode_fcmp_ugt_double; break;
+          case UGE: fn = &Derived::encode_fcmp_uge_double; break;
+          case ULT: fn = &Derived::encode_fcmp_ult_double; break;
+          case ULE: fn = &Derived::encode_fcmp_ule_double; break;
+          case UNE: fn = &Derived::encode_fcmp_une_double; break;
+          case UNO: fn = &Derived::encode_fcmp_uno_double; break;
           default: TPDE_UNREACHABLE("invalid fcmp predicate");
         }
         break;
       default: TPDE_UNREACHABLE("invalid fcmp type");
     }
 
-    return (this->derived()->*fn)(lhs.part(0), rhs.part(0), res.part(0));
+    return (derived()->*fn)(lhs.part(0), rhs.part(0), res.part(0));
   }
 
   template<typename Adaptor, typename Derived, typename Config>
@@ -1442,181 +1595,182 @@ namespace tpde_rust {
 
     std::string_view name = "???";
     switch (func) {
-      case LibFunc::divti3: name = "__divti3";
+      using enum LibFunc;
+      case divti3: name = "__divti3";
         break;
-      case LibFunc::udivti3: name = "__udivti3";
+      case udivti3: name = "__udivti3";
         break;
-      case LibFunc::modti3: name = "__modti3";
+      case modti3: name = "__modti3";
         break;
-      case LibFunc::umodti3: name = "__umodti3";
+      case umodti3: name = "__umodti3";
         break;
-      case LibFunc::fmod: name = "fmod";
+      case fmod: name = "fmod";
         break;
-      case LibFunc::fmodf: name = "fmodf";
+      case fmodf: name = "fmodf";
         break;
-      case LibFunc::fmodf16: name = "fmodf16";
+      case fmodf16: name = "fmodf16";
         break;
-      case LibFunc::floorf: name = "floorf";
+      case floorf: name = "floorf";
         break;
-      case LibFunc::floor: name = "floor";
+      case floor: name = "floor";
         break;
-      case LibFunc::ceilf: name = "ceilf";
+      case ceilf: name = "ceilf";
         break;
-      case LibFunc::ceil: name = "ceil";
+      case ceil: name = "ceil";
         break;
-      case LibFunc::roundf: name = "roundf";
+      case roundf: name = "roundf";
         break;
-      case LibFunc::round: name = "round";
+      case round: name = "round";
         break;
-      case LibFunc::nearbyintf: name = "nearbyintf";
+      case nearbyintf: name = "nearbyintf";
         break;
-      case LibFunc::nearbyint: name = "nearbyint";
+      case nearbyint: name = "nearbyint";
         break;
-      case LibFunc::rintf: name = "rintf";
+      case rintf: name = "rintf";
         break;
-      case LibFunc::rint: name = "rint";
+      case rint: name = "rint";
         break;
-      case LibFunc::lround: name = "lround";
+      case lround: name = "lround";
         break;
-      case LibFunc::lroundf: name = "lroundf";
+      case lroundf: name = "lroundf";
         break;
-      case LibFunc::memcpy: name = "memcpy";
+      case memcpy: name = "memcpy";
         break;
-      case LibFunc::memset: name = "memset";
+      case memset: name = "memset";
         break;
-      case LibFunc::memmove: name = "memmove";
+      case memmove: name = "memmove";
         break;
-      case LibFunc::resume: name = "_Unwind_Resume";
+      case resume: name = "_Unwind_Resume";
         break;
-      case LibFunc::powisf2: name = "__powisf2";
+      case powisf2: name = "__powisf2";
         break;
-      case LibFunc::powidf2: name = "__powidf2";
+      case powidf2: name = "__powidf2";
         break;
-      case LibFunc::trunc: name = "trunc";
+      case trunc: name = "trunc";
         break;
-      case LibFunc::truncf: name = "truncf";
+      case truncf: name = "truncf";
         break;
-      case LibFunc::fma: name = "fma";
+      case fma: name = "fma";
         break;
-      case LibFunc::fmaf: name = "fmaf";
+      case fmaf: name = "fmaf";
         break;
-      case LibFunc::pow: name = "pow";
+      case pow: name = "pow";
         break;
-      case LibFunc::powf: name = "powf";
+      case powf: name = "powf";
         break;
-      case LibFunc::sin: name = "sin";
+      case sin: name = "sin";
         break;
-      case LibFunc::sinf: name = "sinf";
+      case sinf: name = "sinf";
         break;
-      case LibFunc::cos: name = "cos";
+      case cos: name = "cos";
         break;
-      case LibFunc::cosf: name = "cosf";
+      case cosf: name = "cosf";
         break;
-      case LibFunc::tan: name = "tan";
+      case tan: name = "tan";
         break;
-      case LibFunc::tanf: name = "tanf";
+      case tanf: name = "tanf";
         break;
-      case LibFunc::asin: name = "asin";
+      case asin: name = "asin";
         break;
-      case LibFunc::asinf: name = "asinf";
+      case asinf: name = "asinf";
         break;
-      case LibFunc::acos: name = "acos";
+      case acos: name = "acos";
         break;
-      case LibFunc::acosf: name = "acosf";
+      case acosf: name = "acosf";
         break;
-      case LibFunc::atan: name = "atan";
+      case atan: name = "atan";
         break;
-      case LibFunc::atanf: name = "atanf";
+      case atanf: name = "atanf";
         break;
-      case LibFunc::atan2: name = "atan2";
+      case atan2: name = "atan2";
         break;
-      case LibFunc::atan2f: name = "atan2f";
+      case atan2f: name = "atan2f";
         break;
-      case LibFunc::sinh: name = "sinh";
+      case sinh: name = "sinh";
         break;
-      case LibFunc::sinhf: name = "sinhf";
+      case sinhf: name = "sinhf";
         break;
-      case LibFunc::cosh: name = "cosh";
+      case cosh: name = "cosh";
         break;
-      case LibFunc::coshf: name = "coshf";
+      case coshf: name = "coshf";
         break;
-      case LibFunc::tanh: name = "tanh";
+      case tanh: name = "tanh";
         break;
-      case LibFunc::tanhf: name = "tanhf";
+      case tanhf: name = "tanhf";
         break;
-      case LibFunc::log: name = "log";
+      case log: name = "log";
         break;
-      case LibFunc::logf: name = "logf";
+      case logf: name = "logf";
         break;
-      case LibFunc::logl: name = "logl";
+      case logl: name = "logl";
         break;
-      case LibFunc::logf128: name = "logf128";
+      case logf128: name = "logf128";
         break;
-      case LibFunc::log2: name = "log2";
+      case log2: name = "log2";
         break;
-      case LibFunc::log2f: name = "log2f";
+      case log2f: name = "log2f";
         break;
-      case LibFunc::log10: name = "log10";
+      case log10: name = "log10";
         break;
-      case LibFunc::log10f: name = "log10f";
+      case log10f: name = "log10f";
         break;
-      case LibFunc::exp: name = "exp";
+      case exp: name = "exp";
         break;
-      case LibFunc::expf: name = "expf";
+      case expf: name = "expf";
         break;
-      case LibFunc::exp2: name = "exp2";
+      case exp2: name = "exp2";
         break;
-      case LibFunc::exp2f: name = "exp2f";
+      case exp2f: name = "exp2f";
         break;
-      case LibFunc::modf: name = "modf";
+      case modf: name = "modf";
         break;
-      case LibFunc::modff: name = "modff";
+      case modff: name = "modff";
         break;
-      case LibFunc::frexp: name = "frexp";
+      case frexp: name = "frexp";
         break;
-      case LibFunc::frexpf: name = "frexpf";
+      case frexpf: name = "frexpf";
         break;
-      case LibFunc::trunctfsf2: name = "__trunctfsf2";
+      case trunctfsf2: name = "__trunctfsf2";
         break;
-      case LibFunc::trunctfdf2: name = "__trunctfdf2";
+      case trunctfdf2: name = "__trunctfdf2";
         break;
-      case LibFunc::extendsftf2: name = "__extendsftf2";
+      case extendsftf2: name = "__extendsftf2";
         break;
-      case LibFunc::extenddftf2: name = "__extenddftf2";
+      case extenddftf2: name = "__extenddftf2";
         break;
-      case LibFunc::eqtf2: name = "__eqtf2";
+      case eqtf2: name = "__eqtf2";
         break;
-      case LibFunc::netf2: name = "__netf2";
+      case netf2: name = "__netf2";
         break;
-      case LibFunc::gttf2: name = "__gttf2";
+      case gttf2: name = "__gttf2";
         break;
-      case LibFunc::getf2: name = "__getf2";
+      case getf2: name = "__getf2";
         break;
-      case LibFunc::lttf2: name = "__lttf2";
+      case lttf2: name = "__lttf2";
         break;
-      case LibFunc::letf2: name = "__letf2";
+      case letf2: name = "__letf2";
         break;
-      case LibFunc::unordtf2: name = "__unordtf2";
+      case unordtf2: name = "__unordtf2";
         break;
-      case LibFunc::floatsitf: name = "__floatsitf";
+      case floatsitf: name = "__floatsitf";
         break;
-      case LibFunc::floatditf: name = "__floatditf";
+      case floatditf: name = "__floatditf";
         break;
-      case LibFunc::floatunsitf: name = "__floatunsitf";
+      case floatunsitf: name = "__floatunsitf";
         break;
-      case LibFunc::floatunditf: name = "__floatunditf";
+      case floatunditf: name = "__floatunditf";
         break;
-      case LibFunc::fixtfdi: name = "__fixtfdi";
+      case fixtfdi: name = "__fixtfdi";
         break;
-      case LibFunc::fixunstfdi: name = "__fixunstfdi";
+      case fixunstfdi: name = "__fixunstfdi";
         break;
-      case LibFunc::addtf3: name = "__addtf3";
+      case addtf3: name = "__addtf3";
         break;
-      case LibFunc::subtf3: name = "__subtf3";
+      case subtf3: name = "__subtf3";
         break;
-      case LibFunc::multf3: name = "__multf3";
+      case multf3: name = "__multf3";
         break;
-      case LibFunc::divtf3: name = "__divtf3";
+      case divtf3: name = "__divtf3";
         break;
       default: TPDE_UNREACHABLE("invalid libfunc");
     }
