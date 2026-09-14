@@ -1282,6 +1282,14 @@ namespace tpde_rust {
         derived()->encode_storei128(std::move(ptr_op), op_ref.part(0), op_ref.part(1));
         return true;
       }
+      case f32: {
+        derived()->encode_storef32(std::move(ptr_op), op_ref.part(0));
+        return true;
+      }
+      case f64: {
+        derived()->encode_storef64(std::move(ptr_op), op_ref.part(0));
+        return true;
+      }
 
       default: return false;
     }
@@ -1339,6 +1347,22 @@ namespace tpde_rust {
         (derived()->*fn)(std::move(ptr_op), this->result_ref(loadi.result).part(0));
         return true;
       }
+      case i128: {
+        ValueRef res = this->result_ref(loadi.result);
+        derived()->encode_loadi128(std::move(ptr_op), res.part(0), res.part(1));
+        return true;
+      }
+      case f32: {
+        derived()->encode_loadf32(std::move(ptr_op),
+                                  this->result_ref(loadi.result).part(0));
+        return true;
+      }
+      case f64: {
+        derived()->encode_loadf64(std::move(ptr_op),
+                                  this->result_ref(loadi.result).part(0));
+        return true;
+      }
+
 
       default: throw std::runtime_error("Unsupported type for loadi");
     }

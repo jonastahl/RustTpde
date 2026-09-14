@@ -1,29 +1,32 @@
 use crate::context::CodegenCx;
-use crate::shared::ir::{FullType, FunctionSignature, Type};
+use crate::shared::ir::{ArgInfo, ArgKind, FullType, FunctionSignature, Type};
 use rustc_abi::{AddressSpace, BackendRepr, Primitive, Reg, Scalar};
 use rustc_codegen_ssa::common::TypeKind;
-use rustc_codegen_ssa::traits::{BaseTypeCodegenMethods, DerivedTypeCodegenMethods, LayoutTypeCodegenMethods, TypeMembershipCodegenMethods};
+use rustc_codegen_ssa::traits::{
+    BaseTypeCodegenMethods, DerivedTypeCodegenMethods, LayoutTypeCodegenMethods,
+    TypeMembershipCodegenMethods,
+};
 use rustc_middle::bug;
-use rustc_middle::ty::layout::TyAndLayout;
 use rustc_middle::ty::Ty;
+use rustc_middle::ty::layout::TyAndLayout;
 use rustc_target::callconv::{CastTarget, FnAbi, PassMode};
 
 impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
     pub fn tpde_direct_type(&self, ty: TyAndLayout<'tcx>) -> FullType {
         match ty.backend_repr {
-            BackendRepr::Scalar(scalar) => {
-                self.tpde_scalar_type(scalar)
-            },
+            BackendRepr::Scalar(scalar) => self.tpde_scalar_type(scalar),
             BackendRepr::ScalarPair { a, b, b_offset } => {
-                let FullType::Single(a) = self.tpde_scalar_type(a) else { unreachable!() };
-                let FullType::Single(b) = self.tpde_scalar_type(b) else { unreachable!() };
+                let FullType::Single(a) = self.tpde_scalar_type(a) else {
+                    unreachable!()
+                };
+                let FullType::Single(b) = self.tpde_scalar_type(b) else {
+                    unreachable!()
+                };
 
                 FullType::Pair(a, b, b_offset.bytes_usize() as u8)
-            },
-            BackendRepr::Memory { sized } => {
-                FullType::Memory { sized }
-            },
-            _ => todo!()
+            }
+            BackendRepr::Memory { sized } => FullType::Memory { sized },
+            _ => todo!(),
         }
     }
 
@@ -93,13 +96,15 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
         match ty {
             FullType::Single(ty) => match ty {
                 Type::Void => TypeKind::Void,
-                Type::Bool | Type::i8 |  Type::i16 | Type::i32 | Type::i64 | Type::i128 => TypeKind::Integer,
+                Type::Bool | Type::i8 | Type::i16 | Type::i32 | Type::i64 | Type::i128 => {
+                    TypeKind::Integer
+                }
                 Type::f32 | Type::f64 => TypeKind::Float,
                 Type::ptr => TypeKind::Pointer,
-                _ => todo!()
+                _ => todo!(),
             },
             FullType::Pair(ty1, ty2, _) => TypeKind::Struct,
-            FullType::Memory { .. } => todo!()
+            FullType::Memory { .. } => todo!(),
         }
     }
 
@@ -121,28 +126,26 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
 
     fn float_width(&self, ty: Self::Type) -> usize {
         match ty {
-            FullType::Single(ty) =>
-                match ty {
-                    Type::f32 => 32,
-                    Type::f64 =>64,
-                    _ => todo!()
-                }
-            _ => todo!()
+            FullType::Single(ty) => match ty {
+                Type::f32 => 32,
+                Type::f64 => 64,
+                _ => todo!(),
+            },
+            _ => todo!(),
         }
     }
 
     fn int_width(&self, ty: Self::Type) -> u64 {
         match ty {
-            FullType::Single(ty) =>
-                match ty {
-                    Type::i8 => 8,
-                    Type::i16 => 16,
-                    Type::i32 => 32,
-                    Type::i64 => 64,
-                    Type::i128 => 128,
-                    _ => todo!()
-                }
-            _ => todo!()
+            FullType::Single(ty) => match ty {
+                Type::i8 => 8,
+                Type::i16 => 16,
+                Type::i32 => 32,
+                Type::i64 => 64,
+                Type::i128 => 128,
+                _ => todo!(),
+            },
+            _ => todo!(),
         }
     }
 
@@ -151,66 +154,102 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 }
 
-impl<'tcx> TypeMembershipCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
-
-}
+impl<'tcx> TypeMembershipCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {}
 
 impl<'tcx> CodegenCx<'_, 'tcx> {
-    pub fn create_function_signature(
-        &self,
-        fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> FunctionSignature {
-        let mut args: Vec<Type> = {
-            // we can ignore variadic arguments
-            let args = if fn_abi.c_variadic {
-                &fn_abi.args[..fn_abi.fixed_count as usize]
-            } else {
-                &fn_abi.args
-            };
-            args.iter()
-                .flat_map(|arg| match &arg.mode {
-                    PassMode::Ignore => vec![Type::Void],
-                    PassMode::Direct(_) => {
-                        let FullType::Single(ty) = self.tpde_direct_type(arg.layout) else {
-                            unreachable!()
-                        };
-                        vec![ ty ]
-                    }
-                    PassMode::Pair(..) => {
-                        let FullType::Pair(a, b, _) = self.tpde_direct_type(arg.layout) else {
-                            unreachable!()
-                        };
-                        vec![a, b]
-                    }
-                    PassMode::Cast { cast, pad_i32: _ } => todo!(),
-                    PassMode::Indirect {
-                        attrs,
-                        meta_attrs,
-                        on_stack,
-                    } => {
-                        vec![Type::ptr]
-                    }
-                })
-                .collect()
-        };
+    pub fn create_function_signature(&self, fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> FunctionSignature {
+        let mut slots: Vec<Type> = vec![];
+        let mut arg_infos: Vec<ArgInfo> = vec![];
+
         match fn_abi.ret.mode {
             PassMode::Indirect {
                 attrs,
                 meta_attrs,
                 on_stack,
             } => {
-                args.insert(0, Type::ptr);
+                slots.push(Type::ptr);
+                arg_infos.push(ArgInfo {
+                    kind: ArgKind::sRet,
+                    size: attrs.pointee_size.bytes() as u32,
+                    align: attrs.pointee_align.map_or_else(|| 1, |a| a.bytes() as u32),
+                })
             }
             _ => (),
+        }
+        {
+            // we can ignore variadic arguments
+            if fn_abi.c_variadic {
+                &fn_abi.args[..fn_abi.fixed_count as usize]
+            } else {
+                &fn_abi.args
+            }.iter()
+                .for_each(|arg| match &arg.mode {
+                    PassMode::Ignore => { },
+                    PassMode::Direct(_) => {
+                        let FullType::Single(ty) = self.tpde_direct_type(arg.layout) else {
+                            unreachable!()
+                        };
+                        slots.push(ty);
+                        arg_infos.push(ArgInfo {
+                            kind: ArgKind::Direct,
+                            size: 0,
+                            align: 0,
+                        })
+                    }
+                    PassMode::Pair(..) => {
+                        let FullType::Pair(a, b, _) = self.tpde_direct_type(arg.layout) else {
+                            unreachable!()
+                        };
+                        slots.push(a);
+                        arg_infos.push(ArgInfo {
+                            kind: ArgKind::Direct,
+                            size: 0,
+                            align: 0,
+                        });
+                        slots.push(b);
+                        arg_infos.push(ArgInfo {
+                            kind: ArgKind::Direct,
+                            size: 0,
+                            align: 0,
+                        });
+                    }
+                    PassMode::Cast { cast, pad_i32: _ } => todo!(),
+                    PassMode::Indirect {
+                        attrs,
+                        meta_attrs,
+                        on_stack: true,
+                    } => {
+                        // They cannot be true at once
+                        assert!(meta_attrs.is_none());
+                        slots.push(Type::ptr);
+                        arg_infos.push(ArgInfo {
+                            kind: ArgKind::ByVal,
+                            size: attrs.pointee_size.bytes() as u32,
+                            align: attrs.pointee_align.map_or_else(|| 1, |a| a.bytes() as u32),
+                        });
+                    }
+                    PassMode::Indirect {
+                        attrs,
+                        meta_attrs,
+                        on_stack,
+                    } => {
+                        slots.push(Type::ptr);
+                        arg_infos.push(ArgInfo {
+                            kind: ArgKind::Direct,
+                            size: 0,
+                            align: 0,
+                        });
+                    }
+                });
+        }
+
+        let ret = if fn_abi.ret.is_ignore() {
+            None
+        } else {
+            Some(self.tpde_direct_type(fn_abi.ret.layout))
         };
 
-        let ret =
-            if fn_abi.ret.is_ignore() {
-                None
-            } else {
-                Some(self.tpde_direct_type(fn_abi.ret.layout))
-            };
-
-        FunctionSignature{ args, ret }
+        FunctionSignature { slots, arg_infos, ret }
     }
 }
 
@@ -242,7 +281,12 @@ impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
         self.tpde_direct_type(layout)
     }
 
-    fn scalar_pair_element_backend_type(&self, layout: TyAndLayout<'tcx>, index: usize, immediate: bool) -> Self::Type {
+    fn scalar_pair_element_backend_type(
+        &self,
+        layout: TyAndLayout<'tcx>,
+        index: usize,
+        immediate: bool,
+    ) -> Self::Type {
         let BackendRepr::ScalarPair { a, b, b_offset: _ } = layout.backend_repr else {
             bug!("Cannot appear")
         };

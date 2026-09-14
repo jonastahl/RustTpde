@@ -105,11 +105,10 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn const_to_opt_uint(&self, v: Self::Value) -> Option<u64> {
-        todo!()
+        self.module.borrow().const_data(v).map(|v| v as u64)
     }
 
     fn const_to_opt_u128(&self, v: Self::Value, sign_ext: bool) -> Option<u128> {
-        // TODO sign_ext??
         self.module.borrow().const_data(v)
     }
 

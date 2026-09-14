@@ -99,9 +99,13 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn ret_void(&mut self) {
-        self.module
-            .borrow_mut()
-            .add_instruction(self.basic_block, InstructionKind::Ret, vec![])
+        let module = &mut self.module.borrow_mut();
+        // let rets = if let Some(ret) = module.return_value(self.basic_block.function()) {
+        //     vec![ret]
+        // } else {
+        //     vec![]
+        // };
+        module.add_instruction(self.basic_block, InstructionKind::Ret, vec![])
     }
 
     fn ret(&mut self, v: Self::Value) {
@@ -410,7 +414,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         let of = self.module.borrow_mut()
             .add_instruction_ret(self.basic_block,
                                  InstructionKind::OverflowCheck,
-                                 vec![Slot::Raw(if signed { 1 } else { 0})],
+                                 vec![Slot::Raw(if signed { 1 } else { 0 })],
                                  Type::Bool);
         (res, of)
     }
@@ -932,11 +936,9 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn lifetime_start(&mut self, ptr: Self::Value, size: rustc_abi::Size) {
-        todo!()
     }
 
     fn lifetime_end(&mut self, ptr: Self::Value, size: rustc_abi::Size) {
-        todo!()
     }
 
     fn call(
@@ -967,7 +969,7 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         funclet: Option<&Self::Funclet>,
         callee_instance: Option<Instance<'tcx>>,
     ) {
-        todo!()
+        unimplemented!()
     }
 
     fn apply_attrs_to_cleanup_callsite(&mut self, llret: Self::Value) {

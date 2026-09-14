@@ -25,8 +25,8 @@ mod ffi {
     #[derive(Debug)]
     pub struct Function {
         name: String,
-        n_args: usize,
         has_ret: bool,
+        args: Vec<ArgInfo>,
         slots: Vec<Slot>,
 
         flags: Flags,
@@ -36,6 +36,20 @@ mod ffi {
 
         allocas: Vec<Alloca>,
         basic_blocks: Vec<BasicBlock>,
+    }
+
+    #[derive(Debug)]
+    pub enum ArgKind {
+        Direct,
+        ByVal,
+        sRet
+    }
+
+    #[derive(Debug, Copy, Clone)]
+    pub struct ArgInfo {
+        kind: ArgKind,
+        size: u32,
+        align: u32,
     }
 
     #[derive(Debug)]

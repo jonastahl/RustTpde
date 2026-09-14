@@ -325,6 +325,9 @@ namespace tpde_rust::x64 {
       ASM(MOV64rm, dst, FE_MEM(FE_IP, 0, FE_NOREG, -1));
       reloc_text(sym, tpde::elf::R_X86_64_GOTPCREL, text_writer.offset() - 4, - 4);
       if (offset != 0) {
+        // TODO assert, dass conversion zu i32 geht
+        // TODO assert, dass i32 insgesamt passt
+        // TODO assert, dass das kein thread local ist
         ASM(LEA64rm, dst, FE_MEM(dst, 0, FE_NOREG, static_cast<int32_t>(offset)));
       }
     } else {

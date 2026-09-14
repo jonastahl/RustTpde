@@ -2,8 +2,24 @@ ModuleTpde {
     functions: [
         Function {
             name: "add3_u128",
-            n_args: 3,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -29,8 +45,24 @@ ModuleTpde {
         },
         Function {
             name: "add3_u32",
-            n_args: 3,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -56,8 +88,29 @@ ModuleTpde {
         },
         Function {
             name: "add4_args_u128",
-            n_args: 4,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -86,8 +139,49 @@ ModuleTpde {
         },
         Function {
             name: "add8_args_u32",
-            n_args: 8,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -128,8 +222,19 @@ ModuleTpde {
         },
         Function {
             name: "add_i128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -152,8 +257,19 @@ ModuleTpde {
         },
         Function {
             name: "add_i16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -176,8 +292,19 @@ ModuleTpde {
         },
         Function {
             name: "add_i32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -200,8 +327,19 @@ ModuleTpde {
         },
         Function {
             name: "add_i64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -224,8 +362,19 @@ ModuleTpde {
         },
         Function {
             name: "add_i8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -248,8 +397,24 @@ ModuleTpde {
         },
         Function {
             name: "add_mul_u32",
-            n_args: 3,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -275,8 +440,19 @@ ModuleTpde {
         },
         Function {
             name: "add_sub_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -303,8 +479,19 @@ ModuleTpde {
         },
         Function {
             name: "add_sub_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -331,8 +518,19 @@ ModuleTpde {
         },
         Function {
             name: "add_sub_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -359,8 +557,19 @@ ModuleTpde {
         },
         Function {
             name: "add_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -383,8 +592,19 @@ ModuleTpde {
         },
         Function {
             name: "add_u16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -407,8 +627,19 @@ ModuleTpde {
         },
         Function {
             name: "add_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -431,8 +662,19 @@ ModuleTpde {
         },
         Function {
             name: "add_u64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -455,8 +697,19 @@ ModuleTpde {
         },
         Function {
             name: "add_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -479,8 +732,19 @@ ModuleTpde {
         },
         Function {
             name: "and_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -503,8 +767,19 @@ ModuleTpde {
         },
         Function {
             name: "and_u16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -527,8 +802,19 @@ ModuleTpde {
         },
         Function {
             name: "and_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -551,8 +837,19 @@ ModuleTpde {
         },
         Function {
             name: "and_u64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -575,8 +872,19 @@ ModuleTpde {
         },
         Function {
             name: "and_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -599,8 +907,19 @@ ModuleTpde {
         },
         Function {
             name: "clear_low_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -631,8 +950,19 @@ ModuleTpde {
         },
         Function {
             name: "de_morgan_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -665,8 +995,19 @@ ModuleTpde {
         },
         Function {
             name: "de_morgan_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -699,8 +1040,19 @@ ModuleTpde {
         },
         Function {
             name: "div_i128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -745,8 +1097,19 @@ ModuleTpde {
         },
         Function {
             name: "div_i16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -791,8 +1154,19 @@ ModuleTpde {
         },
         Function {
             name: "div_i32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -837,8 +1211,19 @@ ModuleTpde {
         },
         Function {
             name: "div_i64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -883,8 +1268,19 @@ ModuleTpde {
         },
         Function {
             name: "div_i8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -929,8 +1325,19 @@ ModuleTpde {
         },
         Function {
             name: "div_rem_i128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -1003,8 +1410,19 @@ ModuleTpde {
         },
         Function {
             name: "div_rem_i32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -1077,8 +1495,19 @@ ModuleTpde {
         },
         Function {
             name: "div_rem_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -1125,8 +1554,19 @@ ModuleTpde {
         },
         Function {
             name: "div_rem_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -1173,8 +1613,19 @@ ModuleTpde {
         },
         Function {
             name: "div_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -1206,8 +1657,19 @@ ModuleTpde {
         },
         Function {
             name: "div_u16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -1239,8 +1701,19 @@ ModuleTpde {
         },
         Function {
             name: "div_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -1272,8 +1745,19 @@ ModuleTpde {
         },
         Function {
             name: "div_u64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -1305,8 +1789,19 @@ ModuleTpde {
         },
         Function {
             name: "div_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -1338,8 +1833,19 @@ ModuleTpde {
         },
         Function {
             name: "keep_low_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -1368,8 +1874,29 @@ ModuleTpde {
         },
         Function {
             name: "mixed_width_u128",
-            n_args: 4,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i128,
@@ -1402,8 +1929,24 @@ ModuleTpde {
         },
         Function {
             name: "mul_add_u128",
-            n_args: 3,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -1429,8 +1972,24 @@ ModuleTpde {
         },
         Function {
             name: "mul_add_u32",
-            n_args: 3,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -1456,8 +2015,24 @@ ModuleTpde {
         },
         Function {
             name: "mul_add_u8",
-            n_args: 3,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -1483,8 +2058,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_i128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -1507,8 +2093,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_i16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -1531,8 +2128,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_i32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -1555,8 +2163,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_i64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -1579,8 +2198,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_i8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -1603,8 +2233,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -1627,8 +2268,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_u16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -1651,8 +2303,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -1675,8 +2338,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_u64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -1699,8 +2373,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -1723,8 +2408,14 @@ ModuleTpde {
         },
         Function {
             name: "neg_i128",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -1746,8 +2437,14 @@ ModuleTpde {
         },
         Function {
             name: "neg_i16",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -1769,8 +2466,14 @@ ModuleTpde {
         },
         Function {
             name: "neg_i32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -1792,8 +2495,14 @@ ModuleTpde {
         },
         Function {
             name: "neg_i64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -1815,8 +2524,14 @@ ModuleTpde {
         },
         Function {
             name: "neg_i8",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -1838,8 +2553,14 @@ ModuleTpde {
         },
         Function {
             name: "neg_via_not_i128",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -1863,8 +2584,14 @@ ModuleTpde {
         },
         Function {
             name: "neg_via_not_i32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -1888,8 +2615,14 @@ ModuleTpde {
         },
         Function {
             name: "not_bool",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 Bool,
                 Bool,
@@ -1911,8 +2644,14 @@ ModuleTpde {
         },
         Function {
             name: "not_i128",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -1934,8 +2673,14 @@ ModuleTpde {
         },
         Function {
             name: "not_i16",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -1957,8 +2702,14 @@ ModuleTpde {
         },
         Function {
             name: "not_i32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -1980,8 +2731,14 @@ ModuleTpde {
         },
         Function {
             name: "not_i64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -2003,8 +2760,14 @@ ModuleTpde {
         },
         Function {
             name: "not_i8",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -2026,8 +2789,14 @@ ModuleTpde {
         },
         Function {
             name: "not_u128",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -2049,8 +2818,14 @@ ModuleTpde {
         },
         Function {
             name: "not_u16",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -2072,8 +2847,14 @@ ModuleTpde {
         },
         Function {
             name: "not_u32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -2095,8 +2876,14 @@ ModuleTpde {
         },
         Function {
             name: "not_u64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -2118,8 +2905,14 @@ ModuleTpde {
         },
         Function {
             name: "not_u8",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -2141,8 +2934,19 @@ ModuleTpde {
         },
         Function {
             name: "or_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -2165,8 +2969,19 @@ ModuleTpde {
         },
         Function {
             name: "or_u16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -2189,8 +3004,19 @@ ModuleTpde {
         },
         Function {
             name: "or_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -2213,8 +3039,19 @@ ModuleTpde {
         },
         Function {
             name: "or_u64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -2237,8 +3074,19 @@ ModuleTpde {
         },
         Function {
             name: "or_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -2261,8 +3109,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_i128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -2307,8 +3166,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_i16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -2353,8 +3223,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_i32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -2399,8 +3280,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_i64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -2445,8 +3337,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_i8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -2491,8 +3394,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -2524,8 +3438,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_u16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -2557,8 +3482,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -2590,8 +3526,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_u64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -2623,8 +3570,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -2656,8 +3614,14 @@ ModuleTpde {
         },
         Function {
             name: "sext_i64_i128",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i128,
@@ -2679,8 +3643,14 @@ ModuleTpde {
         },
         Function {
             name: "shl3_u128",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i32,
@@ -2706,8 +3676,14 @@ ModuleTpde {
         },
         Function {
             name: "shl3_u32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -2731,8 +3707,14 @@ ModuleTpde {
         },
         Function {
             name: "shl64_u128",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i32,
@@ -2758,8 +3740,19 @@ ModuleTpde {
         },
         Function {
             name: "shl_i128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -2784,8 +3777,19 @@ ModuleTpde {
         },
         Function {
             name: "shl_i16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -2810,8 +3814,19 @@ ModuleTpde {
         },
         Function {
             name: "shl_i32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -2836,8 +3851,19 @@ ModuleTpde {
         },
         Function {
             name: "shl_i64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -2862,8 +3888,19 @@ ModuleTpde {
         },
         Function {
             name: "shl_i8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -2888,8 +3925,19 @@ ModuleTpde {
         },
         Function {
             name: "shl_mul_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -2922,8 +3970,19 @@ ModuleTpde {
         },
         Function {
             name: "shl_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -2948,8 +4007,19 @@ ModuleTpde {
         },
         Function {
             name: "shl_u16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -2974,8 +4044,19 @@ ModuleTpde {
         },
         Function {
             name: "shl_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -3000,8 +4081,19 @@ ModuleTpde {
         },
         Function {
             name: "shl_u64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -3026,8 +4118,19 @@ ModuleTpde {
         },
         Function {
             name: "shl_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -3052,8 +4155,14 @@ ModuleTpde {
         },
         Function {
             name: "shr100_i128",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i32,
@@ -3079,8 +4188,14 @@ ModuleTpde {
         },
         Function {
             name: "shr3_i32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -3104,8 +4219,14 @@ ModuleTpde {
         },
         Function {
             name: "shr3_u32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -3129,8 +4250,14 @@ ModuleTpde {
         },
         Function {
             name: "shr64_u128",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i32,
@@ -3156,8 +4283,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_i128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -3182,8 +4320,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_i16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -3208,8 +4357,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_i32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -3234,8 +4394,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_i64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -3260,8 +4431,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_i8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -3286,8 +4468,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_shl_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -3316,8 +4509,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_shl_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -3346,8 +4550,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -3372,8 +4587,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_u16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -3398,8 +4624,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -3424,8 +4661,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_u64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -3450,8 +4698,19 @@ ModuleTpde {
         },
         Function {
             name: "shr_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -3476,8 +4735,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_i128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -3500,8 +4770,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_i16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -3524,8 +4805,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_i32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -3548,8 +4840,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_i64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -3572,8 +4875,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_i8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -3596,8 +4910,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -3620,8 +4945,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_u16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -3644,8 +4980,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -3668,8 +5015,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_u64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -3692,8 +5050,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -3716,8 +5085,14 @@ ModuleTpde {
         },
         Function {
             name: "trunc_u128_u64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i64,
@@ -3739,8 +5114,14 @@ ModuleTpde {
         },
         Function {
             name: "trunc_u128_u8",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i8,
@@ -3762,8 +5143,19 @@ ModuleTpde {
         },
         Function {
             name: "xor_i128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -3786,8 +5178,19 @@ ModuleTpde {
         },
         Function {
             name: "xor_i16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -3810,8 +5213,19 @@ ModuleTpde {
         },
         Function {
             name: "xor_i32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -3834,8 +5248,19 @@ ModuleTpde {
         },
         Function {
             name: "xor_i64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -3858,8 +5283,19 @@ ModuleTpde {
         },
         Function {
             name: "xor_i8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -3882,8 +5318,19 @@ ModuleTpde {
         },
         Function {
             name: "xor_roundtrip_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -3908,8 +5355,19 @@ ModuleTpde {
         },
         Function {
             name: "xor_u128",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i128,
                 i128,
@@ -3932,8 +5390,19 @@ ModuleTpde {
         },
         Function {
             name: "xor_u16",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i16,
                 i16,
@@ -3956,8 +5425,19 @@ ModuleTpde {
         },
         Function {
             name: "xor_u32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 i32,
@@ -3980,8 +5460,19 @@ ModuleTpde {
         },
         Function {
             name: "xor_u64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i64,
@@ -4004,8 +5495,19 @@ ModuleTpde {
         },
         Function {
             name: "xor_u8",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i8,
                 i8,
@@ -4028,8 +5530,14 @@ ModuleTpde {
         },
         Function {
             name: "zext_u64_u128",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 i128,
@@ -4051,8 +5559,14 @@ ModuleTpde {
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const23panic_const_div_by_zero",
-            n_args: 1,
             has_ret: false,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 ptr,
             ],
@@ -4068,8 +5582,14 @@ ModuleTpde {
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_div_overflow",
-            n_args: 1,
             has_ret: false,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 ptr,
             ],
@@ -4085,8 +5605,14 @@ ModuleTpde {
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const23panic_const_rem_by_zero",
-            n_args: 1,
             has_ret: false,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 ptr,
             ],
@@ -4102,8 +5628,14 @@ ModuleTpde {
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_rem_overflow",
-            n_args: 1,
             has_ret: false,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 ptr,
             ],

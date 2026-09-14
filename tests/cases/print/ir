@@ -2,8 +2,19 @@ ModuleTpde {
     functions: [
         Function {
             name: "_RNvMs4_NtCs94NUNretDkj_4core3fmtNtB5_9Arguments8from_strCseeGrevWVrEI_6source",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 ptr,
                 i64,
@@ -36,8 +47,8 @@ ModuleTpde {
         },
         Function {
             name: "print",
-            n_args: 0,
             has_ret: false,
+            args: [],
             slots: [
                 ptr,
                 ptr,
@@ -61,8 +72,19 @@ ModuleTpde {
         },
         Function {
             name: "_RNvNtNtCs72J22aohzRW_3std2io5stdio6__print",
-            n_args: 2,
             has_ret: false,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 ptr,
                 ptr,

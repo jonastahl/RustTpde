@@ -36,7 +36,8 @@ pub enum FullType {
 
 pub struct FunctionSignatureRef(usize);
 pub struct FunctionSignature {
-    pub args: Vec<Type>,
+    pub slots: Vec<Type>,
+    pub arg_infos: Vec<ArgInfo>,
     pub ret: Option<FullType>,
 }
 
@@ -53,9 +54,7 @@ pub fn size_of_type(ty: Type) -> u32 {
     }
 }
 
-pub use super::ffi::InstructionKind;
-pub use super::ffi::Type;
-
+pub use super::ffi::{ArgInfo, ArgKind, Type, InstructionKind};
 
 pub struct Module {
     tpde: ModuleTpde,
@@ -102,22 +101,31 @@ impl Module {
         &mut self,
         cx: &CodegenCx<'tpde, 'tcx>,
         name: &str,
-        fn_sign: &FunctionSignature,
+        fn_sign: FunctionSignature,
         linkage: Linkage,
         ty: Binding
     ) -> Function {
+        let FunctionSignature{slots, arg_infos, ret} = fn_sign;
         self.tpde.functions.push(ffi::Function {
             name: name.to_string(),
-            n_args: fn_sign.args.len(),
             has_ret: fn_sign.ret.is_some(),
+            args: arg_infos,
             has_personality: false,
             personality: 0,
-            slots: fn_sign.args.iter().map(|ty| ffi::Slot { ty: *ty }).collect(),
+            slots: slots.iter().map(|ty| ffi::Slot { ty: *ty }).collect(),
             flags: Self::create_flags(linkage, ty),
             allocas: vec![],
             basic_blocks: vec![],
         });
         Function(self.tpde.functions.len() - 1)
+    }
+
+    pub fn return_value(&mut self, func: Function) -> Option<Slot> {
+        if self.tpde.functions[func.0].has_ret {
+            Some(Slot::new_val(func, 0))
+        } else {
+            None
+        }
     }
 
     pub fn add_personality(&mut self, func: Function, personality: Function) {

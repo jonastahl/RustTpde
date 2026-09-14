@@ -111,25 +111,23 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] auto cur_args() const {
-      return std::views::iota(0u, cur_func->n_args);
+      return std::views::iota(0u, cur_func->args.size());
     }
 
-    [[nodiscard]] static bool cur_arg_is_byval(const u32 idx) {
-      // TODO so far no byval supported
-      return false;
+    [[nodiscard]] bool cur_arg_is_byval(const u32 idx) const {
+      return this->cur_func->args[idx].kind == ArgKind::ByVal;
     }
 
     [[nodiscard]] u32 cur_arg_byval_size(const u32 idx) const {
-      throw std::runtime_error("byval not supported");
+      return this->cur_func->args[idx].size;
     }
 
     [[nodiscard]] u32 cur_arg_byval_align(const u32 idx) const {
-      throw std::runtime_error("byval not supported");
+      return this->cur_func->args[idx].align;
     }
 
-    [[nodiscard]] static u32 cur_arg_is_sret(const u32 idx) {
-      // TODO so far only byval supported
-      return false;
+    [[nodiscard]] u32 cur_arg_is_sret(const u32 idx) const {
+      return this->cur_func->args[idx].kind == ArgKind::sRet;
     }
 
     [[nodiscard]] auto cur_static_allocas() const {

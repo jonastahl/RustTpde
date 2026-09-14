@@ -2,8 +2,19 @@ ModuleTpde {
     functions: [
         Function {
             name: "find_user",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: sRet,
+                    size: 24,
+                    align: 8,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 ptr,
                 i32,
@@ -68,8 +79,19 @@ ModuleTpde {
         },
         Function {
             name: "find_user_by_age",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: sRet,
+                    size: 24,
+                    align: 8,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 ptr,
                 i32,
@@ -127,8 +149,19 @@ ModuleTpde {
         },
         Function {
             name: "increase_age",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: sRet,
+                    size: 24,
+                    align: 8,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 ptr,
                 ptr,
@@ -224,8 +257,14 @@ ModuleTpde {
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_add_overflow",
-            n_args: 1,
             has_ret: false,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 ptr,
             ],
@@ -241,8 +280,14 @@ ModuleTpde {
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_sub_overflow",
-            n_args: 1,
             has_ret: false,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 ptr,
             ],

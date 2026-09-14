@@ -2,8 +2,8 @@ ModuleTpde {
     functions: [
         Function {
             name: "give_me_str",
-            n_args: 0,
             has_ret: true,
+            args: [],
             slots: [
                 ptr,
                 i64,
@@ -28,8 +28,8 @@ ModuleTpde {
         },
         Function {
             name: "more_string",
-            n_args: 0,
             has_ret: true,
+            args: [],
             slots: [],
             flags: Flags {
                 extern_link: false,
@@ -47,8 +47,8 @@ ModuleTpde {
         },
         Function {
             name: "my_user",
-            n_args: 0,
             has_ret: true,
+            args: [],
             slots: [],
             flags: Flags {
                 extern_link: false,

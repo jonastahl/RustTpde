@@ -2,8 +2,24 @@ ModuleTpde {
     functions: [
         Function {
             name: "add3_f64",
-            n_args: 3,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -29,8 +45,54 @@ ModuleTpde {
         },
         Function {
             name: "add9_args_f64",
-            n_args: 9,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -74,8 +136,14 @@ ModuleTpde {
         },
         Function {
             name: "add_big_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -97,8 +165,14 @@ ModuleTpde {
         },
         Function {
             name: "add_const_f32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -120,8 +194,14 @@ ModuleTpde {
         },
         Function {
             name: "add_const_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -143,8 +223,19 @@ ModuleTpde {
         },
         Function {
             name: "add_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -167,8 +258,19 @@ ModuleTpde {
         },
         Function {
             name: "add_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -191,8 +293,14 @@ ModuleTpde {
         },
         Function {
             name: "add_inf_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -214,8 +322,24 @@ ModuleTpde {
         },
         Function {
             name: "add_mul_f64",
-            n_args: 3,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -241,8 +365,14 @@ ModuleTpde {
         },
         Function {
             name: "add_neg_inf_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -264,8 +394,14 @@ ModuleTpde {
         },
         Function {
             name: "add_neg_zero_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -287,8 +423,19 @@ ModuleTpde {
         },
         Function {
             name: "add_sub_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -315,8 +462,14 @@ ModuleTpde {
         },
         Function {
             name: "add_zero_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -338,8 +491,14 @@ ModuleTpde {
         },
         Function {
             name: "branch_const_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 Bool,
@@ -376,8 +535,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_eq_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -415,8 +585,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_eq_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -454,8 +635,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_ge_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -493,8 +685,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_ge_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -532,8 +735,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_gt_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -571,8 +785,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_gt_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -610,8 +835,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_le_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -649,8 +885,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_le_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -688,8 +935,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_lt_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -727,8 +985,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_lt_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -766,8 +1035,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_ne_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -805,8 +1085,19 @@ ModuleTpde {
         },
         Function {
             name: "branch_ne_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -844,8 +1135,14 @@ ModuleTpde {
         },
         Function {
             name: "cmp_const_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 Bool,
@@ -867,8 +1164,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_eq_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -891,8 +1199,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_eq_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -915,8 +1234,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_ge_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -939,8 +1269,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_ge_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -963,8 +1304,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_gt_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -987,8 +1339,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_gt_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1011,8 +1374,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_le_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -1035,8 +1409,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_le_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1059,8 +1444,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_lt_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -1083,8 +1479,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_lt_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1107,8 +1514,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_ne_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -1131,8 +1549,19 @@ ModuleTpde {
         },
         Function {
             name: "cmp_ne_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1155,8 +1584,14 @@ ModuleTpde {
         },
         Function {
             name: "const_div_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1178,8 +1613,14 @@ ModuleTpde {
         },
         Function {
             name: "const_sub_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1201,8 +1642,14 @@ ModuleTpde {
         },
         Function {
             name: "div_const_f32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -1224,8 +1671,14 @@ ModuleTpde {
         },
         Function {
             name: "div_const_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1247,8 +1700,19 @@ ModuleTpde {
         },
         Function {
             name: "div_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -1271,8 +1735,19 @@ ModuleTpde {
         },
         Function {
             name: "div_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1295,8 +1770,14 @@ ModuleTpde {
         },
         Function {
             name: "f32_to_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f64,
@@ -1318,8 +1799,14 @@ ModuleTpde {
         },
         Function {
             name: "f32_to_i32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 i32,
@@ -1341,8 +1828,14 @@ ModuleTpde {
         },
         Function {
             name: "f32_to_i64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 i64,
@@ -1364,8 +1857,14 @@ ModuleTpde {
         },
         Function {
             name: "f32_to_u32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 i32,
@@ -1387,8 +1886,14 @@ ModuleTpde {
         },
         Function {
             name: "f32_to_u64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 i64,
@@ -1410,8 +1915,14 @@ ModuleTpde {
         },
         Function {
             name: "f64_to_f32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f32,
@@ -1433,8 +1944,14 @@ ModuleTpde {
         },
         Function {
             name: "f64_to_i32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 i32,
@@ -1456,8 +1973,14 @@ ModuleTpde {
         },
         Function {
             name: "f64_to_i64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 i64,
@@ -1479,8 +2002,14 @@ ModuleTpde {
         },
         Function {
             name: "f64_to_u32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 i32,
@@ -1502,8 +2031,14 @@ ModuleTpde {
         },
         Function {
             name: "f64_to_u64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 i64,
@@ -1525,8 +2060,14 @@ ModuleTpde {
         },
         Function {
             name: "i32_to_f32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 f32,
@@ -1548,8 +2089,14 @@ ModuleTpde {
         },
         Function {
             name: "i32_to_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 f64,
@@ -1571,8 +2118,14 @@ ModuleTpde {
         },
         Function {
             name: "i64_to_f32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 f32,
@@ -1594,8 +2147,14 @@ ModuleTpde {
         },
         Function {
             name: "i64_to_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 f64,
@@ -1617,8 +2176,39 @@ ModuleTpde {
         },
         Function {
             name: "mixed_args",
-            n_args: 6,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 i64,
@@ -1655,8 +2245,24 @@ ModuleTpde {
         },
         Function {
             name: "mul_add_f32",
-            n_args: 3,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -1682,8 +2288,24 @@ ModuleTpde {
         },
         Function {
             name: "mul_add_f64",
-            n_args: 3,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1709,8 +2331,14 @@ ModuleTpde {
         },
         Function {
             name: "mul_const_f32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -1732,8 +2360,14 @@ ModuleTpde {
         },
         Function {
             name: "mul_const_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1755,8 +2389,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -1779,8 +2424,19 @@ ModuleTpde {
         },
         Function {
             name: "mul_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1803,8 +2459,14 @@ ModuleTpde {
         },
         Function {
             name: "mul_neg_one_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1826,8 +2488,14 @@ ModuleTpde {
         },
         Function {
             name: "mul_one_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1849,8 +2517,14 @@ ModuleTpde {
         },
         Function {
             name: "mul_pi_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1872,8 +2546,14 @@ ModuleTpde {
         },
         Function {
             name: "neg_f32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -1895,8 +2575,14 @@ ModuleTpde {
         },
         Function {
             name: "neg_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1918,8 +2604,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -1942,8 +2639,19 @@ ModuleTpde {
         },
         Function {
             name: "rem_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -1966,8 +2674,8 @@ ModuleTpde {
         },
         Function {
             name: "ret_const_f32",
-            n_args: 0,
             has_ret: true,
+            args: [],
             slots: [],
             flags: Flags {
                 extern_link: false,
@@ -1985,8 +2693,8 @@ ModuleTpde {
         },
         Function {
             name: "ret_const_f64",
-            n_args: 0,
             has_ret: true,
+            args: [],
             slots: [],
             flags: Flags {
                 extern_link: false,
@@ -2004,8 +2712,14 @@ ModuleTpde {
         },
         Function {
             name: "sub_const_f32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -2027,8 +2741,14 @@ ModuleTpde {
         },
         Function {
             name: "sub_const_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -2050,8 +2770,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_f32",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f32,
                 f32,
@@ -2074,8 +2805,19 @@ ModuleTpde {
         },
         Function {
             name: "sub_f64",
-            n_args: 2,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 f64,
                 f64,
@@ -2098,8 +2840,14 @@ ModuleTpde {
         },
         Function {
             name: "u32_to_f32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 f32,
@@ -2121,8 +2869,14 @@ ModuleTpde {
         },
         Function {
             name: "u32_to_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i32,
                 f64,
@@ -2144,8 +2898,14 @@ ModuleTpde {
         },
         Function {
             name: "u64_to_f32",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 f32,
@@ -2167,8 +2927,14 @@ ModuleTpde {
         },
         Function {
             name: "u64_to_f64",
-            n_args: 1,
             has_ret: true,
+            args: [
+                ArgInfo {
+                    kind: Direct,
+                    size: 0,
+                    align: 0,
+                },
+            ],
             slots: [
                 i64,
                 f64,
