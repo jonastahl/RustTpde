@@ -1409,7 +1409,8 @@ namespace tpde_rust {
       // TODO need to set flags for arg
 
       cb->add_arg(arg);
-    } {
+    }
+    {
       const auto func = calli.ops[0];
       if (operands::is_func(func)) {
         SymRef sym = this->func_syms[operands::content(func)];
@@ -1423,22 +1424,33 @@ namespace tpde_rust {
     }
 
     if (calli.has_result) {
-      tpde::CCAssignment cca; {
-        auto res = calli.result;
+      tpde::CCAssignment cca;
+
+      const auto res_to_ret = [this, &cb, &cca](uint32_t res) {
         assert(operands::is_val(res));
+
+        size_t count;
+        switch (this->adaptor->type_of_ref(res)) {
+          case Type::i128:
+            count = 2;
+            break;
+          default:
+            count = 1;
+            break;
+        }
         ValueRef ref = this->result_ref(res);
-        ValuePart part = ref.part(0);
-        cb->add_ret(part, cca);
-      }
+        for (size_t i = 0; i < count; ++i) {
+          ValuePart part = ref.part(i);
+          cb->add_ret(part, cca);
+        }
+      };
+
+      res_to_ret(calli.result);
 
       if (this->adaptor->get_basic_block(instr.block).instructions.size() > instr.next().inst) {
-        Instruction &pot_addret = this->adaptor->get_instruction(instr.next());
+        const Instruction &pot_addret = this->adaptor->get_instruction(instr.next());
         if (pot_addret.kind == InstructionKind::AddRet) {
-          auto res = pot_addret.result;
-          assert(operands::is_val(res));
-          ValueRef ref = this->result_ref(res);
-          ValuePart part = ref.part(0);
-          cb->add_ret(part, cca);
+          res_to_ret(pot_addret.result);
         }
       }
     }
