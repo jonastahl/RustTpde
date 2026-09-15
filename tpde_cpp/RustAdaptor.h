@@ -55,7 +55,8 @@ namespace tpde_rust {
         return cur_func->slots[operands::content(value)].ty;
       if (operands::is_const(value))
         return mod->consts[operands::content(value)].ty;
-      if (operands::is_alloc(value) || operands::is_global(value) || operands::is_global_ptr(value))
+      if (operands::is_alloc(value) || operands::is_global(value) || operands::is_global_ptr(value)
+          || operands::is_func(value))
         return Type::ptr;
       assert(false && "invalid value ref");
     }
@@ -107,7 +108,8 @@ namespace tpde_rust {
     }
 
     [[nodiscard]] u32 cur_highest_val_idx() const {
-      return cur_func->allocas.size() + cur_func->slots.size() + mod->globals.size() + mod->global_ptrs.size();
+      return cur_func->allocas.size() + cur_func->slots.size() + mod->globals.size() + mod->global_ptrs.size()
+             + mod->functions.size();
     }
 
     [[nodiscard]] auto cur_args() const {
@@ -167,6 +169,10 @@ namespace tpde_rust {
         case InstructionKind::Unreachable:
           offset = count = 0;
           break;
+        case InstructionKind::Invoke:
+          offset = 1;
+          count = 2;
+          break;
         default:
           throw std::runtime_error("Invalid branching instruction");
       }
@@ -225,6 +231,12 @@ namespace tpde_rust {
       if (operands::is_global_ptr(ir_value))
         return static_cast<tpde::ValLocalIdx>(operands::content(ir_value) + prev);
       prev += mod->global_ptrs.size();
+
+      // Function references are materialized as variable refs holding the
+      // address of the function symbol.
+      if (operands::is_func(ir_value))
+        return static_cast<tpde::ValLocalIdx>(operands::content(ir_value) + prev);
+      prev += mod->functions.size();
 
       assert(false);
     }

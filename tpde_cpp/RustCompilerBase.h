@@ -165,7 +165,7 @@ namespace tpde_rust {
 
     std::optional<ValRefSpecial> val_ref_special(IRValueRef value) {
       if (operands::is_const(value) || operands::is_global(value)
-          || operands::is_global_ptr(value)) {
+          || operands::is_global_ptr(value) || operands::is_func(value)) {
         return ValRefSpecial::make_const(value);
       }
       return std::nullopt;
@@ -208,6 +208,8 @@ namespace tpde_rust {
                               + this->adaptor->cur_func->slots.size();
         uint32_t glob_ptr_start = glob_start
                                   + this->adaptor->mod->globals.size();
+        uint32_t func_start = glob_ptr_start
+                              + this->adaptor->mod->global_ptrs.size();
 
         u32 gv_id = operands::content(vrs.data);
         u32 loc_id;
@@ -215,6 +217,10 @@ namespace tpde_rust {
           loc_id = glob_start + gv_id;
         } else if (operands::is_global_ptr(vrs.data)) {
           loc_id = glob_ptr_start + gv_id;
+        } else if (operands::is_func(vrs.data)) {
+          // A function used as a value: materialize the address of its symbol.
+          assert(part == 0);
+          loc_id = func_start + gv_id;
         } else {
           throw std::runtime_error("unknown special mode");
         }
@@ -333,6 +339,9 @@ namespace tpde_rust {
     bool compile_memcpy(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
     bool compile_call(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_invoke(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_landing_pad(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_resume(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
     bool compile_cast(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
@@ -477,6 +486,8 @@ namespace tpde_rust {
       set_fn(InstructionKind::Load, &Derived::compile_load);
       set_fn(InstructionKind::MemCpy, &Derived::compile_memcpy);
       set_fn(InstructionKind::Call, &Derived::compile_call);
+      set_fn(InstructionKind::Invoke, &Derived::compile_invoke);
+      set_fn(InstructionKind::LandingPad, &Derived::compile_landing_pad);
 
       set_fn(InstructionKind::CondBr, &Derived::compile_condbr);
       set_fn(InstructionKind::Br, &Derived::compile_br);
@@ -1390,7 +1401,8 @@ namespace tpde_rust {
     }
 
     Instruction &calli = this->adaptor->get_instruction(instr);
-    for (auto &op: calli.ops | std::ranges::views::drop(1)) {
+    size_t arg_start = calli.kind == InstructionKind::Call ? 1 : 3;
+    for (auto &op: calli.ops | std::ranges::views::drop(arg_start)) {
       using CallArg = typename Derived::CallArg;
 
       CallArg arg{op};
@@ -1399,9 +1411,15 @@ namespace tpde_rust {
       cb->add_arg(arg);
     } {
       const auto func = calli.ops[0];
-      assert(operands::is_func(func));
-      SymRef sym = this->func_syms[operands::content(func)];
-      cb->call(sym);
+      if (operands::is_func(func)) {
+        SymRef sym = this->func_syms[operands::content(func)];
+        cb->call(sym);
+      } else if (operands::is_val(func)) {
+        auto [_, tgt_vp] = this->val_ref_single(func);
+        cb->call(std::move(tgt_vp));
+      } else {
+        assert(false);
+      }
     }
 
     if (calli.has_result) {
@@ -1413,7 +1431,7 @@ namespace tpde_rust {
         cb->add_ret(part, cca);
       }
 
-      if (this->adaptor->get_basic_block(instr.block).instructions.size() > instr.inst) {
+      if (this->adaptor->get_basic_block(instr.block).instructions.size() > instr.next().inst) {
         Instruction &pot_addret = this->adaptor->get_instruction(instr.next());
         if (pot_addret.kind == InstructionKind::AddRet) {
           auto res = pot_addret.result;
@@ -1426,6 +1444,127 @@ namespace tpde_rust {
     }
 
     return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_invoke(RustAdaptor::IRInstRef inst_ref, const ValInfo &val_info, u64) {
+    Instruction &inst = this->adaptor->get_instruction(inst_ref);
+
+
+  // we need to spill here since the call might branch off
+  // TODO: this will also spill the call arguments even if the call kills them
+  // however, spillBeforeCall already does this anyways so probably something
+  // for later
+  auto spilled = this->spill_before_branch();
+
+  const auto off_before_call = this->text_writer.offset();
+  // compile the call
+  // TODO: in the case of an exception we need to invalidate the result
+  // registers
+  // TODO: if the call needs stack space, this must be undone in the unwind
+  // block! LLVM emits .cfi_escape 0x2e, <off>, we should do the same?
+  // (Current workaround by treating invoke as dynamic alloca.)
+  if (!this->compile_call(inst_ref, val_info, 0)) {
+    return false;
+  }
+  const auto off_after_call = this->text_writer.offset();
+
+  // build the eh table
+    IRBlockRef normal_block_ref = operands::content(inst.ops[1]);
+    IRBlockRef unwind_block_ref = operands::content(inst.ops[2]);
+    auto unwind_block_has_phi = false; // TODO
+
+  const BasicBlock& unwind_block = this->adaptor->get_basic_block(unwind_block_ref);
+  const BasicBlock& normal_block = this->adaptor->get_basic_block(normal_block_ref);
+  auto unwind_label =
+      this->block_labels[(u32)this->analyzer.block_idx(unwind_block_ref)];
+
+  // We always spill the call result. Also, generate_call might move values
+  // again into registers, which we need to release again.
+  // TODO: evaluate when exactly this is required.
+  spilled |= this->spill_before_branch(/*force_spill=*/true);
+
+  // if the unwind block has phi-nodes, we need more code to propagate values
+  // to it so do the propagation logic
+  if (unwind_block_has_phi) {
+    // generate the jump to the normal successor but don't allow
+    // fall-through
+    derived()->generate_branch_to_block(Derived::Jump::jmp,
+                                        normal_block_ref,
+                                        /* split */ false,
+                                        /* last_inst */ false);
+
+    this->release_spilled_regs(spilled);
+
+    unwind_label = this->text_writer.label_create();
+    this->label_place(unwind_label);
+
+    // allocate the special registers that are set by the unwinding logic
+    // so the phi-propagation does not use them as temporaries
+    ScratchReg scratch1{derived()}, scratch2{derived()};
+    assert(!this->register_file.is_used(Derived::LANDING_PAD_RES_REGS[0]));
+    assert(!this->register_file.is_used(Derived::LANDING_PAD_RES_REGS[1]));
+    scratch1.alloc_specific(Derived::LANDING_PAD_RES_REGS[0]);
+    scratch2.alloc_specific(Derived::LANDING_PAD_RES_REGS[1]);
+
+    derived()->generate_branch_to_block(Derived::Jump::jmp,
+                                        unwind_block_ref,
+                                        /* split */ false,
+                                        /* last_inst */ false);
+  } else {
+    // allow fall-through
+    derived()->generate_branch_to_block(Derived::Jump::jmp,
+                                        normal_block_ref,
+                                        /* split */ false,
+                                        /* last_inst */ true);
+
+    this->release_spilled_regs(spilled);
+  }
+
+  const auto is_cleanup = false;  // TODO
+  const auto num_clauses = unwind_block.instructions.size();
+  const auto only_cleanup = is_cleanup && num_clauses == 0;
+
+  this->text_writer.except_add_call_site(off_before_call,
+                                         off_after_call - off_before_call,
+                                         unwind_label,
+                                         only_cleanup);
+
+  if (only_cleanup) {
+    // no clause so we are done
+    return true;
+  }
+
+  // Only filters are used, no need for catch
+  this->text_writer.except_add_empty_spec_action(true);
+
+  if (is_cleanup) {
+    assert(num_clauses != 0);
+    this->text_writer.except_add_cleanup_action();
+  }
+
+  return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_landing_pad(RustAdaptor::IRInstRef inst_ref, const ValInfo &, u64) {
+    Instruction &lp = this->adaptor->get_instruction(inst_ref);
+    Instruction &lp_next = this->adaptor->get_instruction(inst_ref.next());
+    this->result_ref(lp.result).part(0).set_value_reg(Derived::LANDING_PAD_RES_REGS[0]);
+    this->result_ref(lp_next.result).part(0).set_value_reg(Derived::LANDING_PAD_RES_REGS[1]);
+
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_resume(RustAdaptor::IRInstRef inst_ref, const ValInfo &val_info, u64) {
+    Instruction &inst = this->adaptor->get_instruction(inst_ref);
+    IRValueRef arg = inst.ops[0];
+
+    const auto sym = get_libfunc_sym(LibFunc::resume);
+
+    derived()->create_helper_call({&arg, 1}, nullptr, sym);
+    return derived()->compile_unreachable(nullptr, val_info, 0);
   }
 
   template<typename Adaptor, typename Derived, typename Config>

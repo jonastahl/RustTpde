@@ -139,17 +139,22 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
 
     fn invoke(
         &mut self,
-        llty: Self::FunctionSignature,
+        func_sig: Self::FunctionSignature,
         fn_attrs: Option<&CodegenFnAttrs>,
         fn_abi: Option<&rustc_target::callconv::FnAbi<'tcx, Ty<'tcx>>>,
-        llfn: Self::Value,
+        fn_val: Self::Value,
         args: &[Self::Value],
         then: Self::BasicBlock,
         catch: Self::BasicBlock,
         funclet: Option<&Self::Funclet>,
         instance: Option<Instance<'tcx>>,
     ) -> Self::Value {
-        todo!()
+        let func_sig = &self.function_signatures.borrow()[func_sig];
+
+        self.module
+            .borrow_mut()
+            .add_invoke(self.basic_block, fn_val, func_sig, then, catch, args)
+            .unwrap_or_else(|| Slot::new_raw(0))
     }
 
     fn unreachable(&mut self) {
@@ -442,46 +447,16 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn load(&mut self, ty: Self::Type, ptr: Self::Value, align: rustc_abi::Align) -> Self::Value {
-        todo!()
-        // match ty {
-        //     FullType::Single(ret_ty) => {
-        //         todo!()
-        //     }
-        //     FullType::Pair(ty_a, ty_b, offset) => {
-        //         let module = &mut self.tpde_module.borrow_mut();
-        //
-        //         let slot_a = module.add_instruction_raw(
-        //             self.basic_block,
-        //             InstructionKind::Load,
-        //             vec![
-        //                 ptr,
-        //                 Slot::new_raw(align.bytes_usize() as u32),
-        //             ],
-        //             Some(ty_a),
-        //         );
-        //         let ind = module.add_const(Type::i64, 1);
-        //         let ptr_b = module.add_instruction_raw(
-        //             self.basic_block,
-        //             InstructionKind::GEP,
-        //             vec![ptr, Slot::new_raw(offset as u32), ind],
-        //             Some(Type::i64),
-        //         );
-        //         let slot_b = module.add_instruction_raw(
-        //             self.basic_block,
-        //             InstructionKind::Load,
-        //             vec![ptr_b, Slot::new_raw(align.bytes_usize() as u32)],
-        //             Some(ty_b),
-        //         );
-        //
-        //         match slot_a.get_func().or(slot_b.get_func()) {
-        //             None => module.add_const_pair(slot_a, slot_b, offset),
-        //             Some(func) => module.add_pair(func, slot_a, slot_b, offset),
-        //         }
-        //     },
-        //     FullType::Memory { sized } => {
-        //         todo!()
-        //     }
-        // }
+        let FullType::Single(ty) = ty else { unreachable!() };
+        self.module.borrow_mut().add_instruction_ret(
+            self.basic_block,
+            InstructionKind::Load,
+            vec![
+                ptr,
+                Slot::new_raw(align.bytes() as u32),
+            ],
+            ty,
+        )
     }
 
     fn volatile_load(
@@ -862,17 +837,24 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn cleanup_landing_pad(&mut self, pers_fn: Self::Function) -> (Self::Value, Self::Value) {
-        // self.abort();
-        //
-        // let dummy_ptr = self.const_u32(0);
-        // let dummy_i32 = self.const_i32(0);
-        // (dummy_ptr, dummy_i32)
         todo!()
     }
 
     fn filter_landing_pad(&mut self, pers_fn: Self::Function) {
-        todo!()
-        // self.abort();
+        self.set_personality_fn(pers_fn);
+        let module = &mut self.module.borrow_mut();
+        module.add_instruction_ret(
+            self.basic_block,
+            InstructionKind::LandingPad,
+            vec![],
+            Type::ptr
+        );
+        module.add_instruction_ret(
+            self.basic_block,
+            InstructionKind::AddRet,
+            vec![],
+            Type::i32
+        );
     }
 
     fn resume(&mut self, exn0: Self::Value, exn1: Self::Value) {
@@ -880,15 +862,15 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn cleanup_pad(&mut self, parent: Option<Self::Value>, args: &[Self::Value]) -> Self::Funclet {
-        todo!()
+        unimplemented!("Only for windows")
     }
 
     fn cleanup_ret(&mut self, funclet: &Self::Funclet, unwind: Option<Self::BasicBlock>) {
-        todo!()
+        unimplemented!("Only for windows")
     }
 
     fn catch_pad(&mut self, parent: Self::Value, args: &[Self::Value]) -> Self::Funclet {
-        todo!()
+        unimplemented!("Only for windows")
     }
 
     fn catch_switch(
@@ -897,11 +879,11 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         unwind: Option<Self::BasicBlock>,
         handlers: &[Self::BasicBlock],
     ) -> Self::Value {
-        todo!()
+        unimplemented!("Only for windows")
     }
 
     fn get_funclet_cleanuppad(&self, funclet: &Self::Funclet) -> Self::Value {
-        todo!()
+        unimplemented!("Only for windows")
     }
 
     fn atomic_cmpxchg(
@@ -973,7 +955,6 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn apply_attrs_to_cleanup_callsite(&mut self, llret: Self::Value) {
-        todo!()
     }
 }
 

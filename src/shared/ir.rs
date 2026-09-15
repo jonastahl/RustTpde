@@ -433,7 +433,7 @@ impl Module {
                     let pair = self.add_pair(slot_a, slot_b, offset_b);
                     ReturnType::Pair(pair, slot_a, slot_b)
                 }
-                Some(FullType::Memory { .. }) => todo!(),
+                Some(FullType::Memory { .. }) => ReturnType::Single(self.add_slot(bb.function, Type::ptr)),
             };
 
         let basic_block = self.get_basic_block_mut(bb);
@@ -468,6 +468,27 @@ impl Module {
         self.add_instruction_raw_internal(
             bb,
             InstructionKind::Call,
+            ops.as_slice(),
+            func_sign.ret
+        )
+    }
+
+    pub fn add_invoke(
+        &mut self,
+        bb: BasicBlock,
+        func_ref: Slot,
+        func_sign: &FunctionSignature,
+        then: BasicBlock,
+        catch: BasicBlock,
+        args: &[Slot]) -> Option<Slot> {
+        let mut ops = Vec::with_capacity(3 + args.len());
+        ops.push(func_ref);
+        ops.push(Slot::new_raw(then.index as u32));
+        ops.push(Slot::new_raw(catch.index as u32));
+        ops.extend_from_slice(args);
+        self.add_instruction_raw_internal(
+            bb,
+            InstructionKind::Invoke,
             ops.as_slice(),
             func_sign.ret
         )

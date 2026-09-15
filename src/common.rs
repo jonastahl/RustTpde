@@ -121,6 +121,7 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
         match ty {
             FullType::Single(ty) => {
                 let data = match ty {
+                    Type::Bool => cv.to_bool().unwrap() as u128,
                     Type::i8 => cv.to_i8().unwrap() as u128,
                     Type::i16 => cv.to_i16().unwrap() as u128,
                     Type::i32 => cv.to_i32().unwrap() as u128,

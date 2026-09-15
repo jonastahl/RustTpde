@@ -213,7 +213,6 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                             align: 0,
                         });
                     }
-                    PassMode::Cast { cast, pad_i32: _ } => todo!(),
                     PassMode::Indirect {
                         attrs,
                         meta_attrs,
@@ -239,7 +238,15 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                             size: 0,
                             align: 0,
                         });
-                    }
+                    },
+                    PassMode::Cast { cast, pad_i32: _ } => {
+                        slots.push(Type::ptr);
+                        arg_infos.push(ArgInfo {
+                            kind: ArgKind::Direct,
+                            size: 0,
+                            align: 0,
+                        })
+                    },
                 });
         }
 
@@ -259,7 +266,16 @@ impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     }
 
     fn cast_backend_type(&self, ty: &CastTarget) -> Self::Type {
-        todo!()
+        let size = ty.size(self);
+
+        match size.bytes() {
+            1 => FullType::Single(Type::i8),
+            2 => FullType::Single(Type::i16),
+            4 => FullType::Single(Type::i32),
+            8 => FullType::Single(Type::i64),
+            16 => FullType::Single(Type::i128),
+            _ => panic!("Unsupported CastTarget size: {}", size.bytes()),
+        }
     }
 
     fn fn_decl_backend_type(&self, fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> Self::FunctionSignature {

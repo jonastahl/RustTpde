@@ -2,7 +2,7 @@ use crate::builder::Builder;
 use crate::context::CodegenCx;
 use rustc_abi::{HasDataLayout, TargetDataLayout};
 use rustc_codegen_ssa::mir::place::PlaceRef;
-use rustc_codegen_ssa::traits::{AbiBuilderMethods, ArgAbiBuilderMethods};
+use rustc_codegen_ssa::traits::{AbiBuilderMethods, ArgAbiBuilderMethods, BuilderMethods};
 use rustc_middle::ty::layout::{FnAbiError, FnAbiOfHelpers, FnAbiRequest, HasTypingEnv, LayoutError, LayoutOfHelpers, MaybeResult, TyAndLayout};
 use rustc_middle::ty::{Ty, TypingEnv};
 use rustc_span::Span;
@@ -16,11 +16,15 @@ impl<'tpde, 'tcx> AbiBuilderMethods for Builder<'_, 'tpde, 'tcx> {
 
 impl<'tpde, 'tcx> ArgAbiBuilderMethods<'tcx> for Builder<'_, 'tpde, 'tcx> {
     fn store_fn_arg(&mut self, arg_abi: &ArgAbi<'tcx, Ty<'tcx>>, idx: &mut usize, dst: PlaceRef<'tcx, Self::Value>) {
-        todo!()
+        // todo!()
     }
 
     fn store_arg(&mut self, arg_abi: &ArgAbi<'tcx, Ty<'tcx>>, val: Self::Value, dst: PlaceRef<'tcx, Self::Value>) {
-        todo!()
+        self.store(
+            val,
+            dst.val.llval,
+            dst.val.align
+        );
     }
 }
 

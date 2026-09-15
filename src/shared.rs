@@ -164,6 +164,7 @@ mod ffi {
 
         // Calls
         Call,
+        Invoke,
         AddRet, // Pair return type, represents additional argument after call
 
         // Casts
@@ -183,6 +184,7 @@ mod ffi {
 
         Unreachable,
         Abort,
+        LandingPad,
 
         Last,
     }
@@ -265,6 +267,7 @@ impl Debug for ffi::Instruction {
 impl Debug for ffi::Value {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         let val = match self.ty {
+            Type::Bool => format!("{}", self.data2 != 0),
             Type::i8 => format!("{}", self.data2 as i8),
             Type::i16 => format!("{}", self.data2 as i16),
             Type::i32 => format!("{}", self.data2 as i32),
