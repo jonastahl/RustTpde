@@ -1,6 +1,6 @@
 use crate::context::CodegenCx;
 use crate::shared::ir::{ArgInfo, ArgKind, FullType, FunctionSignature, Type};
-use rustc_abi::{AddressSpace, BackendRepr, Primitive, Reg, Scalar};
+use rustc_abi::{AddressSpace, BackendRepr, Primitive, Reg, RegKind, Scalar};
 use rustc_codegen_ssa::common::TypeKind;
 use rustc_codegen_ssa::traits::{
     BaseTypeCodegenMethods, DerivedTypeCodegenMethods, LayoutTypeCodegenMethods,
@@ -240,12 +240,31 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                         });
                     },
                     PassMode::Cast { cast, pad_i32: _ } => {
-                        slots.push(Type::ptr);
-                        arg_infos.push(ArgInfo {
-                            kind: ArgKind::Direct,
-                            size: 0,
-                            align: 0,
-                        })
+                        match self.cast_backend_type(cast) {
+                            FullType::Single(ty) => {
+                                slots.push(ty);
+                                arg_infos.push(ArgInfo {
+                                    kind: ArgKind::Direct,
+                                    size: 0,
+                                    align: 0,
+                                })
+                            }
+                            FullType::Pair(a, b, offset_b) => {
+                                slots.push(a);
+                                arg_infos.push(ArgInfo {
+                                    kind: ArgKind::Direct,
+                                    size: 0,
+                                    align: 0,
+                                });
+                                slots.push(b);
+                                arg_infos.push(ArgInfo {
+                                    kind: ArgKind::Direct,
+                                    size: 0,
+                                    align: 0,
+                                });
+                            }
+                            _ => unreachable!()
+                        }
                     },
                 });
         }
@@ -260,21 +279,61 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
     }
 }
 
+impl CodegenCx<'_, '_> {
+    fn reg_to_ir_type(&self, reg: &Reg) -> Type {
+        match reg.kind {
+            RegKind::Integer => match reg.size.bytes() {
+                1 => Type::i8,
+                2 | 3 => Type::i16,
+                4 | 5 | 6 | 7 => Type::i32,
+                8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 => Type::i64,
+                16 => Type::i128,
+                _ => panic!("Unsupported integer register size"),
+            },
+            RegKind::Float => match reg.size.bytes() {
+                4 => Type::f32,
+                8 => Type::f64,
+                _ => panic!("Unsupported float register size"),
+            },
+            RegKind::Vector { hint_vector_elem: _ } => {
+                // E.g., for 128-bit SIMD registers if you support them
+                todo!("Vector registers not yet supported")
+            }
+        }
+    }
+}
+
 impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     fn backend_type(&self, layout: TyAndLayout<'tcx>) -> Self::Type {
         self.tpde_direct_type(layout)
     }
 
     fn cast_backend_type(&self, ty: &CastTarget) -> Self::Type {
-        let size = ty.size(self);
+        let mut registers = Vec::new();
+        let mut offsets = Vec::new();
+        let mut current_offset = 0;
 
-        match size.bytes() {
-            1 => FullType::Single(Type::i8),
-            2 => FullType::Single(Type::i16),
-            4 => FullType::Single(Type::i32),
-            8 => FullType::Single(Type::i64),
-            16 => FullType::Single(Type::i128),
-            _ => panic!("Unsupported CastTarget size: {}", size.bytes()),
+        for reg in ty.prefix.iter() {
+            registers.push(self.reg_to_ir_type(reg));
+            offsets.push(current_offset);
+            current_offset += reg.size.bytes();
+        }
+
+        let unit_type = self.reg_to_ir_type(&ty.rest.unit);
+        let repeats = ty.rest.total.bytes() / ty.rest.unit.size.bytes();
+
+        for _ in 0..repeats {
+            registers.push(unit_type.clone());
+            offsets.push(current_offset);
+            current_offset += ty.rest.unit.size.bytes();
+        }
+
+        if registers.len() == 1 {
+            FullType::Single(registers[0].clone())
+        } else if registers.len() == 2 {
+            FullType::Pair(registers[0].clone(), registers[1].clone(), offsets[1] as u8)
+        } else {
+            unimplemented!()
         }
     }
 

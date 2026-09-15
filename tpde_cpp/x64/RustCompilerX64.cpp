@@ -239,6 +239,7 @@ namespace tpde_rust::x64 {
     rhs.reset();
 
     if (fuse_br) {
+      this->adaptor->next_fused = true;
       if (!single_use) {
         (void)result_ref(cmpi.result); // ref-count for branch
         generate_raw_set(

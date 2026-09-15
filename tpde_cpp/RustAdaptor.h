@@ -305,7 +305,8 @@ namespace tpde_rust {
              | std::views::take(inst.has_result ? 1 : 0);
     }
 
-    [[nodiscard]] bool inst_fused(const IRInstRef inst) const {
+    bool next_fused = false;
+    [[nodiscard]] bool inst_fused(const IRInstRef inst) {
       const auto& cur = get_instruction(inst);
       switch (cur.kind) {
         case InstructionKind::AddRet:
@@ -314,31 +315,9 @@ namespace tpde_rust {
           return true;
         default:
       }
-      if (inst.inst > 0) {
-        Instruction& prev = get_instruction(inst.prev());
-
-        if ((cur.kind == InstructionKind::Store || cur.kind == InstructionKind::Load)
-          && prev.kind == InstructionKind::GEP) {
-          return true;
-        }
-        if (cur.kind == InstructionKind::CondBr) {
-          switch (prev.kind) {
-            case InstructionKind::CMPeq:
-            case InstructionKind::CMPne:
-            case InstructionKind::CMPuge:
-            case InstructionKind::CMPule:
-            case InstructionKind::CMPugt:
-            case InstructionKind::CMPult:
-            case InstructionKind::CMPsge:
-            case InstructionKind::CMPsle:
-            case InstructionKind::CMPsgt:
-            case InstructionKind::CMPslt:
-            case InstructionKind::OverflowCheck:
-              return prev.result == cur.ops[0];
-            default:
-              return false;
-          }
-        }
+      if (next_fused) {
+        next_fused = false;
+        return true;
       }
       return false;
     }

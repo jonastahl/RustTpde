@@ -953,6 +953,7 @@ namespace tpde_rust {
           Instruction &pot_condbr = this->adaptor->get_instruction(instr.next().next());
           if (pot_condbr.kind == InstructionKind::CondBr && pot_overflow.result == pot_condbr.ops[0]) {
             assert(this->analyzer.liveness_info(this->adaptor->val_local_idx(pot_overflow.result)).ref_count == 2);
+            this->adaptor->next_fused = true;
             // We can drop the register used for the overflow check
             this->val_ref(pot_overflow.result).reset();
 
@@ -1090,7 +1091,8 @@ namespace tpde_rust {
     RustAdaptor::IRInstRef gep_ref = inst;
     Instruction *gep = &this->adaptor->get_instruction(inst);
 
-    GenericValuePart addr = typename GenericValuePart::Expr{}; {
+    GenericValuePart addr = typename GenericValuePart::Expr{};
+    {
       ValueRef index_vr{this};
       ValuePartRef index_vp{this};
       auto &expr = std::get<typename GenericValuePart::Expr>(addr.state);
@@ -1115,9 +1117,7 @@ namespace tpde_rust {
       }
 
       // The instruction following the last fused GEP, if it might be fusable.
-      Instruction *next_val = nullptr;
-      RustAdaptor::IRInstRef next_ref{};
-      do {
+      {
         const u64 scale = operands::content(gep->ops[1]);
 
         const IRValueRef idx = gep->ops[2];
@@ -1168,37 +1168,23 @@ namespace tpde_rust {
 
           expr.scale = scale;
         }
+      }
 
-        // Try to fuse the following instruction. This is only possible if it is
-        // the sole user of this GEP and directly follows it.
-        if (!gep->has_result) {
-          break;
-        }
+      Instruction* next_val = nullptr;
+      while (true) {
         // The definition itself counts as one reference.
         const auto local_idx = this->adaptor->val_local_idx(gep->result);
-        if (this->analyzer.liveness_info(local_idx).ref_count > 2) {
+        if (this->analyzer.liveness_info(local_idx).ref_count > 2)
           break;
-        }
 
-        next_ref = gep_ref.next();
+        auto next_ref = gep_ref.next();
         const auto &insts = this->adaptor->get_basic_block(gep_ref.block).instructions;
-        if (next_ref.inst >= insts.size()) {
-          next_ref = {};
+        if (next_ref.inst >= insts.size())
           break;
-        }
+
         next_val = &this->adaptor->get_instruction(next_ref);
-
-        if (true || // we don't merge multiple GEPs for now
-            next_val->kind != InstructionKind::GEP ||
-            next_val->ops[0] != gep->result) {
-          break;
-        }
-
-        // Chain of GEPs: fold the next one into this address computation.
-        gep_ref = next_ref;
-        gep = next_val;
-        next_val = nullptr;
-      } while (true);
+        break;
+      }
 
       if (base_is_stack_var) {
         if (!next_val) {
@@ -1218,10 +1204,12 @@ namespace tpde_rust {
       if (next_val) {
         if (next_val->kind == InstructionKind::Store &&
             next_val->ops[1] == gep->result) {
+          this->adaptor->next_fused = true;
           return compile_store_generic(*next_val, std::move(addr));
         }
         if (next_val->kind == InstructionKind::Load &&
             next_val->ops[0] == gep->result) {
+          this->adaptor->next_fused = true;
           return compile_load_generic(*next_val, std::move(addr));
         }
       }
