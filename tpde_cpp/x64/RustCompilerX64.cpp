@@ -54,6 +54,11 @@ namespace tpde_rust::x64 {
       EncodeCompiler::reset();
     }
 
+    bool arg_allow_split_reg_stack_passing(IRValueRef value) const {
+      // All types except i128 can be split across registers/stack.
+      return this->adaptor->type_of_ref(value) != Type::i128;
+    }
+
     bool compile_cmp(RustAdaptor::IRInstRef inst, const ValInfo &, u64);
     bool compile_condbr(RustAdaptor::IRInstRef, const ValInfo &, u64);
     bool compile_overflow_jump(Instruction&, InstructionKind, bool);

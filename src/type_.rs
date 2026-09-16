@@ -1,5 +1,5 @@
 use crate::context::CodegenCx;
-use crate::shared::ir::{ArgInfo, ArgKind, FullType, FunctionSignature, Type};
+use crate::shared::ir::{ArgExtension, ArgInfo, ArgKind, FullType, FunctionSignature, Type};
 use rustc_abi::{AddressSpace, BackendRepr, Primitive, Reg, RegKind, Scalar};
 use rustc_codegen_ssa::common::TypeKind;
 use rustc_codegen_ssa::traits::{
@@ -156,6 +156,14 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
 
 impl<'tcx> TypeMembershipCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {}
 
+fn map_arg_extension(ext: rustc_target::callconv::ArgExtension) -> ArgExtension {
+    match ext {
+        rustc_target::callconv::ArgExtension::None => ArgExtension::None,
+        rustc_target::callconv::ArgExtension::Sext => ArgExtension::sExt,
+        rustc_target::callconv::ArgExtension::Zext => ArgExtension::zExt,
+    }
+}
+
 impl<'tcx> CodegenCx<'_, 'tcx> {
     pub fn create_function_signature(&self, fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> FunctionSignature {
         let mut slots: Vec<Type> = vec![];
@@ -170,6 +178,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                 slots.push(Type::ptr);
                 arg_infos.push(ArgInfo {
                     kind: ArgKind::sRet,
+                    extension: ArgExtension::None,
                     size: attrs.pointee_size.bytes() as u32,
                     align: attrs.pointee_align.map_or_else(|| 1, |a| a.bytes() as u32),
                 })
@@ -185,30 +194,33 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
             }.iter()
                 .for_each(|arg| match &arg.mode {
                     PassMode::Ignore => { },
-                    PassMode::Direct(_) => {
+                    PassMode::Direct(attrs) => {
                         let FullType::Single(ty) = self.tpde_direct_type(arg.layout) else {
                             unreachable!()
                         };
                         slots.push(ty);
                         arg_infos.push(ArgInfo {
                             kind: ArgKind::Direct,
+                            extension: map_arg_extension(attrs.arg_ext),
                             size: 0,
                             align: 0,
                         })
                     }
-                    PassMode::Pair(..) => {
+                    PassMode::Pair(attrs_a, attrs_b) => {
                         let FullType::Pair(a, b, _) = self.tpde_direct_type(arg.layout) else {
                             unreachable!()
                         };
                         slots.push(a);
                         arg_infos.push(ArgInfo {
                             kind: ArgKind::Direct,
+                            extension: map_arg_extension(attrs_a.arg_ext),
                             size: 0,
                             align: 0,
                         });
                         slots.push(b);
                         arg_infos.push(ArgInfo {
                             kind: ArgKind::Direct,
+                            extension: map_arg_extension(attrs_b.arg_ext),
                             size: 0,
                             align: 0,
                         });
@@ -223,6 +235,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                         slots.push(Type::ptr);
                         arg_infos.push(ArgInfo {
                             kind: ArgKind::ByVal,
+                            extension: ArgExtension::None,
                             size: attrs.pointee_size.bytes() as u32,
                             align: attrs.pointee_align.map_or_else(|| 1, |a| a.bytes() as u32),
                         });
@@ -235,6 +248,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                         slots.push(Type::ptr);
                         arg_infos.push(ArgInfo {
                             kind: ArgKind::Direct,
+                            extension: ArgExtension::None,
                             size: 0,
                             align: 0,
                         });
@@ -245,6 +259,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                                 slots.push(ty);
                                 arg_infos.push(ArgInfo {
                                     kind: ArgKind::Direct,
+                                    extension: ArgExtension::None,
                                     size: 0,
                                     align: 0,
                                 })
@@ -253,12 +268,14 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                                 slots.push(a);
                                 arg_infos.push(ArgInfo {
                                     kind: ArgKind::Direct,
+                                    extension: ArgExtension::None,
                                     size: 0,
                                     align: 0,
                                 });
                                 slots.push(b);
                                 arg_infos.push(ArgInfo {
                                     kind: ArgKind::Direct,
+                                    extension: ArgExtension::None,
                                     size: 0,
                                     align: 0,
                                 });
@@ -284,10 +301,10 @@ impl CodegenCx<'_, '_> {
         match reg.kind {
             RegKind::Integer => match reg.size.bytes() {
                 1 => Type::i8,
-                2 | 3 => Type::i16,
-                4 | 5 | 6 | 7 => Type::i32,
-                8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 => Type::i64,
-                16 => Type::i128,
+                2 => Type::i16,
+                3 | 4 => Type::i32,
+                5 | 6 | 7 | 8 => Type::i64,
+                9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 => Type::i128,
                 _ => panic!("Unsupported integer register size"),
             },
             RegKind::Float => match reg.size.bytes() {

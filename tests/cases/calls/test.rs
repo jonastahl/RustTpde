@@ -201,7 +201,7 @@ extern "C" {
     fn struct17_sum(v: Struct17) -> u64;
     fn struct17_and_args(v: Struct17, x: u64, y: f64, z: u64) -> f64;
 
-    fn apply_binary(f: extern "C" fn(i64, i64) -> i64, a: i64, b: i64) -> i64;
+    fn apply_binary(f: unsafe extern "C" fn(i64, i64) -> i64, a: i64, b: i64) -> i64;
     fn apply_twice(f: extern "C" fn(i64, i64) -> i64, a: i64, b: i64) -> i64;
     fn callback_target(a: i64, b: i64) -> i64;
     fn get_callback() -> extern "C" fn(i64, i64) -> i64;
@@ -415,7 +415,5 @@ fn main() {
         assert_eq!(call_external_chain(2.0), 24.0);
         // 3+4+..+10 = 52
         assert_eq!(call_external_big(3), 52);
-
-        println!("All ABI edge case tests passed!");
     }
 }

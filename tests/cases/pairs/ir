@@ -6,6 +6,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -53,6 +54,7 @@ ModuleTpde {
                     <Ret> ([val: 4], [val: 6]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "find_user_by_age",
@@ -60,6 +62,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -101,6 +104,7 @@ ModuleTpde {
                     <Ret> ([val: 2], [val: 4]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "increase_age",
@@ -108,11 +112,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -145,6 +151,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_add_overflow",
@@ -152,6 +159,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -168,6 +176,7 @@ ModuleTpde {
             personality: 0,
             allocas: [],
             basic_blocks: [],
+            callee_infos: [],
         },
     ],
     consts: [

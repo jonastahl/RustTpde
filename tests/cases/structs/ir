@@ -6,11 +6,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: sRet,
+                    extension: None,
                     size: 24,
                     align: 8,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -76,6 +78,7 @@ ModuleTpde {
                     <Ret> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "find_user_by_age",
@@ -83,11 +86,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: sRet,
+                    extension: None,
                     size: 24,
                     align: 8,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -146,6 +151,7 @@ ModuleTpde {
                     <Ret> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "increase_age",
@@ -153,11 +159,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: sRet,
+                    extension: None,
                     size: 24,
                     align: 8,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -254,6 +262,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_add_overflow",
@@ -261,6 +270,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -277,6 +287,7 @@ ModuleTpde {
             personality: 0,
             allocas: [],
             basic_blocks: [],
+            callee_infos: [],
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_sub_overflow",
@@ -284,6 +295,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -300,6 +312,7 @@ ModuleTpde {
             personality: 0,
             allocas: [],
             basic_blocks: [],
+            callee_infos: [],
         },
     ],
     consts: [

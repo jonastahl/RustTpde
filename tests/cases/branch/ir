@@ -6,11 +6,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -49,6 +51,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_eq_i32",
@@ -56,11 +59,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -99,6 +104,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_eq_i64",
@@ -106,11 +112,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -149,6 +157,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_eq_i8",
@@ -156,11 +165,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -199,6 +210,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_eq_u16",
@@ -206,11 +218,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -249,6 +263,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_eq_u32",
@@ -256,11 +271,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -299,6 +316,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_eq_u64",
@@ -306,11 +324,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -349,6 +369,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_eq_u8",
@@ -356,11 +377,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -399,6 +422,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ge_i16",
@@ -406,11 +430,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -449,6 +475,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ge_i32",
@@ -456,11 +483,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -499,6 +528,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ge_i64",
@@ -506,11 +536,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -549,6 +581,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ge_i8",
@@ -556,11 +589,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -599,6 +634,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ge_u16",
@@ -606,11 +642,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -649,6 +687,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ge_u32",
@@ -656,11 +695,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -699,6 +740,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ge_u64",
@@ -706,11 +748,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -749,6 +793,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ge_u8",
@@ -756,11 +801,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -799,6 +846,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_gt_i16",
@@ -806,11 +854,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -849,6 +899,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_gt_i32",
@@ -856,11 +907,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -899,6 +952,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_gt_i64",
@@ -906,11 +960,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -949,6 +1005,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_gt_i8",
@@ -956,11 +1013,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -999,6 +1058,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_gt_u16",
@@ -1006,11 +1066,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1049,6 +1111,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_gt_u32",
@@ -1056,11 +1119,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1099,6 +1164,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_gt_u64",
@@ -1106,11 +1172,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1149,6 +1217,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_gt_u8",
@@ -1156,11 +1225,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1199,6 +1270,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_imm_i64",
@@ -1206,6 +1278,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1243,6 +1316,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_imm_i64_fits",
@@ -1250,6 +1324,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1287,6 +1362,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_imm_i64_wide",
@@ -1294,6 +1370,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1331,6 +1408,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_imm_i8",
@@ -1338,6 +1416,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1375,6 +1454,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_imm_u16",
@@ -1382,6 +1462,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1419,6 +1500,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_imm_u32",
@@ -1426,6 +1508,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1463,6 +1546,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_imm_u64_wide",
@@ -1470,6 +1554,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1507,6 +1592,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_imm_u8",
@@ -1514,6 +1600,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1551,6 +1638,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_le_i16",
@@ -1558,11 +1646,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1601,6 +1691,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_le_i32",
@@ -1608,11 +1699,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1651,6 +1744,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_le_i64",
@@ -1658,11 +1752,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1701,6 +1797,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_le_i8",
@@ -1708,11 +1805,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1751,6 +1850,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_le_u16",
@@ -1758,11 +1858,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1801,6 +1903,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_le_u32",
@@ -1808,11 +1911,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1851,6 +1956,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_le_u64",
@@ -1858,11 +1964,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1901,6 +2009,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_le_u8",
@@ -1908,11 +2017,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1951,6 +2062,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_lt_i16",
@@ -1958,11 +2070,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2001,6 +2115,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_lt_i32",
@@ -2008,11 +2123,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2051,6 +2168,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_lt_i64",
@@ -2058,11 +2176,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2101,6 +2221,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_lt_i8",
@@ -2108,11 +2229,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2151,6 +2274,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_lt_u16",
@@ -2158,11 +2282,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2201,6 +2327,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_lt_u32",
@@ -2208,11 +2335,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2251,6 +2380,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_lt_u64",
@@ -2258,11 +2388,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2301,6 +2433,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_lt_u8",
@@ -2308,11 +2441,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2351,6 +2486,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ne_i16",
@@ -2358,11 +2494,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2401,6 +2539,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ne_i32",
@@ -2408,11 +2547,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2451,6 +2592,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ne_i64",
@@ -2458,11 +2600,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2501,6 +2645,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ne_i8",
@@ -2508,11 +2653,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2551,6 +2698,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ne_u16",
@@ -2558,11 +2706,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2601,6 +2751,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ne_u32",
@@ -2608,11 +2759,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2651,6 +2804,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ne_u64",
@@ -2658,11 +2812,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2701,6 +2857,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ne_u8",
@@ -2708,11 +2865,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2751,6 +2910,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_nested_i32",
@@ -2758,11 +2918,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2828,6 +2990,7 @@ ModuleTpde {
                     <Br> ([raw: 5]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "simplebranch",
@@ -2835,6 +2998,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2872,6 +3036,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
     ],
     consts: [

@@ -4,6 +4,7 @@ use crate::context::CodegenCx;
 use core::fmt::{Debug, Formatter};
 use rustc_hir::attrs::Linkage;
 use rustc_middle::mir::Mutability;
+use crate::shared::ffi::CalleeInfo;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Function(usize);
@@ -54,7 +55,7 @@ pub fn size_of_type(ty: Type) -> u32 {
     }
 }
 
-pub use super::ffi::{ArgInfo, ArgKind, Type, InstructionKind};
+pub use super::ffi::{ArgInfo, ArgKind, Type, InstructionKind, ArgExtension};
 
 pub struct Module {
     tpde: ModuleTpde,
@@ -116,6 +117,7 @@ impl Module {
             flags: Self::create_flags(linkage, ty),
             allocas: vec![],
             basic_blocks: vec![],
+            callee_infos: vec![],
         });
         Function(self.tpde.functions.len() - 1)
     }
@@ -464,6 +466,15 @@ impl Module {
         args: &[Slot]) -> Option<Slot> {
         let mut ops = Vec::with_capacity(1 + args.len());
         ops.push(func_ref);
+        match func_ref {
+            Slot::Func(_) => {},
+            Slot::Value(..) => {
+                let callee_infos = &mut self.tpde.functions[bb.function.0].callee_infos;
+                callee_infos.push(CalleeInfo { info: func_sign.arg_infos.clone() });
+                ops.push(Slot::new_raw(callee_infos.len() as u32 - 1))
+            }
+            _ => todo!()
+        }
         ops.extend_from_slice(args);
         self.add_instruction_raw_internal(
             bb,

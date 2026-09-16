@@ -6,11 +6,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -79,6 +81,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add8_args_u32",
@@ -86,41 +89,49 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -225,6 +236,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_i16",
@@ -232,11 +244,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -269,6 +283,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_i32",
@@ -276,11 +291,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -313,6 +330,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_i64",
@@ -320,11 +338,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -357,6 +377,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_i8",
@@ -364,11 +385,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -401,6 +424,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_then_sub_u32",
@@ -408,16 +432,19 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -462,6 +489,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_then_sub_u8",
@@ -469,16 +497,19 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -523,6 +554,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_twice_u32",
@@ -530,11 +562,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -560,6 +594,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_u16",
@@ -567,11 +602,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -604,6 +641,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_u32",
@@ -611,11 +649,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -648,6 +688,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_u64",
@@ -655,11 +696,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -692,6 +735,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_u8",
@@ -699,11 +743,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -736,6 +782,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_usize",
@@ -743,11 +790,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -780,6 +829,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branchy_i32",
@@ -787,16 +837,19 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: zExt,
                     size: 0,
                     align: 0,
                 },
@@ -856,6 +909,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_add_i32",
@@ -863,16 +917,19 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -917,6 +974,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_i16",
@@ -924,11 +982,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -961,6 +1021,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_i32",
@@ -968,11 +1029,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1005,6 +1068,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_i64",
@@ -1012,11 +1076,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1049,6 +1115,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_i8",
@@ -1056,11 +1123,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1093,6 +1162,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_isize",
@@ -1100,11 +1170,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1137,6 +1209,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_u16",
@@ -1144,11 +1217,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1181,6 +1256,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_u32",
@@ -1188,11 +1264,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1225,6 +1303,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_u64",
@@ -1232,11 +1311,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1269,6 +1350,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_u8",
@@ -1276,11 +1358,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1313,6 +1397,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_i16",
@@ -1320,11 +1405,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1357,6 +1444,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_i32",
@@ -1364,11 +1452,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1401,6 +1491,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_i64",
@@ -1408,11 +1499,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1445,6 +1538,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_i8",
@@ -1452,11 +1546,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1489,6 +1585,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_u16",
@@ -1496,11 +1593,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1533,6 +1632,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_u32",
@@ -1540,11 +1640,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1577,6 +1679,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_u64",
@@ -1584,11 +1687,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1621,6 +1726,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_u8",
@@ -1628,11 +1734,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1665,6 +1773,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_usize",
@@ -1672,11 +1781,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1709,6 +1820,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sum_to_u8",
@@ -1716,6 +1828,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1786,6 +1899,7 @@ ModuleTpde {
                     <Unreachable> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_add_overflow",
@@ -1793,6 +1907,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1809,6 +1924,7 @@ ModuleTpde {
             personality: 0,
             allocas: [],
             basic_blocks: [],
+            callee_infos: [],
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_mul_overflow",
@@ -1816,6 +1932,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1832,6 +1949,7 @@ ModuleTpde {
             personality: 0,
             allocas: [],
             basic_blocks: [],
+            callee_infos: [],
         },
         Function {
             name: "_RNvNtNtCs94NUNretDkj_4core9panicking11panic_const24panic_const_sub_overflow",
@@ -1839,6 +1957,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1855,6 +1974,7 @@ ModuleTpde {
             personality: 0,
             allocas: [],
             basic_blocks: [],
+            callee_infos: [],
         },
     ],
     consts: [

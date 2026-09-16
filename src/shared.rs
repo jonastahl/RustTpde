@@ -36,6 +36,8 @@ mod ffi {
 
         allocas: Vec<Alloca>,
         basic_blocks: Vec<BasicBlock>,
+
+        callee_infos: Vec<CalleeInfo>,
     }
 
     #[derive(Debug)]
@@ -46,10 +48,23 @@ mod ffi {
     }
 
     #[derive(Debug, Copy, Clone)]
+    pub enum ArgExtension {
+        None,
+        zExt,
+        sExt,
+    }
+
+    #[derive(Debug, Copy, Clone)]
     pub struct ArgInfo {
         kind: ArgKind,
+        extension: ArgExtension,
         size: u32,
         align: u32,
+    }
+
+    #[derive(Debug, Clone)]
+    pub struct CalleeInfo {
+        info: Vec<ArgInfo>
     }
 
     #[derive(Debug)]

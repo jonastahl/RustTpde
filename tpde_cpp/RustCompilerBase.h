@@ -239,7 +239,7 @@ namespace tpde_rust {
                              u32 arg_idx,
                              IRValueRef arg) {
       u32 align = size_of_type(Base::adaptor->type_of_ref(arg)) / 8;
-      bool allow_split = true; // TODO
+      bool allow_split = derived()->arg_allow_split_reg_stack_passing(arg_idx);
       Base::prologue_assign_arg(cc_assigner, arg_idx, arg, align, allow_split);
     }
 
@@ -1389,25 +1389,75 @@ namespace tpde_rust {
     }
 
     Instruction &calli = this->adaptor->get_instruction(instr);
+    const auto func = calli.ops[0];
     size_t arg_start = calli.kind == InstructionKind::Call ? 1 : 3;
-    for (auto &op: calli.ops | std::ranges::views::drop(arg_start)) {
-      using CallArg = typename Derived::CallArg;
+    bool is_dynamic_function;
+    if (operands::is_func(func)) {
+      is_dynamic_function = false;
+    } else if (operands::is_val(func)) {
+      is_dynamic_function = true;
+    } else {
+      assert(false);
+    }
+    if (is_dynamic_function) {
+      arg_start += 1;
+    }
 
-      CallArg arg{op};
-      // TODO need to set flags for arg
+    {
+      auto& infos = is_dynamic_function ?
+        this->adaptor->cur_func->callee_infos[operands::content(calli.ops[1])].info
+        : this->adaptor->mod->functions[operands::content(func)].args;
+      assert(infos.size() == calli.ops.size() - arg_start);
+      for (size_t i = 0; i < infos.size(); ++i) {
+        auto& op = calli.ops[arg_start + i];
+        ArgInfo& info = infos[i];
 
-      cb->add_arg(arg);
+        using CallArg = typename Derived::CallArg;
+        CallArg arg{op};
+
+        Type ty = this->adaptor->type_of_ref(op);
+
+        switch (ty) {
+          case Type::Bool:
+          case Type::i8:
+          case Type::i16:
+          case Type::i32:
+          case Type::i64:
+            if (info.extension == ArgExtension::zExt) {
+              arg.flag = CallArg::Flag::zext;
+              arg.ext_bits = size_of_type(ty);
+            } else if (info.extension == ArgExtension::sExt) {
+              arg.flag = CallArg::Flag::sext;
+              arg.ext_bits = size_of_type(ty);
+            }
+            break;
+          case Type::i128:
+            arg.byval_align = 16;
+            break;
+          case Type::ptr: {
+            if (info.kind == ArgKind::ByVal) {
+              arg.flag = CallArg::Flag::byval;
+              arg.byval_size = info.size;
+              arg.byval_align = info.align;
+            } else if (info.kind == ArgKind::sRet) {
+              arg.flag = CallArg::Flag::sret;
+            }
+            break;
+          }
+          default:
+            break;
+        }
+
+        cb->add_arg(arg);
+      }
     }
     {
-      const auto func = calli.ops[0];
-      if (operands::is_func(func)) {
+      if (!is_dynamic_function) {
         SymRef sym = this->func_syms[operands::content(func)];
         cb->call(sym);
       } else if (operands::is_val(func)) {
         auto [_, tgt_vp] = this->val_ref_single(func);
         cb->call(std::move(tgt_vp));
-      } else {
-        assert(false);
       }
     }
 

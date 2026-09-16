@@ -6,16 +6,19 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -42,6 +45,7 @@ ModuleTpde {
                     <Ret> ([val: 4]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add9_args_f64",
@@ -49,46 +53,55 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -133,6 +146,7 @@ ModuleTpde {
                     <Ret> ([val: 16]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_big_f64",
@@ -140,6 +154,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -162,6 +177,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_const_f32",
@@ -169,6 +185,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -191,6 +208,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_const_f64",
@@ -198,6 +216,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -220,6 +239,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_f32",
@@ -227,11 +247,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -255,6 +277,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_f64",
@@ -262,11 +285,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -290,6 +315,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_inf_f64",
@@ -297,6 +323,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -319,6 +346,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_mul_f64",
@@ -326,16 +354,19 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -362,6 +393,7 @@ ModuleTpde {
                     <Ret> ([val: 4]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_neg_inf_f64",
@@ -369,6 +401,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -391,6 +424,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_neg_zero_f64",
@@ -398,6 +432,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -420,6 +455,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_sub_f64",
@@ -427,11 +463,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -459,6 +497,7 @@ ModuleTpde {
                     <Ret> ([val: 4]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "add_zero_f64",
@@ -466,6 +505,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -488,6 +528,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_const_f64",
@@ -495,6 +536,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -532,6 +574,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_eq_f32",
@@ -539,11 +582,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -582,6 +627,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_eq_f64",
@@ -589,11 +635,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -632,6 +680,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_ge_f32",
@@ -639,11 +688,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -682,6 +733,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_ge_f64",
@@ -689,11 +741,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -732,6 +786,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_gt_f32",
@@ -739,11 +794,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -782,6 +839,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_gt_f64",
@@ -789,11 +847,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -832,6 +892,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_le_f32",
@@ -839,11 +900,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -882,6 +945,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_le_f64",
@@ -889,11 +953,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -932,6 +998,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_lt_f32",
@@ -939,11 +1006,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -982,6 +1051,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_lt_f64",
@@ -989,11 +1059,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1032,6 +1104,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_ne_f32",
@@ -1039,11 +1112,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1082,6 +1157,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "branch_ne_f64",
@@ -1089,11 +1165,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1132,6 +1210,7 @@ ModuleTpde {
                     <Ret> ([val: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_const_f64",
@@ -1139,6 +1218,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1161,6 +1241,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_eq_f32",
@@ -1168,11 +1249,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1196,6 +1279,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_eq_f64",
@@ -1203,11 +1287,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1231,6 +1317,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ge_f32",
@@ -1238,11 +1325,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1266,6 +1355,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ge_f64",
@@ -1273,11 +1363,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1301,6 +1393,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_gt_f32",
@@ -1308,11 +1401,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1336,6 +1431,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_gt_f64",
@@ -1343,11 +1439,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1371,6 +1469,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_le_f32",
@@ -1378,11 +1477,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1406,6 +1507,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_le_f64",
@@ -1413,11 +1515,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1441,6 +1545,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_lt_f32",
@@ -1448,11 +1553,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1476,6 +1583,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_lt_f64",
@@ -1483,11 +1591,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1511,6 +1621,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ne_f32",
@@ -1518,11 +1629,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1546,6 +1659,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "cmp_ne_f64",
@@ -1553,11 +1667,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1581,6 +1697,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "const_div_f64",
@@ -1588,6 +1705,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1610,6 +1728,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "const_sub_f64",
@@ -1617,6 +1736,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1639,6 +1759,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "div_const_f32",
@@ -1646,6 +1767,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1668,6 +1790,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "div_const_f64",
@@ -1675,6 +1798,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1697,6 +1821,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "div_f32",
@@ -1704,11 +1829,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1732,6 +1859,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "div_f64",
@@ -1739,11 +1867,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1767,6 +1897,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "f32_to_f64",
@@ -1774,6 +1905,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1796,6 +1928,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "f32_to_i32",
@@ -1803,6 +1936,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1825,6 +1959,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "f32_to_i64",
@@ -1832,6 +1967,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1854,6 +1990,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "f32_to_u32",
@@ -1861,6 +1998,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1883,6 +2021,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "f32_to_u64",
@@ -1890,6 +2029,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1912,6 +2052,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "f64_to_f32",
@@ -1919,6 +2060,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1941,6 +2083,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "f64_to_i32",
@@ -1948,6 +2091,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1970,6 +2114,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "f64_to_i64",
@@ -1977,6 +2122,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -1999,6 +2145,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "f64_to_u32",
@@ -2006,6 +2153,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2028,6 +2176,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "f64_to_u64",
@@ -2035,6 +2184,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2057,6 +2207,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "i32_to_f32",
@@ -2064,6 +2215,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2086,6 +2238,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "i32_to_f64",
@@ -2093,6 +2246,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2115,6 +2269,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "i64_to_f32",
@@ -2122,6 +2277,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2144,6 +2300,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "i64_to_f64",
@@ -2151,6 +2308,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2173,6 +2331,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mixed_args",
@@ -2180,31 +2339,37 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2242,6 +2407,7 @@ ModuleTpde {
                     <Ret> ([val: 11]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_add_f32",
@@ -2249,16 +2415,19 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2285,6 +2454,7 @@ ModuleTpde {
                     <Ret> ([val: 4]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_add_f64",
@@ -2292,16 +2462,19 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2328,6 +2501,7 @@ ModuleTpde {
                     <Ret> ([val: 4]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_const_f32",
@@ -2335,6 +2509,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2357,6 +2532,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_const_f64",
@@ -2364,6 +2540,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2386,6 +2563,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_f32",
@@ -2393,11 +2571,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2421,6 +2601,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_f64",
@@ -2428,11 +2609,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2456,6 +2639,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_neg_one_f64",
@@ -2463,6 +2647,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2485,6 +2670,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_one_f64",
@@ -2492,6 +2678,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2514,6 +2701,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "mul_pi_f64",
@@ -2521,6 +2709,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2543,6 +2732,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "neg_f32",
@@ -2550,6 +2740,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2572,6 +2763,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "neg_f64",
@@ -2579,6 +2771,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2601,6 +2794,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "rem_f32",
@@ -2608,11 +2802,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2636,6 +2832,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "rem_f64",
@@ -2643,11 +2840,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2671,6 +2870,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "ret_const_f32",
@@ -2690,6 +2890,7 @@ ModuleTpde {
                     <Ret> ([const: 44]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "ret_const_f64",
@@ -2709,6 +2910,7 @@ ModuleTpde {
                     <Ret> ([const: 45]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_const_f32",
@@ -2716,6 +2918,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2738,6 +2941,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_const_f64",
@@ -2745,6 +2949,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2767,6 +2972,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_f32",
@@ -2774,11 +2980,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2802,6 +3010,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "sub_f64",
@@ -2809,11 +3018,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2837,6 +3048,7 @@ ModuleTpde {
                     <Ret> ([val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "u32_to_f32",
@@ -2844,6 +3056,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2866,6 +3079,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "u32_to_f64",
@@ -2873,6 +3087,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2895,6 +3110,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "u64_to_f32",
@@ -2902,6 +3118,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2924,6 +3141,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "u64_to_f64",
@@ -2931,6 +3149,7 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -2953,6 +3172,7 @@ ModuleTpde {
                     <Ret> ([val: 1]),
                 ],
             ],
+            callee_infos: [],
         },
     ],
     consts: [

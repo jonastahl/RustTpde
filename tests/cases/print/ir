@@ -6,11 +6,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -44,6 +46,7 @@ ModuleTpde {
                     <Ret> ([val: 2], [val: 7]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "print",
@@ -69,6 +72,7 @@ ModuleTpde {
                     <Ret> (),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "_RNvNtNtCs72J22aohzRW_3std2io5stdio6__print",
@@ -76,11 +80,13 @@ ModuleTpde {
             args: [
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
                 ArgInfo {
                     kind: Direct,
+                    extension: None,
                     size: 0,
                     align: 0,
                 },
@@ -98,6 +104,7 @@ ModuleTpde {
             personality: 0,
             allocas: [],
             basic_blocks: [],
+            callee_infos: [],
         },
     ],
     consts: [

@@ -25,6 +25,7 @@ ModuleTpde {
                     <Ret> ([val: 0], [val: 2]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "more_string",
@@ -44,6 +45,7 @@ ModuleTpde {
                     <Ret> ([global: 4], [const: 3]),
                 ],
             ],
+            callee_infos: [],
         },
         Function {
             name: "my_user",
@@ -63,6 +65,7 @@ ModuleTpde {
                     <Ret> ([global: 1]),
                 ],
             ],
+            callee_infos: [],
         },
     ],
     consts: [
