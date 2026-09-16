@@ -6182,7 +6182,7 @@ ModuleTpde {
         [i8] (0 7) -> 7,
     ],
     globals: [
-        alloc_763f607f1d3d0aa80d66d4031c5f7cdd {
+        alloc_479a1f96d8259dad7f386ce7a9a350c0 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6194,7 +6194,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  6c 02 00 00 05 00 00 00                          |l.......|,
             relocations: [
                 Relocation {
@@ -6203,8 +6203,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6214,12 +6214,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_763f607f1d3d0aa80d66d4031c5f7cdd {
+        alloc_479a1f96d8259dad7f386ce7a9a350c0 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6231,7 +6232,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  6c 02 00 00 05 00 00 00                          |l.......|,
             relocations: [
                 Relocation {
@@ -6240,8 +6241,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6251,12 +6252,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_1bb8417f347bd340ae028ccf93b381fa {
+        alloc_41a888689880c449d3c3643f2bd86776 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6268,7 +6270,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  28 01 00 00 05 00 00 00                          |(.......|,
             relocations: [
                 Relocation {
@@ -6277,8 +6279,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6288,12 +6290,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_1bb8417f347bd340ae028ccf93b381fa {
+        alloc_41a888689880c449d3c3643f2bd86776 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6305,7 +6308,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  28 01 00 00 05 00 00 00                          |(.......|,
             relocations: [
                 Relocation {
@@ -6314,8 +6317,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6325,12 +6328,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_48053bc1d6f7658198e448cfe9564944 {
+        alloc_be8538c86765db9ccfbfef718d301921 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6342,7 +6346,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  2d 01 00 00 05 00 00 00                          |-.......|,
             relocations: [
                 Relocation {
@@ -6351,8 +6355,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6362,12 +6366,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_48053bc1d6f7658198e448cfe9564944 {
+        alloc_be8538c86765db9ccfbfef718d301921 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6379,7 +6384,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  2d 01 00 00 05 00 00 00                          |-.......|,
             relocations: [
                 Relocation {
@@ -6388,8 +6393,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6399,12 +6404,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_4d625fac92379f800be8f249b8fedee7 {
+        alloc_499dbd29d2dab351327f9a50a1a70709 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6416,7 +6422,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  32 01 00 00 05 00 00 00                          |2.......|,
             relocations: [
                 Relocation {
@@ -6425,8 +6431,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6436,12 +6442,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_4d625fac92379f800be8f249b8fedee7 {
+        alloc_499dbd29d2dab351327f9a50a1a70709 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6453,7 +6460,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  32 01 00 00 05 00 00 00                          |2.......|,
             relocations: [
                 Relocation {
@@ -6462,8 +6469,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6473,12 +6480,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_9c00f0704a3ecb7fdeecf92b7f19000d {
+        alloc_310f318b70e358a4002321d38b4d8a9e {
             size: 24,
             align: 8,
             read_only: true,
@@ -6490,7 +6498,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  23 01 00 00 05 00 00 00                          |#.......|,
             relocations: [
                 Relocation {
@@ -6499,8 +6507,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6510,12 +6518,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_9c00f0704a3ecb7fdeecf92b7f19000d {
+        alloc_310f318b70e358a4002321d38b4d8a9e {
             size: 24,
             align: 8,
             read_only: true,
@@ -6527,7 +6536,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  23 01 00 00 05 00 00 00                          |#.......|,
             relocations: [
                 Relocation {
@@ -6536,8 +6545,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6547,12 +6556,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_d1e31373e64a830d4cf440eef65bbedf {
+        alloc_70b99f5eaa34fbbf791c1b6b599ed690 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6564,7 +6574,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  f5 02 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -6573,8 +6583,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6584,12 +6594,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_d1e31373e64a830d4cf440eef65bbedf {
+        alloc_70b99f5eaa34fbbf791c1b6b599ed690 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6601,7 +6612,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  f5 02 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -6610,8 +6621,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6621,12 +6632,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_29bcda1eabd70364df77eb5c3eced4a7 {
+        alloc_ce235923bfa6f92378973ae84d405f35 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6638,7 +6650,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  f5 02 00 00 13 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -6647,8 +6659,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6658,12 +6670,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_29bcda1eabd70364df77eb5c3eced4a7 {
+        alloc_ce235923bfa6f92378973ae84d405f35 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6675,7 +6688,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  f5 02 00 00 13 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -6684,8 +6697,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6695,12 +6708,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_7c67eea2367470b62981d6f1404a3f34 {
+        alloc_72df2d4642b2a3d6ab598b0de357ae75 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6712,7 +6726,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  2a 02 00 00 05 00 00 00                          |*.......|,
             relocations: [
                 Relocation {
@@ -6721,8 +6735,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6732,12 +6746,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_7c67eea2367470b62981d6f1404a3f34 {
+        alloc_72df2d4642b2a3d6ab598b0de357ae75 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6749,7 +6764,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  2a 02 00 00 05 00 00 00                          |*.......|,
             relocations: [
                 Relocation {
@@ -6758,8 +6773,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6769,12 +6784,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_36222fbf2df2cad17778617f7510d4f0 {
+        alloc_a48c59d49f66d5a41ae905601c613af6 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6786,7 +6802,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  2a 02 00 00 13 00 00 00                          |*.......|,
             relocations: [
                 Relocation {
@@ -6795,8 +6811,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6806,12 +6822,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_36222fbf2df2cad17778617f7510d4f0 {
+        alloc_a48c59d49f66d5a41ae905601c613af6 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6823,7 +6840,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  2a 02 00 00 13 00 00 00                          |*.......|,
             relocations: [
                 Relocation {
@@ -6832,8 +6849,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6843,12 +6860,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_aea838368ba234aa0ecc8d95360b673e {
+        alloc_dea56d7eef6adb9d0bd4920fef4a05a1 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6860,7 +6878,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  f0 02 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -6869,8 +6887,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6880,12 +6898,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_7a2909e6ea175316007f6df0bd6f35ca {
+        alloc_b9556843c4a37df94e2acfdf294f41b0 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6897,7 +6916,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  f0 02 00 00 13 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -6906,8 +6925,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6917,12 +6936,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_b1e73aecd04d099f8a8ac2ef0051755e {
+        alloc_331e625a3e5738c57295263a7d8decc7 {
             size: 24,
             align: 8,
             read_only: true,
@@ -6934,7 +6954,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  25 02 00 00 05 00 00 00                          |%.......|,
             relocations: [
                 Relocation {
@@ -6943,8 +6963,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6954,12 +6974,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_eb7b998ae8378722a03c1d08ff0e730b {
+        alloc_2a7bd0952c4d96acea22023514e3e8bd {
             size: 24,
             align: 8,
             read_only: true,
@@ -6971,7 +6992,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  25 02 00 00 13 00 00 00                          |%.......|,
             relocations: [
                 Relocation {
@@ -6980,8 +7001,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -6991,12 +7012,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_613fc5a490f3aa071c63b492d3026600 {
+        alloc_033293b97882ea1de6ebee92ed1f2fac {
             size: 24,
             align: 8,
             read_only: true,
@@ -7008,7 +7030,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  71 02 00 00 05 00 00 00                          |q.......|,
             relocations: [
                 Relocation {
@@ -7017,8 +7039,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7028,12 +7050,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_05dc8e49cf588d9f697eebc3455b0ea4 {
+        alloc_36b26c41459a459a8a87e434d0653cf2 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7045,7 +7068,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  3c 01 00 00 05 00 00 00                          |<.......|,
             relocations: [
                 Relocation {
@@ -7054,8 +7077,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7065,12 +7088,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_b8323f99ed79dcbe4bc9e0ccfdc3a35a {
+        alloc_4f2684685fd2131c1ccf1ff5d6142eb5 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7082,7 +7106,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  41 01 00 00 05 00 00 00                          |A.......|,
             relocations: [
                 Relocation {
@@ -7091,8 +7115,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7102,12 +7126,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_1d9ec65c22115b785c8f6a2a90903d12 {
+        alloc_9a8e816fbadaefb6eb1457f769cb0581 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7119,7 +7144,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  46 01 00 00 05 00 00 00                          |F.......|,
             relocations: [
                 Relocation {
@@ -7128,8 +7153,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7139,12 +7164,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_b32527210fa550acc50239f2bf0873d2 {
+        alloc_dc0989cd6c701c4e41923b3a265a9421 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7156,7 +7182,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  37 01 00 00 05 00 00 00                          |7.......|,
             relocations: [
                 Relocation {
@@ -7165,8 +7191,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7176,12 +7202,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_7335446931484c18c346f310c3777d39 {
+        alloc_ae7597cc78a8cad1d3110d6567f90685 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7193,7 +7220,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  76 02 00 00 05 00 00 00                          |v.......|,
             relocations: [
                 Relocation {
@@ -7202,8 +7229,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7213,12 +7240,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_7335446931484c18c346f310c3777d39 {
+        alloc_ae7597cc78a8cad1d3110d6567f90685 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7230,7 +7258,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  76 02 00 00 05 00 00 00                          |v.......|,
             relocations: [
                 Relocation {
@@ -7239,8 +7267,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7250,12 +7278,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_0b9da11dc713fa4c47ada1431d8ce2fc {
+        alloc_c09995e87a041826fdf4b84b880d5f91 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7267,7 +7296,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  50 01 00 00 05 00 00 00                          |P.......|,
             relocations: [
                 Relocation {
@@ -7276,8 +7305,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7287,12 +7316,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_0b9da11dc713fa4c47ada1431d8ce2fc {
+        alloc_c09995e87a041826fdf4b84b880d5f91 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7304,7 +7334,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  50 01 00 00 05 00 00 00                          |P.......|,
             relocations: [
                 Relocation {
@@ -7313,8 +7343,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7324,12 +7354,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_12439f6b2af6b8195a5c21a5dfe35b01 {
+        alloc_c4a36dface39b88bd8e29e9032353f42 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7341,7 +7372,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  55 01 00 00 05 00 00 00                          |U.......|,
             relocations: [
                 Relocation {
@@ -7350,8 +7381,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7361,12 +7392,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_12439f6b2af6b8195a5c21a5dfe35b01 {
+        alloc_c4a36dface39b88bd8e29e9032353f42 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7378,7 +7410,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  55 01 00 00 05 00 00 00                          |U.......|,
             relocations: [
                 Relocation {
@@ -7387,8 +7419,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7398,12 +7430,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_8da5d32fae8b547b54cff7ba578bbaab {
+        alloc_6215c7e3dc360de00a45ad99e901d1a9 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7415,7 +7448,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  5a 01 00 00 05 00 00 00                          |Z.......|,
             relocations: [
                 Relocation {
@@ -7424,8 +7457,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7435,12 +7468,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_8da5d32fae8b547b54cff7ba578bbaab {
+        alloc_6215c7e3dc360de00a45ad99e901d1a9 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7452,7 +7486,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  5a 01 00 00 05 00 00 00                          |Z.......|,
             relocations: [
                 Relocation {
@@ -7461,8 +7495,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7472,12 +7506,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_186bb594b01095ae0b248bbcb2488f3a {
+        alloc_eb5eb8a1866722f715e80bd0473cbba5 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7489,7 +7524,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  4b 01 00 00 05 00 00 00                          |K.......|,
             relocations: [
                 Relocation {
@@ -7498,8 +7533,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7509,12 +7544,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_186bb594b01095ae0b248bbcb2488f3a {
+        alloc_eb5eb8a1866722f715e80bd0473cbba5 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7526,7 +7562,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  4b 01 00 00 05 00 00 00                          |K.......|,
             relocations: [
                 Relocation {
@@ -7535,8 +7571,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7546,12 +7582,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_2b55ad42422cc3d8f9f5caffe5bd00a2 {
+        alloc_e8ddc75c4113d005d27cb5b9049682ee {
             size: 24,
             align: 8,
             read_only: true,
@@ -7563,7 +7600,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  7b 02 00 00 05 00 00 00                          |{.......|,
             relocations: [
                 Relocation {
@@ -7572,8 +7609,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7583,12 +7620,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_ed40fba274a10073548702b2cbcc7057 {
+        alloc_10d904b3e0ec6f732e438e2389e72544 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7600,7 +7638,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  64 01 00 00 05 00 00 00                          |d.......|,
             relocations: [
                 Relocation {
@@ -7609,8 +7647,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7620,12 +7658,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_d917dec6a919b70866b3a8390f08e605 {
+        alloc_2a39796c1d6c62bad9a307081e0ccf85 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7637,7 +7676,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  69 01 00 00 05 00 00 00                          |i.......|,
             relocations: [
                 Relocation {
@@ -7646,8 +7685,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7657,12 +7696,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_bfe1088191e32526d9bb9e11e8a9e622 {
+        alloc_aba82e3d0f6c0936ee080d94732e6bed {
             size: 24,
             align: 8,
             read_only: true,
@@ -7674,7 +7714,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  6e 01 00 00 05 00 00 00                          |n.......|,
             relocations: [
                 Relocation {
@@ -7683,8 +7723,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7694,12 +7734,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
-        alloc_bc353cd3c04dc5a1949c9c307e9449a7 {
+        alloc_75592a10422737ad1415941a62f4f4e3 {
             size: 24,
             align: 8,
             read_only: true,
@@ -7711,7 +7752,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1e 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 22 00 00 00 00 00 00 00  |........".......|
               0010  5f 01 00 00 05 00 00 00                          |_.......|,
             relocations: [
                 Relocation {
@@ -7720,8 +7761,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_311b891e42d869ec24f7c583ee676db0 {
-            size: 31,
+        alloc_9b84666c39963df714d6cf73772b5849 {
+            size: 35,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -7731,9 +7772,10 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (31 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6e 6f 66 5f  |tests/cases/nof_|
-              0010  6d 61 74 68 2f 73 6f 75 72 63 65 2e 72 73 00     |math/source.rs.|,
+            data: (35 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6e 6f 66 5f 6d 61 74 68 2f 73 6f 75 72 63 65 2e  |nof_math/source.|
+              0020  72 73 00                                         |rs.|,
             relocations: [],
         },
     ],

@@ -1985,7 +1985,7 @@ ModuleTpde {
         [i8] (0 1) -> 1,
     ],
     globals: [
-        alloc_bf9f243564284b82b8f610c166b5db36 {
+        alloc_068549dcef5b6dbe78fb9764415bbd9a {
             size: 24,
             align: 8,
             read_only: true,
@@ -1997,7 +1997,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  a1 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2006,8 +2006,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2017,13 +2017,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_d3e13060cd9d310e28b0d989626d9d3c {
+        alloc_cc439b453f159243fa02d356d723266a {
             size: 24,
             align: 8,
             read_only: true,
@@ -2035,7 +2035,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  a2 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2044,8 +2044,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2055,13 +2055,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_16f65f9d2948a064bc6d1cbd49a214a8 {
+        alloc_dc7229b00b7eee951812dea44ab25bd4 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2073,7 +2073,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  a3 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2082,8 +2082,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2093,13 +2093,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_4025ab9ed62ab283511904402be7b845 {
+        alloc_8c9ddd8e7bd2e19855e477aead5b2473 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2111,7 +2111,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  ab 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2120,8 +2120,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2131,13 +2131,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_4025ab9ed62ab283511904402be7b845 {
+        alloc_8c9ddd8e7bd2e19855e477aead5b2473 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2149,7 +2149,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  ab 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2158,8 +2158,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2169,13 +2169,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_4025ab9ed62ab283511904402be7b845 {
+        alloc_8c9ddd8e7bd2e19855e477aead5b2473 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2187,7 +2187,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  ab 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2196,8 +2196,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2207,13 +2207,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_4025ab9ed62ab283511904402be7b845 {
+        alloc_8c9ddd8e7bd2e19855e477aead5b2473 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2225,7 +2225,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  ab 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2234,8 +2234,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2245,13 +2245,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_4025ab9ed62ab283511904402be7b845 {
+        alloc_8c9ddd8e7bd2e19855e477aead5b2473 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2263,7 +2263,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  ab 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2272,8 +2272,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2283,13 +2283,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_4025ab9ed62ab283511904402be7b845 {
+        alloc_8c9ddd8e7bd2e19855e477aead5b2473 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2301,7 +2301,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  ab 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2310,8 +2310,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2321,13 +2321,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_4025ab9ed62ab283511904402be7b845 {
+        alloc_8c9ddd8e7bd2e19855e477aead5b2473 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2339,7 +2339,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  ab 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2348,8 +2348,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2359,13 +2359,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_b5df59e839435fd812911d0d6e58f40f {
+        alloc_94e31cd8682607c45360bf4ea9d14b26 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2377,7 +2377,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  13 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2386,8 +2386,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2397,13 +2397,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_acae3434168e126c537669532342037b {
+        alloc_62e425db91a5a99b6747ae344619a32f {
             size: 24,
             align: 8,
             read_only: true,
@@ -2415,7 +2415,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  22 00 00 00 05 00 00 00                          |".......|,
             relocations: [
                 Relocation {
@@ -2424,8 +2424,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2435,13 +2435,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_58b664e9e8abc355ce164bb9f7b77e61 {
+        alloc_0fdc57ef98206fccfe68f68b62ddb79f {
             size: 24,
             align: 8,
             read_only: true,
@@ -2453,7 +2453,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  31 00 00 00 05 00 00 00                          |1.......|,
             relocations: [
                 Relocation {
@@ -2462,8 +2462,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2473,13 +2473,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_382ef089e9bf32b0364e5bf2ed76ecc8 {
+        alloc_f631d50665166626252e4c26f98ae722 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2491,7 +2491,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  04 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2500,8 +2500,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2511,13 +2511,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_52317c779c5d83c7e0eb9b39f868d5e4 {
+        alloc_89d737085ab7094641607484d3f01ad8 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2529,7 +2529,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  8d 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2538,8 +2538,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2549,13 +2549,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_52317c779c5d83c7e0eb9b39f868d5e4 {
+        alloc_89d737085ab7094641607484d3f01ad8 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2567,7 +2567,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  8d 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2576,8 +2576,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2587,13 +2587,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_1f2915af3bfac3cdc3cbe6fafc5e85fe {
+        alloc_48a50f70586dc9998557ebcc503aa4fe {
             size: 24,
             align: 8,
             read_only: true,
@@ -2605,7 +2605,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  94 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2614,8 +2614,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2625,13 +2625,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_1f2915af3bfac3cdc3cbe6fafc5e85fe {
+        alloc_48a50f70586dc9998557ebcc503aa4fe {
             size: 24,
             align: 8,
             read_only: true,
@@ -2643,7 +2643,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  94 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2652,8 +2652,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2663,13 +2663,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_a47f4b5f1223b939beca476c02f33ced {
+        alloc_da4f7f4249a3226bd1a7c01780e6b15f {
             size: 24,
             align: 8,
             read_only: true,
@@ -2681,7 +2681,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  4f 00 00 00 05 00 00 00                          |O.......|,
             relocations: [
                 Relocation {
@@ -2690,8 +2690,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2701,13 +2701,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_4b24d57080dc5c3c0e9c2bbb1ac0b3e7 {
+        alloc_5443c19240b145857e32a94b428ee73d {
             size: 24,
             align: 8,
             read_only: true,
@@ -2719,7 +2719,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  5e 00 00 00 05 00 00 00                          |^.......|,
             relocations: [
                 Relocation {
@@ -2728,8 +2728,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2739,13 +2739,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_66d4257a100149776ea1f55e5c22ce4f {
+        alloc_86637c01027b7151c7219130b8e30a84 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2757,7 +2757,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  6d 00 00 00 05 00 00 00                          |m.......|,
             relocations: [
                 Relocation {
@@ -2766,8 +2766,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2777,13 +2777,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_46d057dba3df94451777af05cab66f1e {
+        alloc_a5b01631acc1ffaad6b2f95e7056af2c {
             size: 24,
             align: 8,
             read_only: true,
@@ -2795,7 +2795,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  40 00 00 00 05 00 00 00                          |@.......|,
             relocations: [
                 Relocation {
@@ -2804,8 +2804,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2815,13 +2815,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_d7be6d85410fd9e24f80cd24caeb2625 {
+        alloc_37cd772d17c61608f3c0d30beef42898 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2833,7 +2833,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  7c 00 00 00 05 00 00 00                          ||.......|,
             relocations: [
                 Relocation {
@@ -2842,8 +2842,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2853,13 +2853,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_533b3431a4ca0d49a63ccceac3ad0577 {
+        alloc_d0f77779e436e5a459111998df277918 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2871,7 +2871,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  be 00 00 00 22 00 00 00                          |...."...|,
             relocations: [
                 Relocation {
@@ -2880,8 +2880,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2891,13 +2891,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_681dd5eb51b50def52369c0b3d7655e3 {
+        alloc_4e5b5af127efa3189fa7096e1f44128c {
             size: 24,
             align: 8,
             read_only: true,
@@ -2909,7 +2909,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  be 00 00 00 13 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2918,8 +2918,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2929,13 +2929,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_b35b1f00377d0f0eeaff70c8b10a9d27 {
+        alloc_0abc7dd2f758615faff190c08f85c7f2 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2947,7 +2947,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  9a 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2956,8 +2956,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -2967,13 +2967,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_b35b1f00377d0f0eeaff70c8b10a9d27 {
+        alloc_0abc7dd2f758615faff190c08f85c7f2 {
             size: 24,
             align: 8,
             read_only: true,
@@ -2985,7 +2985,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  9a 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -2994,8 +2994,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3005,13 +3005,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_1fab7869293f0743c05999dba585780f {
+        alloc_03c3b0dd4d935a68a69ce051b1172a37 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3023,7 +3023,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  1d 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -3032,8 +3032,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3043,13 +3043,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_d48d491d7d9f3426b2a6ec110ee29809 {
+        alloc_fcfbacfbba0e577659890acc095ba78d {
             size: 24,
             align: 8,
             read_only: true,
@@ -3061,7 +3061,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  2c 00 00 00 05 00 00 00                          |,.......|,
             relocations: [
                 Relocation {
@@ -3070,8 +3070,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3081,13 +3081,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_f1ea06ac183d53d9d5ec706138af16af {
+        alloc_2d1b61ddc02ed89062e787c22367d67a {
             size: 24,
             align: 8,
             read_only: true,
@@ -3099,7 +3099,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  3b 00 00 00 05 00 00 00                          |;.......|,
             relocations: [
                 Relocation {
@@ -3108,8 +3108,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3119,13 +3119,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_a2edb8e6dbe5ce5bd12a22c6d2a04873 {
+        alloc_9a071073f7a3cf1c0271318a8ec51d1e {
             size: 24,
             align: 8,
             read_only: true,
@@ -3137,7 +3137,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  0e 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -3146,8 +3146,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3157,13 +3157,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_74d529143fed6bc40dcdde71458d0589 {
+        alloc_e3c8a0fee761abe2560005e742472aea {
             size: 24,
             align: 8,
             read_only: true,
@@ -3175,7 +3175,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  86 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -3184,8 +3184,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3195,13 +3195,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_cbf4ddfb96d0adcda8793fbd8bacf360 {
+        alloc_7d47790d0b5d82ac34d629d0dfb4f2df {
             size: 24,
             align: 8,
             read_only: true,
@@ -3213,7 +3213,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  59 00 00 00 05 00 00 00                          |Y.......|,
             relocations: [
                 Relocation {
@@ -3222,8 +3222,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3233,13 +3233,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_78f089211b2fe0120f89e92279bdc5d3 {
+        alloc_cce847cd3a731358723ce8547734e8d2 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3251,7 +3251,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  68 00 00 00 05 00 00 00                          |h.......|,
             relocations: [
                 Relocation {
@@ -3260,8 +3260,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3271,13 +3271,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_b306359f961db9c93a8d7b055e5e035d {
+        alloc_484d73d4a6d01f6a7b733560f154ad54 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3289,7 +3289,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  77 00 00 00 05 00 00 00                          |w.......|,
             relocations: [
                 Relocation {
@@ -3298,8 +3298,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3309,13 +3309,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_958e575e5dd42ff2ad8be4bb79303378 {
+        alloc_1804a5375484949b83332089d2b2dbea {
             size: 24,
             align: 8,
             read_only: true,
@@ -3327,7 +3327,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  4a 00 00 00 05 00 00 00                          |J.......|,
             relocations: [
                 Relocation {
@@ -3336,8 +3336,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3347,13 +3347,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_494b4ee0a86ec8bed78b2fcfffd41a73 {
+        alloc_1b92398616389a1d2fad78214c44c49f {
             size: 24,
             align: 8,
             read_only: true,
@@ -3365,7 +3365,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  18 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -3374,8 +3374,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3385,13 +3385,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_250f16922c0ca58e43f5436b23c13eb1 {
+        alloc_0be74f793dab7365e8e5bd6b1aa78cd5 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3403,7 +3403,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  27 00 00 00 05 00 00 00                          |'.......|,
             relocations: [
                 Relocation {
@@ -3412,8 +3412,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3423,13 +3423,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_bd486e73ca87cebc3bad2ce751626423 {
+        alloc_902b9bd3a4d0228e3f88af5775153efe {
             size: 24,
             align: 8,
             read_only: true,
@@ -3441,7 +3441,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  36 00 00 00 05 00 00 00                          |6.......|,
             relocations: [
                 Relocation {
@@ -3450,8 +3450,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3461,13 +3461,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_e8ce536f1c4384d4d18e955670bab1c5 {
+        alloc_d008cbfb93a46dc273077028d1d9293c {
             size: 24,
             align: 8,
             read_only: true,
@@ -3479,7 +3479,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  09 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -3488,8 +3488,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3499,13 +3499,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_dfc45515dab63d20a39a042d30e60b3d {
+        alloc_8858ce08763bd46f89cf6bd1f6664117 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3517,7 +3517,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  54 00 00 00 05 00 00 00                          |T.......|,
             relocations: [
                 Relocation {
@@ -3526,8 +3526,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3537,13 +3537,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_daad4e01e549640abd7994edcdf11d2e {
+        alloc_1df9a35e1020b6875f3852241e3365cd {
             size: 24,
             align: 8,
             read_only: true,
@@ -3555,7 +3555,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  63 00 00 00 05 00 00 00                          |c.......|,
             relocations: [
                 Relocation {
@@ -3564,8 +3564,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3575,13 +3575,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_40b0cb69e6b45ee55fbb84a0103a9720 {
+        alloc_9a17a60c19873e3a9d6308efa5ef7965 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3593,7 +3593,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  72 00 00 00 05 00 00 00                          |r.......|,
             relocations: [
                 Relocation {
@@ -3602,8 +3602,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3613,13 +3613,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_34cd9e59fd98c225facce4361d4630dc {
+        alloc_16e0f5f41a93e48ba4eacdcc128803dc {
             size: 24,
             align: 8,
             read_only: true,
@@ -3631,7 +3631,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  45 00 00 00 05 00 00 00                          |E.......|,
             relocations: [
                 Relocation {
@@ -3640,8 +3640,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3651,13 +3651,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_a13618151691cb78ff6f666f18ed5dd5 {
+        alloc_5b8f009414a00b6335e5effcdb1d9877 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3669,7 +3669,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  81 00 00 00 05 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -3678,8 +3678,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3689,13 +3689,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_cf5aaa8cadc2bb523c63e46d4b7cd3e9 {
+        alloc_d30c4e0fc5d8e4606c8909b60e66abc4 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3707,7 +3707,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  b5 00 00 00 09 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -3716,8 +3716,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3727,13 +3727,13 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
-        alloc_6838f6007102792fe1458418497037d1 {
+        alloc_dc197cf4406d7692f9fd774925191658 {
             size: 24,
             align: 8,
             read_only: true,
@@ -3745,7 +3745,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 25 00 00 00 00 00 00 00  |........%.......|
+              0000  00 00 00 00 00 00 00 00 29 00 00 00 00 00 00 00  |........).......|
               0010  b6 00 00 00 09 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -3754,8 +3754,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_35324de8d7157558a0658bfd0576198a {
-            size: 38,
+        alloc_f458583c1c830e321ec3b441617a2375 {
+            size: 42,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -3765,10 +3765,10 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (38 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 6f 76 65 72  |tests/cases/over|
-              0010  66 6c 6f 77 5f 63 68 65 63 6b 73 2f 73 6f 75 72  |flow_checks/sour|
-              0020  63 65 2e 72 73 00                                |ce.rs.|,
+            data: (42 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  6f 76 65 72 66 6c 6f 77 5f 63 68 65 63 6b 73 2f  |overflow_checks/|
+              0020  73 6f 75 72 63 65 2e 72 73 00                    |source.rs.|,
             relocations: [],
         },
     ],

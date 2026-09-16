@@ -1,4 +1,4 @@
-In archive tests/cases/overflow_checks/actual_obj:
+In archive tests/lib_cases/overflow_checks/actual_obj:
 
 lib.rmeta:     file format elf64-x86-64
 

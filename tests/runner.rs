@@ -11,23 +11,40 @@ fn main() {
     let args = Arguments::from_args();
     let mut tests = Vec::new();
 
-    let test_cases_dir = Path::new("tests/cases");
+    {
+        let test_cases_dir = Path::new("tests/lib_cases");
+        for entry in fs::read_dir(test_cases_dir)
+            .expect("Failed to read test cases directory") {
+            let entry = entry.unwrap();
+            let path = entry.path();
 
-    for entry in fs::read_dir(test_cases_dir).expect("Failed to read test cases directory") {
-        let entry = entry.unwrap();
-        let path = entry.path();
+            if path.is_dir() {
+                let test_name = entry.file_name().into_string().unwrap();
 
-        if path.is_dir() {
-            let test_name = entry.file_name().into_string().unwrap();
-
-            tests.push(Trial::test(test_name, move || run_test_case(&path)));
+                tests.push(Trial::test(test_name, move || run_lib_case(&path)));
+            }
         }
     }
+    {
+        let test_cases_dir = Path::new("tests/exec_cases");
+        for entry in fs::read_dir(test_cases_dir)
+            .expect("Failed to read test cases directory") {
+            let entry = entry.unwrap();
+            let path = entry.path();
+
+            if path.is_dir() {
+                let test_name = entry.file_name().into_string().unwrap();
+
+                tests.push(Trial::test(test_name, move || run_exec_case(&path)));
+            }
+        }
+    }
+
 
     libtest_mimic::run(&args, tests).exit();
 }
 
-fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
+fn run_lib_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
     let overflow = !path.file_name().map_or_else(|| false, |s| s.to_str().unwrap().starts_with("nof_"));
 
     // 1. Resolve paths
@@ -137,6 +154,70 @@ fn run_test_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
 
     fs::remove_file(&actual_obj_path)
         .map_err(|_| eprintln!("Deleting obj failed")).unwrap_or_default();
+
+    Ok(())
+}
+
+fn run_exec_case(path: &Path) -> Result<(), libtest_mimic::Failed> {let overflow = !path.file_name().map_or_else(|| false, |s| s.to_str().unwrap().starts_with("nof_"));
+
+    let source_path = path.join("source.rs");
+    let actual_bin_path = path.join("test_bin");
+    let expected_output_path = path.join("output.txt");
+
+    // 1. Ensure source file exists
+    if !source_path.exists() {
+        return Err(Failed::from("Could not find source.rs"));
+    }
+
+    // 2. Compile the binary using the custom codegen backend
+    Command::new("rustc")
+        .arg("+nightly-2026-08-19")
+        .arg("--crate-type")
+        .arg("bin")
+        .arg("-Z")
+        .arg("codegen-backend=target/debug/librustc_codegen_tpde.so")
+        .arg("-C")
+        .arg(format!("overflow-checks={}", if overflow { "yes" } else { "no" }))
+        .arg(&source_path)
+        .arg("-o")
+        .arg(&actual_bin_path)
+        .status()
+        .expect("Failed to execute rustc command")
+        .exit_ok()
+        .map_err(|_| Failed::from("Compilation of executable failed"))?;
+
+    // 3. Execute the compiled binary and capture stdout/stderr
+    let execution_output = Command::new(&actual_bin_path)
+        .output()
+        .expect("Failed to run the compiled binary");
+
+    // Fail if the executable crashed or panicked, printing stderr for debugging
+    execution_output.status.exit_ok().map_err(|_| {
+        let stderr = String::from_utf8_lossy(&execution_output.stderr);
+        Failed::from(format!("Executable returned a non-zero exit code. Stderr:\n{}", stderr))
+    })?;
+
+    // 4. Compare output if output.txt is provided
+    if expected_output_path.exists() {
+        let expected_output = fs::read_to_string(&expected_output_path)
+            .map_err(|e| Failed::from(format!("Failed to read output.txt: {}", e)))?;
+
+        let actual_output = String::from_utf8_lossy(&execution_output.stdout);
+
+        // Trimming both ends before comparison avoids trivial test failures
+        // due to trailing newlines or Windows/Unix line ending mismatches (\r\n vs \n).
+        if actual_output.trim() != expected_output.trim() {
+            assert_eq!(
+                expected_output.trim(),
+                actual_output.trim(),
+                "Output mismatch in {:?}", path
+            );
+        }
+    }
+
+    // 5. Cleanup
+    fs::remove_file(&actual_bin_path)
+        .map_err(|_| eprintln!("Deleting executable failed")).unwrap_or_default();
 
     Ok(())
 }

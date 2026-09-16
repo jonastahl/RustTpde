@@ -201,7 +201,7 @@ ModuleTpde {
         [i8] (0 0) -> 0,
     ],
     globals: [
-        alloc_dfeb212e0310191204eae4bde46eda4d {
+        alloc_b0a41fa48238d98edf3007ed4918c047 {
             size: 24,
             align: 8,
             read_only: true,
@@ -213,7 +213,7 @@ ModuleTpde {
             },
             init: true,
             data: (24 bytes)
-              0000  00 00 00 00 00 00 00 00 1b 00 00 00 00 00 00 00  |................|
+              0000  00 00 00 00 00 00 00 00 1f 00 00 00 00 00 00 00  |................|
               0010  0b 00 00 00 0e 00 00 00                          |........|,
             relocations: [
                 Relocation {
@@ -222,8 +222,8 @@ ModuleTpde {
                 },
             ],
         },
-        alloc_70bc86f495f6ec360360d2b639bf9400 {
-            size: 28,
+        alloc_0f72bed8858418800045892bfe5565b0 {
+            size: 32,
             align: 1,
             read_only: true,
             thread_loc: false,
@@ -233,9 +233,9 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (28 bytes)
-              0000  74 65 73 74 73 2f 63 61 73 65 73 2f 70 61 69 72  |tests/cases/pair|
-              0010  73 2f 73 6f 75 72 63 65 2e 72 73 00              |s/source.rs.|,
+            data: (32 bytes)
+              0000  74 65 73 74 73 2f 6c 69 62 5f 63 61 73 65 73 2f  |tests/lib_cases/|
+              0010  70 61 69 72 73 2f 73 6f 75 72 63 65 2e 72 73 00  |pairs/source.rs.|,
             relocations: [],
         },
     ],
