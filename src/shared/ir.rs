@@ -36,6 +36,7 @@ pub enum FullType {
 }
 
 pub struct FunctionSignatureRef(usize);
+#[derive(Clone)]
 pub struct FunctionSignature {
     pub slots: Vec<Type>,
     pub arg_infos: Vec<ArgInfo>,
@@ -273,7 +274,7 @@ impl Module {
             }
             Slot::Alloc(_) => todo!(),
             Slot::Raw(_) => unreachable!(),
-            Slot::Func(func) => todo!(),
+            Slot::Func(func) => FullType::Single(Type::ptr),
             Slot::Global(_) => todo!(),
             Slot::GlobalPtr(..) => todo!(),
         }

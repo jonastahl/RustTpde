@@ -50,7 +50,7 @@ impl<'tcx> DebugInfoBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
     }
 
     fn insert_reference_to_gdb_debug_scripts_section_global(&mut self) {
-        todo!()
+        // todo!()
     }
 
     fn set_var_name(&mut self, value: Self::Value, name: &str) {
@@ -61,6 +61,7 @@ impl<'tcx> DebugInfoBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
 
 impl<'tcx> DebugInfoCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     fn create_vtable_debuginfo(&self, ty: Ty<'tcx>, trait_ref: Option<ExistentialTraitRef<'tcx>>, vtable: Self::Value) {
-        todo!()
+        // TODO
+        // todo!()
     }
 }

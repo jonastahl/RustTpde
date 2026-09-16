@@ -2,7 +2,7 @@ use crate::consts::IsInitOrFini;
 use crate::context::CodegenCx;
 use crate::shared::ir::{FullType, Module, Slot, Type};
 use rustc_abi::Size;
-use rustc_codegen_ssa::traits::ConstCodegenMethods;
+use rustc_codegen_ssa::traits::{ConstCodegenMethods, MiscCodegenMethods};
 use rustc_data_structures::stable_hash::{StableHash, StableHasher};
 use rustc_hashes::Hash128;
 use rustc_hir::attrs::Linkage;
@@ -55,7 +55,7 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn const_u8(&self, i: u8) -> Self::Value {
-        todo!()
+        self.const_uint(FullType::Single(Type::i8), i as u64)
     }
 
     fn const_u32(&self, i: u32) -> Self::Value {
@@ -206,19 +206,17 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                     Slot::new_global(g)
                 }
             }
-            // GlobalAlloc::Function { instance, .. } => {
-            //     assert_eq!(offset.bytes(), 0, "offset into a function pointer");
-            //     self.get_fn_addr(instance, schema)
+            GlobalAlloc::Function { instance } => {
+                self.get_fn_addr(instance, None)
+            }
+            // GlobalAlloc::VTable(ty, dyn_ty) => {
+            //     todo!()
             // }
             // // Drop the provenance, the offset contains the bytes of the hash
             // GlobalAlloc::TypeId { .. } => self
             //     .tpde_module
             //     .borrow_mut()
             //     .add_const(Type::ptr, offset.bytes() as u128),
-            // GlobalAlloc::VTable(ty, dyn_ty) => {
-            //     let global = self.global_for_vtable(ty, dyn_ty);
-            //     self.global_addr(global, offset.bytes() as i64)
-            // }
             _ => todo!(),
         }
     }

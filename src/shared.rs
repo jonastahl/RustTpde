@@ -1,5 +1,5 @@
-use crate::shared::ffi::{GlobalPtr, Type};
-use crate::shared::ir::Slot;
+use crate::shared::ffi::{ArgExtension, ArgKind, GlobalPtr, Type};
+use crate::shared::ir::{ArgInfo, Slot};
 use core::fmt::{Debug, Formatter};
 #[allow(unused_imports)]
 pub use ffi::compile_to_file;
@@ -357,5 +357,18 @@ impl Debug for ffi::Global {
 impl Debug for GlobalPtr {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
         write!(f, "[{:?}] + {:?}", self.global, self.offset)
+    }
+}
+
+
+
+impl Default for ArgInfo {
+    fn default() -> Self {
+        Self {
+            kind: ArgKind::Direct,
+            extension: ArgExtension::None,
+            size: 0,
+            align: 0,
+        }
     }
 }

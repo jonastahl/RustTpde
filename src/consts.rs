@@ -1,11 +1,13 @@
 use crate::builder::Builder;
 use crate::context::CodegenCx;
-use crate::shared::ir::{Global, Module};
+use crate::shared::ir::{Global, Module, Slot};
 use rustc_codegen_ssa::traits::{MiscCodegenMethods, StaticBuilderMethods, StaticCodegenMethods};
 use rustc_middle::mir::interpret::{read_target_uint, Allocation, ConstAllocation, InitChunk, Pointer};
 use rustc_span::def_id::DefId;
 use std::ops::Range;
 use rustc_abi::Size;
+use rustc_ast::Mutability;
+use rustc_hir::attrs::Linkage;
 use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
 
 impl<'tcx> StaticBuilderMethods for Builder<'_, '_, 'tcx> {
@@ -107,7 +109,14 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
 
 impl<'tcx> StaticCodegenMethods for CodegenCx<'_, 'tcx> {
     fn static_addr_of(&self, alloc: ConstAllocation<'_>, kind: Option<&str>) -> Self::Value {
-        todo!()
+        let mut module = self.module.borrow_mut();
+
+        let global_name = self.generate_local_symbol_name(kind.unwrap_or("global"));
+        let g = module.add_global(&global_name, Linkage::Internal, Mutability::Mut);
+
+        self.const_alloc_to_tpde(&mut module, g, alloc.inner(), IsInitOrFini::No);
+        
+        Slot::new_global(g)
     }
 
     fn codegen_static(&mut self, def_id: DefId) {

@@ -89,7 +89,34 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn type_func(&self, args: &[Self::Type], ret: Self::Type) -> Self::FunctionSignature {
-        todo!()
+        let mut slots: Vec<Type> = vec![];
+        let mut arg_infos: Vec<ArgInfo> = vec![];
+
+        let add_ty = |ty: Type| {
+            slots.push(ty);
+            arg_infos.push(ArgInfo::default());
+        };
+
+        for ty in args {
+            match ty {
+                FullType::Single(ty) => {
+                    slots.push(*ty);
+                    arg_infos.push(ArgInfo::default());
+                }
+                FullType::Pair(a, b, _) => {
+                    slots.push(*a);
+                    arg_infos.push(ArgInfo::default());
+                    slots.push(*b);
+                    arg_infos.push(ArgInfo::default());
+                }
+                FullType::Memory { .. } => { todo!() }
+            }
+        }
+        
+        let sig = FunctionSignature { slots, arg_infos, ret: Some(ret) };
+        let signs = &mut self.function_signatures.borrow_mut();
+        signs.push(sig);
+        signs.len() - 1
     }
 
     fn type_kind(&self, ty: Self::Type) -> TypeKind {
@@ -109,11 +136,11 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn type_ptr(&self) -> Self::Type {
-        todo!()
+        FullType::Single(Type::ptr)
     }
 
     fn type_ptr_ext(&self, address_space: AddressSpace) -> Self::Type {
-        FullType::Single(Type::ptr)
+        self.type_ptr()
     }
 
     fn element_type(&self, ty: Self::Type) -> Self::Type {
@@ -246,12 +273,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                         on_stack,
                     } => {
                         slots.push(Type::ptr);
-                        arg_infos.push(ArgInfo {
-                            kind: ArgKind::Direct,
-                            extension: ArgExtension::None,
-                            size: 0,
-                            align: 0,
-                        });
+                        arg_infos.push(ArgInfo::default());
                     },
                     PassMode::Cast { cast, pad_i32: _ } => {
                         match self.cast_backend_type(cast) {
@@ -266,19 +288,9 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                             }
                             FullType::Pair(a, b, offset_b) => {
                                 slots.push(a);
-                                arg_infos.push(ArgInfo {
-                                    kind: ArgKind::Direct,
-                                    extension: ArgExtension::None,
-                                    size: 0,
-                                    align: 0,
-                                });
+                                arg_infos.push(ArgInfo::default());
                                 slots.push(b);
-                                arg_infos.push(ArgInfo {
-                                    kind: ArgKind::Direct,
-                                    extension: ArgExtension::None,
-                                    size: 0,
-                                    align: 0,
-                                });
+                                arg_infos.push(ArgInfo::default());
                             }
                             _ => unreachable!()
                         }

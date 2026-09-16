@@ -1,19 +1,42 @@
+use crate::builder::Builder;
+use rustc_codegen_ssa::RetagInfo;
 use rustc_codegen_ssa::mir::IntrinsicResult;
 use rustc_codegen_ssa::mir::operand::OperandRef;
 use rustc_codegen_ssa::mir::place::PlaceValue;
-use rustc_codegen_ssa::RetagInfo;
 use rustc_codegen_ssa::traits::IntrinsicCallBuilderMethods;
 use rustc_middle::ty::Instance;
 use rustc_middle::ty::layout::TyAndLayout;
-use rustc_span::Span;
-use crate::builder::Builder;
+use rustc_span::{sym, Span};
 
 impl<'tcx> IntrinsicCallBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
-    fn codegen_intrinsic_call(&mut self, instance: Instance<'tcx>, args: &[OperandRef<'tcx, Self::Value>], result_layout: TyAndLayout<'tcx>, result_place: Option<PlaceValue<Self::Value>>, span: Span) -> IntrinsicResult<'tcx, Self::Value> {
-        todo!()
+    fn codegen_intrinsic_call(
+        &mut self,
+        instance: Instance<'tcx>,
+        args: &[OperandRef<'tcx, Self::Value>],
+        result_layout: TyAndLayout<'tcx>,
+        result_place: Option<PlaceValue<Self::Value>>,
+        span: Span,
+    ) -> IntrinsicResult<'tcx, Self::Value> {
+        let name = self.tcx.item_name(instance.def_id());
+
+        match name {
+            sym::black_box => {
+                let input_operand = args[0];
+
+                IntrinsicResult::Operand(input_operand.val)
+            }
+            _ => {
+                panic!("Unimplemented intrinsic: {}", name.as_str());
+            }
+        }
     }
 
-    fn codegen_llvm_intrinsic_call(&mut self, instance: Instance<'tcx>, args: &[OperandRef<'tcx, Self::Value>], is_cleanup: bool) -> Self::Value {
+    fn codegen_llvm_intrinsic_call(
+        &mut self,
+        instance: Instance<'tcx>,
+        args: &[OperandRef<'tcx, Self::Value>],
+        is_cleanup: bool,
+    ) -> Self::Value {
         todo!()
     }
 
@@ -29,7 +52,12 @@ impl<'tcx> IntrinsicCallBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
         todo!()
     }
 
-    fn type_checked_load(&mut self, llvtable: Self::Value, vtable_byte_offset: u64, typeid: &[u8]) -> Self::Value {
+    fn type_checked_load(
+        &mut self,
+        llvtable: Self::Value,
+        vtable_byte_offset: u64,
+        typeid: &[u8],
+    ) -> Self::Value {
         todo!()
     }
 
