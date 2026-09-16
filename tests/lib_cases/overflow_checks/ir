@@ -2002,7 +2002,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354561,
+                    slot: [global: 1],
                 },
             ],
         },
@@ -2040,7 +2040,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354563,
+                    slot: [global: 3],
                 },
             ],
         },
@@ -2078,7 +2078,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354565,
+                    slot: [global: 5],
                 },
             ],
         },
@@ -2116,7 +2116,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354567,
+                    slot: [global: 7],
                 },
             ],
         },
@@ -2154,7 +2154,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354569,
+                    slot: [global: 9],
                 },
             ],
         },
@@ -2192,7 +2192,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354571,
+                    slot: [global: 11],
                 },
             ],
         },
@@ -2230,7 +2230,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354573,
+                    slot: [global: 13],
                 },
             ],
         },
@@ -2268,7 +2268,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354575,
+                    slot: [global: 15],
                 },
             ],
         },
@@ -2306,7 +2306,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354577,
+                    slot: [global: 17],
                 },
             ],
         },
@@ -2344,7 +2344,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354579,
+                    slot: [global: 19],
                 },
             ],
         },
@@ -2382,7 +2382,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354581,
+                    slot: [global: 21],
                 },
             ],
         },
@@ -2420,7 +2420,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354583,
+                    slot: [global: 23],
                 },
             ],
         },
@@ -2458,7 +2458,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354585,
+                    slot: [global: 25],
                 },
             ],
         },
@@ -2496,7 +2496,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354587,
+                    slot: [global: 27],
                 },
             ],
         },
@@ -2534,7 +2534,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354589,
+                    slot: [global: 29],
                 },
             ],
         },
@@ -2572,7 +2572,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354591,
+                    slot: [global: 31],
                 },
             ],
         },
@@ -2610,7 +2610,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354593,
+                    slot: [global: 33],
                 },
             ],
         },
@@ -2648,7 +2648,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354595,
+                    slot: [global: 35],
                 },
             ],
         },
@@ -2686,7 +2686,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354597,
+                    slot: [global: 37],
                 },
             ],
         },
@@ -2724,7 +2724,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354599,
+                    slot: [global: 39],
                 },
             ],
         },
@@ -2762,7 +2762,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354601,
+                    slot: [global: 41],
                 },
             ],
         },
@@ -2800,7 +2800,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354603,
+                    slot: [global: 43],
                 },
             ],
         },
@@ -2838,7 +2838,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354605,
+                    slot: [global: 45],
                 },
             ],
         },
@@ -2876,7 +2876,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354607,
+                    slot: [global: 47],
                 },
             ],
         },
@@ -2914,7 +2914,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354609,
+                    slot: [global: 49],
                 },
             ],
         },
@@ -2952,7 +2952,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354611,
+                    slot: [global: 51],
                 },
             ],
         },
@@ -2990,7 +2990,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354613,
+                    slot: [global: 53],
                 },
             ],
         },
@@ -3028,7 +3028,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354615,
+                    slot: [global: 55],
                 },
             ],
         },
@@ -3066,7 +3066,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354617,
+                    slot: [global: 57],
                 },
             ],
         },
@@ -3104,7 +3104,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354619,
+                    slot: [global: 59],
                 },
             ],
         },
@@ -3142,7 +3142,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354621,
+                    slot: [global: 61],
                 },
             ],
         },
@@ -3180,7 +3180,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354623,
+                    slot: [global: 63],
                 },
             ],
         },
@@ -3218,7 +3218,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354625,
+                    slot: [global: 65],
                 },
             ],
         },
@@ -3256,7 +3256,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354627,
+                    slot: [global: 67],
                 },
             ],
         },
@@ -3294,7 +3294,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354629,
+                    slot: [global: 69],
                 },
             ],
         },
@@ -3332,7 +3332,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354631,
+                    slot: [global: 71],
                 },
             ],
         },
@@ -3370,7 +3370,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354633,
+                    slot: [global: 73],
                 },
             ],
         },
@@ -3408,7 +3408,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354635,
+                    slot: [global: 75],
                 },
             ],
         },
@@ -3446,7 +3446,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354637,
+                    slot: [global: 77],
                 },
             ],
         },
@@ -3484,7 +3484,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354639,
+                    slot: [global: 79],
                 },
             ],
         },
@@ -3522,7 +3522,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354641,
+                    slot: [global: 81],
                 },
             ],
         },
@@ -3560,7 +3560,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354643,
+                    slot: [global: 83],
                 },
             ],
         },
@@ -3598,7 +3598,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354645,
+                    slot: [global: 85],
                 },
             ],
         },
@@ -3636,7 +3636,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354647,
+                    slot: [global: 87],
                 },
             ],
         },
@@ -3674,7 +3674,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354649,
+                    slot: [global: 89],
                 },
             ],
         },
@@ -3712,7 +3712,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354651,
+                    slot: [global: 91],
                 },
             ],
         },
@@ -3750,7 +3750,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354653,
+                    slot: [global: 93],
                 },
             ],
         },

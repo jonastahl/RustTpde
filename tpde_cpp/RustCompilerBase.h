@@ -1271,7 +1271,8 @@ namespace tpde_rust {
       case i8:
       case i16:
       case i32:
-      case i64: {
+      case i64:
+      case ptr: {
         const auto num_bytes = size_of_type(ty) / 8;
         EncodeFnTy fn = int_fns[num_bytes - 1];
         (derived()->*fn)(std::move(ptr_op), op_ref.part(0));
@@ -2218,19 +2219,19 @@ namespace tpde_rust {
       }
       SecRef sec = this->assembler.create_section(kind);
 
-      // TODO find sym
-
       if (global.init) {
         u32 off;
         this->assembler.sym_def_predef_data(sec, sym, global.data, global.align, &off);
         for (Relocation &reloc: global.relocations) {
-          assert(operands::is_global(reloc.slot));
-          SymRef &target = global_symbols[operands::content(reloc.slot)];
-
-          this->assembler.reloc_abs(sec, target, off + reloc.offset, 0);
-
-          // would be the code for absolut relocation
-          //   this->assembler.reloc_pc32(sec, target, off + inner_off, addend);
+          if (operands::is_global(reloc.slot)) {
+            SymRef &target = global_symbols[operands::content(reloc.slot)];
+            this->assembler.reloc_abs(sec, target, off + reloc.offset, 0);
+          } else if (operands::is_func(reloc.slot)) {
+            SymRef target = this->func_syms[operands::content(reloc.slot)];
+            this->assembler.reloc_abs(sec, target, off + reloc.offset, 0);
+          } else {
+            assert(false);
+          }
         }
       } else {
         this->assembler.sym_def_predef_zero(sec, sym, global.size, global.align);

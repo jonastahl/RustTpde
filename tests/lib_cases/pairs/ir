@@ -218,7 +218,7 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 0,
-                    slot: 2684354561,
+                    slot: [global: 1],
                 },
             ],
         },

@@ -123,9 +123,11 @@ impl<'tcx> MiscCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
     }
 
     fn declare_c_main(&self, fn_type: Self::FunctionSignature) -> Option<Self::Function> {
+        let entry_name = self.sess().target.entry_name.as_ref();
+
         let sign = self.function_signatures.borrow()[fn_type].clone();
         let func = self.module.borrow_mut()
-            .add_function(self, "main", sign, Linkage::External, Binding::Definition);
+            .add_function(self, entry_name, sign, Linkage::External, Binding::Definition);
         Some(func)
     }
 

@@ -540,15 +540,15 @@ ModuleTpde {
             relocations: [
                 Relocation {
                     offset: 24,
-                    slot: 2147483651,
+                    slot: [func: 3],
                 },
                 Relocation {
                     offset: 32,
-                    slot: 2147483650,
+                    slot: [func: 2],
                 },
                 Relocation {
                     offset: 40,
-                    slot: 2147483650,
+                    slot: [func: 2],
                 },
             ],
         },

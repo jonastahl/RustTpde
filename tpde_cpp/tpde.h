@@ -6,7 +6,7 @@
 #include "rustc_codegen_tpde/src/shared.rs.h"
 #include "tpde/RegisterFile.hpp"
 
-uint32_t compile_to_file(ModuleTpde& module, rust::Str path);
+bool compile_to_file(ModuleTpde& module, rust::Str path);
 
 tpde::u32 size_of_type(Type type);
 tpde::RegBank reg_bank_of_type(Type type);

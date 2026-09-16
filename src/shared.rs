@@ -1,4 +1,4 @@
-use crate::shared::ffi::{ArgExtension, ArgKind, GlobalPtr, Type};
+use crate::shared::ffi::{ArgExtension, ArgKind, GlobalPtr, Relocation, Type};
 use crate::shared::ir::{ArgInfo, Slot};
 use core::fmt::{Debug, Formatter};
 #[allow(unused_imports)]
@@ -85,7 +85,7 @@ mod ffi {
     unsafe extern "C++" {
         include!("tpde_cpp/tpde.h");
 
-        pub fn compile_to_file(module: &mut ModuleTpde, path: &str) -> u32;
+        pub fn compile_to_file(module: &mut ModuleTpde, path: &str) -> bool;
     }
 
     #[derive(Copy, Clone)]
@@ -239,7 +239,6 @@ mod ffi {
         relocations: Vec<Relocation>,
     }
 
-    #[derive(Debug)]
     pub struct Relocation {
         offset: u32,
         slot: u32,
@@ -360,8 +359,6 @@ impl Debug for GlobalPtr {
     }
 }
 
-
-
 impl Default for ArgInfo {
     fn default() -> Self {
         Self {
@@ -370,5 +367,14 @@ impl Default for ArgInfo {
             size: 0,
             align: 0,
         }
+    }
+}
+
+impl Debug for Relocation {
+    fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
+        f.debug_struct("Relocation")
+            .field("offset", &self.offset)
+            .field("slot", &Slot::from_ffi(self.slot))
+            .finish()
     }
 }

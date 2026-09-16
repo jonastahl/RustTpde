@@ -1,7 +1,7 @@
 use crate::shared;
 use crate::shared::ir::Module;
 use rustc_codegen_ssa::back::link::ensure_removed;
-use rustc_codegen_ssa::back::write::{BitcodeSection, CodegenContext, EmitObj, ModuleConfig};
+use rustc_codegen_ssa::back::write::{CodegenContext, EmitObj, ModuleConfig};
 use rustc_codegen_ssa::{CompiledModule, ModuleCodegen};
 use rustc_data_structures::profiling::SelfProfilerRef;
 use rustc_errors::DiagCtxtHandle;
@@ -38,7 +38,9 @@ pub(crate) fn codegen(
     match config.emit_obj {
         EmitObj::ObjectCode(_) => {
             println!("Compiling to obj file: {}", obj_out.to_str().expect("path to str"));
-            shared::compile_to_file(module.module_llvm.tpde_mut(), obj_out.to_str().expect("path to str"));
+            if !shared::compile_to_file(module.module_llvm.tpde_mut(), obj_out.to_str().expect("path to str")) {
+                panic!("Backend failed to compile to obj file, Consider falling back to llvm")
+            }
         }
         EmitObj::Bitcode => {
             println!("Copying bitcode file to obj file: {}", obj_out.to_str().expect("path to str"));
@@ -53,8 +55,9 @@ pub(crate) fn codegen(
         EmitObj::None => {}
     }
 
+    let emit_obj = config.emit_obj != EmitObj::None;
     module.into_compiled_module(
-        config.emit_obj == EmitObj::ObjectCode(BitcodeSection::Full),
+        emit_obj,
         false,
         false,
         false,

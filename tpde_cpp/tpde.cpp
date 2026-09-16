@@ -6,12 +6,14 @@
 #include "tpde/RegisterFile.hpp"
 
 
-uint32_t compile_to_file(ModuleTpde& module, const rust::Str path) {
+bool compile_to_file(ModuleTpde& module, const rust::Str path) {
     // TODO move this out, don't want to initialize it every time separately
     const auto compiler = tpde_rust::RustCompiler::create();
 
     std::vector<uint8_t> buf;
-    compiler->compile_to_elf(module, buf);
+    if (!compiler->compile_to_elf(module, buf)) {
+        return false;
+    }
 
     {
         std::string file_path(path.data(), path.size());
@@ -25,7 +27,7 @@ uint32_t compile_to_file(ModuleTpde& module, const rust::Str path) {
         out_file.close();
     }
 
-    return buf.size();
+    return true;
 }
 
 [[nodiscard]] tpde::u32 size_of_type(Type type) {
