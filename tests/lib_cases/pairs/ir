@@ -216,10 +216,7 @@ ModuleTpde {
               0000  00 00 00 00 00 00 00 00 1f 00 00 00 00 00 00 00  |................|
               0010  0b 00 00 00 0e 00 00 00                          |........|,
             relocations: [
-                Relocation {
-                    offset: 0,
-                    slot: [global: 1],
-                },
+                offset 0x0 insert [global: 1],
             ],
         },
         alloc_0f72bed8858418800045892bfe5565b0 {

@@ -1,10 +1,9 @@
 use super::ffi;
 pub use super::ffi::ModuleTpde;
-use crate::context::CodegenCx;
+use crate::shared::ffi::CalleeInfo;
 use core::fmt::{Debug, Formatter};
 use rustc_hir::attrs::Linkage;
 use rustc_middle::mir::Mutability;
-use crate::shared::ffi::CalleeInfo;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Function(usize);
@@ -101,7 +100,6 @@ impl Module {
 
     pub fn add_function<'tpde, 'tcx>(
         &mut self,
-        cx: &CodegenCx<'tpde, 'tcx>,
         name: &str,
         fn_sign: FunctionSignature,
         linkage: Linkage,
@@ -195,7 +193,7 @@ impl Module {
         global.size += size as u32;
 
         if global.init {
-            global.data.resize(size, 0);
+            global.data.resize(global.size as usize, 0);
         }
     }
 

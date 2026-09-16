@@ -372,9 +372,6 @@ impl Default for ArgInfo {
 
 impl Debug for Relocation {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
-        f.debug_struct("Relocation")
-            .field("offset", &self.offset)
-            .field("slot", &Slot::from_ffi(self.slot))
-            .finish()
+        write!(f, "offset {:#x} insert {:?}", self.offset, Slot::from_ffi(self.slot))
     }
 }

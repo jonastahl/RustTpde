@@ -1,7 +1,9 @@
+use crate::context::SimpleCx;
 use crate::shared::ir::*;
-use crate::{back, base};
+use crate::{allocator, back, base};
 use rustc_codegen_ssa::back::lto::ThinModule;
 use rustc_codegen_ssa::back::write::{CodegenContext, FatLtoInput, ModuleConfig, SharedEmitter, TargetMachineFactoryFn, ThinLtoInput};
+use rustc_codegen_ssa::target_features::internal_target_features;
 use rustc_codegen_ssa::traits::{
     CodegenBackend, ExtraBackendMethods, ModuleBufferMethods, WriteBackendMethods,
 };
@@ -16,9 +18,9 @@ use rustc_session::config::{OptLevel, OutputFilenames, PrintRequest};
 use rustc_session::{IncrCompSession, Session};
 use rustc_span::Symbol;
 use std::any::Any;
+use std::cell::RefCell;
 use std::path::PathBuf;
 use std::sync::Arc;
-use rustc_codegen_ssa::target_features::internal_target_features;
 
 #[derive(Clone)]
 pub struct TpdeCodegenBackend();
@@ -45,8 +47,10 @@ impl ExtraBackendMethods for TpdeCodegenBackend {
         module_name: &str,
         methods: &[rustc_ast::expand::allocator::AllocatorMethod],
     ) -> Self::Module {
-        // TODO could do some allocation methods
-        Module::new()
+        let mut module = RefCell::new(Module::new());
+        let scx = SimpleCx::new(&mut module);
+        allocator::codegen(tcx, scx, module_name, methods);
+        module.into_inner()
     }
 
     fn compile_codegen_unit(
@@ -148,7 +152,6 @@ impl CodegenBackend for TpdeCodegenBackend {
     }
 
     fn init(&self, _sess: &Session) {
-        println!("Initializing TPDE backend");
         // TODO init tpde
     }
 

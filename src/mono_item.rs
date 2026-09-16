@@ -46,7 +46,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
         let fn_abi: &FnAbi<'tcx, Ty<'tcx>> = self.fn_abi_of_instance(instance, ty::List::empty());
 
         let func = self.module.borrow_mut()
-            .add_function(self, symbol_name, self.create_function_signature(fn_abi), linkage, binding);
+            .add_function(symbol_name, self.create_function_signature(fn_abi), linkage, binding);
         self.functions.borrow_mut().insert(instance, func);
         func
     }

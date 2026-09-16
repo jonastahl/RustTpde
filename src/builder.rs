@@ -1,7 +1,8 @@
 mod coverageinfo;
 mod intrinsic;
 
-use crate::context::CodegenCx;
+use core::borrow::Borrow;
+use crate::context::{CodegenCx, GenericCx, SCx};
 use crate::shared::ir::{BasicBlock, FullType, Function, InstructionKind, Module, Slot, Type, size_of_type};
 use rustc_ast::expand::typetree::FncTree;
 use rustc_codegen_ssa::MemFlags;
@@ -36,7 +37,7 @@ impl<'a, 'tpde, 'tcx> BackendTypes for Builder<'a, 'tpde, 'tcx> {
     type DIVariable = <CodegenCx<'tpde, 'tcx> as BackendTypes>::DIVariable;
 }
 
-impl<'tpde, 'tcx> BackendTypes for CodegenCx<'tpde, 'tcx> {
+impl<'tpde, CX: Borrow<SCx<'tpde>>> BackendTypes for GenericCx<'tpde, CX> {
     type Function = Function;
     type BasicBlock = BasicBlock;
     type Funclet = ();
@@ -98,11 +99,6 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
 
     fn ret_void(&mut self) {
         let module = &mut self.module.borrow_mut();
-        // let rets = if let Some(ret) = module.return_value(self.basic_block.function()) {
-        //     vec![ret]
-        // } else {
-        //     vec![]
-        // };
         module.add_instruction(self.basic_block, InstructionKind::Ret, vec![])
     }
 

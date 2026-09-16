@@ -1,27 +1,37 @@
 use crate::builder::Builder;
 use crate::shared::ir::{Binding, Function, FunctionSignature, Global, Module, Slot};
+use core::borrow::Borrow;
 use rustc_abi::TargetDataLayout;
 use rustc_codegen_ssa::traits::MiscCodegenMethods;
+use rustc_data_structures::base_n::{ALPHANUMERIC_ONLY, ToBaseN};
 use rustc_data_structures::fx::FxHashMap;
 use rustc_hir::attrs::Linkage;
 use rustc_middle::mono::{CodegenUnit, Visibility};
+use rustc_middle::ty;
 use rustc_middle::ty::layout::HasTyCtxt;
 use rustc_middle::ty::{ExistentialTraitRef, Instance, Ty, TyCtxt};
 use rustc_session::{PointerAuthSchema, Session};
-use rustc_span::{sym, Symbol};
 use rustc_span::def_id::DefId;
+use rustc_span::{Symbol, sym};
 use std::cell::{Cell, RefCell};
-use rustc_data_structures::base_n::{ToBaseN, ALPHANUMERIC_ONLY};
-use rustc_middle::ty;
+use std::marker::PhantomData;
+use std::ops::{Deref, DerefMut};
 
-pub struct CodegenCx<'tpde, 'tcx> {
+pub struct GenericCx<'tpde, T: Borrow<SCx<'tpde>>>(pub T, PhantomData<SCx<'tpde>>);
+pub struct SCx<'tpde> {
+    pub module: &'tpde RefCell<Module>,
+    pub function_signatures: RefCell<Vec<FunctionSignature>>,
+}
+
+pub type CodegenCx<'tpde, 'tcx> = GenericCx<'tpde, FullCx<'tpde, 'tcx>>;
+pub type SimpleCx<'tpde> = GenericCx<'tpde, SCx<'tpde>>;
+
+pub struct FullCx<'tpde, 'tcx> {
     pub tcx: TyCtxt<'tcx>,
+    pub scx: SCx<'tpde>,
     pub codegen_unit: &'tcx CodegenUnit<'tcx>,
 
-    pub module: &'tpde RefCell<Module>,
-
     pub functions: RefCell<FxHashMap<Instance<'tcx>, Function>>,
-    pub function_signatures: RefCell<Vec<FunctionSignature>>,
 
     pub globals: FxHashMap<DefId, Global>,
     pub vtables: RefCell<FxHashMap<(Ty<'tcx>, Option<ty::ExistentialTraitRef<'tcx>>), Slot>>,
@@ -30,14 +40,61 @@ pub struct CodegenCx<'tpde, 'tcx> {
 
     pub global_gen_sym_counter: Cell<usize>,
     pub local_gen_sym_counter: Cell<usize>,
+}
 
+impl<'tpde, T: Borrow<SCx<'tpde>>> Deref for GenericCx<'tpde, T> {
+    type Target = T;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl<'tpde, T: Borrow<SCx<'tpde>>> DerefMut for GenericCx<'tpde, T> {
+    #[inline]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+impl<'tpde> Borrow<SCx<'tpde>> for FullCx<'tpde, '_> {
+    fn borrow(&self) -> &SCx<'tpde> {
+        &self.scx
+    }
+}
+
+impl<'tpde, 'tcx> Deref for FullCx<'tpde, 'tcx> {
+    type Target = SCx<'tpde>;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        &self.scx
+    }
+}
+
+impl<'tpde, 'tcx> SCx<'tpde> {
+    pub fn new(module: &'tpde RefCell<Module>) -> Self {
+        Self {
+            module,
+            function_signatures: RefCell::new(vec![]),
+        }
+    }
+}
+
+impl<'tpde> SimpleCx<'tpde> {
+    pub fn new(
+        module: &'tpde RefCell<Module>,
+    ) -> Self {
+        GenericCx(SCx::new(module), PhantomData)
+    }
 }
 
 impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
     pub fn new(
         tcx: TyCtxt<'tcx>,
         cgu: &'tcx CodegenUnit<'tcx>,
-        ir: &'tpde RefCell<Module>,
+        module: &'tpde RefCell<Module>,
     ) -> Self {
         let sess = tcx.sess;
 
@@ -45,18 +102,20 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
             sess.dcx().emit_fatal(err);
         });
 
-        Self {
-            tcx,
-            codegen_unit: cgu,
-            module: ir,
-            functions: RefCell::new(FxHashMap::default()),
-            function_signatures: RefCell::new(vec![]),
-            globals: FxHashMap::default(),
-            data_layout,
-            global_gen_sym_counter: Cell::new(0),
-            local_gen_sym_counter: Cell::new(0),
-            vtables: RefCell::new(FxHashMap::default()),
-        }
+        GenericCx(
+            FullCx {
+                tcx,
+                scx: SCx::new(module),
+                codegen_unit: cgu,
+                functions: RefCell::new(FxHashMap::default()),
+                globals: FxHashMap::default(),
+                data_layout,
+                global_gen_sym_counter: Cell::new(0),
+                local_gen_sym_counter: Cell::new(0),
+                vtables: RefCell::new(FxHashMap::default()),
+            },
+            PhantomData,
+        )
     }
 }
 
@@ -126,8 +185,12 @@ impl<'tcx> MiscCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
         let entry_name = self.sess().target.entry_name.as_ref();
 
         let sign = self.function_signatures.borrow()[fn_type].clone();
-        let func = self.module.borrow_mut()
-            .add_function(self, entry_name, sign, Linkage::External, Binding::Definition);
+        let func = self.module.borrow_mut().add_function(
+            entry_name,
+            sign,
+            Linkage::External,
+            Binding::Definition,
+        );
         Some(func)
     }
 

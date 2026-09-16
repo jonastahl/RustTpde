@@ -8,7 +8,7 @@ use rustc_errors::DiagCtxtHandle;
 use rustc_fs_util::link_or_copy;
 use rustc_session::config::OutputType;
 
-pub(crate) fn codegen(
+pub fn codegen(
     cgcx: &CodegenContext,
     prof: &SelfProfilerRef,
     dcx: DiagCtxtHandle<'_>,
@@ -37,7 +37,6 @@ pub(crate) fn codegen(
 
     match config.emit_obj {
         EmitObj::ObjectCode(_) => {
-            println!("Compiling to obj file: {}", obj_out.to_str().expect("path to str"));
             if !shared::compile_to_file(module.module_llvm.tpde_mut(), obj_out.to_str().expect("path to str")) {
                 panic!("Backend failed to compile to obj file, Consider falling back to llvm")
             }

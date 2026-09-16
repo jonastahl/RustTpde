@@ -535,21 +535,14 @@ ModuleTpde {
                 weak_link: false,
             },
             init: true,
-            data: (8 bytes)
-              0000  00 00 00 00 00 00 00 00                          |........|,
+            data: (48 bytes)
+              0000  00 00 00 00 00 00 00 00 08 00 00 00 00 00 00 00  |................|
+              0010  08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  |................|
+              0020  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  |................|,
             relocations: [
-                Relocation {
-                    offset: 24,
-                    slot: [func: 3],
-                },
-                Relocation {
-                    offset: 32,
-                    slot: [func: 2],
-                },
-                Relocation {
-                    offset: 40,
-                    slot: [func: 2],
-                },
+                offset 0x18 insert [func: 3],
+                offset 0x20 insert [func: 2],
+                offset 0x28 insert [func: 2],
             ],
         },
         alloc_3213114faf700a46436312d7d5d956d1 {

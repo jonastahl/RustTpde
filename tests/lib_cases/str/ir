@@ -91,10 +91,7 @@ ModuleTpde {
             data: (16 bytes)
               0000  00 00 00 00 00 00 00 00 0c 00 00 00 00 00 00 00  |................|,
             relocations: [
-                Relocation {
-                    offset: 0,
-                    slot: [global: 2],
-                },
+                offset 0x0 insert [global: 2],
             ],
         },
         USER {
@@ -112,10 +109,7 @@ ModuleTpde {
               0000  00 00 00 00 00 00 00 00 04 00 00 00 00 00 00 00  |................|
               0010  01 00 00 00 00 00 00 00                          |........|,
             relocations: [
-                Relocation {
-                    offset: 0,
-                    slot: [global: 3],
-                },
+                offset 0x0 insert [global: 3],
             ],
         },
         alloc_cff95699b23abcffc3a34d7d19816221 {

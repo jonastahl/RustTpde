@@ -1,5 +1,6 @@
-use crate::context::CodegenCx;
+use crate::context::{CodegenCx, GenericCx, SCx};
 use crate::shared::ir::{ArgExtension, ArgInfo, ArgKind, FullType, FunctionSignature, Type};
+use core::borrow::Borrow;
 use rustc_abi::{AddressSpace, BackendRepr, Primitive, Reg, RegKind, Scalar};
 use rustc_codegen_ssa::common::TypeKind;
 use rustc_codegen_ssa::traits::{
@@ -42,7 +43,41 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
     }
 }
 
-impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
+impl<'tpde, CX: Borrow<SCx<'tpde>>> GenericCx<'tpde, CX> {
+    pub fn type_void(&self) -> FullType {
+        FullType::Single(Type::Void)
+    }
+
+    pub fn function_signature(&self, args: &[FullType], ret: Option<FullType>) -> FunctionSignature {
+        let mut slots: Vec<Type> = vec![];
+        let mut arg_infos: Vec<ArgInfo> = vec![];
+
+        let add_ty = |ty: Type| {
+            slots.push(ty);
+            arg_infos.push(ArgInfo::default());
+        };
+
+        for ty in args {
+            match ty {
+                FullType::Single(ty) => {
+                    slots.push(*ty);
+                    arg_infos.push(ArgInfo::default());
+                }
+                FullType::Pair(a, b, _) => {
+                    slots.push(*a);
+                    arg_infos.push(ArgInfo::default());
+                    slots.push(*b);
+                    arg_infos.push(ArgInfo::default());
+                }
+                FullType::Memory { .. } => { todo!() }
+            }
+        }
+
+        FunctionSignature { slots, arg_infos, ret }
+    }
+}
+
+impl<'tpde, CX: Borrow<SCx<'tpde>>> BaseTypeCodegenMethods for GenericCx<'tpde, CX> {
     fn type_i8(&self) -> Self::Type {
         FullType::Single(Type::i8)
     }
@@ -89,32 +124,8 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn type_func(&self, args: &[Self::Type], ret: Self::Type) -> Self::FunctionSignature {
-        let mut slots: Vec<Type> = vec![];
-        let mut arg_infos: Vec<ArgInfo> = vec![];
-
-        let add_ty = |ty: Type| {
-            slots.push(ty);
-            arg_infos.push(ArgInfo::default());
-        };
-
-        for ty in args {
-            match ty {
-                FullType::Single(ty) => {
-                    slots.push(*ty);
-                    arg_infos.push(ArgInfo::default());
-                }
-                FullType::Pair(a, b, _) => {
-                    slots.push(*a);
-                    arg_infos.push(ArgInfo::default());
-                    slots.push(*b);
-                    arg_infos.push(ArgInfo::default());
-                }
-                FullType::Memory { .. } => { todo!() }
-            }
-        }
-        
-        let sig = FunctionSignature { slots, arg_infos, ret: Some(ret) };
-        let signs = &mut self.function_signatures.borrow_mut();
+        let sig = self.function_signature(args, Some(ret));
+        let signs = &mut self.0.borrow().function_signatures.borrow_mut();
         signs.push(sig);
         signs.len() - 1
     }
@@ -177,7 +188,7 @@ impl<'tcx> BaseTypeCodegenMethods for CodegenCx<'_, 'tcx> {
     }
 
     fn val_ty(&self, v: Self::Value) -> Self::Type {
-        self.module.borrow().type_of_slot(v)
+        self.0.borrow().module.borrow().type_of_slot(v)
     }
 }
 

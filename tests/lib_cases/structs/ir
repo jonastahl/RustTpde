@@ -386,10 +386,7 @@ ModuleTpde {
               0000  00 00 00 00 00 00 00 00 21 00 00 00 00 00 00 00  |........!.......|
               0010  0e 00 00 00 0e 00 00 00                          |........|,
             relocations: [
-                Relocation {
-                    offset: 0,
-                    slot: [global: 1],
-                },
+                offset 0x0 insert [global: 1],
             ],
         },
         alloc_75787c6b7f4327f28c540fb53083d5fd {
@@ -424,10 +421,7 @@ ModuleTpde {
               0000  00 00 00 00 00 00 00 00 21 00 00 00 00 00 00 00  |........!.......|
               0010  0f 00 00 00 11 00 00 00                          |........|,
             relocations: [
-                Relocation {
-                    offset: 0,
-                    slot: [global: 3],
-                },
+                offset 0x0 insert [global: 3],
             ],
         },
         alloc_75787c6b7f4327f28c540fb53083d5fd {
@@ -462,10 +456,7 @@ ModuleTpde {
               0000  00 00 00 00 00 00 00 00 21 00 00 00 00 00 00 00  |........!.......|
               0010  10 00 00 00 13 00 00 00                          |........|,
             relocations: [
-                Relocation {
-                    offset: 0,
-                    slot: [global: 5],
-                },
+                offset 0x0 insert [global: 5],
             ],
         },
         alloc_75787c6b7f4327f28c540fb53083d5fd {
@@ -500,10 +491,7 @@ ModuleTpde {
               0000  00 00 00 00 00 00 00 00 21 00 00 00 00 00 00 00  |........!.......|
               0010  11 00 00 00 11 00 00 00                          |........|,
             relocations: [
-                Relocation {
-                    offset: 0,
-                    slot: [global: 7],
-                },
+                offset 0x0 insert [global: 7],
             ],
         },
         alloc_75787c6b7f4327f28c540fb53083d5fd {
