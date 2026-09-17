@@ -204,6 +204,8 @@ mod ffi {
         LandingPad,
         Resume,
 
+        ctpop,
+
         Last,
     }
 

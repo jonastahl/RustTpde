@@ -363,6 +363,8 @@ namespace tpde_rust {
 
     bool compile_fcmp(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
+    bool compile_ctpop(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     SymRef get_libfunc_sym(LibFunc func);
 
     bool hook_post_func_sym_init();
@@ -417,7 +419,7 @@ namespace tpde_rust {
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_inst(RustAdaptor::IRInstRef instr, InstRange) {
-    TPDE_LOG_TRACE("Compiling inst {}", this->adaptor->inst_fmt_ref(i));
+    TPDE_LOG_TRACE("Compiling inst {}", this->adaptor->inst_fmt_ref(instr));
     static constexpr auto fns = []() constexpr {
       using CompileFn =
           bool (Derived::*)(RustAdaptor::IRInstRef, const ValInfo &, u64);
@@ -512,6 +514,8 @@ namespace tpde_rust {
       set_fn(InstructionKind::fTos_sat, &Derived::compile_float_to_int, /*flags=sign|sat*/0b11);
       set_fn(InstructionKind::uTof, &Derived::compile_int_to_float, /*sign=*/false);
       set_fn(InstructionKind::sTof, &Derived::compile_int_to_float, /*sign=*/true);
+
+      set_fn(InstructionKind::ctpop, &Derived::compile_ctpop);
 
       return res;
     }();
@@ -1978,6 +1982,31 @@ namespace tpde_rust {
     }
 
     return (derived()->*fn)(lhs.part(0), rhs.part(0), res.part(0));
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_ctpop(RustAdaptor::IRInstRef inst_ref, const ValInfo &, u64) {
+    Instruction& inst = this->adaptor->get_instruction(inst_ref);
+
+    const auto width = size_of_type(this->adaptor->type_of_ref(inst.ops[0]));
+    if (width > 64) {
+      return false;
+    }
+
+    ValueRef val_ref = this->val_ref(inst.ops[0]);
+    ValuePartRef op = val_ref.part(0);
+    if (width % 32) {
+      unsigned tgt_width = tpde::util::align_up(width, 32);
+      op = std::move(op).into_extended(/*sign=*/false, width, tgt_width);
+    }
+
+    auto [res_vr, res_ref] = this->result_ref_single(inst.result);
+    if (width <= 32) {
+      derived()->encode_ctpopi32(std::move(op), res_ref);
+    } else {
+      derived()->encode_ctpopi64(std::move(op), res_ref);
+    }
+    return true;
   }
 
   template<typename Adaptor, typename Derived, typename Config>

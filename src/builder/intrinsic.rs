@@ -1,12 +1,13 @@
 use crate::builder::Builder;
 use rustc_codegen_ssa::RetagInfo;
 use rustc_codegen_ssa::mir::IntrinsicResult;
-use rustc_codegen_ssa::mir::operand::OperandRef;
+use rustc_codegen_ssa::mir::operand::{OperandRef, OperandValue};
 use rustc_codegen_ssa::mir::place::PlaceValue;
 use rustc_codegen_ssa::traits::IntrinsicCallBuilderMethods;
 use rustc_middle::ty::Instance;
 use rustc_middle::ty::layout::TyAndLayout;
 use rustc_span::{Span, sym};
+use crate::shared::ir::InstructionKind;
 
 impl<'tcx> IntrinsicCallBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
     fn codegen_intrinsic_call(
@@ -24,6 +25,18 @@ impl<'tcx> IntrinsicCallBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
                 let input_operand = args[0];
 
                 IntrinsicResult::Operand(input_operand.val)
+            }
+            sym::ctpop => {
+                let OperandValue::Immediate(input_val) = args[0].val else {
+                    todo!()
+                };
+                let result = self.cx.module.borrow_mut().add_instruction_ret_first(
+                    self.basic_block,
+                    InstructionKind::ctpop,
+                    vec![input_val]
+                );
+
+                IntrinsicResult::Operand(OperandValue::Immediate(result))
             }
             _ => {
                 panic!("Unimplemented intrinsic: {}", name.as_str());
