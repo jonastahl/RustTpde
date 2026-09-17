@@ -162,7 +162,6 @@ mod ffi {
         RealULE,
         RealUNE,
 
-
         OverflowCheck,
 
         // Storage operations
@@ -172,10 +171,13 @@ mod ffi {
         GEP,
         MemCpy,
 
+        Select,
+
         // Branching operations
         Ret,
         Br,
         CondBr,
+        Switch,
 
         // Calls
         Call,
@@ -197,9 +199,12 @@ mod ffi {
 
         Cast,
 
+        Assume,
+
         Unreachable,
         Abort,
         LandingPad,
+        Resume,
 
         Last,
     }

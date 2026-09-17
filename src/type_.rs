@@ -24,7 +24,7 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
                     unreachable!()
                 };
 
-                FullType::Pair(a, b, b_offset.bytes_usize() as u8)
+                FullType::Pair(a, b, b_offset.bytes_usize() as u32)
             }
             BackendRepr::Memory { sized } => FullType::Memory { sized },
             _ => todo!(),
@@ -176,7 +176,7 @@ impl<'tpde, CX: Borrow<SCx<'tpde>>> BaseTypeCodegenMethods for GenericCx<'tpde, 
     fn int_width(&self, ty: Self::Type) -> u64 {
         match ty {
             FullType::Single(ty) => match ty {
-                Type::i8 => 8,
+                Type::Bool | Type::i8 => 8,
                 Type::i16 => 16,
                 Type::i32 => 32,
                 Type::i64 => 64,
@@ -371,7 +371,7 @@ impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
         if registers.len() == 1 {
             FullType::Single(registers[0].clone())
         } else if registers.len() == 2 {
-            FullType::Pair(registers[0].clone(), registers[1].clone(), offsets[1] as u8)
+            FullType::Pair(registers[0].clone(), registers[1].clone(), offsets[1] as u32)
         } else {
             unimplemented!()
         }
@@ -403,7 +403,7 @@ impl<'tcx> LayoutTypeCodegenMethods<'tcx> for CodegenCx<'_, 'tcx> {
         immediate: bool,
     ) -> Self::Type {
         let BackendRepr::ScalarPair { a, b, b_offset: _ } = layout.backend_repr else {
-            bug!("Cannot appear")
+            bug!("Has to be a pair")
         };
         let scalar = [a, b][index];
 

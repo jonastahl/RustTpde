@@ -1,6 +1,6 @@
 use crate::consts::IsInitOrFini;
 use crate::context::CodegenCx;
-use crate::shared::ir::{FullType, Module, Slot, Type};
+use crate::shared::ir::{Binding, FullType, Slot, Type};
 use rustc_abi::Size;
 use rustc_codegen_ssa::traits::{ConstCodegenMethods, MiscCodegenMethods};
 use rustc_data_structures::stable_hash::{StableHash, StableHasher};
@@ -11,14 +11,6 @@ use rustc_session::PointerAuthSchema;
 
 impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
     fn const_null(&self, t: Self::Type) -> Self::Value {
-        todo!()
-    }
-
-    fn const_undef(&self, t: Self::Type) -> Self::Value {
-        todo!()
-    }
-
-    fn const_poison(&self, t: Self::Type) -> Self::Value {
         match t {
             FullType::Single(t) => self.module.borrow_mut().add_const(t, 0),
             FullType::Pair(ty_a, ty_b, o) => {
@@ -28,6 +20,14 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
             }
             FullType::Memory { .. } => todo!(),
         }
+    }
+
+    fn const_undef(&self, t: Self::Type) -> Self::Value {
+        self.const_null(t)
+    }
+
+    fn const_poison(&self, t: Self::Type) -> Self::Value {
+        self.const_null(t)
     }
 
     fn const_bool(&self, val: bool) -> Self::Value {
@@ -112,11 +112,12 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
         self.module.borrow().const_data(v)
     }
 
-    fn scalar_to_backend(
+    fn scalar_to_backend_with_pac(
         &self,
         cv: Scalar,
         layout: rustc_abi::Scalar,
         ty: Self::Type,
+        schema: Option<&PointerAuthSchema>,
     ) -> Self::Value {
         match ty {
             FullType::Single(ty) => {
@@ -128,12 +129,15 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
                     Type::i64 => cv.to_i64().unwrap() as u128,
                     Type::i128 => cv.to_i128().unwrap() as u128,
                     Type::ptr => {
-                        return self.ptr_to_backend(
-                            &mut self.module.borrow_mut(),
-                            cv.to_pointer(&self.tcx.data_layout)
-                                .into_pointer_or_addr()
-                                .unwrap(),
-                        );
+                        let ptr = cv.to_pointer(&self.tcx.data_layout)
+                            .into_pointer_or_addr();
+                        return match ptr {
+                            Ok(p) => self.ptr_to_backend(p),
+                            Err(addr) => {
+                                let addr_val = addr.bytes() as u128;
+                                self.module.borrow_mut().add_const(Type::ptr, addr_val)
+                            }
+                        }
                     }
                     Type::f32 => cv.to_bits(cv.size()).unwrap(),
                     Type::f64 => cv.to_bits(cv.size()).unwrap(),
@@ -148,23 +152,13 @@ impl<'tcx> ConstCodegenMethods for CodegenCx<'_, 'tcx> {
         }
     }
 
-    fn scalar_to_backend_with_pac(
-        &self,
-        cv: Scalar,
-        layout: rustc_abi::Scalar,
-        ty: Self::Type,
-        schema: Option<&PointerAuthSchema>,
-    ) -> Self::Value {
-        todo!()
-    }
-
     fn const_ptr_byte_offset(&self, val: Self::Value, offset: Size) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_to_ptr(val, offset.bytes() as u32)
     }
 }
 
 impl<'tcx> CodegenCx<'_, 'tcx> {
-    pub fn ptr_to_backend(&self, module: &mut Module, ptr: Pointer<CtfeProvenance>) -> Slot {
+    pub fn ptr_to_backend(&self, ptr: Pointer<CtfeProvenance>) -> Slot {
         let (prov, offset) = ptr.prov_and_relative_offset();
         let global_alloc = self.tcx.global_alloc(prov.alloc_id());
         let base_addr_space = global_alloc.address_space(self);
@@ -172,7 +166,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
             GlobalAlloc::Static(def_id) => {
                 assert!(self.tcx.is_static(def_id));
                 assert!(!self.tcx.is_thread_local_static(def_id));
-                Slot::new_global(*self.globals.get(&def_id).expect("Global undeclared"))
+                Slot::new_global(self.get_global(def_id))
             }
             GlobalAlloc::Memory(alloc) if alloc.inner().len() == 0 => {
                 todo!()
@@ -194,8 +188,12 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                     format!("alloc_{hash:032x}")
                 };
 
-                let g = module.add_global(&name, Linkage::Internal, alloc.mutability);
-                self.const_alloc_to_tpde(module, g, &alloc, IsInitOrFini::No);
+                let g = self.module.borrow_mut()
+                    .add_global(&name,
+                                Linkage::Internal,
+                                alloc.mutability,
+                                Binding::Definition);
+                self.const_alloc_to_tpde(g, &alloc, IsInitOrFini::No);
 
                 // TODO so far we ignore the address space
 

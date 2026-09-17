@@ -1,4 +1,5 @@
 use crate::builder::Builder;
+use crate::shared::ir::InstructionKind;
 use rustc_codegen_ssa::RetagInfo;
 use rustc_codegen_ssa::mir::IntrinsicResult;
 use rustc_codegen_ssa::mir::operand::OperandRef;
@@ -6,7 +7,7 @@ use rustc_codegen_ssa::mir::place::PlaceValue;
 use rustc_codegen_ssa::traits::IntrinsicCallBuilderMethods;
 use rustc_middle::ty::Instance;
 use rustc_middle::ty::layout::TyAndLayout;
-use rustc_span::{sym, Span};
+use rustc_span::{Span, sym};
 
 impl<'tcx> IntrinsicCallBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
     fn codegen_intrinsic_call(
@@ -45,11 +46,15 @@ impl<'tcx> IntrinsicCallBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
     }
 
     fn assume(&mut self, val: Self::Value) {
-        todo!()
+        self.module.borrow_mut().add_instruction(
+            self.basic_block,
+            InstructionKind::Assume,
+            vec![val]
+        )
     }
 
     fn expect(&mut self, cond: Self::Value, expected: bool) -> Self::Value {
-        todo!()
+        cond
     }
 
     fn type_checked_load(

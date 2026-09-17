@@ -33,7 +33,7 @@ pub struct FullCx<'tpde, 'tcx> {
 
     pub functions: RefCell<FxHashMap<Instance<'tcx>, Function>>,
 
-    pub globals: FxHashMap<DefId, Global>,
+    pub globals: RefCell<FxHashMap<DefId, Global>>,
     pub vtables: RefCell<FxHashMap<(Ty<'tcx>, Option<ty::ExistentialTraitRef<'tcx>>), Slot>>,
 
     pub data_layout: TargetDataLayout,
@@ -108,7 +108,7 @@ impl<'tpde, 'tcx> CodegenCx<'tpde, 'tcx> {
                 scx: SCx::new(module),
                 codegen_unit: cgu,
                 functions: RefCell::new(FxHashMap::default()),
-                globals: FxHashMap::default(),
+                globals: RefCell::new(FxHashMap::default()),
                 data_layout,
                 global_gen_sym_counter: Cell::new(0),
                 local_gen_sym_counter: Cell::new(0),

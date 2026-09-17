@@ -158,11 +158,13 @@ fn run_lib_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
     Ok(())
 }
 
-fn run_exec_case(path: &Path) -> Result<(), libtest_mimic::Failed> {let overflow = !path.file_name().map_or_else(|| false, |s| s.to_str().unwrap().starts_with("nof_"));
+fn run_exec_case(path: &Path) -> Result<(), libtest_mimic::Failed> {
+    let overflow = !path.file_name().map_or_else(|| false, |s| s.to_str().unwrap().starts_with("nof_"));
 
     let source_path = path.join("source.rs");
     let actual_bin_path = path.join("test_bin");
     let expected_output_path = path.join("output.txt");
+    let input_path = path.join("input.txt"); // 1. Add input path
 
     // 1. Ensure source file exists
     if !source_path.exists() {
@@ -187,7 +189,16 @@ fn run_exec_case(path: &Path) -> Result<(), libtest_mimic::Failed> {let overflow
         .map_err(|_| Failed::from("Compilation of executable failed"))?;
 
     // 3. Execute the compiled binary and capture stdout/stderr
-    let execution_output = Command::new(&actual_bin_path)
+    let mut cmd = Command::new(&actual_bin_path);
+
+    // Check if input.txt exists, and if so, pipe it to stdin
+    if input_path.exists() {
+        let input_file = File::open(&input_path)
+            .map_err(|e| Failed::from(format!("Failed to open input.txt: {}", e)))?;
+        cmd.stdin(Stdio::from(input_file));
+    }
+
+    let execution_output = cmd
         .output()
         .expect("Failed to run the compiled binary");
 

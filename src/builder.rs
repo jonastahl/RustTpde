@@ -128,7 +128,8 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         else_llbb: Self::BasicBlock,
         cases: impl ExactSizeIterator<Item = (u128, Self::BasicBlock)>,
     ) {
-        todo!()
+        let cases = cases.map(|(val, bb)| (val, bb)).collect::<Vec<_>>();
+        self.module.borrow_mut().add_switch(self.basic_block, v, else_llbb, &cases);
     }
 
     fn invoke(
@@ -544,11 +545,17 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         ptr: Self::Value,
         align: rustc_abi::Align,
     ) -> Self::Value {
-        self.module.borrow_mut().add_instruction(
-            self.basic_block,
-            InstructionKind::Store,
-            vec![val, ptr, Slot::new_raw(align.bytes_usize() as u32)],
-        );
+        let module = &mut self.module.borrow_mut();
+        match module.type_of_slot(val) {
+            FullType::Single(ty) => {
+                self.store_single(module, val, ptr, align);
+            }
+            FullType::Pair(..) => {
+                let (val_a, val_b, offset) = module.extract_vals(val);
+                self.store_pair(module, val_a, val_b, ptr, offset, align);
+            }
+            _ => todo!()
+        };
         val
     }
 
@@ -574,19 +581,10 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn gep(&mut self, ty: Self::Type, ptr: Self::Value, indices: &[Self::Value]) -> Self::Value {
-        todo!()
-    }
-
-    fn inbounds_gep(
-        &mut self,
-        ty: Self::Type,
-        ptr: Self::Value,
-        indices: &[Self::Value],
-    ) -> Self::Value {
         let offset = match ty {
             FullType::Single(ty) => size_of_type(ty),
             FullType::Pair(_, _, offset) => offset as u32,
-            FullType::Memory { sized } => todo!(),
+            FullType::Memory { sized } => 1,
         };
         assert_eq!(indices.len(), 1);
 
@@ -596,6 +594,15 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
             vec![ptr, Slot::new_raw(offset), indices[0]],
             Type::i64,
         )
+    }
+
+    fn inbounds_gep(
+        &mut self,
+        ty: Self::Type,
+        ptr: Self::Value,
+        indices: &[Self::Value],
+    ) -> Self::Value {
+        self.gep(ty, ptr, indices)
     }
 
     fn trunc(&mut self, val: Self::Value, dest_ty: Self::Type) -> Self::Value {
@@ -780,7 +787,12 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
         then_val: Self::Value,
         else_val: Self::Value,
     ) -> Self::Value {
-        todo!()
+        self.module.borrow_mut().add_instruction_ret_x(
+            self.basic_block,
+            InstructionKind::Select,
+            vec![cond, then_val, else_val],
+            1
+        )
     }
 
     fn va_arg(&mut self, list: Self::Value, ty: Self::Type) -> Self::Value {
@@ -822,28 +834,33 @@ impl<'a, 'tpde, 'tcx> BuilderMethods<'a, 'tcx> for Builder<'a, 'tpde, 'tcx> {
     }
 
     fn cleanup_landing_pad(&mut self, pers_fn: Self::Function) -> (Self::Value, Self::Value) {
-        todo!()
-    }
-
-    fn filter_landing_pad(&mut self, pers_fn: Self::Function) {
         self.set_personality_fn(pers_fn);
         let module = &mut self.module.borrow_mut();
-        module.add_instruction_ret(
+        let a = module.add_instruction_ret(
             self.basic_block,
             InstructionKind::LandingPad,
             vec![],
             Type::ptr
         );
-        module.add_instruction_ret(
+        let b = module.add_instruction_ret(
             self.basic_block,
             InstructionKind::AddRet,
             vec![],
             Type::i32
         );
+        (a, b)
+    }
+
+    fn filter_landing_pad(&mut self, pers_fn: Self::Function) {
+        self.cleanup_landing_pad(pers_fn);
     }
 
     fn resume(&mut self, exn0: Self::Value, exn1: Self::Value) {
-        todo!()
+        self.module.borrow_mut().add_instruction(
+            self.basic_block,
+            InstructionKind::Resume,
+            vec![exn0]
+        );
     }
 
     fn cleanup_pad(&mut self, parent: Option<Self::Value>, args: &[Self::Value]) -> Self::Funclet {
@@ -968,32 +985,36 @@ impl<'a, 'tpde, 'tcx> Builder<'a, 'tpde, 'tcx> {
         )
     }
 
-    fn load_pair(&self, module: &mut Module, ptr: Slot, offset: u8, align: rustc_abi::Align, ty_a: Type, ty_b: Type) -> (Slot, Slot) {
-        let slot_a = module.add_instruction_ret(
+    fn store_single(&self, module: &mut Module, val: Slot, ptr: Slot, align: rustc_abi::Align) {
+        module.add_instruction(
             self.basic_block,
-            InstructionKind::Load,
-            vec![
-                ptr,
-                Slot::new_raw(align.bytes() as u32),
-            ],
-            ty_a,
-        );
+            InstructionKind::Store,
+            vec![val, ptr, Slot::new_raw(align.bytes_usize() as u32)],
+        )
+    }
+
+    fn load_pair(&self, module: &mut Module, ptr: Slot, offset: u32, align: rustc_abi::Align, ty_a: Type, ty_b: Type) -> (Slot, Slot) {
+        let slot_a = self.load_single(module, ptr, align, ty_a);
         let ind = module.add_const(Type::i64, 1);
         let ptr_b = module.add_instruction_ret(
             self.basic_block,
             InstructionKind::GEP,
-            vec![ptr, Slot::new_raw(offset as u32), ind],
+            vec![ptr, Slot::new_raw(offset), ind],
             Type::i64,
         );
-        let slot_b = module.add_instruction_ret(
-            self.basic_block,
-            InstructionKind::Load,
-            vec![
-                ptr_b,
-                Slot::new_raw(align.bytes() as u32),
-            ],
-            ty_b,
-        );
+        let slot_b = self.load_single(module, ptr_b, align, ty_b);
         (slot_a, slot_b)
+    }
+
+    fn store_pair(&self, module: &mut Module, val_a: Slot, val_b: Slot, ptr: Slot, offset: u32, align: rustc_abi::Align) {
+        self.store_single(module, val_a, ptr, align);
+        let ind = module.add_const(Type::i64, 1);
+        let ptr_b = module.add_instruction_ret(
+            self.basic_block,
+            InstructionKind::GEP,
+            vec![ptr, Slot::new_raw(offset), ind],
+            Type::i64,
+        );
+        self.store_single(module, val_b, ptr_b, align);
     }
 }

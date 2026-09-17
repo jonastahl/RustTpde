@@ -1,6 +1,6 @@
 use crate::builder::Builder;
 use crate::context::CodegenCx;
-use crate::shared::ir::{Global, Module, Slot};
+use crate::shared::ir::{Binding, Global, Module, Slot};
 use rustc_codegen_ssa::traits::{MiscCodegenMethods, StaticBuilderMethods, StaticCodegenMethods};
 use rustc_middle::mir::interpret::{read_target_uint, Allocation, ConstAllocation, InitChunk, Pointer};
 use rustc_span::def_id::DefId;
@@ -24,11 +24,11 @@ pub enum IsInitOrFini {
 impl<'tcx> CodegenCx<'_, 'tcx> {
     pub fn const_alloc_to_tpde(
         &self,
-        module: &mut Module,
         g: Global,
         alloc: &Allocation,
         is_init_fini: IsInitOrFini,
     ) {
+        let mut module = self.module.borrow_mut();
         let dl = &self.tcx.data_layout;
         let pointer_size = dl.pointer_size().bytes() as usize;
 
@@ -72,7 +72,7 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
             assert_eq!(offset as usize as u64, offset);
             let offset = offset as usize;
             if offset > next_offset {
-                append_chunks_of_bytes(self, module, g, alloc, next_offset..offset);
+                append_chunks_of_bytes(self, &mut module, g, alloc, next_offset..offset);
             }
             let ptr_offset = read_target_uint(
                 dl.endian,
@@ -93,7 +93,10 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
                     None
                 };
                 let ptr = Pointer::new(prov, Size::from_bytes(ptr_offset));
-                let ptr = self.ptr_to_backend(module, ptr);
+
+                drop(module);
+                let ptr = self.ptr_to_backend(ptr);
+                module = self.module.borrow_mut();
 
                 module.global_add_reloc_chunk(g, offset as u32, ptr, pointer_size);
             }
@@ -102,26 +105,24 @@ impl<'tcx> CodegenCx<'_, 'tcx> {
         }
         if alloc.len() >= next_offset {
             let range = next_offset..alloc.len();
-            append_chunks_of_bytes(self, module, g, alloc, range);
+            append_chunks_of_bytes(self, &mut module, g, alloc, range);
         }
     }
 }
 
 impl<'tcx> StaticCodegenMethods for CodegenCx<'_, 'tcx> {
     fn static_addr_of(&self, alloc: ConstAllocation<'_>, kind: Option<&str>) -> Self::Value {
-        let mut module = self.module.borrow_mut();
-
         let global_name = self.generate_local_symbol_name(kind.unwrap_or("global"));
-        let g = module.add_global(&global_name, Linkage::Internal, Mutability::Mut);
+        let g = self.module.borrow_mut()
+            .add_global(&global_name, Linkage::Internal, Mutability::Mut, Binding::Definition);
 
-        self.const_alloc_to_tpde(&mut module, g, alloc.inner(), IsInitOrFini::No);
+        self.const_alloc_to_tpde(g, alloc.inner(), IsInitOrFini::No);
         
         Slot::new_global(g)
     }
 
     fn codegen_static(&mut self, def_id: DefId) {
-        let mut module = self.module.borrow_mut();
-        let g = *self.globals.get(&def_id).expect("Global was not declared before");
+        let g = self.get_global(def_id);
 
         let attrs = self.tcx.codegen_fn_attrs(def_id);
 
@@ -134,7 +135,7 @@ impl<'tcx> StaticCodegenMethods for CodegenCx<'_, 'tcx> {
         // some weird renaming that we possibly don't need
 
         if attrs.flags.contains(CodegenFnAttrFlags::THREAD_LOCAL) {
-            module.global_set_thread_local(g);
+            self.module.borrow_mut().global_set_thread_local(g);
         }
 
         let is_init_fini = attrs
@@ -148,7 +149,7 @@ impl<'tcx> StaticCodegenMethods for CodegenCx<'_, 'tcx> {
                 }
             })
             .unwrap_or(IsInitOrFini::No);
-        self.const_alloc_to_tpde(&mut module, g, alloc, is_init_fini);
+        self.const_alloc_to_tpde(g, alloc, is_init_fini);
 
         // more dll stuff
     }

@@ -1,6 +1,6 @@
 use super::ffi;
 pub use super::ffi::ModuleTpde;
-use crate::shared::ffi::CalleeInfo;
+use crate::shared::ffi::{CalleeInfo, GlobalPtr};
 use core::fmt::{Debug, Formatter};
 use rustc_hir::attrs::Linkage;
 use rustc_middle::mir::Mutability;
@@ -30,7 +30,7 @@ pub enum Slot {
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub enum FullType {
     Single(Type),
-    Pair(Type, Type, u8),
+    Pair(Type, Type, u32),
     Memory{sized: bool}
 }
 
@@ -73,7 +73,7 @@ pub enum Binding {
 pub struct PairRef {
     slot_a: Slot,
     slot_b: Slot,
-    offset_b: u8,
+    offset_b: u32,
 }
 
 impl Module {
@@ -138,7 +138,8 @@ impl Module {
         &mut self,
         name: &str,
         linkage: Linkage,
-        mutability: Mutability
+        mutability: Mutability,
+        binding: Binding
     ) -> Global {
         self.tpde.globals.push(ffi::Global {
             name: name.to_string(),
@@ -146,7 +147,7 @@ impl Module {
             align: 0,
             thread_loc: false,
             read_only: mutability != Mutability::Mut,
-            flags: Self::create_flags(linkage, Binding::Definition),
+            flags: Self::create_flags(linkage, binding),
 
             init: false,
             data: vec![],
@@ -234,6 +235,21 @@ impl Module {
         Slot::GlobalPtr(self.tpde.global_ptrs.len() as u32 - 1)
     }
 
+    pub fn add_to_ptr(
+        &mut self,
+        ptr: Slot,
+        off: u32
+    ) -> Slot {
+        match ptr {
+            Slot::Global(glob) => self.add_global_ptr(glob, off),
+            Slot::GlobalPtr(i) => {
+                let GlobalPtr { global, offset } = self.tpde.global_ptrs[i as usize];
+                self.add_global_ptr(Global(global as usize), offset + off)
+            },
+            _ => todo!()
+        }
+    }
+
     fn create_flags(
         linkage: Linkage,
         ty: Binding
@@ -270,11 +286,9 @@ impl Module {
                 };
                 FullType::Pair(slot_a, slot_b, pair.offset_b)
             }
-            Slot::Alloc(_) => todo!(),
             Slot::Raw(_) => unreachable!(),
-            Slot::Func(func) => FullType::Single(Type::ptr),
-            Slot::Global(_) => todo!(),
-            Slot::GlobalPtr(..) => todo!(),
+            Slot::Alloc(_) | Slot::Func(_) | Slot::Global(_) | Slot::GlobalPtr(..)
+                => FullType::Single(Type::ptr),
         }
     }
 
@@ -525,7 +539,7 @@ impl Module {
         }
     }
 
-    pub fn add_pair(&mut self, slot_a: Slot, slot_b: Slot, offset_b: u8) -> Slot {
+    pub fn add_pair(&mut self, slot_a: Slot, slot_b: Slot, offset_b: u32) -> Slot {
         let slot_pairs = &mut self.pairs;
         slot_pairs.push(PairRef {
             slot_a: slot_a,
@@ -539,7 +553,7 @@ impl Module {
         &mut self,
         ty_a: Type,
         ty_b: Type,
-        offset_b: u8,
+        offset_b: u32,
         data_a: u128,
         data_b: u128,
     ) -> Slot {
@@ -548,7 +562,7 @@ impl Module {
         self.add_pair(slot_a, slot_b, offset_b)
     }
 
-    pub fn extract_vals(&self, pair: Slot) -> (Slot, Slot, u8) {
+    pub fn extract_vals(&self, pair: Slot) -> (Slot, Slot, u32) {
         let v = match pair {
             Slot::Pair(ind) => self.pairs[ind as usize],
             _ => panic!("agg_val has to be a pair"),
@@ -572,6 +586,26 @@ impl Module {
             bb,
             InstructionKind::Br,
             vec![Slot::new_raw(to.index as u32)],
+        );
+    }
+
+    pub fn add_switch(&mut self, bb: BasicBlock, val: Slot, else_block: BasicBlock, cases: &[(u128, BasicBlock)]) {
+        let mut ops = vec![val, Slot::new_raw(else_block.index as u32)];
+        ops.reserve(cases.len() * 2 + 2);
+
+        let FullType::Single(ty) = self.type_of_slot(val) else {
+            todo!()
+        };
+
+        for (val, bb) in cases {
+            assert!(*val <= 200000);
+            ops.push(Slot::Raw(*val as u32));
+            ops.push(Slot::new_raw(bb.index as u32));
+        }
+        self.add_instruction(
+            bb,
+            InstructionKind::Switch,
+            ops
         );
     }
 
