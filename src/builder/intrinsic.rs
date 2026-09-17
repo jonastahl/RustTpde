@@ -1,5 +1,4 @@
 use crate::builder::Builder;
-use crate::shared::ir::InstructionKind;
 use rustc_codegen_ssa::RetagInfo;
 use rustc_codegen_ssa::mir::IntrinsicResult;
 use rustc_codegen_ssa::mir::operand::OperandRef;
@@ -46,11 +45,7 @@ impl<'tcx> IntrinsicCallBuilderMethods<'tcx> for Builder<'_, '_, 'tcx> {
     }
 
     fn assume(&mut self, val: Self::Value) {
-        self.module.borrow_mut().add_instruction(
-            self.basic_block,
-            InstructionKind::Assume,
-            vec![val]
-        )
+        // Just some tips for the optimizer
     }
 
     fn expect(&mut self, cond: Self::Value, expected: bool) -> Self::Value {

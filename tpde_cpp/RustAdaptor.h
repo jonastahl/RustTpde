@@ -152,9 +152,15 @@ namespace tpde_rust {
 
     [[nodiscard]] auto block_succs(IRBlockRef bb) const {
       size_t offset, count;
-      const auto &br_instr = get_basic_block(bb).instructions.back();
+      size_t stride = 1;
 
-      switch (br_instr.kind) {
+      auto& basic_block = get_basic_block(bb);
+      auto* br_instr = &basic_block.instructions.back();
+      if (br_instr->kind == InstructionKind::AddRet) {
+        br_instr = &basic_block.instructions[basic_block.instructions.size() - 2];
+      }
+
+      switch (br_instr->kind) {
         case InstructionKind::Ret:
           offset = count = 0;
           break;
@@ -173,14 +179,23 @@ namespace tpde_rust {
           offset = 1;
           count = 2;
           break;
+        case InstructionKind::Switch:
+          offset = 1;
+          count = br_instr->ops.size() - offset;
+          stride = 2;
+          break;
+        case InstructionKind::Resume:
+          offset = count = 0;
+          break;
         default:
           throw std::runtime_error("Invalid branching instruction");
       }
 
 
-      return br_instr.ops
+      return br_instr->ops
              | std::ranges::views::drop(offset)
              | std::ranges::views::take(count)
+             | std::ranges::views::stride(stride)
              | std::ranges::views::transform([](uint32_t op) { return operands::content(op); });
     }
 

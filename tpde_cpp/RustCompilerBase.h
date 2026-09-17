@@ -184,6 +184,7 @@ namespace tpde_rust {
             return ValuePart(imm.data2, 2, tpde::RegBank{0});
           case i32:
             return ValuePart(imm.data2, 4, tpde::RegBank{0});
+          case ptr:
           case i64:
             return ValuePart(imm.data2, 8, tpde::RegBank{0});
           case i128:
@@ -326,6 +327,10 @@ namespace tpde_rust {
 
     bool compile_br(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
+    bool compile_switch(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_select(RustAdaptor::IRInstRef, const ValInfo &, u64);
+    bool compile_unreachable(RustAdaptor::IRInstRef, const ValInfo &, u64);
+
     bool compile_gep(RustAdaptor::IRInstRef, const ValInfo &, u64);
 
     bool compile_store(RustAdaptor::IRInstRef, const ValInfo &, u64);
@@ -452,7 +457,6 @@ namespace tpde_rust {
 
       set_fn(InstructionKind::Ret, &Derived::compile_ret);
 
-
       // Int cmp
       set_fn(InstructionKind::CMPeq, &Derived::compile_cmp);
       set_fn(InstructionKind::CMPne, &Derived::compile_cmp);
@@ -488,9 +492,13 @@ namespace tpde_rust {
       set_fn(InstructionKind::Call, &Derived::compile_call);
       set_fn(InstructionKind::Invoke, &Derived::compile_invoke);
       set_fn(InstructionKind::LandingPad, &Derived::compile_landing_pad);
+      set_fn(InstructionKind::Resume, &Derived::compile_resume);
 
       set_fn(InstructionKind::CondBr, &Derived::compile_condbr);
       set_fn(InstructionKind::Br, &Derived::compile_br);
+
+      set_fn(InstructionKind::Switch, &Derived::compile_switch);
+      set_fn(InstructionKind::Select, &Derived::compile_select);
 
       set_fn(InstructionKind::Cast, &Derived::compile_cast);
       set_fn(InstructionKind::Trunc, &Derived::compile_int_trunc);
@@ -1615,18 +1623,17 @@ namespace tpde_rust {
     const auto sym = get_libfunc_sym(LibFunc::resume);
 
     derived()->create_helper_call({&arg, 1}, nullptr, sym);
-    return derived()->compile_unreachable(nullptr, val_info, 0);
+    return derived()->compile_unreachable(RustAdaptor::IRInstRef{.inst = 0, .block = 0}, val_info, 0);
   }
 
   template<typename Adaptor, typename Derived, typename Config>
   bool RustCompilerBase<Adaptor, Derived, Config>::compile_cast(RustAdaptor::IRInstRef instr, const ValInfo &val_info,
                                                                 u64) {
     Instruction &casti = this->adaptor->get_instruction(instr);
-    assert(operands::is_val(casti.ops[0]));
     assert(operands::is_val(casti.result));
 
-    IRValueRef src_ref = operands::content(casti.ops[0]);
-    IRValueRef res_ref = operands::content(casti.result);
+    IRValueRef src_ref = casti.ops[0];
+    IRValueRef res_ref = casti.result;
 
     const Type src_ty = this->adaptor->type_of_ref(src_ref);
     const Type res_ty = this->adaptor->type_of_ref(res_ref);
@@ -1704,6 +1711,7 @@ namespace tpde_rust {
 
     switch (val_info.type) {
       using enum Type;
+      case Bool:
       case i8:
       case i16:
       case i32:
@@ -1716,7 +1724,8 @@ namespace tpde_rust {
         res_vr.part(0).set_value(src_vr.part(0));
         res_vr.part(1).set_value(src_vr.part(1));
         return true;
-      default: return false;
+      default:
+        throw std::runtime_error("Invalid type for trunc");
     }
   }
 
@@ -2188,21 +2197,22 @@ namespace tpde_rust {
       if (global.thread_loc) {
         ref = this->assembler.sym_predef_tls(name, binding);
       } else if (global.flags.extern_link) {
-        ref = this->assembler.sym_predef_data(name, binding);
-      } else {
         ref = this->assembler.sym_add_undef(name, binding);
+      } else {
+        ref = this->assembler.sym_predef_data(name, binding);
       }
       global_symbols.push_back(ref);
-
-      // TODO declaration for linker
-      // TODO visibility
     }
 
-    size_t i = 0;
-    for (Global global: this->adaptor->mod->globals) {
+    for (size_t i = 0; i < global_symbols.size(); ++i) {
+      Global global = this->adaptor->mod->globals[i];
+      if (global.flags.extern_link)
+        continue;
+
       SymRef &sym = global_symbols[i];
 
-      tpde::SectionKind kind; {
+      tpde::SectionKind kind;
+      {
         bool needs_relocs = !global.relocations.empty();
         bool init_zero = !global.init;
         bool read_only = global.read_only;
@@ -2236,7 +2246,6 @@ namespace tpde_rust {
       } else {
         this->assembler.sym_def_predef_zero(sec, sym, global.size, global.align);
       }
-      ++i;
     }
 
     return true;
@@ -2249,6 +2258,92 @@ namespace tpde_rust {
     assert(operands::is_raw(bri.ops[0]));
     Base::generate_uncond_branch(operands::content(bri.ops[0]));
 
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_switch(RustAdaptor::IRInstRef inst_ref, const ValInfo &, u64) {
+    Instruction& inst = this->adaptor->get_instruction(inst_ref);
+
+    auto cond_ref = inst.ops[0];
+    u32 width = size_of_type(this->adaptor->type_of_ref(cond_ref));
+    if (width > 64) {
+      return false;
+    }
+
+    // Collect cases, their target block and sort them in ascending order.
+    tpde::util::SmallVector<std::pair<u64, IRBlockRef>, 64> cases;
+    size_t num_cases = inst.ops.size() / 2 - 1;
+    assert(num_cases <= 200000);
+    cases.reserve(num_cases);
+    for (size_t i = 0; i < num_cases; ++i) {
+      cases.push_back(std::make_pair(
+          static_cast<u64>(operands::content(inst.ops[2 + 2 * i])),
+          operands::content(inst.ops[2 + 2 * i + 1])));
+    }
+    std::sort(cases.begin(), cases.end(), [](const auto &lhs, const auto &rhs) {
+      return lhs.first < rhs.first;
+    });
+
+    IRBlockRef def = operands::content(inst.ops[1]);
+
+    // cond must be ref-counted before generate_switch.
+    ScratchReg cond_scratch = this->val_ref(cond_ref).part(0).into_scratch();
+    this->generate_switch(std::move(cond_scratch), width, def, cases);
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_select(RustAdaptor::IRInstRef inst_ref, const ValInfo &val_info, u64) {
+    Instruction& inst = this->adaptor->get_instruction(inst_ref);
+
+    auto [cond_vr, cond] = this->val_ref_single(inst.ops[0]);
+    auto lhs = this->val_ref(inst.ops[1]);
+    auto rhs = this->val_ref(inst.ops[2]);
+
+    auto res = this->result_ref(inst.result);
+
+    switch (val_info.type) {
+      using enum Type;
+      case Bool:
+      case i8:
+      case i16:
+      case i32:
+        derived()->encode_select_i32(
+            std::move(cond), lhs.part(0), rhs.part(0), res.part(0));
+        break;
+      case i64:
+      case ptr:
+        derived()->encode_select_i64(
+            std::move(cond), lhs.part(0), rhs.part(0), res.part(0));
+        break;
+      case f32:
+        derived()->encode_select_f32(
+            std::move(cond), lhs.part(0), rhs.part(0), res.part(0));
+        break;
+      case f64:
+        derived()->encode_select_f64(
+            std::move(cond), lhs.part(0), rhs.part(0), res.part(0));
+        break;
+      case i128: {
+        derived()->encode_select_i128(std::move(cond),
+                                      lhs.part(0),
+                                      lhs.part(1),
+                                      rhs.part(0),
+                                      rhs.part(1),
+                                      res.part(0),
+                                      res.part(1));
+        break;
+      }
+      default: TPDE_UNREACHABLE("invalid select basic type"); break;
+    }
+    return true;
+  }
+
+  template<typename Adaptor, typename Derived, typename Config>
+  bool RustCompilerBase<Adaptor, Derived, Config>::compile_unreachable(RustAdaptor::IRInstRef, const ValInfo &, u64) {
+    derived()->encode_trap();
+    this->release_regs_after_return();
     return true;
   }
 }

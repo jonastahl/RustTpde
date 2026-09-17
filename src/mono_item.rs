@@ -34,7 +34,7 @@ impl CodegenCx<'_, '_> {
                 let name = self.tcx.symbol_name(instance).name;
                 self.declare_static(
                     def_id,
-                    Linkage::External,
+                    Linkage::ExternalWeak,
                     Visibility::Default,
                     Binding::Declaration,
                     name,

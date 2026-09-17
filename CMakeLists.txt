@@ -4,7 +4,7 @@ project(tpde_wrapper_project)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(TPDE_LOGGING OFF)
+#set(TPDE_LOGGING OFF)
 
 add_subdirectory(deps/tpde)
 

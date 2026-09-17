@@ -199,8 +199,6 @@ mod ffi {
 
         Cast,
 
-        Assume,
-
         Unreachable,
         Abort,
         LandingPad,
